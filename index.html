@@ -86,6 +86,48 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    
+        .legal-details {
+      margin-top: 1rem;
+      font-size: .9rem;
+      color: var(--muted);
+      background: color-mix(in oklab, #ffffff 6%, transparent);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px;
+      padding: .6rem 1rem;
+      backdrop-filter: blur(8px) saturate(150%);
+      -webkit-backdrop-filter: blur(8px) saturate(150%);
+      box-shadow: 0 2px 12px rgba(0,0,0,.12);
+      transition: all .3s ease;
+    }
+
+    .legal-details summary {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      list-style: none;
+      font-weight: 600;
+    }
+
+    .legal-details[open] summary i {
+      transform: rotate(180deg);
+    }
+
+    .legal-details i {
+      transition: transform .25s ease;
+      opacity: .85;
+    }
+
+    .legal-details .legal-content {
+      margin-top: .8rem;
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
   <link rel="icon" href="favicon.ico" />
   <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
@@ -291,12 +333,32 @@ body::after {
       </div>
     </section>
   </main>
-  <footer id="impressum">
-    <h2 class="section-title">Impressum</h2>
-    <p class="lead">Dies ist eine private, nicht-kommerzielle Webseite.</p>
-    <p><strong>Verantwortlich:</strong> [Dein Name], [Adresse optional], [E-Mail optional]</p>
-    <p style="font-size:.9rem; color:var(--muted)">© <span id="year"></span> falkner.info – Alle Rechte vorbehalten.</p>
-  </footer>
+<footer id="impressum" class="glass">
+  <h2 class="section-title">Impressum</h2>
+  <p class="lead">Private, nicht-kommerzielle Webseite gemäß § 5 DDG</p>
+  <p><strong>Verantwortlich:</strong> Christian Falkner</p>
+  <p><strong>Kontakt:</strong> webmaster@falkner.info</p>
+
+  <details class="legal-details">
+    <summary>
+      <i class="fa-solid fa-chevron-down"></i>
+      <span>Rechtliche Hinweise</span>
+    </summary>
+    <div class="legal-content">
+      <p><strong>Haftungsausschluss:</strong> Trotz sorgfältiger Kontrolle übernehme ich keine Haftung für externe Links. 
+      Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+      <p><strong>Urheberrecht:</strong> Inhalte und Werke auf dieser Seite unterliegen meinem Copyright. 
+      Eine Nutzung ist nur mit ausdrücklicher Genehmigung erlaubt.</p>
+      <p><strong>Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.</p>
+    </div>
+  </details>
+
+  <p style="font-size:.9rem; color:var(--muted)">
+    © <span id="year"></span> falkner.info – Alle Rechte vorbehalten.
+  </p>
+
+</footer>
+
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
