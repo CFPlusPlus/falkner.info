@@ -1,0 +1,12 @@
+# caching aktivieren
+<IfModule mod_headers.c>
+    # Caching
+    # 1 Monat für Grafik-/Multimediadateien
+    <FilesMatch "\.(ico|jpg|webp)$">
+    Header set Cache-Control "public, max-age=2592000, no-transform"
+    </FilesMatch>
+    # CSS und JS 3 Monate
+    <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=7884000, must-revalidate"
+    </FilesMatch>
+    </IfModule> 

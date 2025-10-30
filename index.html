@@ -1,252 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-
 <head>
-  <!-- Metadaten  -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#3949ab" />
-  <meta name="author" content="Christian Falkner">
-  <meta name="keywords" content="falkner.info, Christian Falkners Homepage, Falkner, Christian Falkner">
-  <meta name="description" content="Willkommen auf falkner.info, der privaten Homepage von Christian Falkner.">
-
-  <!-- Open Graph  -->
-  <meta property="og:title" content="Christian Falkner's Homepage">
-  <meta property="og:description"
-    content="Willkommen auf falkner.info, der privaten Homepage von Christian.">
-  <meta property="og:image" content="https://www.falkner.info/img/OpenGraph/preview.jpg">
-  <meta property="og:image:width" content="2097">
-  <meta property="og:image:height" content="1294">
-  <meta property="og:image:type" content="image/jpg">
-  <meta property="og:url" content="https://www.falkner.info">
-  <meta property="og:type" content="website">
-
-  <!-- Schriftart Open Sans einbinden  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap"
-    rel="stylesheet">
-
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="css/darkmode.css" type="text/css" rel="stylesheet" media="screen,projection" />
-
-  <title>Christian Falkner - Homepage</title>
-
-  <link rel="shortcut icon" type="image/x-icon" href="icons/cf_transparent.ico">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>falkner.info</title>
+  <meta name="description" content="Minimalistische, persönliche Seite von falkner.info mit Über mich, Hobbys und Impressum." />
   <style>
+    :root {
+      --indigo-50: #eef2ff;
+      --indigo-100: #e0e7ff;
+      --indigo-200: #c7d2fe;
+      --indigo-300: #a5b4fc;
+      --indigo-400: #818cf8;
+      --indigo-500: #6366f1;
+      --indigo-600: #4f46e5;
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 10px 25px rgba(0,0,0,.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1020;
+        --fg: #e5e7eb;
+        --muted: #9ca3af;
+        --card: #0f172a;
+        --border: #1f2937;
+        --shadow: 0 10px 30px rgba(0,0,0,.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+    }
     header {
-      background: url(img/start.jpg);
-      background-size: cover;
-      background-position: 50% 2%;
-      /*Bild ausrichten*/
-      min-height: 60vh;
-      /*60% des sichtbaren Bereiches nutzen*/
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(140%) blur(10px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; }
+    .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: .2px; }
+    .brand-icon { width: 1.05rem; height: 1.05rem; border-radius: 8px; box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 12%, transparent); object-fit: cover; }
+    nav a { color: var(--fg); text-decoration: none; padding: .4rem .7rem; border-radius: .8rem; }
+    nav a:hover { background: color-mix(in oklab, var(--indigo-500) 12%, transparent); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 3.5rem 1rem; }
+    .section-title { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2rem); margin: 0 0 1rem; }
+    .lead { font-size: 1.1rem; color: var(--muted); }
+    .hero { padding: 5.5rem 1rem 3.5rem; animation: fadeIn 1.2s ease both; }
+    .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: center; }
+    @media (max-width: 880px) { .hero-inner { grid-template-columns: 1fr; } }
+    .hero h1 { font-size: clamp(2.1rem, 1.5rem + 2.5vw, 3rem); margin: 0 0 1rem; }
+    .profile { width: 180px; height: auto; border-radius: 16px; display: block; margin-inline: auto; box-shadow: var(--shadow); animation: fadeInUp 1.5s ease both; }
+    @media (min-width: 881px) { .profile { width: 220px; } }
+    .cta { display:inline-flex; gap:.6rem; align-items:center; margin-top:1.2rem; padding:.8rem 1rem; background: var(--indigo-500); color:white; border:none; border-radius: 999px; cursor:pointer; box-shadow: var(--shadow); text-decoration:none; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.1rem; box-shadow: var(--shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; opacity: 0; animation: fadeInUp 1s ease forwards; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(99,102,241,.25); }
+    .card:nth-child(1) { animation-delay: .2s; }
+    .card:nth-child(2) { animation-delay: .4s; }
+    .card:nth-child(3) { animation-delay: .6s; }
+    .card h3 { margin: .2rem 0 .4rem; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 1rem; }
+
+    /* Timeline adjustments */
+    .timeline { --pad: 1.5rem; --line: 3px; --dot: .8rem; border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300)); padding-left: var(--pad); display: grid; gap: 1rem; margin-top: 1rem; position: relative; }
+    .tl-item { position: relative; }
+    .tl-item::before { content: ""; position: absolute; /* Feinkorrektur über --nudge steuerbar */ left: calc(var(--pad) * -1 - (var(--dot) / 2) + (var(--line) / 2) - var(--nudge, 3px)); top: .35rem; width: var(--dot); height: var(--dot); background: var(--indigo-500); border-radius: 50%; box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 20%, transparent); }
+    .muted { color: var(--muted); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
+  <link rel="icon" href="favicon.ico" />
+  <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
-  <!-- navbar -->
   <header>
-    <nav class="nav-wrapper indigo darken-1">
-      <div class="container">
-        <a href="" class="brand-logo">falkner.info</a>
-        <a href="" class="sidenav-trigger" data-target="mobile">
-          <i class="material-icons">menu</i>
-        </a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#ubermichbereich">Über Mich</a></li>
-          <li><a href="#hobbysbereich">Hobbies</a></li>
-        </ul>
-        <!-- Mobile Menu Struktur -->
-        <ul class="sidenav" id="mobile">
-          <li><a class="waves-effect" href="#willkommen"><i class="material-icons">home</i>Willkommen</a></li>
-          <li><a class="waves-effect" href="#ubermichbereich"><i class="material-icons">info_outline</i>Über Mich</a>
-          </li>
-          <li><a class="waves-effect" href="#hobbysbereich"><i class="material-icons">computer</i>Hobbys</a></li>
-          <li>
-            <div class="divider"></div>
-          </li>
-          <li><a class="waves-effect" href="impressum.html"><i class="material-icons">contact_mail</i>Impressum</a></li>
-          <li><a class="waves-effect" href="datenschutz.html"><i class="material-icons">lock</i>Datenschutz</a></li>
-          <li>
-            <div class="divider"></div>
-          </li>
-          <li><a class="waves-effect" href="https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"><i
-                class="fab fa-xbox"></i>Xbox Live</a>
-          </li>
-          <li><a class="waves-effect" href="https://steamcommunity.com/id/lestructor"><i
-                class="fab fa-steam"></i>Steam</a></li>
-        </ul>
-
-      </div>
-    </nav>
+    <div class="nav">
+      <div class="brand"><img src="favicon.ico" alt="" class="brand-icon" /> <span>falkner.info</span></div>
+      <nav>
+        <a href="#about">Über mich</a>
+        <a href="#hobbies">Hobbys</a>
+        <a href="#impressum">Impressum</a>
+      </nav>
+    </div>
   </header>
-
-  <!-- Willkommen Bereich -->
-  <section class="container section scrollspy" id="willkommen">
-    <div class="row">
-      <div class="col s12 l4">
-        <h2 class="indigo-text text-darken-2 light">Willkommen</h2>
-        <p>Willkommen auf falkner.info, meiner privaten Homepage. Diese Seite soll Informationen über mich liefern, was
-          ich in meiner Freizeit mache und wo meine Interessen liegen. Und nun viel Spaß beim Durchstöbern meiner
-          Homepage!
-          <br>
-        </p>
-        <p> <i>Christian Falkner</i> </p>
-      </div>
-      <div class="col s12 l6 offset-l2">
-        <ul class="tabs">
-          <li class="tab col s6">
-            <a href="#uebermich" class="indigo-text text-darken-2">Über mich</a>
-          </li>
-          <li class="tab col s6">
-            <a href="#hobbys" class="indigo-text text-darken-2">Hobbys</a>
-          </li>
-        </ul>
-        <div class="col s12" id="uebermich">
-          <p class="flow-text indigo-text text-darken-2 light">Christian Falkner</p>
-          <p>Unter der Kategorie "Über mich" findest du ein paar Infos über mich und meinen Werdegang.
-          </p>
+  <main>
+    <section class="hero" id="start">
+      <div class="hero-inner">
+        <div>
+          <h1>Schön, dass du hier bist!</h1>
+          <p class="lead">Auf dieser Seite teile ich ein paar Einblicke in mein Leben und meine Interessen.</p>
+          <a class="cta" href="#about">Mehr über mich</a>
         </div>
-
-        <div class="col s12" id="hobbys">
-          <p class="flow-text indigo-text text-darken-2 light">Bits und Bytes</p>
-          <p>Im Bereich Hobbys findest du Infos über meine Hobbys und Interessen.</p>
+        <div>
+          <img src="img/profile.jpg" alt="Profilbild" class="profile">
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <section id="about" class="container">
+      <h2 class="section-title">Über mich</h2>
+      <p>Geboren wurde ich in <strong>Nürnberg</strong>. Schon früh habe ich in verschiedenen Städten gelebt – darunter <strong>Wolfsburg</strong> und <strong>Bad Nauheim</strong>. Diese Zeit hat mir gezeigt, dass man überall Freunde finden kann – einer meiner engsten Freunde stammt noch aus dieser Schulzeit in Bad Nauheim.</p>
+      <p>Heute lebe ich in einer kleinen Gemeinde nahe <strong>München</strong> und arbeite für den größten kommunalen Arbeitgeber Deutschlands. Ich genieße hier die Kombination aus Natur, Nähe zur Stadt und beruflicher Stabilität – perfekt für mich.</p>
 
-  <!-- parallax -->
-  <div class="parallax-container valign-wrapper">
-    <div class="parallax"><img src="img/img2.jpg" alt="parallax"></div>
-  </div>
-
-  <!-- Ueber mich / grid -->
-  <div class="container">
-    <h2 class="indigo-text text-darken-2 light">Über mich</h2>
-  </div>
-
-  <section class="container section scrollspy" id="ubermichbereich">
-    <div class="row">
-      <div class="col s8 l4 offset-s2">
-        <img src="img/falkner-christian.jpg" alt="Christian Falkner" class="circle responsive-img">
-      </div>
-      <div class="col s12 l6 offset-l1">
-
-        <p>Geboren wurde ich in Nürnberg. Schon frühzeitig habe ich in verschiedensten Städten gewohnt: Hier wären
-          Wolfsburg und Bad Nauheim zu nennen. So habe ich schnell gelernt, dass man überall Freunde haben kann.
-          Beispielsweise habe ich bis heute einen guten Freund, den ich an einer Schule in Bad Nauheim kennengelernt
-          habe.</p>
-        <p>Aktuell wohne ich in einer kleinen Gemeinde nahe bei München und arbeite für den größten kommunalen
-          Arbeitgeber in Deutschland.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- parallax -->
-  <div class="parallax-container valign-wrapper">
-    <div class="parallax"><img src="img/img5.jpg" alt="parallax"></div>
-  </div>
-
-  <!-- Hobbys / grid -->
-  <div class="container">
-    <h2 class="indigo-text text-darken-2 light">Hobbys</h2>
-  </div>
-
-  <section class="container section scrollspy" id="hobbysbereich">
-
-    <!-- Games -->
-    <div class="row">
-      <div class="col s12 l4">
-        <br><img src="img/games.jpg" alt="Meine Spielesammlung" class="responsive-img materialboxed">
-      </div>
-      <div class="col s12 l6 offset-l1">
-        <h3 class="indigo-text text-darken-2 light">Games</h3>
-        <p>Schon von klein auf haben Spiele mich in ihren Bann gezogen. Alles hat mit der ersten Xbox angefangen, neben
-          einer Xbox Series X besitze ich daher auch heute noch viele alte Xbox-Classic Spiele. Am liebsten sind mir
-          immer noch Rennspiele, aber auch das ein oder andere Action-Adventure sowie Strategiespiele.</p>
-      </div>
-    </div>
-
-    <!-- Computer -->
-    <div class="row">
-      <div class="col s12 l4">
-        <br><img src="img/aquarium.jpg" alt="Liebevoll auch 'Aqarium' genannt" class="responsive-img materialboxed">
-      </div>
-      <div class="col s12 l6 offset-l1">
-        <h3 class="indigo-text text-darken-2 light">Computer</h3>
-        <p>Eine meiner weiteren Leidenschaften sind Computer. Egal ob es um das Konfigurieren von System oder das
-          Reparieren geht, beides bereitet mir viel Spaß. So baue ich seit ein paar Jahren inzwischen meine
-          Computersysteme selber auf.</p>
-      </div>
-    </div>
-
-    <!-- Wandern -->
-    <div class="row">
-      <div class="col s12 l4">
-        <br><img src="img/3zinnen.jpg" alt="Die 3 Zinnen in Südtirol" class="responsive-img materialboxed">
-      </div>
-      <div class="col s12 l6 offset-l1">
-        <h3 class="indigo-text text-darken-2 light">Wandern</h3>
-        <p>Wie das Design meiner Webseite vermuten lässt, gehe ich auch sehr gerne Wandern. So war ich schon in vielen
-          Alpen-Regionen wandern und habe auch schon einen 3000er bestiegen.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- footer -->
-  <footer class="page-footer indigo darken-1">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">falkner.info</h5>
-          <p class="grey-text text-lighten-4"></p>
+      <div class="timeline" aria-label="Lebensstationen">
+        <div class="tl-item">
+          <div class="muted">Nürnberg</div>
+          <div>Geboren und aufgewachsen.</div>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Links</h5>
-          <ul>
-            <li><a class="grey-text text-lighten-3" href="impressum.html">Impressum</a></li>
-            <li><a class="grey-text text-lighten-3" href="datenschutz.html">Datenschutz</a></li>
-
-          </ul>
+        <div class="tl-item">
+          <div class="muted">Wolfsburg & Bad Nauheim</div>
+          <div>Schulzeit und Freundschaften, die bis heute bestehen.</div>
+        </div>
+        <div class="tl-item">
+          <div class="muted">Nahe München</div>
+          <div>Mein heutiges Zuhause – Beruf im öffentlichen Dienst.</div>
         </div>
       </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        © 2021 Copyright by Christian Falkner
-        <a class="tooltipped btn-floating right red darken-3" data-tooltip="Nach oben" href="#"
-          id="topbtn"><i class="material-icons">arrow_upward</i></a>
-
+    </section>
+    <section id="hobbies" class="container">
+      <h2 class="section-title">Hobbys</h2>
+      <div class="grid">
+        <article class="card">
+          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-gamepad"></i></div>
+          <h3>Gaming</h3>
+          <p>Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.</p>
+        </article>
+        <article class="card">
+          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-computer"></i></div>
+          <h3>Computer</h3>
+          <p>Technik begleitet mich schon lange – vom Zusammenbauen eigener Systeme bis zum Reparieren und Optimieren. Es fasziniert mich, wie Hardware und Software perfekt zusammenspielen.</p>
+        </article>
+        <article class="card">
+          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-mountain"></i></div>
+          <h3>Wandern</h3>
+          <p>Wandern ist mein Ausgleich zum Alltag. In der Natur tanke ich Energie, finde Ruhe und entdecke neue Perspektiven – besonders in den Alpen, die ich oft und gerne erkunde.</p>
+        </article>
       </div>
-    </div>
+    </section>
+  </main>
+  <footer id="impressum">
+    <h2 class="section-title">Impressum</h2>
+    <p class="lead">Dies ist eine private, nicht-kommerzielle Webseite.</p>
+    <p><strong>Verantwortlich:</strong> [Dein Name], [Adresse optional], [E-Mail optional]</p>
+    <p style="font-size:.9rem; color:var(--muted)">© <span id="year"></span> falkner.info – Alle Rechte vorbehalten.</p>
   </footer>
-
-  <button class="hide" onclick="topFunction()" id="topbtn"></button>
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <!-- Materialize JavaScript -->
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
   <script>
-    $(document).ready(function () {
-      $('.sidenav').sidenav();
-      $('.materialboxed').materialbox();
-      $('.tabs').tabs();
-      $('.tooltipped').tooltip();
-      $(".dropdown-trigger").dropdown();
-      $('.scrollspy').scrollSpy();
-    });
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
-
 </html>

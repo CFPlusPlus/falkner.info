@@ -1,4 +1,0 @@
-# robots.txt fuer https://falkner.info
-
-# Sitemap
-Sitemap: https://www.falkner.info/sitemap.xml
