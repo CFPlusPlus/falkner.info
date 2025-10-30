@@ -66,15 +66,20 @@
         backdrop-filter: saturate(140%) blur(10px);
         background: color-mix(in oklab, var(--bg) 85%, transparent);
         border-bottom: 1px solid var(--border);
+        /* leicht schwebende Glasleiste */
+        box-shadow: 0 4px 30px rgba(99, 102, 241, 0.12);
       }
+
       .nav {
         max-width: 1100px;
         margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.8rem 1rem;
+        /* mehr Höhe für eleganteren Header */
+        padding: 1.4rem 1.6rem;
       }
+
       .brand {
         display: inline-flex;
         align-items: center;
@@ -82,21 +87,56 @@
         font-weight: 700;
         letter-spacing: 0.2px;
       }
+
       .brand-icon {
-        width: 1.05rem;
-        height: 1.05rem;
-        border-radius: 8px;
-        box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 12%, transparent);
+        width: 1.8rem; /* etwas größer */
+        height: 1.8rem;
+        border-radius: 50%; /* jetzt rund */
+        box-shadow: 0 0 0 2px color-mix(in oklab, var(--indigo-500) 12%, transparent);
         object-fit: cover;
       }
+
       nav a {
         color: var(--fg);
         text-decoration: none;
-        padding: 0.4rem 0.7rem;
+        padding: 0.6rem 0.9rem;
         border-radius: 0.8rem;
+        position: relative;
+        transition:
+          color 0.25s ease,
+          text-shadow 0.25s ease;
       }
+
+      /* Neon-Glow + leuchtende Unterstreichung (sichtbarer & weicher) */
       nav a:hover {
-        background: color-mix(in oklab, var(--indigo-500) 12%, transparent);
+        color: var(--indigo-300);
+        background: none;
+        box-shadow: none;
+        text-shadow:
+          0 0 6px color-mix(in oklab, var(--indigo-500) 60%, transparent),
+          0 0 12px color-mix(in oklab, var(--indigo-400) 50%, transparent);
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        left: 10%;
+        bottom: 4px;
+        width: 80%;
+        height: 2px;
+        border-radius: 2px;
+        background: color-mix(in oklab, var(--indigo-500) 70%, transparent);
+        opacity: 0;
+        transform: scaleX(0.6);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      nav a:hover::after {
+        opacity: 1;
+        transform: scaleX(1);
+        box-shadow: 0 0 6px color-mix(in oklab, var(--indigo-400) 70%, transparent);
       }
       .container {
         max-width: 1100px;
