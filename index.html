@@ -89,9 +89,112 @@
   </style>
   <link rel="icon" href="favicon.ico" />
   <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
+
+<style>
+
+/* ===== Glassmorphism Enhancements (injected) ===== */
+:root{
+  --bg: #0b1020;
+  --fg: #e9ecf1;
+  --indigo-500: #6366f1;
+  --indigo-300: #a5b4fc;
+  --line: 3px;
+  --pad: 1rem;
+  --shadow: 0 12px 35px rgba(0,0,0,.25);
+}
+
+body {
+  background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(99,102,241,.20), transparent 60%),
+    radial-gradient(900px 700px at 85% 25%, rgba(129,140,248,.18), transparent 60%),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
+}
+
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  opacity: .06;
+  background-image:
+    radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
+    radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
+  background-size: 180px 180px, 220px 220px, 260px 260px;
+  mix-blend-mode: soft-light;
+}
+
+.glass {
+  background: color-mix(in oklab, #ffffff 14%, transparent);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.25) inset,
+    0 -1px 0 rgba(255,255,255,.12) inset,
+    0 10px 30px rgba(0,0,0,.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: color-mix(in oklab, #0b1020 40%, transparent);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.08) inset,
+      0 -1px 0 rgba(255,255,255,.06) inset,
+      0 10px 30px rgba(0,0,0,.45);
+  }
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .glass {
+    background: color-mix(in oklab, var(--bg) 60%, transparent);
+  }
+}
+
+.card { background: transparent; border: none; }
+.card.glass, .card { 
+  background: color-mix(in oklab, #ffffff 12%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(255,255,255,.10) inset,
+    0 14px 32px rgba(0,0,0,.18);
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 45px rgba(99,102,241,.30); }
+
+.cta {
+  background: color-mix(in oklab, #ffffff 18%, transparent);
+  color: var(--fg);
+  border: 1px solid rgba(255,255,255,.28);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--indigo-500) 12%, transparent),
+    var(--shadow);
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.cta:hover { transform: translateY(-1px); }
+
+.timeline {
+  padding: var(--pad);
+  margin-top: 1rem;
+  border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300));
+  background: color-mix(in oklab, #ffffff 10%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 8px 20px rgba(0,0,0,.12);
+}
+/* ===== End Glassmorphism Enhancements ===== */
+
+</style>
 </head>
 <body>
-  <header>
+  <header class="glass">
     <div class="nav">
       <div class="brand"><img src="favicon.ico" alt="" class="brand-icon" /> <span>falkner.info</span></div>
       <nav>
@@ -137,17 +240,17 @@
     <section id="hobbies" class="container">
       <h2 class="section-title">Hobbys</h2>
       <div class="grid">
-        <article class="card">
+        <article class="card glass">
           <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-gamepad"></i></div>
           <h3>Gaming</h3>
           <p>Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.</p>
         </article>
-        <article class="card">
+        <article class="card glass">
           <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-computer"></i></div>
           <h3>Computer</h3>
           <p>Technik begleitet mich schon lange – vom Zusammenbauen eigener Systeme bis zum Reparieren und Optimieren. Es fasziniert mich, wie Hardware und Software perfekt zusammenspielen.</p>
         </article>
-        <article class="card">
+        <article class="card glass">
           <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-mountain"></i></div>
           <h3>Wandern</h3>
           <p>Wandern ist mein Ausgleich zum Alltag. In der Natur tanke ich Energie, finde Ruhe und entdecke neue Perspektiven – besonders in den Alpen, die ich oft und gerne erkunde.</p>
