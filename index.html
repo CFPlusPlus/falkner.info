@@ -191,6 +191,39 @@ body::after {
 }
 /* ===== End Glassmorphism Enhancements ===== */
 
+
+
+/* === Hobby Icon Colored Glass Chips === */
+.icon-chip {
+  --tint: 320 0.24 0.68; /* kräftiger Magenta-Ton */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, oklch(var(--tint)) 25%, transparent);
+  border: 1px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 8px 22px rgba(0,0,0,.18);
+  transition: box-shadow .2s ease, transform .15s ease;
+  margin-bottom: .6rem;
+}
+
+  .icon-chip .icon {
+  color: white;
+  font-size: 1.3rem;
+  line-height: 1;
+  vertical-align: middle;
+  display: block;
+}
+
+.icon-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px rgba(217,70,239,.32); /* leichtes pinkes Leuchten */
+}
+
 </style>
 </head>
 <body>
@@ -241,17 +274,17 @@ body::after {
       <h2 class="section-title">Hobbys</h2>
       <div class="grid">
         <article class="card glass">
-          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-gamepad"></i></div>
+          <span class="icon-chip glass" style="--tint: 264 0.21 0.65;"><i class="fa-solid fa-gamepad icon"></i></span>
           <h3>Gaming</h3>
           <p>Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.</p>
         </article>
         <article class="card glass">
-          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-computer"></i></div>
+          <span class="icon-chip glass" style="--tint: 210 0.16 0.70;"><i class="fa-solid fa-computer icon"></i></span>
           <h3>Computer</h3>
           <p>Technik begleitet mich schon lange – vom Zusammenbauen eigener Systeme bis zum Reparieren und Optimieren. Es fasziniert mich, wie Hardware und Software perfekt zusammenspielen.</p>
         </article>
         <article class="card glass">
-          <div aria-hidden="true" style="font-size:1.4rem"><i class="fa-solid fa-mountain"></i></div>
+          <span class="icon-chip glass" style="--tint: 140 0.18 0.70;"><i class="fa-solid fa-mountain icon"></i></span>
           <h3>Wandern</h3>
           <p>Wandern ist mein Ausgleich zum Alltag. In der Natur tanke ich Energie, finde Ruhe und entdecke neue Perspektiven – besonders in den Alpen, die ich oft und gerne erkunde.</p>
         </article>
