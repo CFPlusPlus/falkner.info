@@ -1,366 +1,603 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>falkner.info</title>
-  <meta name="description" content="Minimalistische, persönliche Seite von falkner.info mit Über mich, Hobbys und Impressum." />
-  <style>
-    :root {
-      --indigo-50: #eef2ff;
-      --indigo-100: #e0e7ff;
-      --indigo-200: #c7d2fe;
-      --indigo-300: #a5b4fc;
-      --indigo-400: #818cf8;
-      --indigo-500: #6366f1;
-      --indigo-600: #4f46e5;
-      --bg: #ffffff;
-      --fg: #111827;
-      --muted: #6b7280;
-      --card: #ffffff;
-      --border: #e5e7eb;
-      --shadow: 0 10px 25px rgba(0,0,0,.06);
-    }
-    @media (prefers-color-scheme: dark) {
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>falkner.info</title>
+    <meta
+      name="description"
+      content="Minimalistische, persönliche Seite von falkner.info mit Über mich, Hobbys und Impressum." />
+    <style>
+      :root {
+        --indigo-50: #eef2ff;
+        --indigo-100: #e0e7ff;
+        --indigo-200: #c7d2fe;
+        --indigo-300: #a5b4fc;
+        --indigo-400: #818cf8;
+        --indigo-500: #6366f1;
+        --indigo-600: #4f46e5;
+        --bg: #ffffff;
+        --fg: #111827;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b1020;
+          --fg: #e5e7eb;
+          --muted: #9ca3af;
+          --card: #0f172a;
+          --border: #1f2937;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          Noto Sans,
+          "Helvetica Neue",
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        color: var(--fg);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: saturate(140%) blur(10px);
+        background: color-mix(in oklab, var(--bg) 85%, transparent);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.8rem 1rem;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .brand-icon {
+        width: 1.05rem;
+        height: 1.05rem;
+        border-radius: 8px;
+        box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 12%, transparent);
+        object-fit: cover;
+      }
+      nav a {
+        color: var(--fg);
+        text-decoration: none;
+        padding: 0.4rem 0.7rem;
+        border-radius: 0.8rem;
+      }
+      nav a:hover {
+        background: color-mix(in oklab, var(--indigo-500) 12%, transparent);
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 3.5rem 1rem;
+      }
+      .section-title {
+        font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2rem);
+        margin: 0 0 1rem;
+      }
+      .lead {
+        font-size: 1.1rem;
+        color: var(--muted);
+      }
+      .hero {
+        padding: 5.5rem 1rem 3.5rem;
+        animation: fadeIn 1.2s ease both;
+      }
+      .hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        align-items: center;
+      }
+      @media (max-width: 880px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+      .hero h1 {
+        font-size: clamp(2.1rem, 1.5rem + 2.5vw, 3rem);
+        margin: 0 0 1rem;
+      }
+      .profile {
+        width: 180px;
+        height: auto;
+        border-radius: 16px;
+        display: block;
+        margin-inline: auto;
+        box-shadow: var(--shadow);
+        animation: fadeInUp 1.5s ease both;
+      }
+      @media (min-width: 881px) {
+        .profile {
+          width: 220px;
+        }
+      }
+      .cta {
+        display: inline-flex;
+        gap: 0.6rem;
+        align-items: center;
+        margin-top: 1.2rem;
+        padding: 0.8rem 1rem;
+        background: var(--indigo-500);
+        color: white;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        text-decoration: none;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+      }
+      @media (max-width: 880px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 1.1rem;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 35px rgba(99, 102, 241, 0.25);
+      }
+      .card:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .card:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .card:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      .card h3 {
+        margin: 0.2rem 0 0.4rem;
+        font-size: 1.05rem;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 1rem;
+      }
+
+      /* Timeline adjustments */
+      .timeline {
+        --pad: 1.5rem;
+        --line: 3px;
+        --dot: 0.8rem;
+        border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300));
+        padding-left: var(--pad);
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+        position: relative;
+      }
+      .tl-item {
+        position: relative;
+      }
+      .tl-item::before {
+        content: "";
+        position: absolute; /* Feinkorrektur über --nudge steuerbar */
+        left: calc(var(--pad) * -1 - (var(--dot) / 2) + (var(--line) / 2) - var(--nudge, 3px));
+        top: 0.35rem;
+        width: var(--dot);
+        height: var(--dot);
+        background: var(--indigo-500);
+        border-radius: 50%;
+        box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 20%, transparent);
+      }
+      .muted {
+        color: var(--muted);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Subtile Glass-Box mit minimalem Magenta-Stich im Rand/Schein */
+      .legal-details {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+        background: color-mix(in oklab, #ffffff 10%, transparent);
+        border: 1px solid color-mix(in oklab, #d946ef 8%, rgba(255, 255, 255, 0.18)); /* sehr dezenter Magenta-Stich */
+        border-radius: 12px;
+        padding: 0.6rem 1rem;
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        box-shadow:
+          0 6px 20px rgba(0, 0, 0, 0.18),
+          0 0 0 3px color-mix(in oklab, #d946ef 5%, transparent) inset; /* feiner innerer Schein */
+        transition:
+          box-shadow 0.25s ease,
+          border-color 0.25s ease,
+          background 0.25s ease;
+      }
+
+      /* Beim Öffnen/hover minimal aktiver, aber weiterhin sehr zurückhaltend */
+      .legal-details[open],
+      .legal-details:hover {
+        border-color: color-mix(in oklab, #d946ef 12%, rgba(255, 255, 255, 0.22));
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.22),
+          0 0 0 4px color-mix(in oklab, #d946ef 6%, transparent) inset;
+      }
+
+      .legal-details summary {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        list-style: none;
+        font-weight: 600;
+        color: var(--fg); /* Text bleibt in Standardfarbe */
+      }
+
+      /* Chevron: standardmäßig kaum eingefärbt, nur ein Hauch Magenta im Icon */
+      .legal-details i {
+        transition:
+          transform 0.25s ease,
+          filter 0.25s ease,
+          opacity 0.25s ease;
+        opacity: 0.9;
+        filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0)); /* neutral */
+      }
+
+      /* Hover/Offen: zarter Akzent NUR am Icon, nicht am Text */
+      .legal-details:hover i,
+      .legal-details[open] summary i {
+        filter: drop-shadow(0 0 4px color-mix(in oklab, #d946ef 28%, transparent));
+      }
+
+      .legal-details[open] summary i {
+        transform: rotate(180deg);
+      }
+
+      .legal-details .legal-content {
+        margin-top: 0.8rem;
+        animation: fadeIn 0.35s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-3px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+    <link rel="icon" href="favicon.ico" />
+    <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
+
+    <style>
+      /* ===== Glassmorphism Enhancements (injected) ===== */
       :root {
         --bg: #0b1020;
-        --fg: #e5e7eb;
-        --muted: #9ca3af;
-        --card: #0f172a;
-        --border: #1f2937;
-        --shadow: 0 10px 30px rgba(0,0,0,.45);
+        --fg: #e9ecf1;
+        --indigo-500: #6366f1;
+        --indigo-300: #a5b4fc;
+        --line: 3px;
+        --pad: 1rem;
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
       }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--fg);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-    header {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: saturate(140%) blur(10px);
-      background: color-mix(in oklab, var(--bg) 85%, transparent);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; }
-    .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: .2px; }
-    .brand-icon { width: 1.05rem; height: 1.05rem; border-radius: 8px; box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 12%, transparent); object-fit: cover; }
-    nav a { color: var(--fg); text-decoration: none; padding: .4rem .7rem; border-radius: .8rem; }
-    nav a:hover { background: color-mix(in oklab, var(--indigo-500) 12%, transparent); }
-    .container { max-width: 1100px; margin: 0 auto; padding: 3.5rem 1rem; }
-    .section-title { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2rem); margin: 0 0 1rem; }
-    .lead { font-size: 1.1rem; color: var(--muted); }
-    .hero { padding: 5.5rem 1rem 3.5rem; animation: fadeIn 1.2s ease both; }
-    .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: center; }
-    @media (max-width: 880px) { .hero-inner { grid-template-columns: 1fr; } }
-    .hero h1 { font-size: clamp(2.1rem, 1.5rem + 2.5vw, 3rem); margin: 0 0 1rem; }
-    .profile { width: 180px; height: auto; border-radius: 16px; display: block; margin-inline: auto; box-shadow: var(--shadow); animation: fadeInUp 1.5s ease both; }
-    @media (min-width: 881px) { .profile { width: 220px; } }
-    .cta { display:inline-flex; gap:.6rem; align-items:center; margin-top:1.2rem; padding:.8rem 1rem; background: var(--indigo-500); color:white; border:none; border-radius: 999px; cursor:pointer; box-shadow: var(--shadow); text-decoration:none; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-    @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.1rem; box-shadow: var(--shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; opacity: 0; animation: fadeInUp 1s ease forwards; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(99,102,241,.25); }
-    .card:nth-child(1) { animation-delay: .2s; }
-    .card:nth-child(2) { animation-delay: .4s; }
-    .card:nth-child(3) { animation-delay: .6s; }
-    .card h3 { margin: .2rem 0 .4rem; font-size: 1.05rem; }
-    .card p { margin: 0; color: var(--muted); }
-    footer { border-top: 1px solid var(--border); padding: 2rem 1rem; }
 
-    /* Timeline adjustments */
-    .timeline { --pad: 1.5rem; --line: 3px; --dot: .8rem; border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300)); padding-left: var(--pad); display: grid; gap: 1rem; margin-top: 1rem; position: relative; }
-    .tl-item { position: relative; }
-    .tl-item::before { content: ""; position: absolute; /* Feinkorrektur über --nudge steuerbar */ left: calc(var(--pad) * -1 - (var(--dot) / 2) + (var(--line) / 2) - var(--nudge, 3px)); top: .35rem; width: var(--dot); height: var(--dot); background: var(--indigo-500); border-radius: 50%; box-shadow: 0 0 0 6px color-mix(in oklab, var(--indigo-500) 20%, transparent); }
-    .muted { color: var(--muted); }
+      body {
+        background: radial-gradient(1200px 800px at 10% 10%, rgba(99, 102, 241, 0.2), transparent 60%),
+          radial-gradient(900px 700px at 85% 25%, rgba(129, 140, 248, 0.18), transparent 60%),
+          linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
+      }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-        .legal-details {
-      margin-top: 1rem;
-      font-size: .9rem;
-      color: var(--muted);
-      background: color-mix(in oklab, #ffffff 6%, transparent);
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 12px;
-      padding: .6rem 1rem;
-      backdrop-filter: blur(8px) saturate(150%);
-      -webkit-backdrop-filter: blur(8px) saturate(150%);
-      box-shadow: 0 2px 12px rgba(0,0,0,.12);
-      transition: all .3s ease;
-    }
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image: radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
+          radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
+          radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
+        background-size:
+          180px 180px,
+          220px 220px,
+          260px 260px;
+        mix-blend-mode: soft-light;
+      }
 
-    .legal-details summary {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      list-style: none;
-      font-weight: 600;
-    }
+      .glass {
+        background: color-mix(in oklab, #ffffff 14%, transparent);
+        backdrop-filter: blur(22px) saturate(160%);
+        -webkit-backdrop-filter: blur(22px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.25) inset,
+          0 -1px 0 rgba(255, 255, 255, 0.12) inset,
+          0 10px 30px rgba(0, 0, 0, 0.15);
+      }
 
-    .legal-details[open] summary i {
-      transform: rotate(180deg);
-    }
+      @media (prefers-color-scheme: dark) {
+        .glass {
+          background: color-mix(in oklab, #0b1020 40%, transparent);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.08) inset,
+            0 -1px 0 rgba(255, 255, 255, 0.06) inset,
+            0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+      }
 
-    .legal-details i {
-      transition: transform .25s ease;
-      opacity: .85;
-    }
+      @supports not (backdrop-filter: blur(10px)) {
+        .glass {
+          background: color-mix(in oklab, var(--bg) 60%, transparent);
+        }
+      }
 
-    .legal-details .legal-content {
-      margin-top: .8rem;
-      animation: fadeIn .4s ease;
-    }
+      .card {
+        background: transparent;
+        border: none;
+      }
+      .card.glass,
+      .card {
+        background: color-mix(in oklab, #ffffff 12%, transparent);
+        backdrop-filter: blur(18px) saturate(150%);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.18) inset,
+          0 -1px 0 rgba(255, 255, 255, 0.1) inset,
+          0 14px 32px rgba(0, 0, 0, 0.18);
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 45px rgba(99, 102, 241, 0.3);
+      }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-  <link rel="icon" href="favicon.ico" />
-  <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
+      .cta {
+        background: color-mix(in oklab, #ffffff 18%, transparent);
+        color: var(--fg);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        box-shadow:
+          0 0 0 4px color-mix(in oklab, var(--indigo-500) 12%, transparent),
+          var(--shadow);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.2s ease;
+      }
+      .cta:hover {
+        transform: translateY(-1px);
+      }
 
-<style>
+      .timeline {
+        padding: var(--pad);
+        margin-top: 1rem;
+        border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300));
+        background: color-mix(in oklab, #ffffff 10%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 14px;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.18) inset,
+          0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+      /* ===== End Glassmorphism Enhancements ===== */
 
-/* ===== Glassmorphism Enhancements (injected) ===== */
-:root{
-  --bg: #0b1020;
-  --fg: #e9ecf1;
-  --indigo-500: #6366f1;
-  --indigo-300: #a5b4fc;
-  --line: 3px;
-  --pad: 1rem;
-  --shadow: 0 12px 35px rgba(0,0,0,.25);
-}
+      /* === Hobby Icon Colored Glass Chips === */
+      .icon-chip {
+        --tint: 320 0.24 0.68; /* kräftiger Magenta-Ton */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 14px;
+        background: color-mix(in oklab, oklch(var(--tint)) 25%, transparent);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px) saturate(150%);
+        -webkit-backdrop-filter: blur(12px) saturate(150%);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.18) inset,
+          0 8px 22px rgba(0, 0, 0, 0.18);
+        transition:
+          box-shadow 0.2s ease,
+          transform 0.15s ease;
+        margin-bottom: 0.6rem;
+      }
 
-body {
-  background:
-    radial-gradient(1200px 800px at 10% 10%, rgba(99,102,241,.20), transparent 60%),
-    radial-gradient(900px 700px at 85% 25%, rgba(129,140,248,.18), transparent 60%),
-    linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
-}
+      .icon-chip .icon {
+        color: white;
+        font-size: 1.3rem;
+        line-height: 1;
+        vertical-align: middle;
+        display: block;
+      }
 
-body::after {
-  content: "";
-  position: fixed; inset: 0;
-  pointer-events: none;
-  opacity: .06;
-  background-image:
-    radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
-    radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
-    radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
-  background-size: 180px 180px, 220px 220px, 260px 260px;
-  mix-blend-mode: soft-light;
-}
-
-.glass {
-  background: color-mix(in oklab, #ffffff 14%, transparent);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  border: 1px solid rgba(255,255,255,.28);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.25) inset,
-    0 -1px 0 rgba(255,255,255,.12) inset,
-    0 10px 30px rgba(0,0,0,.15);
-}
-
-@media (prefers-color-scheme: dark) {
-  .glass {
-    background: color-mix(in oklab, #0b1020 40%, transparent);
-    border: 1px solid rgba(255,255,255,.18);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.08) inset,
-      0 -1px 0 rgba(255,255,255,.06) inset,
-      0 10px 30px rgba(0,0,0,.45);
-  }
-}
-
-@supports not (backdrop-filter: blur(10px)) {
-  .glass {
-    background: color-mix(in oklab, var(--bg) 60%, transparent);
-  }
-}
-
-.card { background: transparent; border: none; }
-.card.glass, .card { 
-  background: color-mix(in oklab, #ffffff 12%, transparent);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  border: 1px solid rgba(255,255,255,.22);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.18) inset,
-    0 -1px 0 rgba(255,255,255,.10) inset,
-    0 14px 32px rgba(0,0,0,.18);
-}
-.card:hover { transform: translateY(-4px); box-shadow: 0 16px 45px rgba(99,102,241,.30); }
-
-.cta {
-  background: color-mix(in oklab, #ffffff 18%, transparent);
-  color: var(--fg);
-  border: 1px solid rgba(255,255,255,.28);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  box-shadow:
-    0 0 0 4px color-mix(in oklab, var(--indigo-500) 12%, transparent),
-    var(--shadow);
-  transition: transform .15s ease, box-shadow .2s ease;
-}
-.cta:hover { transform: translateY(-1px); }
-
-.timeline {
-  padding: var(--pad);
-  margin-top: 1rem;
-  border-left: var(--line) solid color-mix(in oklab, var(--indigo-500) 55%, var(--indigo-300));
-  background: color-mix(in oklab, #ffffff 10%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 14px;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.18) inset,
-    0 8px 20px rgba(0,0,0,.12);
-}
-/* ===== End Glassmorphism Enhancements ===== */
-
-
-
-/* === Hobby Icon Colored Glass Chips === */
-.icon-chip {
-  --tint: 320 0.24 0.68; /* kräftiger Magenta-Ton */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 14px;
-  background: color-mix(in oklab, oklch(var(--tint)) 25%, transparent);
-  border: 1px solid rgba(255,255,255,.25);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 8px 22px rgba(0,0,0,.18);
-  transition: box-shadow .2s ease, transform .15s ease;
-  margin-bottom: .6rem;
-}
-
-  .icon-chip .icon {
-  color: white;
-  font-size: 1.3rem;
-  line-height: 1;
-  vertical-align: middle;
-  display: block;
-}
-
-.icon-chip:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 38px rgba(217,70,239,.32); /* leichtes pinkes Leuchten */
-}
-
-</style>
-</head>
-<body>
-  <header class="glass">
-    <div class="nav">
-      <div class="brand"><img src="favicon.ico" alt="" class="brand-icon" /> <span>falkner.info</span></div>
-      <nav>
-        <a href="#about">Über mich</a>
-        <a href="#hobbies">Hobbys</a>
-        <a href="#impressum">Impressum</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <section class="hero" id="start">
-      <div class="hero-inner">
-        <div>
-          <h1>Schön, dass du hier bist!</h1>
-          <p class="lead">Auf dieser Seite teile ich ein paar Einblicke in mein Leben und meine Interessen.</p>
-          <a class="cta" href="#about">Mehr über mich</a>
-        </div>
-        <div>
-          <img src="img/profile.jpg" alt="Profilbild" class="profile">
-        </div>
+      .icon-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 38px rgba(217, 70, 239, 0.32); /* leichtes pinkes Leuchten */
+      }
+    </style>
+  </head>
+  <body>
+    <header class="glass">
+      <div class="nav">
+        <div class="brand"><img src="favicon.ico" alt="" class="brand-icon" /> <span>falkner.info</span></div>
+        <nav>
+          <a href="#about">Über mich</a>
+          <a href="#hobbies">Hobbys</a>
+          <a href="#impressum">Impressum</a>
+        </nav>
       </div>
-    </section>
-    <section id="about" class="container">
-      <h2 class="section-title">Über mich</h2>
-      <p>Geboren wurde ich in <strong>Nürnberg</strong>. Schon früh habe ich in verschiedenen Städten gelebt – darunter <strong>Wolfsburg</strong> und <strong>Bad Nauheim</strong>. Diese Zeit hat mir gezeigt, dass man überall Freunde finden kann – einer meiner engsten Freunde stammt noch aus dieser Schulzeit in Bad Nauheim.</p>
-      <p>Heute lebe ich in einer kleinen Gemeinde nahe <strong>München</strong> und arbeite für den größten kommunalen Arbeitgeber Deutschlands. Ich genieße hier die Kombination aus Natur, Nähe zur Stadt und beruflicher Stabilität – perfekt für mich.</p>
-
-      <div class="timeline" aria-label="Lebensstationen">
-        <div class="tl-item">
-          <div class="muted">Nürnberg</div>
-          <div>Geboren und aufgewachsen.</div>
+    </header>
+    <main>
+      <section class="hero" id="start">
+        <div class="hero-inner">
+          <div>
+            <h1>Schön, dass du hier bist!</h1>
+            <p class="lead">Auf dieser Seite teile ich ein paar Einblicke in mein Leben und meine Interessen.</p>
+            <a class="cta" href="#about">Mehr über mich</a>
+          </div>
+          <div>
+            <img src="img/profile.jpg" alt="Profilbild" class="profile" />
+          </div>
         </div>
-        <div class="tl-item">
-          <div class="muted">Wolfsburg & Bad Nauheim</div>
-          <div>Schulzeit und Freundschaften, die bis heute bestehen.</div>
+      </section>
+      <section id="about" class="container">
+        <h2 class="section-title">Über mich</h2>
+        <p>
+          Geboren wurde ich in <strong>Nürnberg</strong>. Schon früh habe ich in verschiedenen Städten gelebt – darunter
+          <strong>Wolfsburg</strong> und <strong>Bad Nauheim</strong>. Diese Zeit hat mir gezeigt, dass man überall
+          Freunde finden kann – einer meiner engsten Freunde stammt noch aus dieser Schulzeit in Bad Nauheim.
+        </p>
+        <p>
+          Heute lebe ich in einer kleinen Gemeinde nahe <strong>München</strong> und arbeite für den größten kommunalen
+          Arbeitgeber Deutschlands. Ich genieße hier die Kombination aus Natur, Nähe zur Stadt und beruflicher
+          Stabilität – perfekt für mich.
+        </p>
+
+        <div class="timeline" aria-label="Lebensstationen">
+          <div class="tl-item">
+            <div class="muted">Nürnberg</div>
+            <div>Geboren und aufgewachsen.</div>
+          </div>
+          <div class="tl-item">
+            <div class="muted">Wolfsburg & Bad Nauheim</div>
+            <div>Schulzeit und Freundschaften, die bis heute bestehen.</div>
+          </div>
+          <div class="tl-item">
+            <div class="muted">Nahe München</div>
+            <div>Mein heutiges Zuhause – Beruf im öffentlichen Dienst.</div>
+          </div>
         </div>
-        <div class="tl-item">
-          <div class="muted">Nahe München</div>
-          <div>Mein heutiges Zuhause – Beruf im öffentlichen Dienst.</div>
+      </section>
+      <section id="hobbies" class="container">
+        <h2 class="section-title">Hobbys</h2>
+        <div class="grid">
+          <article class="card glass">
+            <span class="icon-chip glass" style="--tint: 264 0.21 0.65"><i class="fa-solid fa-gamepad icon"></i></span>
+            <h3>Gaming</h3>
+            <p>
+              Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und
+              Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des
+              <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.
+            </p>
+          </article>
+          <article class="card glass">
+            <span class="icon-chip glass" style="--tint: 210 0.16 0.7"><i class="fa-solid fa-computer icon"></i></span>
+            <h3>Computer</h3>
+            <p>
+              Technik begleitet mich schon lange – vom Zusammenbauen eigener Systeme bis zum Reparieren und Optimieren.
+              Es fasziniert mich, wie Hardware und Software perfekt zusammenspielen.
+            </p>
+          </article>
+          <article class="card glass">
+            <span class="icon-chip glass" style="--tint: 140 0.18 0.7"><i class="fa-solid fa-mountain icon"></i></span>
+            <h3>Wandern</h3>
+            <p>
+              Wandern ist mein Ausgleich zum Alltag. In der Natur tanke ich Energie, finde Ruhe und entdecke neue
+              Perspektiven – besonders in den Alpen, die ich oft und gerne erkunde.
+            </p>
+          </article>
         </div>
-      </div>
-    </section>
-    <section id="hobbies" class="container">
-      <h2 class="section-title">Hobbys</h2>
-      <div class="grid">
-        <article class="card glass">
-          <span class="icon-chip glass" style="--tint: 264 0.21 0.65;"><i class="fa-solid fa-gamepad icon"></i></span>
-          <h3>Gaming</h3>
-          <p>Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.</p>
-        </article>
-        <article class="card glass">
-          <span class="icon-chip glass" style="--tint: 210 0.16 0.70;"><i class="fa-solid fa-computer icon"></i></span>
-          <h3>Computer</h3>
-          <p>Technik begleitet mich schon lange – vom Zusammenbauen eigener Systeme bis zum Reparieren und Optimieren. Es fasziniert mich, wie Hardware und Software perfekt zusammenspielen.</p>
-        </article>
-        <article class="card glass">
-          <span class="icon-chip glass" style="--tint: 140 0.18 0.70;"><i class="fa-solid fa-mountain icon"></i></span>
-          <h3>Wandern</h3>
-          <p>Wandern ist mein Ausgleich zum Alltag. In der Natur tanke ich Energie, finde Ruhe und entdecke neue Perspektiven – besonders in den Alpen, die ich oft und gerne erkunde.</p>
-        </article>
-      </div>
-    </section>
-  </main>
-<footer id="impressum" class="glass">
-  <h2 class="section-title">Impressum</h2>
-  <p class="lead">Private, nicht-kommerzielle Webseite gemäß § 5 DDG</p>
-  <p><strong>Verantwortlich:</strong> Christian Falkner</p>
-  <p><strong>Kontakt:</strong> webmaster@falkner.info</p>
+      </section>
+    </main>
+    <footer id="impressum" class="glass">
+      <h2 class="section-title">Impressum</h2>
+      <p class="lead">Private, nicht-kommerzielle Webseite gemäß § 5 DDG</p>
+      <p><strong>Verantwortlich:</strong> Christian Falkner</p>
+      <p><strong>Kontakt:</strong> webmaster@falkner.info</p>
 
-  <details class="legal-details">
-    <summary>
-      <i class="fa-solid fa-chevron-down"></i>
-      <span>Rechtliche Hinweise</span>
-    </summary>
-    <div class="legal-content">
-      <p><strong>Haftungsausschluss:</strong> Trotz sorgfältiger Kontrolle übernehme ich keine Haftung für externe Links. 
-      Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
-      <p><strong>Urheberrecht:</strong> Inhalte und Werke auf dieser Seite unterliegen meinem Copyright. 
-      Eine Nutzung ist nur mit ausdrücklicher Genehmigung erlaubt.</p>
-      <p><strong>Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.</p>
-    </div>
-  </details>
+      <details class="legal-details">
+        <summary>
+          <i class="fa-solid fa-chevron-down"></i>
+          <span>Rechtliche Hinweise</span>
+        </summary>
+        <div class="legal-content">
+          <p>
+            <strong>Haftungsausschluss:</strong> Trotz sorgfältiger Kontrolle übernehme ich keine Haftung für externe
+            Links. Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
+          </p>
+          <p>
+            <strong>Urheberrecht:</strong> Inhalte und Werke auf dieser Seite unterliegen meinem Copyright. Eine Nutzung
+            ist nur mit ausdrücklicher Genehmigung erlaubt.
+          </p>
+          <p><strong>Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.</p>
+        </div>
+      </details>
 
-  <p style="font-size:.9rem; color:var(--muted)">
-    © <span id="year"></span> falkner.info – Alle Rechte vorbehalten.
-  </p>
+      <p style="font-size: 0.9rem; color: var(--muted)">
+        © <span id="year"></span> falkner.info – Alle Rechte vorbehalten.
+      </p>
+    </footer>
 
-</footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
