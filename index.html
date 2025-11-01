@@ -1,38 +1,15 @@
 <style>
-  /* === Theme Toggle & Light/Dark Overrides === */
+  /* === Theme: Auto / Light / Dark (ohne Konflikte) === */
 
-  /* Manual theme overrides via data-theme on <html> */
-  html[data-theme="dark"] {
+  /* Basis: Dark-Design in :root */
+  html {
     color-scheme: dark;
   }
-  html[data-theme="light"] {
-    /* Footer/Social icons override in forced Light */
-    --bg: #fafaff;
-    --fg: #1a1a1a;
-    --muted: #4b5563;
-    --card: #ffffff;
-    --border: #e5e7eb;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    --nav-hover-color: var(--secondary);
-  }
 
-  html[data-theme="light"] .social-links a {
-    border-color: var(--border);
-    background: color-mix(in oklab, #ffffff 10%, transparent);
-    color: var(--fg);
-  }
-  html[data-theme="light"] .social-links a:hover {
-    box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
-    background: color-mix(in oklab, var(--secondary) 14%, transparent);
-  }
-
-  html[data-theme="dark"] {
-    color-scheme: light;
-  }
-
-  /* Light via System: only applies when no manual override is set */
+  /* AUTO (System) – nur wenn KEIN data-theme gesetzt ist */
   @media (prefers-color-scheme: light) {
     html:not([data-theme]) {
+      color-scheme: light;
       --bg: #fafaff;
       --fg: #1a1a1a;
       --muted: #4b5563;
@@ -41,34 +18,31 @@
       --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       --nav-hover-color: var(--secondary);
     }
-
-    /* Footer/Social icons: ensure visible border in Light */
-    .social-links a {
+    html:not([data-theme]) .social-links a {
       border-color: var(--border);
       background: color-mix(in oklab, #ffffff 10%, transparent);
       color: var(--fg);
     }
-    .social-links a:hover {
-      box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
+    html:not([data-theme]) .social-links a:hover {
+      box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0,0,0,.28));
       background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
-    /* soften glass/glow on light */
-    .glass,
-    .chip,
-    .badge {
+    html:not([data-theme]) .glass,
+    html:not([data-theme]) .chip,
+    html:not([data-theme]) .badge {
       background: color-mix(in oklab, #ffffff 12%, transparent);
       box-shadow: var(--shadow);
     }
-    details.legal-details {
+    html:not([data-theme]) details.legal-details {
       border: 1px solid var(--border);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
       background: color-mix(in oklab, #ffffff 10%, transparent);
     }
   }
 
-  /* Light via manual toggle */
+  /* LIGHT – erzwungen per data-theme="light" */
   html[data-theme="light"] {
-    /* Footer/Social icons override in forced Light */
+    color-scheme: light;
     --bg: #fafaff;
     --fg: #1a1a1a;
     --muted: #4b5563;
@@ -77,64 +51,22 @@
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --nav-hover-color: var(--secondary);
   }
-
   html[data-theme="light"] .social-links a {
     border-color: var(--border);
     background: color-mix(in oklab, #ffffff 10%, transparent);
     color: var(--fg);
   }
   html[data-theme="light"] .social-links a:hover {
-    box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0,0,0,.28));
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
   }
 
+  /* DARK – erzwungen per data-theme="dark" (keine Light-Werte überschreiben!) */
   html[data-theme="dark"] {
-    --bg: #fafaff;
-    --fg: #1a1a1a;
-    --muted: #4b5563;
-    --card: #ffffff;
-    --border: #e5e7eb;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    --nav-hover-color: var(--secondary);
+    color-scheme: dark;
+    /* Deine Dark-Variablen kommen aus :root im unteren Style-Block,
+       daher HIER absichtlich KEINE Light-Token setzen. */
   }
-
-  /* Optional dark manual slot if you want to tweak beyond :root defaults */
-  html[data-theme="dark"] {
-    /* keep your existing :root (dark) tokens; override here if needed */
-  }
-
-  /* Toggle Button Styles */
-  .theme-toggle {
-    border: 1px solid var(--border);
-    background: color-mix(in oklab, #ffffff 12%, transparent);
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 12px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--fg);
-    font-size: 1rem;
-    cursor: pointer;
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.25s ease,
-      background 0.25s ease;
-    margin-left: 0.5rem;
-  }
-  .theme-toggle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px color-mix(in oklab, var(--secondary) 30%, rgba(0, 0, 0, 0.35));
-  }
-
-  /* Simple placement helpers if header uses flex */
-  header .theme-toggle {
-    flex: 0 0 auto;
-  }
-
-  /* Ensure components look dark when forcing Dark mode */
   html[data-theme="dark"] .glass,
   html[data-theme="dark"] .chip,
   html[data-theme="dark"] .badge {
@@ -146,9 +78,10 @@
   html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
     background: color-mix(in oklab, #ffffff 8%, transparent);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 35px rgba(0,0,0,.3);
   }
 </style>
+
 <!doctype html>
 <html lang="de">
   <head>
@@ -692,6 +625,8 @@
           0 6px 20px rgba(255, 170, 0, 0.25) inset,
           0 4px 16px rgba(255, 170, 0, 0.25);
       }
+      
+      
     </style>
 
     <link rel="icon" href="favicon.ico" />
@@ -911,15 +846,15 @@
         }
       })();
     </script>
-  </body>
-</html>
-
-<script>
+    
+    <script>
   (function () {
     const KEY = "theme-choice"; // "light" | "dark" | "auto"
     const root = document.documentElement;
     const btn = document.getElementById("themeToggle");
     const icon = btn ? btn.querySelector("i") : null;
+
+    const order = ["light", "dark", "auto"]; // Light → Dark → Auto
 
     function setIcon(choice) {
       if (!icon) return;
@@ -932,49 +867,42 @@
       } else if (choice === "dark") {
         root.setAttribute("data-theme", "dark");
       } else {
-        root.removeAttribute("data-theme");
-      } // "auto" → System setting
+        root.removeAttribute("data-theme"); // "auto" → System
+      }
+    }
+    function label(c) {
+      return c === "auto" ? "Darstellung: Automatisch" : c === "light" ? "Darstellung: Hell" : "Darstellung: Dunkel";
     }
 
-    // initial state
+    // Initial
     const saved = localStorage.getItem(KEY) || "auto";
     apply(saved);
     setIcon(saved);
-
-    // cycle: auto → light → dark → auto
-    const order = ["light", "dark", "auto"];
     if (btn) {
-      const label = (c) =>
-        c === "auto" ? "Darstellung: Automatisch" : c === "light" ? "Darstellung: Hell" : "Darstellung: Dunkel";
       btn.setAttribute("aria-label", label(saved));
+      btn.title = "Hell/Dunkel/Auto (" + saved + ")";
       btn.addEventListener("click", () => {
         const cur = localStorage.getItem(KEY) || "auto";
         const next = order[(order.indexOf(cur) + 1) % order.length];
         localStorage.setItem(KEY, next);
         apply(next);
-        btn.setAttribute("aria-label", label(next));
         setIcon(next);
+        btn.setAttribute("aria-label", label(next));
         btn.title = "Hell/Dunkel/Auto (" + next + ")";
       });
     }
 
-    // react to OS theme changes when in Auto
+    // Auf OS-Änderungen reagieren, wenn Auto aktiv
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    if (mq.addEventListener) {
-      mq.addEventListener("change", () => {
-        if ((localStorage.getItem(KEY) || "auto") === "auto") {
-          apply("auto");
-          setIcon("auto");
-        }
-      });
-    } else if (mq.addListener) {
-      // older Safari
-      mq.addListener(() => {
-        if ((localStorage.getItem(KEY) || "auto") === "auto") {
-          apply("auto");
-          setIcon("auto");
-        }
-      });
-    }
+    const reactToSystem = () => {
+      if ((localStorage.getItem(KEY) || "auto") === "auto") {
+        apply("auto");
+        setIcon("auto");
+      }
+    };
+    mq.addEventListener ? mq.addEventListener("change", reactToSystem) : mq.addListener(reactToSystem);
   })();
 </script>
+
+  </body>
+</html>
