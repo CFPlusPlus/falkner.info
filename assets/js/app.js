@@ -76,3 +76,31 @@
   };
   mq.addEventListener ? mq.addEventListener("change", reactToSystem) : mq.addListener(reactToSystem);
 })();
+
+(function () {
+    const light = '#fafaff';
+    const dark  = '#1a0b2e';
+
+    function ensureMeta() {
+      let m = document.querySelector('meta[name="theme-color"][data-managed]');
+      if (!m) {
+        m = document.createElement('meta');
+        m.name = 'theme-color';
+        m.setAttribute('data-managed', 'true');
+        document.head.appendChild(m);
+      }
+      return m;
+    }
+    function applyThemeColor() {
+      const mode = document.documentElement.getAttribute('data-theme');
+      const m = ensureMeta();
+      m.content = mode === 'light' ? light : mode === 'dark' ? dark : (matchMedia('(prefers-color-scheme: dark)').matches ? dark : light);
+    }
+    // Initial
+    applyThemeColor();
+    // Re-apply on changes (z. B. wenn dein Toggle das Attribut setzt)
+    const obs = new MutationObserver(applyThemeColor);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    // Optional: auf Systemwechsel hören, falls "auto"
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyThemeColor);
+  })();
