@@ -1,72 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-
-<head>
-    <!-- Metadaten  -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="author" content="Christian Falkner">
-
-    <title>www.falkner.info - Datenschutz</title>
-    <link rel="shortcut icon" type="image/x-icon" href="icons/cf_transparent.ico">
-    
-    <!-- CSS  -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Datenschutz – falkner.info</title>
+    <meta name="description" content="Datenschutzerklärung für falkner.info" />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <link rel="icon" href="favicon.ico" />
     <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
-
-    <style>
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: "Lato", sans-serif;
-        }
-
-        body,
-        html {
-            height: 100%;
-            color: rgb(88, 88, 88);
-            line-height: 1.8;
-        }
-
-        body {
-            hyphens: auto;
-        }
-
-        /* Darkmode */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1c1d1f;
-                color: rgb(190, 190, 190);
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-
-    <!-- Navbar (sit on top) -->
-    <div class="w3-top">
-        <div class="w3-bar w3-white w3-card">
-            <a href="index.html" class="w3-bar-item w3-button"><i class="fa-solid fa-house"></i></a>
+        <script>
+      (function () {
+        try {
+          var c = localStorage.getItem("theme-choice") || "auto";
+          if (c === "light") document.documentElement.setAttribute("data-theme", "light");
+          else if (c === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        } catch (e) {}
+      })();
+    </script>
+    <script src="/assets/js/app.js" defer></script>
+  </head>
+  <body>
+    <header class="glass">
+      <div class="nav">
+        <div class="brand">
+          <img src="favicon.ico" alt="" class="brand-icon" />
+          <span>falkner.info</span>
         </div>
-    </div>
-    </div>
+        <nav>
+          <a href="/">Start</a>
+          <a href="/#about">Über mich</a>
+          <a href="/#hobbies">Hobbys</a>
+          <a href="/#impressum">Impressum</a>
+        </nav>
+        <button id="themeToggle" class="theme-toggle" aria-label="Darstellung umschalten" title="Hell/Dunkel/Auto">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </header>
 
-
-
-    <div class="w3-container w3-content" id="home">
-        <br>
+    <main class="container">
+      <article class="card glass">
         <h1>Datenschutzerklärung</h1>
-<p>Diese Datenschutzerklärung soll die Nutzer dieser privaten Website über die Art, den Umfang und den Zweck der Erhebung und Verwendung personenbezogener Daten durch den genannten Websitebetreiber informieren. Der Websitebetreiber nimmt Ihren Datenschutz sehr ernst und behandelt Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Vorschriften. Da durch neue Technologien und die ständige Weiterentwicklung dieser Webseite Änderungen an dieser Datenschutzerklärung vorgenommen werden können, empfehlen wir Ihnen sich die Datenschutzerklärung in regelmäßigen Abständen wieder durchzulesen. Definitionen der verwendeten Begriffe (z. B. "personenbezogene Daten" oder "Verarbeitung") finden Sie in Art. 4 DSGVO.</p>
+        <p class="kicker">Stand: <time datetime="2025-11-01">01.11.2025</time></p>
+        <p>Diese Datenschutzerklärung soll die Nutzer dieser privaten Website über die Art, den Umfang und den Zweck der Erhebung und Verwendung personenbezogener Daten durch den genannten Websitebetreiber informieren. Der Websitebetreiber nimmt Ihren Datenschutz sehr ernst und behandelt Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Vorschriften. Da durch neue Technologien und die ständige Weiterentwicklung dieser Webseite Änderungen an dieser Datenschutzerklärung vorgenommen werden können, empfehlen wir Ihnen sich die Datenschutzerklärung in regelmäßigen Abständen wieder durchzulesen. Definitionen der verwendeten Begriffe (z. B. "personenbezogene Daten" oder "Verarbeitung") finden Sie in Art. 4 DSGVO.</p>
         
         <h3>Websitebetreiber</h3>
         <p>Verantwortlicher im Sinne der EU-Datenschutzgrundverordnung (<a href="https://dsgvo-gesetz.de/" target="_blank">DSGVO</a>) und anderer nationaler Datenschutzgesetze ist: Christian Falkner.</p>
@@ -135,35 +111,32 @@
         
         <h3>Widerspruchsrecht</h3>
         <p>Nutzer dieser Webseite können von ihrem Widerspruchsrecht Gebrauch machen und der Verarbeitung ihrer personenbezogenen Daten zu jeder Zeit widersprechen. Wenn Sie eine Berichtigung, Sperrung, Löschung oder Auskunft über die zu Ihrer Person gespeicherten personenbezogenen Daten wünschen oder Fragen bezüglich der Erhebung, Verarbeitung oder Verwendung Ihrer personenbezogenen Daten haben oder erteilte Einwilligungen widerrufen möchten, wenden Sie sich bitte an an den Websitebetreiber.</p>
-      </div>
+        <!-- END: Dein Inhalt -->
+      </article>
+    </main>
 
-    <!-- Footer -->
-    <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
-        <a href="#home" class="w3-button w3-light-grey"><i class="fa-solid fa-arrow-up w3-margin-right"></i>Nach
-            Oben</a>
-        <div class="w3-xlarge w3-section w3-wide">
-            <a href="https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"><i
-                    class="fa-brands fa-xbox w3-hover-opacity"></i></a>
-            <a href="https://steamcommunity.com/id/lestructor"><i class="fa-brands fa-steam w3-hover-opacity"></i></a>
-            <a href="https://discord.minecraft-gilde.de"><i class="fa-brands fa-discord w3-hover-opacity"></i></a>
+    <footer class="glass">
+      <div class="container">
+        <h2 class="section-title">Impressum</h2>
+        <p class="lead">Private, nicht-kommerzielle Webseite gemäß § 5 DDG</p>
+        <p><strong>Verantwortlich:</strong> Christian Falkner</p>
+        <p><strong>Kontakt:</strong> webmaster@falkner.info</p>
+
+        <div class="social-links" aria-label="Soziale Profile">
+          <a href="https://discord.minecraft-gilde.de/" target="_blank" rel="noopener" title="Discord"><span class="sr-only">Discord</span><i class="fa-brands fa-discord" aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/in/christian-falkner-60a45537b/" target="_blank" rel="noopener" title="LinkedIn"><span class="sr-only">LinkedIn</span><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+          <a href="https://steamcommunity.com/id/lestructor" target="_blank" rel="noopener" title="Steam"><span class="sr-only">Steam</span><i class="fa-brands fa-steam" aria-hidden="true"></i></a>
+          <a href="https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi" target="_blank" rel="noopener" title="Xbox"><span class="sr-only">Xbox</span><i class="fa-brands fa-xbox" aria-hidden="true"></i></a>
+          <a href="/datenschutz.html" title="Datenschutz"><span class="sr-only">Datenschutz</span><i class="fa-solid fa-lock" aria-hidden="true"></i></a>
         </div>
-        <p class="w3-hover-text-amber">©2025 Copyright by Christian Falkner </p>
+
+        <p style="font-size: 0.9rem; color: var(--muted)">© <span id="year"></span> Christian Falkner – Alle Rechte vorbehalten.</p>
+      </div>
     </footer>
 
-
-
     <script>
-        // Used to toggle the menu on small screens when clicking on the menu button
-        function toggleFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
+      document.getElementById("year").textContent = new Date().getFullYear();
+      /* optional: gleichen Theme-Toggle-Code wie auf index.html einfügen */
     </script>
-
-</body>
-
+  </body>
 </html>
