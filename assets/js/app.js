@@ -104,3 +104,84 @@
     // Optional: auf Systemwechsel hören, falls "auto"
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyThemeColor);
   })();
+
+  (function () {
+    const header = document.querySelector('.site-header');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuIcon = document.getElementById('menuIcon');
+    const expander = document.getElementById('headerExpander');
+
+    const desktopBtn = document.getElementById('themeToggle');
+    const mobileBtn  = document.getElementById('themeToggleMobile');
+
+    function setOpen(open) {
+      header.setAttribute('data-menu', open ? 'open' : 'closed');
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      expander.setAttribute('aria-hidden', open ? 'false' : 'true');
+
+      // Icon wechseln (Hamburger <-> X)
+      if (open) {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-xmark');
+        const first = expander.querySelector('a');
+        first && first.focus({ preventScroll: true });
+      } else {
+        menuIcon.classList.remove('fa-xmark');
+        menuIcon.classList.add('fa-bars');
+        menuToggle.focus({ preventScroll: true });
+      }
+    }
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = header.getAttribute('data-menu') === 'open';
+      setOpen(!isOpen);
+    });
+
+    expander.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+
+    /* ---------- Theme-Logik mit Icon-Update ---------- */
+    function readChoice() {
+      try { return localStorage.getItem('theme-choice') || 'auto'; } catch { return 'auto'; }
+    }
+    function applyChoice(choice) {
+      const root = document.documentElement;
+      root.removeAttribute('data-theme');
+      if (choice === 'light') root.setAttribute('data-theme', 'light');
+      else if (choice === 'dark') root.setAttribute('data-theme', 'dark');
+    }
+    function setToggleIcon(button, choice) {
+      if (!button) return;
+      const i = button.querySelector('i');
+      if (!i) return;
+      i.classList.remove('fa-sun', 'fa-moon', 'fa-circle-half-stroke');
+      if (choice === 'light') i.classList.add('fa-sun');
+      else if (choice === 'dark') i.classList.add('fa-moon');
+      else i.classList.add('fa-circle-half-stroke'); // auto
+    }
+    function cycleChoice() {
+      const order = ['light', 'dark', 'auto'];
+      const current = readChoice();
+      const next = order[(order.indexOf(current) + 1) % order.length];
+      try { localStorage.setItem('theme-choice', next); } catch {}
+      applyChoice(next);
+      setToggleIcon(desktopBtn, next);
+      setToggleIcon(mobileBtn,  next);
+      const t = `Modus: ${next === 'auto' ? 'System' : next}`;
+      desktopBtn && (desktopBtn.title = t);
+      mobileBtn  && (mobileBtn.title  = t);
+    }
+
+    desktopBtn && desktopBtn.addEventListener('click', cycleChoice);
+    mobileBtn  && mobileBtn.addEventListener('click', cycleChoice);
+
+    const initialChoice = readChoice();
+    applyChoice(initialChoice);
+    setToggleIcon(desktopBtn, initialChoice);
+    setToggleIcon(mobileBtn,  initialChoice);
+  })();
