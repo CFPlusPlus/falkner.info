@@ -80,6 +80,99 @@
     background: color-mix(in oklab, #ffffff 8%, transparent);
     box-shadow: 0 12px 35px rgba(0,0,0,.3);
   }
+  
+/* === Theme Toggle – dezent, ohne Schwebeeffekt ========================= */
+:root {
+  --toggle-size: 40px;
+  --toggle-radius: 12px;
+  --toggle-blur: 8px;
+  --toggle-border: rgba(255,255,255,.16);
+}
+
+/* Grundstil: sehr zurückhaltender Glass-Look */
+.theme-toggle {
+  inline-size: var(--toggle-size);
+  block-size: var(--toggle-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--toggle-border);
+  border-radius: var(--toggle-radius);
+  background: color-mix(in oklab, #ffffff 8%, transparent);
+  color: var(--fg);
+  cursor: pointer;
+
+  backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+
+  /* kein Lift/Scale; nur sanfte Farb-/Border-Transitions */
+  box-shadow: none;
+  transition:
+    background-color .20s ease,
+    color .20s ease,
+    border-color .20s ease;
+}
+
+/* Icon: neutral, ohne Drop-Shadow */
+.theme-toggle i {
+  font-size: 1.05rem;
+  line-height: 1;
+  opacity: .95;
+  transition: color .20s ease, opacity .20s ease;
+}
+
+/* Hover: nur etwas mehr Kontrast/Füllung, keine Bewegung */
+.theme-toggle:hover {
+  background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
+  border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
+}
+.theme-toggle:hover i { opacity: 1; }
+
+/* Active: keine Positionsänderung – nur minimal dunklere Füllung */
+.theme-toggle:active {
+  background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
+  border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
+}
+
+/* Fokus: schmaler, ruhiger Ring (barrierefrei, aber dezent) */
+.theme-toggle:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
+}
+
+/* Light/Dark Feinabstimmung */
+html[data-theme="light"] .theme-toggle,
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .theme-toggle {
+    background: color-mix(in oklab, #ffffff 70%, transparent);
+    border-color: var(--border);
+  }
+}
+html[data-theme="dark"] .theme-toggle {
+  background: color-mix(in oklab, #ffffff 6%, transparent);
+  border-color: rgba(255,255,255,.14);
+}
+
+/* Icon-Farbnuancen je Modus – subtil gehalten */
+html[data-theme="light"] .theme-toggle i { color: color-mix(in oklab, var(--primary) 65%, #111 35%); }
+html[data-theme="dark"]  .theme-toggle i { color: color-mix(in oklab, var(--secondary) 65%, #fff 35%); }
+html:not([data-theme])  .theme-toggle i { color: var(--fg); }
+
+/* Kompakter auf sehr kleinen Screens */
+@media (max-width: 520px) {
+  :root { --toggle-size: 36px; }
+  .theme-toggle i { font-size: 1rem; }
+}
+
+/* Bewegungsreduktion – ohnehin keine Motion, aber sicherheitshalber */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle i { transition: none; }
+}
+
+
 </style>
 
 <!doctype html>
