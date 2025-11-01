@@ -249,14 +249,34 @@ body::after {
 }
 
 header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    backdrop-filter: saturate(140%) blur(14px);
-    background: color-mix(in oklab, var(--bg) 90%, transparent);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  isolation: isolate;                 /* eigene Stacking-Context */
+  backdrop-filter: saturate(170%) blur(26px);
+  -webkit-backdrop-filter: saturate(170%) blur(26px);
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
+  will-change: backdrop-filter;        /* smoother bei Scroll */
+  contain: paint;                      /* kleine Perf-Verbesserung */
 }
+
+header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0; /* hinter dem Inhalt */
+    pointer-events: none;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 86%, transparent) 0%, transparent 70%);
+}
+
+/* Alle direkten Kind-Elemente im Header über das Overlay heben */
+header > * {
+    position: relative;
+    z-index: 1; /* über dem ::before */
+}
+
 .nav {
     max-width: 1100px;
     margin: 0 auto;
@@ -700,75 +720,152 @@ html[data-theme="dark"] details.legal-details:hover {
 
 /* (Nur mobil) Header fixieren, damit er sich über den Inhalt legt */
 @media (max-width: 880px) {
-  .site-header { position: fixed; inset-inline: 0; top: 0; z-index: 70; }
+    .site-header {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        z-index: 70;
+    }
 }
 
 /* Hamburger: reines Icon, Hover-Farbe, kein Button-Look */
 .menu-toggle-icon {
-  display: none; /* nur mobil sichtbar */
-  background: none; border: none; color: var(--fg);
-  font: inherit; padding: .25rem; cursor: pointer; -webkit-tap-highlight-color: transparent; line-height: 1;
+    display: none; /* nur mobil sichtbar */
+    background: none;
+    border: none;
+    color: var(--fg);
+    font: inherit;
+    padding: 0.25rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1;
 }
-.menu-toggle-icon i { font-size: 1.25rem; }
-.menu-toggle-icon:hover, .menu-toggle-icon:focus-visible { color: var(--nav-hover-color); }
+.menu-toggle-icon i {
+    font-size: 1.25rem;
+}
+.menu-toggle-icon:hover,
+.menu-toggle-icon:focus-visible {
+    color: var(--nav-hover-color);
+}
 
 /* Expander ist Teil des Headers: sanfte Höhe (0fr -> 1fr) */
-.header-expander { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s ease; }
-.header-expander__inner { overflow: hidden; padding-inline: 1rem; padding-block: 0; transition: padding .28s ease; }
+.header-expander {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease;
+}
+.header-expander__inner {
+    overflow: hidden;
+    padding-inline: 1rem;
+    padding-block: 0;
+    transition: padding 0.28s ease;
+}
 
 /* Links untereinander – ohne Kachel/Hintergrund/Rahmen; nur eine Unterstreichung beim Hover */
-.header-expander__links { display: grid; gap: .25rem; padding-top: .5rem; }
-.header-expander__links a {
-  display: block; padding: .65rem .25rem; color: var(--fg); text-decoration: none;
-  background: none !important; border: none !important; border-bottom: none !important; box-shadow: none !important;
+.header-expander__links {
+    display: grid;
+    gap: 0.25rem;
+    padding-top: 0.5rem;
 }
-.header-expander__links a::before, .header-expander__links a::after { display: none !important; }
-.header-expander__links a:hover, .header-expander__links a:focus-visible {
-  color: var(--nav-hover-color); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .22em;
+.header-expander__links a {
+    display: block;
+    padding: 0.65rem 0.25rem;
+    color: var(--fg);
+    text-decoration: none;
+    background: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+.header-expander__links a::before,
+.header-expander__links a::after {
+    display: none !important;
+}
+.header-expander__links a:hover,
+.header-expander__links a:focus-visible {
+    color: var(--nav-hover-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
 }
 
 /* Footer im Expander */
-.header-expander__footer { display: flex; align-items: center; gap: .6rem; padding-bottom: .6rem; }
+.header-expander__footer {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.6rem;
+}
 
 /* Mobil-Theme-Toggle: dezenter Glass-Button wie Desktop */
-.theme-toggle--btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  inline-size:42px; block-size:42px; border-radius:12px;
-  border:1px solid rgba(255,255,255,0.16);
-  background: color-mix(in oklab, #ffffff 10%, transparent);
-  color:var(--fg);
-  backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%);
-  cursor:pointer;
+.theme-toggle--btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 42px;
+    block-size: 42px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: color-mix(in oklab, #ffffff 10%, transparent);
+    color: var(--fg);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    cursor: pointer;
 }
-.theme-toggle--btn:hover, .theme-toggle--btn:focus-visible {
-  color:var(--nav-hover-color);
-  box-shadow:0 10px 24px color-mix(in oklab, var(--nav-hover-color) 22%, rgba(0,0,0,.28));
+.theme-toggle--btn:hover,
+.theme-toggle--btn:focus-visible {
+    color: var(--nav-hover-color);
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--nav-hover-color) 22%, rgba(0, 0, 0, 0.28));
 }
 
 /* Offen-Zustand: Header wächst nach unten, überlagert Inhalt */
-.site-header[data-menu="open"] .header-expander { grid-template-rows: 1fr; }
-.site-header[data-menu="open"] .header-expander__inner { padding-block: .4rem; }
+.site-header[data-menu="open"] .header-expander {
+    grid-template-rows: 1fr;
+}
+.site-header[data-menu="open"] .header-expander__inner {
+    padding-block: 0.4rem;
+}
 
 /* Desktop unverändert, Mobil blendet Desktop-Links aus und zeigt Hamburger */
 @media (max-width: 880px) {
-  .nav { padding: 1rem 1rem; }
-  .nav-links { display: none; }
-  #themeToggle { display: none; }
-  .menu-toggle-icon { display: inline-flex; align-items:center; justify-content:center; }
+    .nav {
+        padding: 1rem 1rem;
+    }
+    .nav-links {
+        display: none;
+    }
+    #themeToggle {
+        display: none;
+    }
+    .menu-toggle-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-  /* Seiten-Layout kompakter; Header überlagert Inhalt (kein Verschieben) */
-  .hero { padding: 4rem 1rem 2.4rem; }
-  .container { padding: 2rem 1rem; }
+    /* Seiten-Layout kompakter; Header überlagert Inhalt (kein Verschieben) */
+    .hero {
+        padding: 4rem 1rem 2.4rem;
+    }
+    .container {
+        padding: 2rem 1rem;
+    }
 }
 
 /* Tablet-Feinschliff */
 @media (min-width: 721px) and (max-width: 1024px) {
-  .container { padding: 3rem 1.2rem; }
-  .hero { padding: 5rem 1.2rem 3rem; }
+    .container {
+        padding: 3rem 1.2rem;
+    }
+    .hero {
+        padding: 5rem 1.2rem 3rem;
+    }
 }
 
 /* Bewegungsreduktion */
 @media (prefers-reduced-motion: reduce) {
-  .header-expander, .header-expander__inner { transition: none; }
+    .header-expander,
+    .header-expander__inner {
+        transition: none;
+    }
 }
-
