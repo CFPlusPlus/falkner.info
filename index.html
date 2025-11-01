@@ -24,7 +24,7 @@
       color: var(--fg);
     }
     html:not([data-theme]) .social-links a:hover {
-      box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0,0,0,.28));
+      box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
       background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
     html:not([data-theme]) .glass,
@@ -35,7 +35,7 @@
     }
     html:not([data-theme]) details.legal-details {
       border: 1px solid var(--border);
-      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
       background: color-mix(in oklab, #ffffff 10%, transparent);
     }
   }
@@ -57,7 +57,7 @@
     color: var(--fg);
   }
   html[data-theme="light"] .social-links a:hover {
-    box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0,0,0,.28));
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
   }
 
@@ -78,101 +78,115 @@
   html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
     background: color-mix(in oklab, #ffffff 8%, transparent);
-    box-shadow: 0 12px 35px rgba(0,0,0,.3);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
   }
-  
-/* === Theme Toggle – dezent, ohne Schwebeeffekt ========================= */
-:root {
-  --toggle-size: 34px;
-  --toggle-radius: 10px;
-  --toggle-blur: 8px;
-  --toggle-border: rgba(255,255,255,.16);
-}
 
-/* Grundstil: sehr zurückhaltender Glass-Look */
-.theme-toggle {
-  inline-size: var(--toggle-size);
-  block-size: var(--toggle-size);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  border: 1px solid var(--toggle-border);
-  border-radius: var(--toggle-radius);
-  background: color-mix(in oklab, #ffffff 8%, transparent);
-  color: var(--fg);
-  cursor: pointer;
-
-  backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
-  -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
-
-  /* kein Lift/Scale; nur sanfte Farb-/Border-Transitions */
-  box-shadow: none;
-  transition:
-    background-color .20s ease,
-    color .20s ease,
-    border-color .20s ease;
-}
-
-/* Icon: neutral, ohne Drop-Shadow */
-.theme-toggle i {
-  font-size: 1.05rem;
-  line-height: 1;
-  opacity: .95;
-  transition: color .20s ease, opacity .20s ease;
-}
-
-/* Hover: nur etwas mehr Kontrast/Füllung, keine Bewegung */
-.theme-toggle:hover {
-  background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
-  border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
-}
-.theme-toggle:hover i { opacity: 1; }
-
-/* Active: keine Positionsänderung – nur minimal dunklere Füllung */
-.theme-toggle:active {
-  background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
-  border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
-}
-
-/* Fokus: schmaler, ruhiger Ring (barrierefrei, aber dezent) */
-.theme-toggle:focus-visible {
-  outline: 0;
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
-}
-
-/* Light/Dark Feinabstimmung */
-html[data-theme="light"] .theme-toggle,
-@media (prefers-color-scheme: light) {
-  html:not([data-theme]) .theme-toggle {
-    background: color-mix(in oklab, #ffffff 70%, transparent);
-    border-color: var(--border);
+  /* === Theme Toggle – dezent, ohne Schwebeeffekt ========================= */
+  :root {
+    --toggle-size: 34px;
+    --toggle-radius: 10px;
+    --toggle-blur: 8px;
+    --toggle-border: rgba(255, 255, 255, 0.16);
   }
-}
-html[data-theme="dark"] .theme-toggle {
-  background: color-mix(in oklab, #ffffff 6%, transparent);
-  border-color: rgba(255,255,255,.14);
-}
 
-/* Icon-Farbnuancen je Modus – subtil gehalten */
-html[data-theme="light"] .theme-toggle i { color: color-mix(in oklab, var(--primary) 65%, #111 35%); }
-html[data-theme="dark"]  .theme-toggle i { color: color-mix(in oklab, var(--secondary) 65%, #fff 35%); }
-html:not([data-theme])  .theme-toggle i { color: var(--fg); }
+  /* Grundstil: sehr zurückhaltender Glass-Look */
+  .theme-toggle {
+    inline-size: var(--toggle-size);
+    block-size: var(--toggle-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--toggle-border);
+    border-radius: var(--toggle-radius);
+    background: color-mix(in oklab, #ffffff 8%, transparent);
+    color: var(--fg);
+    cursor: pointer;
 
-/* Kompakter auf sehr kleinen Screens */
-@media (max-width: 520px) {
-  :root { --toggle-size: 36px; }
-  .theme-toggle i { font-size: 1rem; }
-}
+    backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
 
-/* Bewegungsreduktion – ohnehin keine Motion, aber sicherheitshalber */
-@media (prefers-reduced-motion: reduce) {
-  .theme-toggle,
-  .theme-toggle i { transition: none; }
-}
+    /* kein Lift/Scale; nur sanfte Farb-/Border-Transitions */
+    box-shadow: none;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
 
+  /* Icon: neutral, ohne Drop-Shadow */
+  .theme-toggle i {
+    font-size: 1.05rem;
+    line-height: 1;
+    opacity: 0.95;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
+  }
 
+  /* Hover: nur etwas mehr Kontrast/Füllung, keine Bewegung */
+  .theme-toggle:hover {
+    background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
+    border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
+  }
+  .theme-toggle:hover i {
+    opacity: 1;
+  }
+
+  /* Active: keine Positionsänderung – nur minimal dunklere Füllung */
+  .theme-toggle:active {
+    background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
+    border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
+  }
+
+  /* Fokus: schmaler, ruhiger Ring (barrierefrei, aber dezent) */
+  .theme-toggle:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+
+  /* Light/Dark Feinabstimmung */
+  html[data-theme="light"] .theme-toggle,
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) .theme-toggle {
+      background: color-mix(in oklab, #ffffff 70%, transparent);
+      border-color: var(--border);
+    }
+  }
+  html[data-theme="dark"] .theme-toggle {
+    background: color-mix(in oklab, #ffffff 6%, transparent);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  /* Icon-Farbnuancen je Modus – subtil gehalten */
+  html[data-theme="light"] .theme-toggle i {
+    color: color-mix(in oklab, var(--primary) 65%, #111 35%);
+  }
+  html[data-theme="dark"] .theme-toggle i {
+    color: color-mix(in oklab, var(--secondary) 65%, #fff 35%);
+  }
+  html:not([data-theme]) .theme-toggle i {
+    color: var(--fg);
+  }
+
+  /* Kompakter auf sehr kleinen Screens */
+  @media (max-width: 520px) {
+    :root {
+      --toggle-size: 36px;
+    }
+    .theme-toggle i {
+      font-size: 1rem;
+    }
+  }
+
+  /* Bewegungsreduktion – ohnehin keine Motion, aber sicherheitshalber */
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle,
+    .theme-toggle i {
+      transition: none;
+    }
+  }
 </style>
 
 <!doctype html>
@@ -551,33 +565,35 @@ html:not([data-theme])  .theme-toggle i { color: var(--fg); }
         }
       }
 
-      /* === Rechtliche Hinweise – fix === */
-      .legal-details {
+      /* === Rechtliche Hinweise – konsistent in Light & Dark === */
+      details.legal-details {
         margin-top: 1rem;
         font-size: 0.9rem;
         color: var(--muted);
         background: color-mix(in oklab, #ffffff 10%, transparent);
-        border: 1px solid color-mix(in oklab, var(--accent) 12%, rgba(255, 255, 255, 0.22));
+        border: 1px solid var(--border);
         border-radius: 12px;
         padding: 0.6rem 1rem;
         backdrop-filter: blur(10px) saturate(150%);
         -webkit-backdrop-filter: blur(10px) saturate(150%);
-        box-shadow:
-          0 6px 20px rgba(0, 0, 0, 0.18),
-          0 0 0 3px color-mix(in oklab, var(--accent) 6%, transparent) inset;
+        /* kein dauerhafter Akzent-Ring im Normalzustand */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
         transition:
           box-shadow 0.25s ease,
           border-color 0.25s ease,
           background 0.25s ease;
       }
-      .legal-details[open],
-      .legal-details:hover {
-        border-color: color-mix(in oklab, var(--accent) 18%, rgba(255, 255, 255, 0.24));
+
+      /* Akzent nur bei Hover/aufgeklappt, dezenter 2px-Inset */
+      details.legal-details[open],
+      details.legal-details:hover {
+        border-color: color-mix(in oklab, var(--accent) 18%, var(--border));
         box-shadow:
           0 8px 24px rgba(0, 0, 0, 0.22),
-          0 0 0 4px color-mix(in oklab, var(--accent) 8%, transparent) inset;
+          0 0 0 2px color-mix(in oklab, var(--accent) 8%, transparent) inset;
       }
-      .legal-details summary {
+
+      details.legal-details summary {
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -587,13 +603,14 @@ html:not([data-theme])  .theme-toggle i { color: var(--fg); }
         color: var(--fg);
         user-select: none;
       }
-      .legal-details summary::-webkit-details-marker {
+      details.legal-details summary::-webkit-details-marker {
         display: none;
       }
-      .legal-details summary::marker {
+      details.legal-details summary::marker {
         content: "";
       }
-      .legal-details i {
+
+      details.legal-details i {
         transition:
           transform 0.25s ease,
           filter 0.25s ease,
@@ -601,16 +618,30 @@ html:not([data-theme])  .theme-toggle i { color: var(--fg); }
         opacity: 0.9;
         filter: drop-shadow(0 0 0 transparent);
       }
-      .legal-details:hover i,
-      .legal-details[open] summary i {
+      details.legal-details:hover i,
+      details.legal-details[open] summary i {
         filter: drop-shadow(0 0 4px color-mix(in oklab, var(--accent) 28%, transparent));
       }
-      .legal-details[open] summary i {
+      details.legal-details[open] summary i {
         transform: rotate(180deg);
       }
-      .legal-details .legal-content {
+      details.legal-details .legal-content {
         margin-top: 0.8rem;
         animation: fadeIn 0.35s ease;
+      }
+
+      /* Dark-Feintuning (gleiche Logik, nur etwas dunklerer Hintergrund) */
+      html[data-theme="dark"] details.legal-details {
+        background: color-mix(in oklab, #ffffff 8%, transparent);
+        border-color: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+      }
+      html[data-theme="dark"] details.legal-details[open],
+      html[data-theme="dark"] details.legal-details:hover {
+        border-color: color-mix(in oklab, var(--accent) 22%, rgba(255, 255, 255, 0.22));
+        box-shadow:
+          0 14px 38px rgba(0, 0, 0, 0.36),
+          0 0 0 2px color-mix(in oklab, var(--accent) 10%, transparent) inset;
       }
 
       /* === Social Links im Footer === */
@@ -718,8 +749,6 @@ html:not([data-theme])  .theme-toggle i { color: var(--fg); }
           0 6px 20px rgba(255, 170, 0, 0.25) inset,
           0 4px 16px rgba(255, 170, 0, 0.25);
       }
-      
-      
     </style>
 
     <link rel="icon" href="favicon.ico" />
@@ -939,63 +968,66 @@ html:not([data-theme])  .theme-toggle i { color: var(--fg); }
         }
       })();
     </script>
-    
+
     <script>
-  (function () {
-    const KEY = "theme-choice"; // "light" | "dark" | "auto"
-    const root = document.documentElement;
-    const btn = document.getElementById("themeToggle");
-    const icon = btn ? btn.querySelector("i") : null;
+      (function () {
+        const KEY = "theme-choice"; // "light" | "dark" | "auto"
+        const root = document.documentElement;
+        const btn = document.getElementById("themeToggle");
+        const icon = btn ? btn.querySelector("i") : null;
 
-    const order = ["light", "dark", "auto"]; // Light → Dark → Auto
+        const order = ["light", "dark", "auto"]; // Light → Dark → Auto
 
-    function setIcon(choice) {
-      if (!icon) return;
-      icon.className =
-        "fa-solid " + (choice === "light" ? "fa-sun" : choice === "dark" ? "fa-moon" : "fa-circle-half-stroke");
-    }
-    function apply(choice) {
-      if (choice === "light") {
-        root.setAttribute("data-theme", "light");
-      } else if (choice === "dark") {
-        root.setAttribute("data-theme", "dark");
-      } else {
-        root.removeAttribute("data-theme"); // "auto" → System
-      }
-    }
-    function label(c) {
-      return c === "auto" ? "Darstellung: Automatisch" : c === "light" ? "Darstellung: Hell" : "Darstellung: Dunkel";
-    }
+        function setIcon(choice) {
+          if (!icon) return;
+          icon.className =
+            "fa-solid " + (choice === "light" ? "fa-sun" : choice === "dark" ? "fa-moon" : "fa-circle-half-stroke");
+        }
+        function apply(choice) {
+          if (choice === "light") {
+            root.setAttribute("data-theme", "light");
+          } else if (choice === "dark") {
+            root.setAttribute("data-theme", "dark");
+          } else {
+            root.removeAttribute("data-theme"); // "auto" → System
+          }
+        }
+        function label(c) {
+          return c === "auto"
+            ? "Darstellung: Automatisch"
+            : c === "light"
+              ? "Darstellung: Hell"
+              : "Darstellung: Dunkel";
+        }
 
-    // Initial
-    const saved = localStorage.getItem(KEY) || "auto";
-    apply(saved);
-    setIcon(saved);
-    if (btn) {
-      btn.setAttribute("aria-label", label(saved));
-      btn.title = "Hell/Dunkel/Auto (" + saved + ")";
-      btn.addEventListener("click", () => {
-        const cur = localStorage.getItem(KEY) || "auto";
-        const next = order[(order.indexOf(cur) + 1) % order.length];
-        localStorage.setItem(KEY, next);
-        apply(next);
-        setIcon(next);
-        btn.setAttribute("aria-label", label(next));
-        btn.title = "Hell/Dunkel/Auto (" + next + ")";
-      });
-    }
+        // Initial
+        const saved = localStorage.getItem(KEY) || "auto";
+        apply(saved);
+        setIcon(saved);
+        if (btn) {
+          btn.setAttribute("aria-label", label(saved));
+          btn.title = "Hell/Dunkel/Auto (" + saved + ")";
+          btn.addEventListener("click", () => {
+            const cur = localStorage.getItem(KEY) || "auto";
+            const next = order[(order.indexOf(cur) + 1) % order.length];
+            localStorage.setItem(KEY, next);
+            apply(next);
+            setIcon(next);
+            btn.setAttribute("aria-label", label(next));
+            btn.title = "Hell/Dunkel/Auto (" + next + ")";
+          });
+        }
 
-    // Auf OS-Änderungen reagieren, wenn Auto aktiv
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const reactToSystem = () => {
-      if ((localStorage.getItem(KEY) || "auto") === "auto") {
-        apply("auto");
-        setIcon("auto");
-      }
-    };
-    mq.addEventListener ? mq.addEventListener("change", reactToSystem) : mq.addListener(reactToSystem);
-  })();
-</script>
-
+        // Auf OS-Änderungen reagieren, wenn Auto aktiv
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const reactToSystem = () => {
+          if ((localStorage.getItem(KEY) || "auto") === "auto") {
+            apply("auto");
+            setIcon("auto");
+          }
+        };
+        mq.addEventListener ? mq.addEventListener("change", reactToSystem) : mq.addListener(reactToSystem);
+      })();
+    </script>
   </body>
 </html>
