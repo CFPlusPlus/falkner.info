@@ -487,6 +487,60 @@
         white-space: nowrap;
         border: 0;
       }
+
+      /* --- Minecraft Server Status Badge --- */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 0.95rem;
+        line-height: 1;
+      }
+      .status-badge .dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        background: #f43f5e;
+        box-shadow: 0 0 0 0.15rem rgba(244, 63, 94, 0.25);
+        animation: pulse 2.8s ease-in-out infinite;
+      }
+      .status-badge.online .dot {
+        background: #22c55e;
+        box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.25);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* --- Buttons: small variant --- */
+      .cta.cta-small {
+        font-size: 0.95rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 999px;
+      }
+
+      /* --- Icon Chip: amber (yellow→orange) --- */
+      .chip-amber {
+        background: linear-gradient(135deg, rgba(255, 200, 0, 0.25), rgba(255, 145, 0, 0.25));
+        border: 1px solid rgba(255, 183, 0, 0.35);
+        box-shadow:
+          0 6px 20px rgba(255, 170, 0, 0.25) inset,
+          0 4px 16px rgba(255, 170, 0, 0.25);
+      }
     </style>
 
     <link rel="icon" href="favicon.ico" />
@@ -504,6 +558,7 @@
           <a href="#about">Über mich</a>
           <a href="#hobbies">Hobbys</a>
           <a href="#impressum">Impressum</a>
+          <a href="#minecraft">Minecraft</a>
         </nav>
       </div>
     </header>
@@ -514,7 +569,7 @@
           <div>
             <h1>Schön, dass du hier bist!</h1>
             <p class="lead">Auf dieser Seite teile ich ein paar Einblicke in mein Leben und meine Interessen.</p>
-            <a class="cta" href="#about">Mehr über mich</a>
+            <a class="cta" cta-small href="#about">Mehr über mich</a>
           </div>
           <div>
             <img src="img/profile.jpg" alt="Profilbild" class="profile" />
@@ -555,7 +610,7 @@
         <h2 class="section-title">Hobbys</h2>
         <div class="grid">
           <article class="card glass">
-            <span class="icon-chip chip-magenta"><i class="fa-solid fa-gamepad icon"></i></span>
+            <span class="icon-chip chip-amber"><i class="fa-solid fa-gamepad icon"></i></span>
             <h3>Gaming</h3>
             <p>
               Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und
@@ -580,6 +635,38 @@
             </p>
           </article>
         </div>
+      </section>
+
+      <section id="minecraft" class="container">
+        <h2 class="section-title">Minecraft Gilde</h2>
+
+        <article class="card glass" style="display: grid; grid-template-columns: 1fr; gap: 0.6rem">
+          <div
+            class="card-head"
+            style="display: flex; align-items: center; justify-content: space-between; gap: 0.8rem">
+            <span class="icon-chip chip-amber" aria-hidden="true">
+              <i class="fa-solid fa-cubes icon"></i>
+            </span>
+            <div id="serverStatus" class="status-badge" aria-live="polite">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="label">Prüfe Status…</span>
+            </div>
+          </div>
+
+          <p class="lead">
+            In meiner Freizeit betreibe ich die <strong>Minecraft Gilde</strong>, einen entspannten
+            <strong>Vanilla-SMP</strong> – perfekt zum Abschalten am Abend. Hier bauen wir gemeinsam an Projekten,
+            helfen einander und neue Gesichter sind jederzeit willkommen. Es gibt <strong>keine Whitelist</strong>:
+            einfach über <span id="mc-ip">minecraft-gilde.de</span> beitreten und loslegen. Wenn du magst, findest du
+            weitere Details und kleine Community-News auf der Server-Website.
+          </p>
+
+          <ul style="margin: 0.2rem 0 0 1rem; padding: 0; list-style: disc; color: var(--muted)"></ul>
+
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.6rem">
+            <a class="cta" href="https://minecraft-gilde.de" target="_blank" rel="noopener">Zur Server-Website</a>
+          </div>
+        </article>
       </section>
     </main>
 
@@ -613,7 +700,11 @@
           <span class="sr-only">Discord</span>
           <i class="fa-brands fa-discord" aria-hidden="true"></i>
         </a>
-        <a href="https://www.linkedin.com/in/christian-falkner-60a45537b/" target="_blank" rel="noopener" title="LinkedIn">
+        <a
+          href="https://www.linkedin.com/in/christian-falkner-60a45537b/"
+          target="_blank"
+          rel="noopener"
+          title="LinkedIn">
           <span class="sr-only">LinkedIn</span>
           <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
         </a>
@@ -629,10 +720,7 @@
           <span class="sr-only">Xbox</span>
           <i class="fa-brands fa-xbox" aria-hidden="true"></i>
         </a>
-        <a
-          href=""
-          rel="noopener"
-          title="Xbox">
+        <a href="" rel="noopener" title="Xbox">
           <span class="sr-only">Datenschutz</span>
           <i class="fa-solid fa-lock" aria-hidden="true"></i>
         </a>
@@ -645,6 +733,29 @@
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script>
+      // --- Minecraft: Live-Status (mcsrvstat.us) ---
+      (async function () {
+        const el = document.getElementById("serverStatus");
+        if (!el) return;
+        const label = el.querySelector(".label");
+        try {
+          const res = await fetch("https://api.mcsrvstat.us/2/minecraft-gilde.de", { cache: "no-store" });
+          const data = await res.json();
+          if (data && data.online === true) {
+            el.classList.add("online");
+            const count =
+              data.players && typeof data.players.online === "number" ? ` • ${data.players.online} Spieler` : "";
+            label.textContent = "Online" + count;
+          } else {
+            el.classList.remove("online");
+            label.textContent = "Offline";
+          }
+        } catch (e) {
+          label.textContent = "Status unbekannt";
+        }
+      })();
     </script>
   </body>
 </html>
