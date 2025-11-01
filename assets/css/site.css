@@ -16,6 +16,12 @@ html {
         --border: #e5e7eb;
         --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --nav-hover-color: var(--secondary);
+
+        /* Variant C tokens for system Light (no data-theme attribute) */
+        --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
+        --glass-border: var(--border);
+        --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     }
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
@@ -26,12 +32,7 @@ html {
         box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
         background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
-    html:not([data-theme]) .glass,
-    html:not([data-theme]) .chip,
-    html:not([data-theme]) .badge {
-        background: color-mix(in oklab, #ffffff 12%, transparent);
-        box-shadow: var(--shadow);
-    }
+
     html:not([data-theme]) details.legal-details {
         border: 1px solid var(--border);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
@@ -49,6 +50,12 @@ html[data-theme="light"] {
     --border: #e5e7eb;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --nav-hover-color: var(--secondary);
+
+    /* Variant C tokens for forced Light */
+    --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
+    --glass-border: var(--border);
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.28));
 }
 html[data-theme="light"] .social-links a {
     border-color: var(--border);
@@ -64,14 +71,13 @@ html[data-theme="light"] .social-links a:hover {
 html[data-theme="dark"] {
     color-scheme: dark;
     /* Dark-Variablen kommen aus :root unten. */
-}
-html[data-theme="dark"] .glass,
-html[data-theme="dark"] .chip,
-html[data-theme="dark"] .badge {
-    background: color-mix(in oklab, #ffffff 8%, transparent);
-    box-shadow: var(--shadow);
-    border-color: rgba(255, 255, 255, 0.16);
-    color: var(--fg);
+
+    /* Variant C tokens for forced Dark */
+    --glass-bg: color-mix(in oklab, #ffffff 8%, transparent);
+    --glass-border: rgba(255, 255, 255, 0.16);
+    /* Uncomment to tweak hover strength in Dark:
+    --card-shadow-hover: 0 18px 50px rgba(0,0,0,.45);
+    */
 }
 html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
@@ -85,6 +91,13 @@ html[data-theme="dark"] details.legal-details {
     --toggle-radius: 10px;
     --toggle-blur: 8px;
     --toggle-border: rgba(255, 255, 255, 0.16);
+
+    /* Card/Glass tokens (Variant C) */
+    --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 10px 30px rgba(0, 0, 0, 0.45);
+    --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
+    --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
+    --glass-border: rgba(255, 255, 255, 0.18);
 }
 .theme-toggle {
     inline-size: var(--toggle-size);
@@ -389,14 +402,11 @@ nav a:hover::after {
 }
 
 .glass {
-    background: color-mix(in oklab, #ffffff 14%, transparent);
+    background: var(--glass-bg);
     backdrop-filter: blur(22px) saturate(160%);
     -webkit-backdrop-filter: blur(22px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.08) inset,
-        0 -1px 0 rgba(255, 255, 255, 0.06) inset,
-        0 10px 30px rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-shadow);
 }
 
 .grid {
@@ -426,7 +436,7 @@ nav a:hover::after {
 }
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
+    box-shadow: var(--card-shadow-hover);
 }
 
 footer {
