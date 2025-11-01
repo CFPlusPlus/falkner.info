@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Datenschutz – falkner.info</title>
 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Manrope:wght@600..800&display=swap"
+      rel="stylesheet" />
+
     <!-- Light -->
     <meta name="theme-color" content="#fafaff" media="(prefers-color-scheme: light)" />
     <!-- Dark -->
@@ -26,21 +31,57 @@
     <script src="/assets/js/app.js" defer></script>
   </head>
   <body>
-    <header class="glass">
-      <div class="nav">
+    <header class="glass site-header" data-menu="closed">
+      <div class="nav" role="navigation" aria-label="Hauptnavigation">
         <div class="brand">
           <img src="favicon.ico" alt="" class="brand-icon" />
           <span>falkner.info</span>
         </div>
-        <nav>
-          <a href="/">Start</a>
-          <a href="/#about">Über mich</a>
-          <a href="/#hobbies">Hobbys</a>
-          <a href="/#impressum">Impressum</a>
+
+        <!-- Desktop-Navigation -->
+        <nav class="nav-links">
+          <a href="#about">Über mich</a>
+          <a href="#hobbies">Hobbys</a>
+          <a href="#impressum">Impressum</a>
+          <a href="#minecraft">Minecraft</a>
         </nav>
+
+        <!-- Desktop Theme-Toggle -->
         <button id="themeToggle" class="theme-toggle" aria-label="Darstellung umschalten" title="Hell/Dunkel/Auto">
           <i class="fa-solid fa-circle-half-stroke"></i>
         </button>
+
+        <!-- Mobile: Hamburger (ohne Button-Rahmen) -->
+        <button
+          class="menu-toggle-icon"
+          id="menuToggle"
+          aria-label="Menü ein-/ausklappen"
+          aria-expanded="false"
+          aria-controls="headerExpander">
+          <i id="menuIcon" class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Titelleiste klappt nach unten auf (optisch ein Element) -->
+      <div id="headerExpander" class="header-expander" aria-hidden="true">
+        <div class="header-expander__inner">
+          <nav class="header-expander__links">
+            <a href="#about">Über mich</a>
+            <a href="#hobbies">Hobbys</a>
+            <a href="#impressum">Impressum</a>
+            <a href="#minecraft">Minecraft</a>
+          </nav>
+
+          <div class="header-expander__footer">
+            <button
+              id="themeToggleMobile"
+              class="theme-toggle theme-toggle--btn"
+              aria-label="Darstellung umschalten (Mobil)"
+              title="Hell/Dunkel/Auto (Mobil)">
+              <i class="fa-solid fa-circle-half-stroke"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
