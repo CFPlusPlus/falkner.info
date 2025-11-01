@@ -172,7 +172,6 @@
         font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2rem);
         margin: 0 0 1rem;
       }
-
       .lead {
         font-size: 1.1rem;
         color: var(--muted);
@@ -191,7 +190,6 @@
         gap: 2rem;
         align-items: center;
       }
-
       @media (max-width: 880px) {
         .hero-inner {
           grid-template-columns: 1fr;
@@ -211,7 +209,6 @@
         box-shadow: var(--shadow);
         animation: fadeInUp 1.5s ease both;
       }
-
       @media (min-width: 881px) {
         .profile {
           width: 220px;
@@ -226,20 +223,19 @@
         margin-top: 1.2rem;
         padding: 0.85rem 1.1rem;
         background: color-mix(in oklab, var(--primary) 25%, transparent);
-        color: #1a0b2e; /* Lesbarkeit auf Gelb */
+        color: #1a0b2e;
         border: 1px solid color-mix(in oklab, var(--primary) 45%, white 10%);
         border-radius: 999px;
         cursor: pointer;
         text-decoration: none;
         box-shadow:
           0 10px 30px rgba(0, 0, 0, 0.25),
-          0 0 18px color-mix(in oklab, var(--primary) 18%, transparent); /* weicher Gelb-Glow */
+          0 0 18px color-mix(in oklab, var(--primary) 18%, transparent);
         transition:
           transform 0.15s ease,
           box-shadow 0.2s ease,
           background 0.2s ease;
       }
-
       .cta:hover {
         transform: translateY(-1px);
         background: color-mix(in oklab, var(--primary) 34%, transparent);
@@ -264,7 +260,6 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 1.2rem;
       }
-
       @media (max-width: 880px) {
         .grid {
           grid-template-columns: 1fr;
@@ -285,7 +280,6 @@
         opacity: 0;
         animation: fadeInUp 1s ease forwards;
       }
-
       .card:hover {
         transform: translateY(-4px);
         box-shadow: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
@@ -302,7 +296,7 @@
         --line: 3px;
         --dot: 0.8rem;
         border-left: var(--line) solid color-mix(in oklab, var(--secondary) 60%, var(--accent) 20%);
-        padding-block: 1.2rem; /* mehr Platz oben/unten */
+        padding-block: 1.2rem;
         padding-left: var(--pad);
         padding-right: 1rem;
         display: grid;
@@ -311,12 +305,11 @@
         position: relative;
         background: color-mix(in oklab, #ffffff 10%, transparent);
         backdrop-filter: blur(10px);
-        border-radius: 16px; /* leicht größerer Radius */
+        border-radius: 16px;
         box-shadow:
           0 1px 0 rgba(255, 255, 255, 0.18) inset,
           0 8px 20px rgba(0, 0, 0, 0.12);
       }
-
       .tl-item {
         position: relative;
       }
@@ -381,7 +374,7 @@
         }
       }
 
-      /* === Rechtliche Hinweise – fix: Marker ausblenden + Rahmen/Glass wiederherstellen === */
+      /* === Rechtliche Hinweise – fix === */
       .legal-details {
         margin-top: 1rem;
         font-size: 0.9rem;
@@ -400,8 +393,6 @@
           border-color 0.25s ease,
           background 0.25s ease;
       }
-
-      /* Hover/Offen: dezenter Magenta-Akzent */
       .legal-details[open],
       .legal-details:hover {
         border-color: color-mix(in oklab, var(--accent) 18%, rgba(255, 255, 255, 0.24));
@@ -409,27 +400,22 @@
           0 8px 24px rgba(0, 0, 0, 0.22),
           0 0 0 4px color-mix(in oklab, var(--accent) 8%, transparent) inset;
       }
-
-      /* Summary: Marker aus, Chevron bleibt */
       .legal-details summary {
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        list-style: none; /* Safari/FF */
+        list-style: none;
         font-weight: 600;
         color: var(--fg);
         user-select: none;
       }
-      /* Standard-Disclosure-Marker in allen Browsern verstecken */
       .legal-details summary::-webkit-details-marker {
         display: none;
-      } /* Chrome/Safari/Edge */
+      }
       .legal-details summary::marker {
         content: "";
-      } /* Firefox */
-
-      /* Chevron-Icon Verhalten */
+      }
       .legal-details i {
         transition:
           transform 0.25s ease,
@@ -445,10 +431,61 @@
       .legal-details[open] summary i {
         transform: rotate(180deg);
       }
-
       .legal-details .legal-content {
         margin-top: 0.8rem;
         animation: fadeIn 0.35s ease;
+      }
+
+      /* === Social Links im Footer === */
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.2rem;
+        padding: 0.6rem 0;
+      }
+      .social-links a {
+        position: relative;
+        display: inline-flex;
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 12px;
+        align-items: center;
+        justify-content: center;
+        color: var(--fg);
+        background: color-mix(in oklab, #ffffff 12%, transparent);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        text-decoration: none;
+        font-size: 1.15rem;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.25s ease,
+          color 0.25s ease,
+          background 0.25s ease;
+      }
+      .social-links a:hover {
+        transform: translateY(-3px);
+        color: color-mix(in oklab, var(--secondary) 85%, white 15%);
+        box-shadow: 0 10px 28px color-mix(in oklab, var(--secondary) 30%, rgba(0, 0, 0, 0.35));
+        background: color-mix(in oklab, var(--secondary) 18%, transparent);
+      }
+      .social-links a:focus-visible {
+        outline: 2px solid color-mix(in oklab, var(--primary) 60%, transparent);
+        outline-offset: 3px;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
     </style>
 
@@ -569,6 +606,37 @@
           <p><strong>Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.</p>
         </div>
       </details>
+
+      <!-- Social Links (Option 1) -->
+      <div class="social-links" aria-label="Soziale Profile">
+        <a href="https://discord.minecraft-gilde.de/" target="_blank" rel="noopener" title="Discord">
+          <span class="sr-only">Discord</span>
+          <i class="fa-brands fa-discord" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/christian-falkner-60a45537b/" target="_blank" rel="noopener" title="LinkedIn">
+          <span class="sr-only">LinkedIn</span>
+          <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="https://steamcommunity.com/id/lestructor" target="_blank" rel="noopener" title="Steam">
+          <span class="sr-only">Steam</span>
+          <i class="fa-brands fa-steam" aria-hidden="true"></i>
+        </a>
+        <a
+          href="https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"
+          target="_blank"
+          rel="noopener"
+          title="Xbox">
+          <span class="sr-only">Xbox</span>
+          <i class="fa-brands fa-xbox" aria-hidden="true"></i>
+        </a>
+        <a
+          href=""
+          rel="noopener"
+          title="Xbox">
+          <span class="sr-only">Datenschutz</span>
+          <i class="fa-solid fa-lock" aria-hidden="true"></i>
+        </a>
+      </div>
 
       <p style="font-size: 0.9rem; color: var(--muted)">
         © <span id="year"></span> Christian Falkner – Alle Rechte vorbehalten.
