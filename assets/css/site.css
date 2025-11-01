@@ -252,9 +252,9 @@ body {
     margin: 0;
     font-family: var(--font-sans);
     line-height: var(--leading);
-    font-variation-settings:
-        "opsz" 16,
-        "wght" 450; /* Inter VF */
+    font-weight: 400; /* Grundgewicht statt wght in FVS */
+    font-optical-sizing: auto; /* optische Größe automatisch */
+    font-variation-settings: "opsz" 16; /* nur opsz, NICHT wght */
     color: var(--fg);
     background: radial-gradient(
             1200px 800px at 10% 10%,
@@ -264,6 +264,11 @@ body {
         radial-gradient(900px 700px at 85% 25%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
         linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
 }
+
+strong,
+b {
+    font-weight: 650;
+} /* gut lesbar auch auf Glas */
 
 body::after {
     content: "";
