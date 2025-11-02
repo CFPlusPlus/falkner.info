@@ -8,16 +8,26 @@
 
 :root {
     /* Blob-Größen: skalieren zwischen Laptop und 4K */
-    --blob1-w: clamp(900px, 60vw, 1800px);
-    --blob1-h: clamp(600px, 40vw, 1200px);
-    --blob2-w: clamp(700px, 48vw, 1500px);
-    --blob2-h: clamp(520px, 32vw, 1100px);
+  --blob1-w: clamp(1000px, 68vw, 2200px);
+  --blob1-h: clamp(700px, 46vw, 1500px);
+  --blob2-w: clamp(800px, 56vw, 2000px);
+  --blob2-h: clamp(600px, 38vw, 1400px);
 
     /* Positionen (kannst du nach Geschmack anpassen) */
     --blob1-x: 12%;
     --blob1-y: 12%;
     --blob2-x: 82%;
     --blob2-y: 24%;
+}
+
+/* optional: sehr große Displays */
+@media (min-width: 1800px) {
+  :root {
+    --blob1-w: clamp(1300px, 62vw, 2600px);
+    --blob1-h: clamp(820px, 42vw, 1700px);
+    --blob2-w: clamp(1000px, 54vw, 2300px);
+    --blob2-h: clamp(720px, 36vw, 1500px);
+  }
 }
 
 /* Überschriften: etwas kräftiger, enge Tracking nur für große Sizes */
