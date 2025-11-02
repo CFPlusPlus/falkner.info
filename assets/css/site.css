@@ -1,109 +1,58 @@
-/* === Theme: Auto / Light / Dark (ohne Konflikte) === */
+/* ---------------------------------------------------------------------
+   1) TYPOGRAPHY & BASE TOKENS
+   --------------------------------------------------------------------- */
 :root {
+    /* Fonts */
     --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans",
         "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
     --font-head: "Manrope", var(--font-sans);
     --leading: 1.6;
-}
 
-:root {
-  /* Blob 1 (links/oben, Hauptakzent) */
-  --blob1-w: clamp(520px, 82vw, 1500px);
-  --blob1-h: clamp(380px, 58vw, 1100px);
+    /* Color palette from logo (default = dark theme baseline) */
+    --primary: #ffc400; /* leuchtendes Gelb-Orange */
+    --secondary: #00c6ff; /* helles Türkis */
+    --accent: #ff2e6c; /* Magenta-Rot */
+    --bg: #1a0b2e; /* dunkles Violett */
+    --fg: #ededed; /* heller Text */
+    --muted: #9ca3af; /* grauer Sekundärtext */
+    --card: rgba(255, 255, 255, 0.08);
+    --border: #2e2a4f;
+    --shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    --nav-hover-color: var(--primary);
 
-  /* Blob 2 (rechts/unten, Gegenfarbe) */
-  --blob2-w: clamp(420px, 64vw, 1300px);
-  --blob2-h: clamp(320px, 46vw, 900px);
-    
-  --grain-size: clamp(220px, 12vw, 480px);    
+    /* Glass / Card tokens (Variant C) – dark baseline */
+    --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 10px 30px rgba(0, 0, 0, 0.45);
+    --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
+    --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
+    --glass-border: rgba(255, 255, 255, 0.18);
 
-    /* Positionen (kannst du nach Geschmack anpassen) */
+    /* Theme toggle */
+    --toggle-size: 34px;
+    --toggle-radius: 10px;
+    --toggle-blur: 8px;
+    --toggle-border: rgba(255, 255, 255, 0.16);
+
+    /* Background blobs (default / base) */
+    --blob1-w: clamp(520px, 82vw, 1500px);
+    --blob1-h: clamp(380px, 58vw, 1100px);
+    --blob2-w: clamp(420px, 64vw, 1300px);
+    --blob2-h: clamp(320px, 46vw, 900px);
+    --grain-size: clamp(220px, 12vw, 480px);
     --blob1-x: 12%;
     --blob1-y: 12%;
     --blob2-x: 82%;
     --blob2-y: 24%;
 }
 
-/* M: 768–1199px – etwas ruhiger, breiteres Verhältnis */
-@media (min-width: 768px) {
-  :root {
-    --blob1-w: clamp(700px, 72vw, 1800px);
-    --blob1-h: clamp(500px, 48vw, 1300px);
-
-    --blob2-w: clamp(560px, 56vw, 1600px);
-    --blob2-h: clamp(410px, 40vw, 1100px);
-
-    --grain-size: clamp(260px, 10vw, 560px);
-  }
-}
-
-/* L: 1200–1799px – klare Präsenz, ohne zu dominieren */
-@media (min-width: 1200px) {
-  :root {
-    --blob1-w: clamp(900px, 64vw, 2100px);
-    --blob1-h: clamp(630px, 44vw, 1500px);
-
-    --blob2-w: clamp(760px, 52vw, 1900px);
-    --blob2-h: clamp(540px, 36vw, 1300px);
-
-    --grain-size: clamp(320px, 9vw, 620px);
-  }
-}
-
-/* XL/Ultrawide: >=1800px – sichtbar kräftiger */
-@media (min-width: 1800px) {
-  :root {
-    --blob1-w: clamp(1200px, 58vw, 2800px);
-    --blob1-h: clamp(840px, 40vw, 1900px);
-
-    --blob2-w: clamp(1000px, 50vw, 2500px);
-    --blob2-h: clamp(700px, 34vw, 1600px);
-
-    --grain-size: clamp(380px, 8vw, 720px);
-  }
-}
-
-/* Überschriften: etwas kräftiger, enge Tracking nur für große Sizes */
-h1,
-h2,
-.section-title {
-    font-family: var(--font-head);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-
-/* Größenempfehlungen (passen gut zu deinem Layout) */
-h1 {
-    font-size: clamp(2.2rem, 1.2rem + 3vw, 3.1rem);
-}
-h2.section-title {
-    font-size: clamp(1.7rem, 1.1rem + 1.8vw, 2.2rem);
-}
-.lead {
-    font-size: 1.1rem;
-}
-
-/* UI-Elemente (Nav/Buttons) – etwas dichter für den „polished UI“-Look */
-nav a,
-.cta {
-    font-weight: 600;
-    letter-spacing: 0.002em;
-}
-
-/* Ziffern konsistent in Cards/Badges (Serverstatus usw.) */
-.card,
-.status-badge {
-    font-feature-settings:
-        "tnum" 1,
-        "cv05" 1; /* tabellarische Ziffern, ruhige Formen */
-}
-
-/* Basis: Dark-Design in :root */
+/* Dark baseline in html; system auto overrides later if no data-theme */
 html {
     color-scheme: dark;
 }
 
-/* AUTO (System) – nur wenn KEIN data-theme gesetzt ist */
+/* ---------------------------------------------------------------------
+   2) SYSTEM AUTO THEME (prefers-color-scheme) – only if no data-theme
+   --------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html:not([data-theme]) {
         color-scheme: light;
@@ -115,12 +64,13 @@ html {
         --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --nav-hover-color: var(--secondary);
 
-        /* Variant C tokens for system Light (no data-theme attribute) */
+        /* Variant C tokens for system Light */
         --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
         --glass-border: var(--border);
         --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     }
+    /* Social links (system light) */
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
         background: color-mix(in oklab, #ffffff 10%, transparent);
@@ -130,7 +80,7 @@ html {
         box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
         background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
-
+    /* Legal (system light) */
     html:not([data-theme]) details.legal-details {
         border: 1px solid var(--border);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
@@ -138,18 +88,20 @@ html {
     }
 }
 
-/* LIGHT – erzwungen per data-theme="light" */
+/* ---------------------------------------------------------------------
+   3) FORCED THEMES
+   --------------------------------------------------------------------- */
+/* Forced LIGHT */
 html[data-theme="light"] {
     color-scheme: light;
     --bg: #fafaff;
     --fg: #1a1a1a;
-    --muted: #4b5563;
+    --muted: #4b5563; /* aligned with system light */
     --card: #ffffff;
     --border: #e5e7eb;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --nav-hover-color: var(--secondary);
 
-    /* Variant C tokens for forced Light */
     --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
     --glass-border: var(--border);
     --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -165,17 +117,13 @@ html[data-theme="light"] .social-links a:hover {
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
 }
 
-/* DARK – erzwungen per data-theme="dark" (keine Light-Werte überschreiben!) */
+/* Forced DARK */
 html[data-theme="dark"] {
     color-scheme: dark;
-    /* Dark-Variablen kommen aus :root unten. */
-
-    /* Variant C tokens for forced Dark */
+    /* Dark variables inherit from :root */
     --glass-bg: color-mix(in oklab, #ffffff 8%, transparent);
     --glass-border: rgba(255, 255, 255, 0.16);
-    /* Uncomment to tweak hover strength in Dark:
-    --card-shadow-hover: 0 18px 50px rgba(0,0,0,.45);
-    */
+    /* Optionally: --card-shadow-hover: 0 18px 50px rgba(0,0,0,.45); */
 }
 html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
@@ -183,120 +131,51 @@ html[data-theme="dark"] details.legal-details {
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
-/* === Theme Toggle =================================================== */
-:root {
-    --toggle-size: 34px;
-    --toggle-radius: 10px;
-    --toggle-blur: 8px;
-    --toggle-border: rgba(255, 255, 255, 0.16);
+/* ---------------------------------------------------------------------
+   4) TYPOGRAPHY SCALES & MICRO-TYPE
+   --------------------------------------------------------------------- */
 
-    /* Card/Glass tokens (Variant C) */
-    --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 rgba(255, 255, 255, 0.06) inset,
-        0 10px 30px rgba(0, 0, 0, 0.45);
-    --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
-    --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
-    --glass-border: rgba(255, 255, 255, 0.18);
-}
-.theme-toggle {
-    inline-size: var(--toggle-size);
-    block-size: var(--toggle-size);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    border: 1px solid var(--toggle-border);
-    border-radius: var(--toggle-radius);
-    background: color-mix(in oklab, #ffffff 8%, transparent);
-    color: var(--fg);
-    cursor: pointer;
-    backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
-    -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
-    box-shadow: none;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
-}
-.theme-toggle i {
-    font-size: 1.05rem;
-    line-height: 1;
-    opacity: 0.95;
-    transition:
-        color 0.2s ease,
-        opacity 0.2s ease;
-}
-.theme-toggle:hover {
-    background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
-    border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
-}
-.theme-toggle:active {
-    background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
-    border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
-}
-.theme-toggle:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
-}
-html[data-theme="light"] .theme-toggle,
-@media (prefers-color-scheme: light) {
-    html:not([data-theme]) .theme-toggle {
-        background: color-mix(in oklab, #ffffff 70%, transparent);
-        border-color: var(--border);
-    }
-}
-html[data-theme="dark"] .theme-toggle {
-    background: color-mix(in oklab, #ffffff 6%, transparent);
-    border-color: rgba(255, 255, 255, 0.14);
-}
-html[data-theme="light"] .theme-toggle i {
-    color: color-mix(in oklab, var(--primary) 65%, #111 35%);
-}
-html[data-theme="dark"] .theme-toggle i {
-    color: color-mix(in oklab, var(--secondary) 65%, #fff 35%);
-}
-html:not([data-theme]) .theme-toggle i {
-    color: var(--fg);
-}
-@media (max-width: 520px) {
-    :root {
-        --toggle-size: 36px;
-    }
-    .theme-toggle i {
-        font-size: 1rem;
-    }
-}
-@media (prefers-reduced-motion: reduce) {
-    .theme-toggle,
-    .theme-toggle i {
-        transition: none;
-    }
+h1,
+h2,
+.section-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: -0.01em;
 }
 
-/* ===== Farbpalette aus dem Logo ===== */
-:root {
-    --primary: #ffc400; /* leuchtendes Gelb-Orange */
-    --secondary: #00c6ff; /* helles Türkis */
-    --accent: #ff2e6c; /* Magenta-Rot */
-    --bg: #1a0b2e; /* dunkles Violett */
-    --fg: #ededed; /* heller Text */
-    --muted: #9ca3af; /* grauer Sekundärtext */
-    --card: rgba(255, 255, 255, 0.08);
-    --border: #2e2a4f;
-    --shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-    --nav-hover-color: var(--primary);
-}
-@media (prefers-color-scheme: light) {
-    html:not([data-theme]) {
-        --bg: #fafaff;
-        --fg: #1a1a1a;
-        --muted: #555555;
-        --card: #ffffff;
-        --border: #e5e7eb;
-        --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
+h1 {
+    font-size: clamp(2.2rem, 1.2rem + 3vw, 3.1rem);
 }
 
+h2.section-title {
+    font-size: clamp(1.7rem, 1.1rem + 1.8vw, 2.2rem);
+}
+
+.lead {
+    font-size: 1.1rem;
+}
+
+nav a,
+.cta {
+    font-weight: 600;
+    letter-spacing: 0.002em;
+}
+
+.card,
+.status-badge {
+    font-feature-settings:
+        "tnum" 1,
+        "cv05" 1;
+}
+
+strong,
+b {
+    font-weight: 650;
+}
+
+/* ---------------------------------------------------------------------
+   5) RESET / BODY / GLOBAL BACKGROUND
+   --------------------------------------------------------------------- */
 * {
     box-sizing: border-box;
 }
@@ -309,9 +188,9 @@ body {
     margin: 0;
     font-family: var(--font-sans);
     line-height: var(--leading);
-    font-weight: 400; /* Grundgewicht statt wght in FVS */
-    font-optical-sizing: auto; /* optische Größe automatisch */
-    font-variation-settings: "opsz" 16; /* nur opsz, NICHT wght */
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 16;
     color: var(--fg);
     background: radial-gradient(
             var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
@@ -326,9 +205,26 @@ body {
         linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
 }
 
+/* Subtle grain */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
+        radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
+        radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
+    background-size:
+        clamp(160px, 10vw, 260px) clamp(160px, 10vw, 260px),
+        clamp(180px, 12vw, 300px) clamp(180px, 12vw, 300px),
+        clamp(200px, 14vw, 340px) clamp(200px, 14vw, 340px);
+    mix-blend-mode: soft-light;
+}
+
+/* Bigger viewports: slightly stronger blobs */
 @media (min-width: 1400px) {
     :root {
-        /* ein Tick kräftiger mischen */
         --blob1-w: clamp(1200px, 60vw, 2200px);
         --blob1-h: clamp(760px, 40vw, 1400px);
         --blob2-w: clamp(900px, 52vw, 1900px);
@@ -349,54 +245,74 @@ body {
     }
 }
 
-strong,
-b {
-    font-weight: 650;
-} /* gut lesbar auch auf Glas */
-
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.06;
-    background-image: radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
-        radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
-        radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
-    background-size:
-        clamp(160px, 10vw, 260px) clamp(160px, 10vw, 260px),
-        clamp(180px, 12vw, 300px) clamp(180px, 12vw, 300px),
-        clamp(200px, 14vw, 340px) clamp(200px, 14vw, 340px);
-    mix-blend-mode: soft-light;
+/* Blob scale steps */
+@media (min-width: 768px) {
+    :root {
+        --blob1-w: clamp(700px, 72vw, 1800px);
+        --blob1-h: clamp(500px, 48vw, 1300px);
+        --blob2-w: clamp(560px, 56vw, 1600px);
+        --blob2-h: clamp(410px, 40vw, 1100px);
+        --grain-size: clamp(260px, 10vw, 560px);
+    }
+}
+@media (min-width: 1200px) {
+    :root {
+        --blob1-w: clamp(900px, 64vw, 2100px);
+        --blob1-h: clamp(630px, 44vw, 1500px);
+        --blob2-w: clamp(760px, 52vw, 1900px);
+        --blob2-h: clamp(540px, 36vw, 1300px);
+        --grain-size: clamp(320px, 9vw, 620px);
+    }
+}
+@media (min-width: 1800px) {
+    :root {
+        --blob1-w: clamp(1200px, 58vw, 2800px);
+        --blob1-h: clamp(840px, 40vw, 1900px);
+        --blob2-w: clamp(1000px, 50vw, 2500px);
+        --blob2-h: clamp(700px, 34vw, 1600px);
+        --grain-size: clamp(380px, 8vw, 720px);
+    }
 }
 
+/* System light palette shadow override (safety) */
+@media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+        --bg: #fafaff;
+        --fg: #1a1a1a;
+        --muted: #555555;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* ---------------------------------------------------------------------
+   6) LAYOUT: Header, Nav, Containers, Hero
+   --------------------------------------------------------------------- */
 header {
     position: sticky;
     top: 0;
     z-index: 50;
-    isolation: isolate; /* eigene Stacking-Context */
+    isolation: isolate;
     backdrop-filter: saturate(170%) blur(26px);
     -webkit-backdrop-filter: saturate(170%) blur(26px);
     background: color-mix(in oklab, var(--bg) 96%, transparent);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
-    will-change: backdrop-filter; /* smoother bei Scroll */
-    contain: paint; /* kleine Perf-Verbesserung */
+    will-change: backdrop-filter;
+    contain: paint;
 }
-
 header::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 0; /* hinter dem Inhalt */
+    z-index: 0;
     pointer-events: none;
     background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 86%, transparent) 0%, transparent 70%);
 }
-
-/* Alle direkten Kind-Elemente im Header über das Overlay heben */
 header > * {
     position: relative;
-    z-index: 1; /* über dem ::before */
+    z-index: 1;
 }
 
 .nav {
@@ -509,7 +425,10 @@ nav a:hover::after {
     }
 }
 
-/* === Glassmorphism CTAs – komplett === */
+/* ---------------------------------------------------------------------
+   7) COMPONENTS
+   --------------------------------------------------------------------- */
+/* Glass CTA */
 .cta {
     display: inline-flex;
     gap: 0.55rem;
@@ -519,8 +438,6 @@ nav a:hover::after {
     border-radius: 14px;
     text-decoration: none;
     cursor: pointer;
-
-    /* Glass-Basis */
     background: var(--glass-bg);
     color: var(--fg);
     border: 1px solid var(--glass-border);
@@ -530,18 +447,13 @@ nav a:hover::after {
         0 1px 0 rgba(255, 255, 255, 0.08) inset,
         0 -1px 0 rgba(255, 255, 255, 0.06) inset,
         var(--card-shadow);
-
-    /* sanfter Text-Reflex wie bei Cards/Nav */
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
-
     transition:
         background-color 0.22s ease,
         box-shadow 0.22s ease,
         border-color 0.22s ease,
-        color 0.22s ease; /* kein transform -> kein „Springen“ */
+        color 0.22s ease;
 }
-
-/* Hover/Active – nur visueller Glow & Tönung, keine Bewegung */
 .cta:hover,
 .cta:active {
     background: color-mix(in oklab, var(--secondary) 10%, var(--glass-bg));
@@ -550,8 +462,6 @@ nav a:hover::after {
         0 12px 28px color-mix(in oklab, var(--secondary) 26%, rgba(0, 0, 0, 0.35)),
         0 0 0 2px color-mix(in oklab, var(--secondary) 10%, transparent) inset;
 }
-
-/* Größenvarianten */
 .cta--sm {
     font-size: 0.95rem;
     padding: 0.5rem 0.8rem;
@@ -562,8 +472,6 @@ nav a:hover::after {
     padding: 0.95rem 1.35rem;
     border-radius: 16px;
 }
-
-/* Getönte Glas-Variante – z.B. für „Zur Server-Website“ */
 .cta--tint {
     background: color-mix(in oklab, var(--secondary) 16%, transparent);
     border-color: color-mix(in oklab, var(--secondary) 30%, var(--glass-border));
@@ -576,8 +484,6 @@ nav a:hover::after {
         0 14px 34px color-mix(in oklab, var(--secondary) 34%, rgba(0, 0, 0, 0.35)),
         0 0 0 2px color-mix(in oklab, var(--secondary) 14%, transparent) inset;
 }
-
-/* Pillen-Optik als opt-in */
 .cta--pill {
     border-radius: 9999px;
     padding: 0.75rem 1.2rem;
@@ -588,30 +494,25 @@ nav a:hover::after {
 .cta--pill.cta--lg {
     padding: 0.9rem 1.4rem;
 }
-
-/* Icon-Helfer (optional) */
 .cta__icon {
     display: inline-flex;
     align-items: center;
     margin-inline-end: 0.4rem;
     line-height: 0;
 }
-
-/* Barrierefreiheit: Fokusring im Glass-Stil */
 .cta:focus-visible {
     outline: none;
     box-shadow:
         0 0 0 3px color-mix(in oklab, var(--secondary) 22%, transparent),
         var(--card-shadow);
 }
-
-/* Bewegungsreduktion respektieren */
 @media (prefers-reduced-motion: reduce) {
     .cta {
         transition: none;
     }
 }
 
+/* Generic glass helper */
 .glass {
     background: var(--glass-bg);
     backdrop-filter: blur(22px) saturate(160%);
@@ -620,6 +521,7 @@ nav a:hover::after {
     box-shadow: var(--card-shadow);
 }
 
+/* Cards Grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -631,6 +533,7 @@ nav a:hover::after {
     }
 }
 
+/* Card */
 .card {
     background: color-mix(in oklab, #ffffff 12%, transparent);
     backdrop-filter: blur(18px) saturate(150%);
@@ -650,6 +553,7 @@ nav a:hover::after {
     box-shadow: var(--card-shadow-hover);
 }
 
+/* Footer */
 footer {
     border-top: 1px solid var(--border);
     padding: 2rem 1rem;
@@ -693,7 +597,7 @@ footer {
     color: var(--muted);
 }
 
-/* Icon-Chips */
+/* Icon Chips */
 .icon-chip {
     display: flex;
     align-items: center;
@@ -727,7 +631,7 @@ footer {
         0 4px 16px rgba(255, 170, 0, 0.25);
 }
 
-/* Rechtliche Hinweise */
+/* Legal Details */
 details.legal-details {
     margin-top: 1rem;
     font-size: 0.9rem;
@@ -877,6 +781,10 @@ html[data-theme="dark"] details.legal-details:hover {
     background: #22c55e;
     box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
 }
+
+/* ---------------------------------------------------------------------
+   8) ANIMATIONS
+   --------------------------------------------------------------------- */
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -907,9 +815,9 @@ html[data-theme="dark"] details.legal-details:hover {
     }
 }
 
-/* ===== Titelleiste wächst nach unten (ein Element, sanfte Animation) ===== */
-
-/* (Nur mobil) Header fixieren, damit er sich über den Inhalt legt */
+/* ---------------------------------------------------------------------
+   9) HEADER EXPANDER (mobile) – header grows downward in-place
+   --------------------------------------------------------------------- */
 @media (max-width: 880px) {
     .site-header {
         position: fixed;
@@ -919,9 +827,8 @@ html[data-theme="dark"] details.legal-details:hover {
     }
 }
 
-/* Hamburger: reines Icon, Hover-Farbe, kein Button-Look */
 .menu-toggle-icon {
-    display: none; /* nur mobil sichtbar */
+    display: none;
     background: none;
     border: none;
     color: var(--fg);
@@ -939,7 +846,6 @@ html[data-theme="dark"] details.legal-details:hover {
     color: var(--nav-hover-color);
 }
 
-/* Expander ist Teil des Headers: sanfte Höhe (0fr -> 1fr) */
 .header-expander {
     display: grid;
     grid-template-rows: 0fr;
@@ -951,8 +857,6 @@ html[data-theme="dark"] details.legal-details:hover {
     padding-block: 0;
     transition: padding 0.28s ease;
 }
-
-/* Links untereinander – ohne Kachel/Hintergrund/Rahmen; nur eine Unterstreichung beim Hover */
 .header-expander__links {
     display: grid;
     gap: 0.25rem;
@@ -979,8 +883,6 @@ html[data-theme="dark"] details.legal-details:hover {
     text-decoration-thickness: 1.5px;
     text-underline-offset: 0.22em;
 }
-
-/* Footer im Expander */
 .header-expander__footer {
     display: flex;
     align-items: center;
@@ -988,7 +890,6 @@ html[data-theme="dark"] details.legal-details:hover {
     padding-bottom: 0.6rem;
 }
 
-/* Mobil-Theme-Toggle: dezenter Glass-Button wie Desktop */
 .theme-toggle--btn {
     display: inline-flex;
     align-items: center;
@@ -1009,7 +910,6 @@ html[data-theme="dark"] details.legal-details:hover {
     box-shadow: 0 10px 24px color-mix(in oklab, var(--nav-hover-color) 22%, rgba(0, 0, 0, 0.28));
 }
 
-/* Offen-Zustand: Header wächst nach unten, überlagert Inhalt */
 .site-header[data-menu="open"] .header-expander {
     grid-template-rows: 1fr;
 }
@@ -1017,7 +917,7 @@ html[data-theme="dark"] details.legal-details:hover {
     padding-block: 0.4rem;
 }
 
-/* Desktop unverändert, Mobil blendet Desktop-Links aus und zeigt Hamburger */
+/* Desktop → mobile tweaks */
 @media (max-width: 880px) {
     .nav {
         padding: 1rem 1rem;
@@ -1033,8 +933,6 @@ html[data-theme="dark"] details.legal-details:hover {
         align-items: center;
         justify-content: center;
     }
-
-    /* Seiten-Layout kompakter; Header überlagert Inhalt (kein Verschieben) */
     .hero {
         padding: 4rem 1rem 2.4rem;
     }
@@ -1042,8 +940,6 @@ html[data-theme="dark"] details.legal-details:hover {
         padding: 2rem 1rem;
     }
 }
-
-/* Tablet-Feinschliff */
 @media (min-width: 721px) and (max-width: 1024px) {
     .container {
         padding: 3rem 1.2rem;
@@ -1052,8 +948,6 @@ html[data-theme="dark"] details.legal-details:hover {
         padding: 5rem 1.2rem 3rem;
     }
 }
-
-/* Bewegungsreduktion */
 @media (prefers-reduced-motion: reduce) {
     .header-expander,
     .header-expander__inner {
@@ -1061,33 +955,114 @@ html[data-theme="dark"] details.legal-details:hover {
     }
 }
 
-/* H1 in Cards: auf kleinen Screens kleiner + bruchsicher */
-@media (max-width: 640px) {
-  .card h1 {
-    font-size: clamp(1.35rem, 6vw, 1.9rem);
-    line-height: 1.15;
-    text-wrap: balance;      /* falls unterstützt */
-    overflow-wrap: anywhere; /* Notfall-Umbruch bei sehr langen Wörtern */
-    word-break: normal;
-    hyphens: auto;
-    margin-top: 0.15rem;     /* minimal kompakter oben */
-    margin-bottom: 0.75rem;
-  }
+/* ---------------------------------------------------------------------
+   10) THEME TOGGLE (desktop icon-only)
+   --------------------------------------------------------------------- */
+.theme-toggle {
+    inline-size: var(--toggle-size);
+    block-size: var(--toggle-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--toggle-border);
+    border-radius: var(--toggle-radius);
+    background: color-mix(in oklab, #ffffff 8%, transparent);
+    color: var(--fg);
+    cursor: pointer;
+    backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+    box-shadow: none;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+.theme-toggle i {
+    font-size: 1.05rem;
+    line-height: 1;
+    opacity: 0.95;
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+.theme-toggle:hover {
+    background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
+    border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
+}
+.theme-toggle:active {
+    background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
+    border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
+}
+.theme-toggle:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
-/* Erste Card unter dem Sticky-Header etwas absenken (nur mobil) */
-@media (max-width: 880px) {
-  .container > .card.glass:first-of-type {
-    /* Passe 72px bei Bedarf auf deine reale Header-Höhe an */
-    margin-top: calc(72px + 0.75rem);
-  }
-}
-
-/* Kleine Qualitätsverbesserung: Falls der Browser Safe-Area kennt (Notch) */
-@supports (margin-top: max(0px)) {
-  @media (max-width: 880px) {
-    .container > .card.glass:first-of-type {
-      margin-top: calc(max(72px, env(safe-area-inset-top)) + 0.75rem);
+/* Icon color per theme state */
+html[data-theme="light"] .theme-toggle,
+@media (prefers-color-scheme: light) {
+    html:not([data-theme]) .theme-toggle {
+        background: color-mix(in oklab, #ffffff 70%, transparent);
+        border-color: var(--border);
     }
-  }
+}
+html[data-theme="dark"] .theme-toggle {
+    background: color-mix(in oklab, #ffffff 6%, transparent);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+html[data-theme="light"] .theme-toggle i {
+    color: color-mix(in oklab, var(--primary) 65%, #111 35%);
+}
+html[data-theme="dark"] .theme-toggle i {
+    color: color-mix(in oklab, var(--secondary) 65%, #fff 35%);
+}
+html:not([data-theme]) .theme-toggle i {
+    color: var(--fg);
+}
+
+@media (max-width: 520px) {
+    :root {
+        --toggle-size: 36px;
+    }
+    .theme-toggle i {
+        font-size: 1rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle,
+    .theme-toggle i {
+        transition: none;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   11) ACCESSIBILITY & SMALL FIXES
+   --------------------------------------------------------------------- */
+/* H1 inside .card: smaller + robust on small screens */
+@media (max-width: 640px) {
+    .card h1 {
+        font-size: clamp(1.35rem, 6vw, 1.9rem);
+        line-height: 1.15;
+        text-wrap: balance;
+        overflow-wrap: anywhere;
+        word-break: normal;
+        hyphens: auto;
+        margin-top: 0.15rem;
+        margin-bottom: 0.75rem;
+    }
+}
+/* First glass card below sticky header on mobile: add spacing */
+@media (max-width: 880px) {
+    .container > .card.glass:first-of-type {
+        margin-top: calc(72px + 0.75rem);
+    }
+}
+@supports (margin-top: max(0px)) {
+    @media (max-width: 880px) {
+        .container > .card.glass:first-of-type {
+            margin-top: calc(max(72px, env(safe-area-inset-top)) + 0.75rem);
+        }
+    }
 }
