@@ -1017,3 +1017,34 @@ html[data-theme="dark"] details.legal-details:hover {
         transition: none;
     }
 }
+
+/* H1 in Cards: auf kleinen Screens kleiner + bruchsicher */
+@media (max-width: 640px) {
+  .card h1 {
+    font-size: clamp(1.35rem, 6vw, 1.9rem);
+    line-height: 1.15;
+    text-wrap: balance;      /* falls unterstützt */
+    overflow-wrap: anywhere; /* Notfall-Umbruch bei sehr langen Wörtern */
+    word-break: normal;
+    hyphens: auto;
+    margin-top: 0.15rem;     /* minimal kompakter oben */
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Erste Card unter dem Sticky-Header etwas absenken (nur mobil) */
+@media (max-width: 880px) {
+  .container > .card.glass:first-of-type {
+    /* Passe 72px bei Bedarf auf deine reale Header-Höhe an */
+    margin-top: calc(72px + 0.75rem);
+  }
+}
+
+/* Kleine Qualitätsverbesserung: Falls der Browser Safe-Area kennt (Notch) */
+@supports (margin-top: max(0px)) {
+  @media (max-width: 880px) {
+    .container > .card.glass:first-of-type {
+      margin-top: calc(max(72px, env(safe-area-inset-top)) + 0.75rem);
+    }
+  }
+}
