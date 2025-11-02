@@ -284,25 +284,27 @@ body {
 }
 
 @media (min-width: 1400px) {
-  :root {
-    /* ein Tick kräftiger mischen */
-    --blob1-w: clamp(1200px, 60vw, 2200px);
-    --blob1-h: clamp(760px, 40vw, 1400px);
-    --blob2-w: clamp(900px, 52vw, 1900px);
-    --blob2-h: clamp(640px, 34vw, 1300px);
-  }
-  body {
-    background:
-      radial-gradient(var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-        color-mix(in oklab, var(--secondary) 26%, transparent), transparent 62%),
-      radial-gradient(var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-        color-mix(in oklab, var(--accent) 22%, transparent), transparent 62%),
-      linear-gradient(180deg,
-        color-mix(in oklab, var(--bg) 92%, transparent),
-        var(--bg));
-  }
+    :root {
+        /* ein Tick kräftiger mischen */
+        --blob1-w: clamp(1200px, 60vw, 2200px);
+        --blob1-h: clamp(760px, 40vw, 1400px);
+        --blob2-w: clamp(900px, 52vw, 1900px);
+        --blob2-h: clamp(640px, 34vw, 1300px);
+    }
+    body {
+        background: radial-gradient(
+                var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+                color-mix(in oklab, var(--secondary) 26%, transparent),
+                transparent 62%
+            ),
+            radial-gradient(
+                var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+                color-mix(in oklab, var(--accent) 22%, transparent),
+                transparent 62%
+            ),
+            linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
+    }
 }
-
 
 strong,
 b {
@@ -319,9 +321,9 @@ body::after {
         radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
         radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
     background-size:
-        180px 180px,
-        220px 220px,
-        260px 260px;
+        clamp(160px, 10vw, 260px) clamp(160px, 10vw, 260px),
+        clamp(180px, 12vw, 300px) clamp(180px, 12vw, 300px),
+        clamp(200px, 14vw, 340px) clamp(200px, 14vw, 340px);
     mix-blend-mode: soft-light;
 }
 
