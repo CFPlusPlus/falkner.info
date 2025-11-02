@@ -6,6 +6,20 @@
     --leading: 1.6;
 }
 
+:root {
+    /* Blob-Größen: skalieren zwischen Laptop und 4K */
+    --blob1-w: clamp(900px, 60vw, 1800px);
+    --blob1-h: clamp(600px, 40vw, 1200px);
+    --blob2-w: clamp(700px, 48vw, 1500px);
+    --blob2-h: clamp(520px, 32vw, 1100px);
+
+    /* Positionen (kannst du nach Geschmack anpassen) */
+    --blob1-x: 12%;
+    --blob1-y: 12%;
+    --blob2-x: 82%;
+    --blob2-y: 24%;
+}
+
 /* Überschriften: etwas kräftiger, enge Tracking nur für große Sizes */
 h1,
 h2,
@@ -257,13 +271,38 @@ body {
     font-variation-settings: "opsz" 16; /* nur opsz, NICHT wght */
     color: var(--fg);
     background: radial-gradient(
-            1200px 800px at 10% 10%,
+            var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
             color-mix(in oklab, var(--secondary) 22%, transparent),
             transparent 60%
         ),
-        radial-gradient(900px 700px at 85% 25%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
+        radial-gradient(
+            var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+            color-mix(in oklab, var(--accent) 18%, transparent),
+            transparent 60%
+        ),
         linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
 }
+
+@media (min-width: 1400px) {
+  :root {
+    /* ein Tick kräftiger mischen */
+    --blob1-w: clamp(1200px, 60vw, 2200px);
+    --blob1-h: clamp(760px, 40vw, 1400px);
+    --blob2-w: clamp(900px, 52vw, 1900px);
+    --blob2-h: clamp(640px, 34vw, 1300px);
+  }
+  body {
+    background:
+      radial-gradient(var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+        color-mix(in oklab, var(--secondary) 26%, transparent), transparent 62%),
+      radial-gradient(var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+        color-mix(in oklab, var(--accent) 22%, transparent), transparent 62%),
+      linear-gradient(180deg,
+        color-mix(in oklab, var(--bg) 92%, transparent),
+        var(--bg));
+  }
+}
+
 
 strong,
 b {
