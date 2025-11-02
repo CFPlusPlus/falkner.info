@@ -7,11 +7,15 @@
 }
 
 :root {
-    /* Blob-Größen: skalieren zwischen Laptop und 4K */
-  --blob1-w: clamp(1000px, 68vw, 2200px);
-  --blob1-h: clamp(700px, 46vw, 1500px);
-  --blob2-w: clamp(800px, 56vw, 2000px);
-  --blob2-h: clamp(600px, 38vw, 1400px);
+  /* Blob 1 (links/oben, Hauptakzent) */
+  --blob1-w: clamp(520px, 82vw, 1500px);
+  --blob1-h: clamp(380px, 58vw, 1100px);
+
+  /* Blob 2 (rechts/unten, Gegenfarbe) */
+  --blob2-w: clamp(420px, 64vw, 1300px);
+  --blob2-h: clamp(320px, 46vw, 900px);
+    
+  --grain-size: clamp(220px, 12vw, 480px);    
 
     /* Positionen (kannst du nach Geschmack anpassen) */
     --blob1-x: 12%;
@@ -20,13 +24,42 @@
     --blob2-y: 24%;
 }
 
-/* optional: sehr große Displays */
+/* M: 768–1199px – etwas ruhiger, breiteres Verhältnis */
+@media (min-width: 768px) {
+  :root {
+    --blob1-w: clamp(700px, 72vw, 1800px);
+    --blob1-h: clamp(500px, 48vw, 1300px);
+
+    --blob2-w: clamp(560px, 56vw, 1600px);
+    --blob2-h: clamp(410px, 40vw, 1100px);
+
+    --grain-size: clamp(260px, 10vw, 560px);
+  }
+}
+
+/* L: 1200–1799px – klare Präsenz, ohne zu dominieren */
+@media (min-width: 1200px) {
+  :root {
+    --blob1-w: clamp(900px, 64vw, 2100px);
+    --blob1-h: clamp(630px, 44vw, 1500px);
+
+    --blob2-w: clamp(760px, 52vw, 1900px);
+    --blob2-h: clamp(540px, 36vw, 1300px);
+
+    --grain-size: clamp(320px, 9vw, 620px);
+  }
+}
+
+/* XL/Ultrawide: >=1800px – sichtbar kräftiger */
 @media (min-width: 1800px) {
   :root {
-    --blob1-w: clamp(1300px, 62vw, 2600px);
-    --blob1-h: clamp(820px, 42vw, 1700px);
-    --blob2-w: clamp(1000px, 54vw, 2300px);
-    --blob2-h: clamp(720px, 36vw, 1500px);
+    --blob1-w: clamp(1200px, 58vw, 2800px);
+    --blob1-h: clamp(840px, 40vw, 1900px);
+
+    --blob2-w: clamp(1000px, 50vw, 2500px);
+    --blob2-h: clamp(700px, 34vw, 1600px);
+
+    --grain-size: clamp(380px, 8vw, 720px);
   }
 }
 
