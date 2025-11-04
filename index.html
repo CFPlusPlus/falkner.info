@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>falkner.info</title>
+    <title>Christian Falkner – Persönliche Webseite (falkner.info)</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,6 +18,78 @@
     <meta
       name="description"
       content="Minimalistische, persönliche Seite von Christian Falkner mit Über mich, Hobbys und Impressum." />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://falkner.info/" />
+
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:site_name" content="falkner.info" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Christian Falkner – Persönliche Webseite" />
+    <meta property="og:description" content="Persönliche Seite über mich, meine Hobbys und Projekte." />
+    <meta property="og:url" content="https://falkner.info/" />
+    <meta property="og:image" content="https://falkner.info/assets/img/profile.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Christian Falkner – Persönliche Webseite" />
+    <meta name="twitter:description" content="Persönliche Seite über mich, meine Hobbys und Projekte." />
+    <meta name="twitter:image" content="https://falkner.info/assets/img/profile.jpg" />
+
+    <!-- Optional: Robots (Standard ist index,follow – nur setzen, wenn du explizit sein willst) -->
+    <meta name="robots" content="index,follow" />
+
+    <!-- Structured Data: Person -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Christian Falkner",
+        "url": "https://falkner.info/",
+        "image": "https://falkner.info/assets/img/profile.jpg",
+        "description": "Private Webseite von Christian Falkner mit Informationen über mich, Hobbys und Projekte wie die Minecraft Gilde.",
+        "sameAs": [
+          "https://www.linkedin.com/in/christian-falkner-60a45537b/",
+          "https://steamcommunity.com/id/lestructor",
+          "https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"
+        ]
+      }
+    </script>
+
+    <!-- Structured Data: WebSite (Homepage) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "falkner.info",
+        "url": "https://falkner.info/",
+        "inLanguage": "de-DE",
+        "publisher": {
+          "@type": "Person",
+          "name": "Christian Falkner",
+          "url": "https://falkner.info/"
+        }
+      }
+    </script>
+
+    <!-- WebPage (Startseite) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://falkner.info/",
+        "name": "Startseite – Christian Falkner",
+        "isPartOf": { "@type": "WebSite", "url": "https://falkner.info/" },
+        "inLanguage": "de-DE",
+        "datePublished": "2025-11-01",
+        "dateModified": "2025-11-04",
+        "about": {
+          "@type": "Person",
+          "name": "Christian Falkner"
+        }
+      }
+    </script>
+
     <link rel="stylesheet" href="/assets/css/site.css" />
     <link rel="icon" href="favicon.ico" />
     <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous"></script>
@@ -46,7 +118,6 @@
           <a href="#hobbies">Hobbys</a>
           <a href="#minecraft">Minecraft</a>
           <a href="#impressum">Impressum</a>
-          
         </nav>
 
         <!-- Desktop Theme-Toggle -->
@@ -73,7 +144,6 @@
             <a href="#hobbies">Hobbys</a>
             <a href="#minecraft">Minecraft</a>
             <a href="#impressum">Impressum</a>
-            
           </nav>
 
           <div class="header-expander__footer">
@@ -98,7 +168,7 @@
             <a class="cta cta--sm cta--pill" href="#about">Mehr über mich</a>
           </div>
           <div>
-            <img src="/assets/img/profile.jpg" alt="Profilbild" class="profile" />
+            <img src="/assets/img/profile.jpg" alt="Profilfoto von Christian Falkner" class="profile" />
           </div>
         </div>
       </section>
