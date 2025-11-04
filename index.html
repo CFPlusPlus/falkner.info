@@ -44,55 +44,123 @@
     <!-- Optional: Robots (Standard ist index,follow – nur setzen, wenn du explizit sein willst) -->
     <meta name="robots" content="index,follow" />
 
-    <!-- Structured Data: Person -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Christian Falkner",
-        "url": "https://falkner.info/",
-        "image": "https://falkner.info/assets/img/profile.webp",
-        "description": "Private Webseite von Christian Falkner – Infos über mich, meine Hobbys (Gaming, Wandern, Computer) und die Minecraft Gilde.",
-        "sameAs": [
-          "https://discord.minecraft-gilde.de/",
-          "https://www.linkedin.com/in/christian-falkner-60a45537b/",
-          "https://steamcommunity.com/id/lestructor",
-          "https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://falkner.info/#website",
+            "url": "https://falkner.info/",
+            "name": "falkner.info",
+            "inLanguage": "de-DE",
+            "publisher": { "@id": "https://falkner.info/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://falkner.info/#person",
+            "name": "Christian Falkner",
+            "url": "https://falkner.info/",
+            "image": "https://falkner.info/assets/img/profile.webp",
+            "description": "Private Webseite von Christian Falkner – Infos über mich, Hobbys (Gaming, Wandern, Computer) und die Minecraft Gilde.",
+            "sameAs": [
+              "https://discord.minecraft-gilde.de/",
+              "https://www.linkedin.com/in/christian-falkner-60a45537b/",
+              "https://steamcommunity.com/id/lestructor",
+              "https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi"
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://falkner.info/#home",
+            "url": "https://falkner.info/",
+            "name": "Startseite – Christian Falkner",
+            "isPartOf": { "@id": "https://falkner.info/#website" },
+            "inLanguage": "de-DE",
+            "about": { "@id": "https://falkner.info/#person" },
+            "datePublished": "2025-11-01",
+            "dateModified": "2025-11-04",
+            "hasPart": [
+              { "@id": "https://falkner.info/#about" },
+              { "@id": "https://falkner.info/#hobbies" },
+              { "@id": "https://falkner.info/#minecraft" }
+            ]
+          },
+
+          /* ---------- Abschnitt: Über mich ---------- */
+          {
+            "@type": "AboutPage",
+            "@id": "https://falkner.info/#about",
+            "url": "https://falkner.info/#about",
+            "name": "Über mich – Christian Falkner",
+            "isPartOf": { "@id": "https://falkner.info/#home" },
+            "inLanguage": "de-DE",
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "url": "https://falkner.info/assets/img/profile.webp"
+            },
+            "about": { "@id": "https://falkner.info/#person" },
+            "description": "Persönliche Website von Christian Falkner mit Kurzprofil und Lebensstationen (Nürnberg, Wolfsburg, Bad Nauheim, Raum München) und dualem Studium im öffentlichen Dienst."
+          },
+
+          /* ---------- Abschnitt: Hobbys ---------- */
+          {
+            "@type": "CollectionPage",
+            "@id": "https://falkner.info/#hobbies",
+            "url": "https://falkner.info/#hobbies",
+            "name": "Hobbys – Gaming, Computer, Wandern",
+            "isPartOf": { "@id": "https://falkner.info/#home" },
+            "inLanguage": "de-DE",
+            "about": { "@id": "https://falkner.info/#person" },
+            "hasPart": [
+              {
+                "@type": "WebPageElement",
+                "@id": "https://falkner.info/#hobby-gaming",
+                "name": "Gaming",
+                "description": "Renn-, Strategie- und Aufbauspiele (u. a. Minecraft); Community: ANTI-CORONA-KARTELL."
+              },
+              {
+                "@type": "WebPageElement",
+                "@id": "https://falkner.info/#hobby-computer",
+                "name": "Computer",
+                "description": "Zusammenbau, Reparatur und Optimierung eigener Systeme."
+              },
+              {
+                "@type": "WebPageElement",
+                "@id": "https://falkner.info/#hobby-wandern",
+                "name": "Wandern",
+                "description": "Ausgleich zum Alltag – bevorzugt Touren in den Alpen."
+              }
+            ]
+          },
+
+          /* ---------- Abschnitt: Minecraft Gilde ---------- */
+          {
+            "@type": "WebPage",
+            "@id": "https://falkner.info/#minecraft",
+            "url": "https://falkner.info/#minecraft",
+            "name": "Minecraft Gilde – Vanilla SMP (minecraft-gilde.de)",
+            "isPartOf": { "@id": "https://falkner.info/#home" },
+            "inLanguage": "de-DE",
+            "about": {
+              "@type": "VideoGame",
+              "name": "Minecraft"
+            },
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "Minecraft Gilde",
+              "url": "https://minecraft-gilde.de"
+            },
+            "potentialAction": {
+              "@type": "JoinAction",
+              "target": "https://minecraft-gilde.de",
+              "name": "Server beitreten"
+            },
+            "description": "Deutscher Vanilla-SMP ohne Whitelist. Einfach über minecraft-gilde.de beitreten; Community-News auf der Server-Website.",
+            "keywords": ["Minecraft Server", "Vanilla SMP", "deutscher Minecraft Server", "minecraft-gilde.de"]
+          }
         ]
-      }
-    </script>
-
-    <!-- Structured Data: WebSite (Homepage) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "falkner.info",
-        "url": "https://falkner.info/",
-        "inLanguage": "de-DE",
-        "publisher": {
-          "@type": "Person",
-          "name": "Christian Falkner",
-          "url": "https://falkner.info/"
-        }
-      }
-    </script>
-
-    <!-- WebPage (Startseite) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "url": "https://falkner.info/",
-        "name": "Startseite – Christian Falkner",
-        "isPartOf": { "@type": "WebSite", "url": "https://falkner.info/" },
-        "inLanguage": "de-DE",
-        "datePublished": "2025-11-01",
-        "dateModified": "2025-11-04",
-        "about": {
-          "@type": "Person",
-          "name": "Christian Falkner"
-        }
       }
     </script>
 
@@ -219,7 +287,7 @@
             <h3>Gaming</h3>
             <p>
               Seit meiner ersten Xbox bin ich begeisterter Gamer. Heute spiele ich meist Renn-, Strategie- und
-              Aufbauspiele wie <em>Eco</em>. Besonders schätze ich die Community des
+              Aufbauspiele wie <em>Minecraft</em>. Besonders schätze ich die Community des
               <strong>ANTI-CORONA-KARTELL</strong>, wo Spaß und Zusammenhalt zählen.
             </p>
           </article>
