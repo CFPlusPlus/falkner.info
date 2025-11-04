@@ -185,3 +185,42 @@
     setToggleIcon(desktopBtn, initialChoice);
     setToggleIcon(mobileBtn,  initialChoice);
   })();
+
+// Scroll-to-Top
+(function () {
+  const btn = document.getElementById('scrollTop');
+  if (!btn) return;
+
+  // Sichtbarkeit steuern (sanft, performant)
+  let ticking = false;
+  const toggleBtn = () => {
+    const show = window.scrollY > 600; // Schwelle nach Geschmack anpassen
+    btn.classList.toggle('scrolltop--visible', show);
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(toggleBtn);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Smooth nach oben scrollen (mit Rücksicht auf reduzierte Bewegung)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  btn.addEventListener('click', () => {
+    if (prefersReduced) {
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+})();
+
+const header = document.querySelector('header.site-header');
+if (header) {
+  const observer = new MutationObserver(() => {
+    const open = header.getAttribute('data-menu') === 'open';
+    document.getElementById('scrollTop')?.classList.toggle('scrolltop--visible', !open && window.scrollY > 600);
+  });
+  observer.observe(header, { attributes: true, attributeFilter: ['data-menu'] });
+}

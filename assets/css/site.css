@@ -1066,3 +1066,58 @@ html:not([data-theme]) .theme-toggle i {
         }
     }
 }
+
+/* Scroll-to-Top ----------------------------------------------------------- */
+.scrolltop {
+  position: fixed;
+  right: clamp(12px, 2vw, 20px);
+  bottom: clamp(12px, 2.4vw, 24px);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  box-shadow: 0 6px 28px color-mix(in oklab, var(--secondary) 20%, transparent);
+  color: var(--fg, currentColor);
+
+  /* Startzustand (unsichtbar) */
+  opacity: 0;
+  transform: translateY(8px) scale(.96);
+  pointer-events: none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease,
+    border-color .25s ease;
+}
+.scrolltop i { font-size: 1rem; line-height: 1; }
+
+/* Sichtbar, wenn genug gescrolled */
+.scrolltop--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Hover/Focus States */
+.scrolltop:hover {
+  box-shadow: 0 10px 36px color-mix(in oklab, var(--secondary) 28%, transparent);
+}
+.scrolltop:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--secondary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+/* Leichter „Pressed“-Effekt */
+.scrolltop:active { transform: translateY(1px) scale(.98); }
+
+/* Bewegungsreduktion respektieren */
+@media (prefers-reduced-motion: reduce) {
+  .scrolltop { transition: none; }
+}
