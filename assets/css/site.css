@@ -43,7 +43,11 @@
     --blob1-y: 12%;
     --blob2-x: 82%;
     --blob2-y: 24%;
+    
+    --header-h: 20px;
 }
+
+main { padding-top: calc(var(--header-h) + 8px); }
 
 /* Dark baseline in html; system auto overrides later if no data-theme */
 html {
@@ -290,17 +294,17 @@ body::after {
    6) LAYOUT: Header, Nav, Containers, Hero
    --------------------------------------------------------------------- */
 header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    isolation: isolate;
-    backdrop-filter: saturate(170%) blur(26px);
-    -webkit-backdrop-filter: saturate(170%) blur(26px);
-    background: color-mix(in oklab, var(--bg) 96%, transparent);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
-    will-change: backdrop-filter;
-    contain: paint;
+  position: fixed;        /* statt sticky */
+  inset-inline: 0;
+  top: 0;
+  z-index: 70;            /* etwas höher als vorher */
+  isolation: isolate;
+  width: 100%;
+  backdrop-filter: saturate(170%) blur(26px);
+  -webkit-backdrop-filter: saturate(170%) blur(26px);
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
 }
 header::before {
     content: "";
@@ -818,14 +822,6 @@ html[data-theme="dark"] details.legal-details:hover {
 /* ---------------------------------------------------------------------
    9) HEADER EXPANDER (mobile) – header grows downward in-place
    --------------------------------------------------------------------- */
-@media (max-width: 880px) {
-    .site-header {
-        position: fixed;
-        inset-inline: 0;
-        top: 0;
-        z-index: 70;
-    }
-}
 
 .menu-toggle-icon {
     display: none;
@@ -1051,19 +1047,6 @@ html:not([data-theme]) .theme-toggle i {
         hyphens: auto;
         margin-top: 0.15rem;
         margin-bottom: 0.75rem;
-    }
-}
-/* First glass card below sticky header on mobile: add spacing */
-@media (max-width: 880px) {
-    .container > .card.glass:first-of-type {
-        margin-top: calc(72px + 0.75rem);
-    }
-}
-@supports (margin-top: max(0px)) {
-    @media (max-width: 880px) {
-        .container > .card.glass:first-of-type {
-            margin-top: calc(max(72px, env(safe-area-inset-top)) + 0.75rem);
-        }
     }
 }
 
