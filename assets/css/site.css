@@ -44,7 +44,7 @@
     --blob2-x: 82%;
     --blob2-y: 24%;
 
-    --header-h: 20px;
+    --header-h: 72px;
 }
 
 main {
@@ -1176,7 +1176,42 @@ header {
     }
 }
 
-:root { --header-h: 72px; } /* an deine Headerhöhe anpassen */
 section[id], [id].anchor-target {
   scroll-margin-top: calc(var(--header-h) + 8px);
+}
+
+/* Standard: keine Focus-Ränder (verhindert rote/ blaue Rahmen überall) */
+:focus { outline: none; }
+:focus-visible { outline: none; }
+
+/* iOS/Android: nie Markierungen */
+@media (hover: none) and (pointer: coarse) {
+  *:focus, *:focus-visible { outline: none !important; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+}
+
+/* Desktop: Focus-Stile nur, wenn die Seite "using-keyboard" ist */
+@media (hover: hover) and (pointer: fine) {
+  body.using-keyboard a:focus-visible,
+  body.using-keyboard button:focus-visible,
+  body.using-keyboard input:focus-visible,
+  body.using-keyboard select:focus-visible,
+  body.using-keyboard textarea:focus-visible,
+  body.using-keyboard [role="button"]:focus-visible {
+    outline: 2px solid var(--accent, #6aa0ff);
+    outline-offset: 2px;
+  }
+
+  /* Inhaltssektionen (z. B. Impressum/Datenschutz) nie markieren */
+  section[id]:focus, section[id]:focus-visible,
+  article[id]:focus, article[id]:focus-visible,
+  main[id]:focus, main[id]:focus-visible,
+  [id].anchor-target:focus, [id].anchor-target:focus-visible {
+    outline: none !important;
+  }
+}
+
+/* Verhindert sichtbare Ränder im Titel-/Header-Menü auf Touch */
+@media (hover: none) and (pointer: coarse) {
+  header :focus, header :focus-visible { outline: none !important; }
 }
