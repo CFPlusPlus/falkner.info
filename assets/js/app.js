@@ -244,3 +244,64 @@ if (header) {
   });
   observer.observe(header, { attributes: true, attributeFilter: ["data-menu"] });
 }
+
+(() => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function getHeaderOffset() {
+    const header = document.querySelector('header');
+    return header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+  }
+
+  function smoothScrollTo(targetEl) {
+    const offset = getHeaderOffset();
+    const top = targetEl.getBoundingClientRect().top + window.scrollY - offset - 8; // kleine Luft
+    window.scrollTo({
+      top,
+      behavior: prefersReduced ? 'auto' : 'smooth'
+    });
+    // A11y: Fokus setzen ohne erneut zu scrollen
+    if (!targetEl.hasAttribute('tabindex')) targetEl.setAttribute('tabindex', '-1');
+    targetEl.focus({ preventScroll: true });
+  }
+
+  // Klicks auf In-Page-Anker abfangen
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+
+    const id = decodeURIComponent(a.hash || '').slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+
+    e.preventDefault();
+    smoothScrollTo(target);
+    // Hash in der URL aktualisieren (für Back-Button & Reload)
+    history.pushState(null, '', a.hash);
+  });
+
+  // Beim Laden: vorhandenen Hash korrekt mit Offset ansteuern
+  window.addEventListener('load', () => {
+    if (!location.hash) return;
+    const id = decodeURIComponent(location.hash).slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (target) {
+      // kurz warten, bis Layout/Fonts stehen
+      setTimeout(() => smoothScrollTo(target), 0);
+    }
+  });
+
+  // Optional: bei Resize kann sich die Headerhöhe ändern – Hash erneut ausrichten
+  window.addEventListener('resize', () => {
+    // nur ausführen, wenn Hash existiert und Element sichtbar sein sollte
+    if (!location.hash) return;
+    const id = decodeURIComponent(location.hash).slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (target) {
+      // kein Smooth beim Resize, direkt ausrichten
+      const offset = getHeaderOffset();
+      const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'auto' });
+    }
+  });
+})();

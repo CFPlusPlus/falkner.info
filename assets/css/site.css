@@ -518,6 +518,25 @@ nav a:hover::after {
     }
 }
 
+a.cta {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+
+/* CTA immer gleich darstellen – auch wenn besucht */
+a.cta,
+a.cta:link,
+a.cta:visited {
+  color: var(--fg);
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  text-decoration: none;
+}
+
+/* Hover/Active dürfen bleiben wie definiert */
+
+
 /* Generic glass helper */
 .glass {
     background: var(--glass-bg);
