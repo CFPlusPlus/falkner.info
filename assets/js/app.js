@@ -290,18 +290,4 @@ if (header) {
       setTimeout(() => smoothScrollTo(target), 0);
     }
   });
-
-  // Optional: bei Resize kann sich die Headerhöhe ändern – Hash erneut ausrichten
-  window.addEventListener('resize', () => {
-    // nur ausführen, wenn Hash existiert und Element sichtbar sein sollte
-    if (!location.hash) return;
-    const id = decodeURIComponent(location.hash).slice(1);
-    const target = id ? document.getElementById(id) : null;
-    if (target) {
-      // kein Smooth beim Resize, direkt ausrichten
-      const offset = getHeaderOffset();
-      const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
-      window.scrollTo({ top, behavior: 'auto' });
-    }
-  });
 })();
