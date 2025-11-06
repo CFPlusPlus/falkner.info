@@ -14,8 +14,7 @@
     const data = await res.json();
     if (data && data.online === true) {
       el.classList.add("online");
-      const count = data.players && typeof data.players.online === "number"
-        ? ` • ${data.players.online} Spieler` : "";
+      const count = data.players && typeof data.players.online === "number" ? ` • ${data.players.online} Spieler` : "";
       label.textContent = "Online" + count;
     } else {
       el.classList.remove("online");
@@ -36,7 +35,8 @@
 
   function setIcon(choice) {
     if (!icon) return;
-    icon.className = "fa-solid " + (choice === "light" ? "fa-sun" : choice === "dark" ? "fa-moon" : "fa-circle-half-stroke");
+    icon.className =
+      "fa-solid " + (choice === "light" ? "fa-sun" : choice === "dark" ? "fa-moon" : "fa-circle-half-stroke");
   }
   function apply(choice) {
     if (choice === "light") root.setAttribute("data-theme", "light");
@@ -44,8 +44,11 @@
     else root.removeAttribute("data-theme"); // "auto" → System
   }
   function label(choice) {
-    return choice === "auto" ? "Darstellung: Automatisch" :
-           choice === "light" ? "Darstellung: Hell" : "Darstellung: Dunkel";
+    return choice === "auto"
+      ? "Darstellung: Automatisch"
+      : choice === "light"
+        ? "Darstellung: Hell"
+        : "Darstellung: Dunkel";
   }
 
   // Initial
@@ -78,149 +81,166 @@
 })();
 
 (function () {
-    const light = '#fafaff';
-    const dark  = '#1a0b2e';
+  const light = "#fafaff";
+  const dark = "#1a0b2e";
 
-    function ensureMeta() {
-      let m = document.querySelector('meta[name="theme-color"][data-managed]');
-      if (!m) {
-        m = document.createElement('meta');
-        m.name = 'theme-color';
-        m.setAttribute('data-managed', 'true');
-        document.head.appendChild(m);
-      }
-      return m;
+  function ensureMeta() {
+    let m = document.querySelector('meta[name="theme-color"][data-managed]');
+    if (!m) {
+      m = document.createElement("meta");
+      m.name = "theme-color";
+      m.setAttribute("data-managed", "true");
+      document.head.appendChild(m);
     }
-    function applyThemeColor() {
-      const mode = document.documentElement.getAttribute('data-theme');
-      const m = ensureMeta();
-      m.content = mode === 'light' ? light : mode === 'dark' ? dark : (matchMedia('(prefers-color-scheme: dark)').matches ? dark : light);
+    return m;
+  }
+  function applyThemeColor() {
+    const mode = document.documentElement.getAttribute("data-theme");
+    const m = ensureMeta();
+    m.content =
+      mode === "light"
+        ? light
+        : mode === "dark"
+          ? dark
+          : matchMedia("(prefers-color-scheme: dark)").matches
+            ? dark
+            : light;
+  }
+  // Initial
+  applyThemeColor();
+  // Re-apply on changes (z. B. wenn dein Toggle das Attribut setzt)
+  const obs = new MutationObserver(applyThemeColor);
+  obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  // Optional: auf Systemwechsel hören, falls "auto"
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyThemeColor);
+})();
+
+(function () {
+  const header = document.querySelector(".site-header");
+  const menuToggle = document.getElementById("menuToggle");
+  const menuIcon = document.getElementById("menuIcon");
+  const expander = document.getElementById("headerExpander");
+
+  const desktopBtn = document.getElementById("themeToggle");
+  const mobileBtn = document.getElementById("themeToggleMobile");
+
+  function setOpen(open) {
+    header.setAttribute("data-menu", open ? "open" : "closed");
+    menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    expander.setAttribute("aria-hidden", open ? "false" : "true");
+
+    // Icon wechseln (Hamburger <-> X)
+    if (open) {
+      menuIcon.classList.remove("fa-bars");
+      menuIcon.classList.add("fa-xmark");
+      const first = expander.querySelector("a");
+      first && first.focus({ preventScroll: true });
+    } else {
+      menuIcon.classList.remove("fa-xmark");
+      menuIcon.classList.add("fa-bars");
+      menuToggle.focus({ preventScroll: true });
     }
-    // Initial
-    applyThemeColor();
-    // Re-apply on changes (z. B. wenn dein Toggle das Attribut setzt)
-    const obs = new MutationObserver(applyThemeColor);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    // Optional: auf Systemwechsel hören, falls "auto"
-    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyThemeColor);
-  })();
+  }
 
-  (function () {
-    const header = document.querySelector('.site-header');
-    const menuToggle = document.getElementById('menuToggle');
-    const menuIcon = document.getElementById('menuIcon');
-    const expander = document.getElementById('headerExpander');
+  menuToggle.addEventListener("click", () => {
+    const isOpen = header.getAttribute("data-menu") === "open";
+    setOpen(!isOpen);
+  });
 
-    const desktopBtn = document.getElementById('themeToggle');
-    const mobileBtn  = document.getElementById('themeToggleMobile');
+  expander.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") setOpen(false);
+  });
 
-    function setOpen(open) {
-      header.setAttribute('data-menu', open ? 'open' : 'closed');
-      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      expander.setAttribute('aria-hidden', open ? 'false' : 'true');
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
 
-      // Icon wechseln (Hamburger <-> X)
-      if (open) {
-        menuIcon.classList.remove('fa-bars');
-        menuIcon.classList.add('fa-xmark');
-        const first = expander.querySelector('a');
-        first && first.focus({ preventScroll: true });
-      } else {
-        menuIcon.classList.remove('fa-xmark');
-        menuIcon.classList.add('fa-bars');
-        menuToggle.focus({ preventScroll: true });
-      }
+  /* ---------- Theme-Logik mit Icon-Update ---------- */
+  function readChoice() {
+    try {
+      return localStorage.getItem("theme-choice") || "auto";
+    } catch {
+      return "auto";
     }
+  }
+  function applyChoice(choice) {
+    const root = document.documentElement;
+    root.removeAttribute("data-theme");
+    if (choice === "light") root.setAttribute("data-theme", "light");
+    else if (choice === "dark") root.setAttribute("data-theme", "dark");
+  }
+  function setToggleIcon(button, choice) {
+    if (!button) return;
+    const i = button.querySelector("i");
+    if (!i) return;
+    i.classList.remove("fa-sun", "fa-moon", "fa-circle-half-stroke");
+    if (choice === "light") i.classList.add("fa-sun");
+    else if (choice === "dark") i.classList.add("fa-moon");
+    else i.classList.add("fa-circle-half-stroke"); // auto
+  }
+  function cycleChoice() {
+    const order = ["light", "dark", "auto"];
+    const current = readChoice();
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    try {
+      localStorage.setItem("theme-choice", next);
+    } catch {}
+    applyChoice(next);
+    setToggleIcon(desktopBtn, next);
+    setToggleIcon(mobileBtn, next);
+    const t = `Modus: ${next === "auto" ? "System" : next}`;
+    desktopBtn && (desktopBtn.title = t);
+    mobileBtn && (mobileBtn.title = t);
+  }
 
-    menuToggle.addEventListener('click', () => {
-      const isOpen = header.getAttribute('data-menu') === 'open';
-      setOpen(!isOpen);
-    });
+  desktopBtn && desktopBtn.addEventListener("click", cycleChoice);
+  mobileBtn && mobileBtn.addEventListener("click", cycleChoice);
 
-    expander.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') setOpen(false);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') setOpen(false);
-    });
-
-    /* ---------- Theme-Logik mit Icon-Update ---------- */
-    function readChoice() {
-      try { return localStorage.getItem('theme-choice') || 'auto'; } catch { return 'auto'; }
-    }
-    function applyChoice(choice) {
-      const root = document.documentElement;
-      root.removeAttribute('data-theme');
-      if (choice === 'light') root.setAttribute('data-theme', 'light');
-      else if (choice === 'dark') root.setAttribute('data-theme', 'dark');
-    }
-    function setToggleIcon(button, choice) {
-      if (!button) return;
-      const i = button.querySelector('i');
-      if (!i) return;
-      i.classList.remove('fa-sun', 'fa-moon', 'fa-circle-half-stroke');
-      if (choice === 'light') i.classList.add('fa-sun');
-      else if (choice === 'dark') i.classList.add('fa-moon');
-      else i.classList.add('fa-circle-half-stroke'); // auto
-    }
-    function cycleChoice() {
-      const order = ['light', 'dark', 'auto'];
-      const current = readChoice();
-      const next = order[(order.indexOf(current) + 1) % order.length];
-      try { localStorage.setItem('theme-choice', next); } catch {}
-      applyChoice(next);
-      setToggleIcon(desktopBtn, next);
-      setToggleIcon(mobileBtn,  next);
-      const t = `Modus: ${next === 'auto' ? 'System' : next}`;
-      desktopBtn && (desktopBtn.title = t);
-      mobileBtn  && (mobileBtn.title  = t);
-    }
-
-    desktopBtn && desktopBtn.addEventListener('click', cycleChoice);
-    mobileBtn  && mobileBtn.addEventListener('click', cycleChoice);
-
-    const initialChoice = readChoice();
-    applyChoice(initialChoice);
-    setToggleIcon(desktopBtn, initialChoice);
-    setToggleIcon(mobileBtn,  initialChoice);
-  })();
+  const initialChoice = readChoice();
+  applyChoice(initialChoice);
+  setToggleIcon(desktopBtn, initialChoice);
+  setToggleIcon(mobileBtn, initialChoice);
+})();
 
 // Scroll-to-Top
 (function () {
-  const btn = document.getElementById('scrollTop');
+  const btn = document.getElementById("scrollTop");
   if (!btn) return;
 
   // Sichtbarkeit steuern (sanft, performant)
   let ticking = false;
   const toggleBtn = () => {
     const show = window.scrollY > 600; // Schwelle nach Geschmack anpassen
-    btn.classList.toggle('scrolltop--visible', show);
+    btn.classList.toggle("scrolltop--visible", show);
     ticking = false;
   };
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(toggleBtn);
-      ticking = true;
-    }
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(toggleBtn);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
 
   // Smooth nach oben scrollen (mit Rücksicht auf reduzierte Bewegung)
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  btn.addEventListener('click', () => {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  btn.addEventListener("click", () => {
     if (prefersReduced) {
       window.scrollTo(0, 0);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
 })();
 
-const header = document.querySelector('header.site-header');
+const header = document.querySelector("header.site-header");
 if (header) {
   const observer = new MutationObserver(() => {
-    const open = header.getAttribute('data-menu') === 'open';
-    document.getElementById('scrollTop')?.classList.toggle('scrolltop--visible', !open && window.scrollY > 600);
+    const open = header.getAttribute("data-menu") === "open";
+    document.getElementById("scrollTop")?.classList.toggle("scrolltop--visible", !open && window.scrollY > 600);
   });
-  observer.observe(header, { attributes: true, attributeFilter: ['data-menu'] });
+  observer.observe(header, { attributes: true, attributeFilter: ["data-menu"] });
 }
