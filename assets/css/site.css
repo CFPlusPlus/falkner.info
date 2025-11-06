@@ -1107,13 +1107,6 @@ html:not([data-theme]) .theme-toggle i {
     transform: translateY(1px) scale(0.98);
 }
 
-/* Bewegungsreduktion respektieren */
-@media (prefers-reduced-motion: reduce) {
-    .scrolltop {
-        transition: none;
-    }
-}
-
 /* --- iOS: Tap-Highlight & Focus nur als :focus-visible zeigen --- */
 a,
 button {
