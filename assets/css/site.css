@@ -1185,3 +1185,10 @@ section[id],
         outline: none !important;
     }
 }
+
+@media (min-width: 769px) {
+  .legal-page main.container {
+    /* Header-Höhe + etwas Luft, damit die Card sicher nicht überlappt */
+    padding-top: calc(var(--header-h) + 2.8rem);
+  }
+}
