@@ -129,11 +129,18 @@
     menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
     expander.setAttribute("aria-hidden", open ? "false" : "true");
 
+    // NEU: fokussierbar nur wenn offen
+    if (open) {
+      expander.removeAttribute("inert");
+    } else {
+      expander.setAttribute("inert", "");
+    }
+
     // Icon wechseln (Hamburger <-> X)
     if (open) {
       menuIcon.classList.remove("fa-bars");
       menuIcon.classList.add("fa-xmark");
-      const first = expander.querySelector("a");
+      const first = expander.querySelector("a, button");
       first && first.focus({ preventScroll: true });
     } else {
       menuIcon.classList.remove("fa-xmark");
@@ -142,18 +149,24 @@
     }
   }
 
+  // Klick auf den Toggle
   menuToggle.addEventListener("click", () => {
     const isOpen = header.getAttribute("data-menu") === "open";
     setOpen(!isOpen);
   });
 
+  // Menü schließen, wenn Link geklickt
   expander.addEventListener("click", (e) => {
     if (e.target.tagName === "A") setOpen(false);
   });
 
+  // ESC schließt
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") setOpen(false);
   });
+
+  // beim Laden sicherstellen, dass es wirklich zu ist
+  setOpen(false);
 
   /* ---------- Theme-Logik mit Icon-Update ---------- */
   function readChoice() {
