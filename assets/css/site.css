@@ -389,10 +389,10 @@ nav a:hover::after {
 
 /* Desktop: Card unter dem fixen Header nicht überdecken */
 @media (min-width: 769px) {
-  main.container {
-    /* Gleicher Mechanismus wie mobil, aber für Desktop */
-    padding-top: calc(var(--header-h) + var(--safe-top) + 22px);
-  }
+    main.container {
+        /* Gleicher Mechanismus wie mobil, aber für Desktop */
+        padding-top: calc(var(--header-h) + var(--safe-top) + 22px);
+    }
 }
 
 .section-title {
@@ -1187,8 +1187,14 @@ section[id],
 }
 
 @media (min-width: 769px) {
-  .legal-page main.container {
-    /* Header-Höhe + etwas Luft, damit die Card sicher nicht überlappt */
-    padding-top: calc(var(--header-h) + 4.2rem);
-  }
+    .legal-page main.container {
+        /* Header-Höhe + etwas Luft, damit die Card sicher nicht überlappt */
+        padding-top: calc(var(--header-h) + 4.2rem);
+    }
+}
+
+footer .legal-details {
+    max-width: 520px;
+    margin-inline: left;
+    background: color-mix(in oklab, #ffffff 4%, transparent);
 }
