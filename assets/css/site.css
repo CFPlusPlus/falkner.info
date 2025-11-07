@@ -1189,6 +1189,6 @@ section[id],
 @media (min-width: 769px) {
   .legal-page main.container {
     /* Header-Höhe + etwas Luft, damit die Card sicher nicht überlappt */
-    padding-top: calc(var(--header-h) + 2.8rem);
+    padding-top: calc(var(--header-h) + 4.2rem);
   }
 }
