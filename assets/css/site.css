@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------------
-   1) TYPOGRAPHY & BASE TOKENS
+   1) DESIGN-TOKENS & BASIS (Root Variablen)
    --------------------------------------------------------------------- */
 :root {
     /* Fonts */
@@ -8,7 +8,7 @@
     --font-head: "Manrope", var(--font-sans);
     --leading: 1.6;
 
-    /* Color palette from logo (default = dark theme baseline) */
+    /* Farben (Dark-Baseline) */
     --primary: #ffc400; /* leuchtendes Gelb-Orange */
     --secondary: #00c6ff; /* helles Türkis */
     --accent: #ff2e6c; /* Magenta-Rot */
@@ -20,20 +20,20 @@
     --shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
     --nav-hover-color: var(--primary);
 
-    /* Glass / Card tokens (Variant C) – dark baseline */
+    /* Glass/Card (Variante C) */
     --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 rgba(255, 255, 255, 0.06) inset,
         0 10px 30px rgba(0, 0, 0, 0.45);
     --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.3));
     --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
     --glass-border: rgba(255, 255, 255, 0.18);
 
-    /* Theme toggle */
+    /* Theme Toggle */
     --toggle-size: 34px;
     --toggle-radius: 10px;
     --toggle-blur: 8px;
     --toggle-border: rgba(255, 255, 255, 0.16);
 
-    /* Background blobs (default / base) */
+    /* Deko-Blobs & Grain */
     --blob1-w: clamp(520px, 82vw, 1500px);
     --blob1-h: clamp(380px, 58vw, 1100px);
     --blob2-w: clamp(420px, 64vw, 1300px);
@@ -44,24 +44,25 @@
     --blob2-x: 82%;
     --blob2-y: 24%;
 
-    --header-h: 72px;
-    /* Safe-Area-Wert, auf Nicht-iOS ist das 0 */
+    /* Header & Safe-Area */
+    --header-h: 72px; /* für sections scroll-margin-top */
+    --header-height: 64px; /* Fallback für mobile JS-Messung */
     --safe-top: env(safe-area-inset-top, 0px);
-    /* wird später per JS gesetzt – Fallback 0 */
-    --vv-top: 0px;
+    --vv-top: 0px; /* wird per JS gesetzt – Fallback */
 }
 
+/* Globaler Top-Offset unter festem Header */
 main {
     padding-top: calc(var(--header-h) + var(--safe-top) + 8px);
 }
 
-/* Dark baseline in html; system auto overrides later if no data-theme */
+/* Dark-Baseline: beeinflusst Form Controls u.ä. */
 html {
     color-scheme: dark;
 }
 
 /* ---------------------------------------------------------------------
-   2) SYSTEM AUTO THEME (prefers-color-scheme) – only if no data-theme
+   2) SYSTEM-AUTO THEME (nur wenn KEIN data-theme verwendet wird)
    --------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html:not([data-theme]) {
@@ -73,14 +74,12 @@ html {
         --border: #e5e7eb;
         --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --nav-hover-color: var(--secondary);
-
-        /* Variant C tokens for system Light */
         --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
         --glass-border: var(--border);
         --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     }
-    /* Social links (system light) */
+    /* Social (system light) */
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
         background: color-mix(in oklab, #ffffff 10%, transparent);
@@ -99,19 +98,18 @@ html {
 }
 
 /* ---------------------------------------------------------------------
-   3) FORCED THEMES
+   3) FORCED THEMES (data-theme)
    --------------------------------------------------------------------- */
-/* Forced LIGHT */
+/* Light erzwingen */
 html[data-theme="light"] {
     color-scheme: light;
     --bg: #fafaff;
     --fg: #1a1a1a;
-    --muted: #4b5563; /* aligned with system light */
+    --muted: #4b5563;
     --card: #ffffff;
     --border: #e5e7eb;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --nav-hover-color: var(--secondary);
-
     --glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
     --glass-border: var(--border);
     --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -127,13 +125,11 @@ html[data-theme="light"] .social-links a:hover {
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
 }
 
-/* Forced DARK */
+/* Dark erzwingen */
 html[data-theme="dark"] {
     color-scheme: dark;
-    /* Dark variables inherit from :root */
     --glass-bg: color-mix(in oklab, #ffffff 8%, transparent);
     --glass-border: rgba(255, 255, 255, 0.16);
-    /* Optionally: --card-shadow-hover: 0 18px 50px rgba(0,0,0,.45); */
 }
 html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
@@ -142,8 +138,53 @@ html[data-theme="dark"] details.legal-details {
 }
 
 /* ---------------------------------------------------------------------
-   4) TYPOGRAPHY SCALES & MICRO-TYPE
+   4) TYPOGRAFIE & MICRO-TYPE
    --------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    line-height: var(--leading);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 16;
+    color: var(--fg);
+    background: radial-gradient(
+            var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+            color-mix(in oklab, var(--secondary) 22%, transparent),
+            transparent 60%
+        ),
+        radial-gradient(
+            var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+            color-mix(in oklab, var(--accent) 18%, transparent),
+            transparent 60%
+        ),
+        linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
+}
+
+/* Subtiles Filmkorn */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
+        radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
+        radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
+    background-size:
+        clamp(160px, 10vw, 260px) clamp(160px, 10vw, 260px),
+        clamp(180px, 12vw, 300px) clamp(180px, 12vw, 300px),
+        clamp(200px, 14vw, 340px) clamp(200px, 14vw, 340px);
+    mix-blend-mode: soft-light;
+}
 
 h1,
 h2,
@@ -183,56 +224,37 @@ b {
     font-weight: 650;
 }
 
-/* ---------------------------------------------------------------------
-   5) RESET / BODY / GLOBAL BACKGROUND
-   --------------------------------------------------------------------- */
-* {
-    box-sizing: border-box;
-}
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: var(--font-sans);
-    line-height: var(--leading);
-    font-weight: 400;
-    font-optical-sizing: auto;
-    font-variation-settings: "opsz" 16;
-    color: var(--fg);
-    background: radial-gradient(
-            var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-            color-mix(in oklab, var(--secondary) 22%, transparent),
-            transparent 60%
-        ),
-        radial-gradient(
-            var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-            color-mix(in oklab, var(--accent) 18%, transparent),
-            transparent 60%
-        ),
-        linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
+/* Light-Schatten-Safety */
+@media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+        --bg: #fafaff;
+        --fg: #1a1a1a;
+        --muted: #555555;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
 }
 
-/* Subtle grain */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.06;
-    background-image: radial-gradient(1px 1px at 25% 18%, #000 50%, transparent 51%),
-        radial-gradient(1px 1px at 66% 72%, #000 50%, transparent 51%),
-        radial-gradient(1px 1px at 10% 80%, #000 50%, transparent 51%);
-    background-size:
-        clamp(160px, 10vw, 260px) clamp(160px, 10vw, 260px),
-        clamp(180px, 12vw, 300px) clamp(180px, 12vw, 300px),
-        clamp(200px, 14vw, 340px) clamp(200px, 14vw, 340px);
-    mix-blend-mode: soft-light;
+/* Viewport-abhängige Blob-Skalen */
+@media (min-width: 768px) {
+    :root {
+        --blob1-w: clamp(700px, 72vw, 1800px);
+        --blob1-h: clamp(500px, 48vw, 1300px);
+        --blob2-w: clamp(560px, 56vw, 1600px);
+        --blob2-h: clamp(410px, 40vw, 1100px);
+        --grain-size: clamp(260px, 10vw, 560px);
+    }
 }
-
-/* Bigger viewports: slightly stronger blobs */
+@media (min-width: 1200px) {
+    :root {
+        --blob1-w: clamp(900px, 64vw, 2100px);
+        --blob1-h: clamp(630px, 44vw, 1500px);
+        --blob2-w: clamp(760px, 52vw, 1900px);
+        --blob2-h: clamp(540px, 36vw, 1300px);
+        --grain-size: clamp(320px, 9vw, 620px);
+    }
+}
 @media (min-width: 1400px) {
     :root {
         --blob1-w: clamp(1200px, 60vw, 2200px);
@@ -254,26 +276,6 @@ body::after {
             linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
     }
 }
-
-/* Blob scale steps */
-@media (min-width: 768px) {
-    :root {
-        --blob1-w: clamp(700px, 72vw, 1800px);
-        --blob1-h: clamp(500px, 48vw, 1300px);
-        --blob2-w: clamp(560px, 56vw, 1600px);
-        --blob2-h: clamp(410px, 40vw, 1100px);
-        --grain-size: clamp(260px, 10vw, 560px);
-    }
-}
-@media (min-width: 1200px) {
-    :root {
-        --blob1-w: clamp(900px, 64vw, 2100px);
-        --blob1-h: clamp(630px, 44vw, 1500px);
-        --blob2-w: clamp(760px, 52vw, 1900px);
-        --blob2-h: clamp(540px, 36vw, 1300px);
-        --grain-size: clamp(320px, 9vw, 620px);
-    }
-}
 @media (min-width: 1800px) {
     :root {
         --blob1-w: clamp(1200px, 58vw, 2800px);
@@ -284,26 +286,15 @@ body::after {
     }
 }
 
-/* System light palette shadow override (safety) */
-@media (prefers-color-scheme: light) {
-    html:not([data-theme]) {
-        --bg: #fafaff;
-        --fg: #1a1a1a;
-        --muted: #555555;
-        --card: #ffffff;
-        --border: #e5e7eb;
-        --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
-}
-
 /* ---------------------------------------------------------------------
-   6) LAYOUT: Header, Nav, Containers, Hero
+   5) LAYOUT: Header, Navigation, Container, Hero
    --------------------------------------------------------------------- */
+/* Fester, glasiger Header inkl. iOS-Jank-Fixes gebündelt */
 header {
-    position: fixed; /* statt sticky */
+    position: fixed;
     inset-inline: 0;
     top: calc(var(--vv-top) + 0px);
-    z-index: 70; 
+    z-index: 70;
     isolation: isolate;
     width: 100%;
     backdrop-filter: saturate(170%) blur(26px);
@@ -311,7 +302,11 @@ header {
     background: color-mix(in oklab, var(--bg) 96%, transparent);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
-    padding-top: var(--safe-top);
+    padding-top: var(--safe-top); /* Notch-Freiraum */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout paint;
 }
 header::before {
     content: "";
@@ -437,9 +432,9 @@ nav a:hover::after {
 }
 
 /* ---------------------------------------------------------------------
-   7) COMPONENTS
+   6) KOMPONENTEN
    --------------------------------------------------------------------- */
-/* Glass CTA */
+/* CTA – Glass */
 .cta {
     display: inline-flex;
     gap: 0.55rem;
@@ -523,12 +518,7 @@ nav a:hover::after {
     }
 }
 
-a.cta {
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-/* CTA immer gleich darstellen – auch wenn besucht */
+/* Verlinkte CTAs: konsistente States */
 a.cta,
 a.cta:link,
 a.cta:visited {
@@ -538,9 +528,12 @@ a.cta:visited {
     text-decoration: none;
 }
 
-/* Hover/Active dürfen bleiben wie definiert */
+a.cta {
+    will-change: transform;
+    transform: translateZ(0);
+}
 
-/* Generic glass helper */
+/* Generischer Glass-Helper */
 .glass {
     background: var(--glass-bg);
     backdrop-filter: blur(22px) saturate(160%);
@@ -639,7 +632,7 @@ footer {
     margin-bottom: 0.6rem;
 }
 .icon-chip .icon {
-    color: white;
+    color: #fff;
     font-size: 1.3rem;
 }
 .chip-cyan {
@@ -771,17 +764,6 @@ html[data-theme="dark"] details.legal-details:hover {
     outline: 2px solid color-mix(in oklab, var(--primary) 60%, transparent);
     outline-offset: 3px;
 }
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
 
 /* Server Status Badge */
 .status-badge {
@@ -811,7 +793,7 @@ html[data-theme="dark"] details.legal-details:hover {
 }
 
 /* ---------------------------------------------------------------------
-   8) ANIMATIONS
+   7) ANIMATIONEN
    --------------------------------------------------------------------- */
 @keyframes pulse {
     0% {
@@ -844,9 +826,8 @@ html[data-theme="dark"] details.legal-details:hover {
 }
 
 /* ---------------------------------------------------------------------
-   9) HEADER EXPANDER (mobile) – header grows downward in-place
+   8) HEADER EXPANDER (Mobile) – Menü wächst im Header
    --------------------------------------------------------------------- */
-
 .menu-toggle-icon {
     display: none;
     background: none;
@@ -937,7 +918,7 @@ html[data-theme="dark"] details.legal-details:hover {
     padding-block: 0.4rem;
 }
 
-/* Desktop → mobile tweaks */
+/* Breakpoints für Header/Container/Hero */
 @media (max-width: 880px) {
     .nav {
         padding: 1rem 1rem;
@@ -976,7 +957,7 @@ html[data-theme="dark"] details.legal-details:hover {
 }
 
 /* ---------------------------------------------------------------------
-   10) THEME TOGGLE (desktop icon-only)
+   9) THEME-TOGGLE (Desktop Icon-only)
    --------------------------------------------------------------------- */
 .theme-toggle {
     inline-size: var(--toggle-size);
@@ -1020,7 +1001,7 @@ html[data-theme="dark"] details.legal-details:hover {
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
-/* Icon color per theme state */
+/* Icon-Farben je Theme */
 html[data-theme="light"] .theme-toggle,
 @media (prefers-color-scheme: light) {
     html:not([data-theme]) .theme-toggle {
@@ -1058,9 +1039,9 @@ html:not([data-theme]) .theme-toggle i {
 }
 
 /* ---------------------------------------------------------------------
-   11) ACCESSIBILITY & SMALL FIXES
+   10) ZUGÄNGLICHKEIT & KLEINE FIXES
    --------------------------------------------------------------------- */
-/* H1 inside .card: smaller + robust on small screens */
+/* H1 in Card auf kleinen Screens */
 @media (max-width: 640px) {
     .card h1 {
         font-size: clamp(1.35rem, 6vw, 1.9rem);
@@ -1074,7 +1055,7 @@ html:not([data-theme]) .theme-toggle i {
     }
 }
 
-/* Scroll-to-Top ----------------------------------------------------------- */
+/* Scroll-to-Top Button */
 .scrolltop {
     position: fixed;
     right: clamp(12px, 2vw, 20px);
@@ -1090,12 +1071,9 @@ html:not([data-theme]) .theme-toggle i {
     background: color-mix(in oklab, var(--bg) 82%, transparent);
     box-shadow: 0 6px 28px color-mix(in oklab, var(--secondary) 20%, transparent);
     color: var(--fg, currentColor);
-
-    /* Startzustand (unsichtbar) */
     opacity: 0;
     transform: translateY(8px) scale(0.96);
     pointer-events: none;
-
     transition:
         opacity 0.25s ease,
         transform 0.25s ease,
@@ -1107,15 +1085,11 @@ html:not([data-theme]) .theme-toggle i {
     font-size: 1rem;
     line-height: 1;
 }
-
-/* Sichtbar, wenn genug gescrolled */
 .scrolltop--visible {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
-
-/* Hover/Focus States */
 .scrolltop:hover {
     box-shadow: 0 10px 36px color-mix(in oklab, var(--secondary) 28%, transparent);
 }
@@ -1123,76 +1097,43 @@ html:not([data-theme]) .theme-toggle i {
     outline: 2px solid color-mix(in oklab, var(--secondary) 42%, transparent);
     outline-offset: 2px;
 }
-
-/* Leichter „Pressed“-Effekt */
 .scrolltop:active {
     transform: translateY(1px) scale(0.98);
 }
 
-/* --- iOS: Tap-Highlight & Focus nur als :focus-visible zeigen --- */
+/* iOS: Tap-Highlight aus & Focus nur :focus-visible */
 a,
 button {
     -webkit-tap-highlight-color: transparent;
 }
-a:focus {
-    outline: none;
-}
+a:focus,
 button:focus {
     outline: none;
 }
-/* deine bestehenden :focus-visible Styles bleiben aktiv */
 
-/* --- Header: iOS Jank Fix & Safe-Area Padding --- */
-header {
-    /* du hast bereits position:fixed; top:0; etc. */
-    padding-top: env(safe-area-inset-top); /* Notch-Freiraum */
-    will-change: transform;
-    transform: translateZ(0); /* eigene Compositing-Layer */
-    backface-visibility: hidden;
-    contain: layout paint; /* verhindert Reflows durch Umgebung */
-}
-
-/* Optional: Für die mobilen Header-Links zusätzlich Tap-Highlight aus */
-.header-expander__links a,
-.menu-toggle-icon,
-.theme-toggle,
-.theme-toggle--btn {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Safe-Area (iPhone-Notch) + Fallback */
-:root {
-    --header-height: 64px; /* Fallback, wird per JS überschrieben */
-    --safe-top: env(safe-area-inset-top, 0px);
-}
-
-/* Mobil: oberen Abstand unter dem sticky Header freihalten */
+/* Safe-Area & Sticky-Abstände für mobile */
 @media (max-width: 768px) {
     main.container {
-        /* etwas Luft: +12px */
         padding-top: calc(var(--header-height) + var(--safe-top) + 12px);
     }
-
-    /* Wenn auf Abschnitte gesprungen wird, nicht vom Header verdecken lassen */
     :where(h1, h2, h3, h4, h5, h6, [id]) {
         scroll-margin-top: calc(var(--header-height) + var(--safe-top) + 12px);
     }
 }
 
+/* Generelle Anker-Offsets (Desktop) */
 section[id],
 [id].anchor-target {
     scroll-margin-top: calc(var(--header-h) + 8px);
 }
 
-/* Standard: keine Focus-Ränder (verhindert rote/ blaue Rahmen überall) */
-:focus {
-    outline: none;
-}
+/* Default: keine Focus-Ränder (wir steuern gezielt weiter unten) */
+:focus,
 :focus-visible {
     outline: none;
 }
 
-/* iOS/Android: nie Markierungen */
+/* Touch-Geräte: NIE Markierungen */
 @media (hover: none) and (pointer: coarse) {
     *:focus,
     *:focus-visible {
@@ -1204,7 +1145,7 @@ section[id],
     }
 }
 
-/* Desktop: Focus-Stile nur, wenn die Seite "using-keyboard" ist */
+/* Desktop: Focus-Stile nur bei Keyboard-Nutzung */
 @media (hover: hover) and (pointer: fine) {
     body.using-keyboard a:focus-visible,
     body.using-keyboard button:focus-visible,
@@ -1215,8 +1156,7 @@ section[id],
         outline: 2px solid var(--accent, #6aa0ff);
         outline-offset: 2px;
     }
-
-    /* Inhaltssektionen (z. B. Impressum/Datenschutz) nie markieren */
+    /* Inhalts-Sektionen (Impressum/Datenschutz) nie markieren */
     section[id]:focus,
     section[id]:focus-visible,
     article[id]:focus,
@@ -1229,7 +1169,7 @@ section[id],
     }
 }
 
-/* Verhindert sichtbare Ränder im Titel-/Header-Menü auf Touch */
+/* Titel-/Header-Menü: auf Touch niemals sichtbare Ränder */
 @media (hover: none) and (pointer: coarse) {
     header :focus,
     header :focus-visible {
