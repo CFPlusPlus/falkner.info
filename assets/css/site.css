@@ -45,10 +45,14 @@
     --blob2-y: 24%;
 
     --header-h: 72px;
+    /* Safe-Area-Wert, auf Nicht-iOS ist das 0 */
+    --safe-top: env(safe-area-inset-top, 0px);
+    /* wird später per JS gesetzt – Fallback 0 */
+    --vv-top: 0px;
 }
 
 main {
-    padding-top: calc(var(--header-h) + 8px);
+    padding-top: calc(var(--header-h) + var(--safe-top) + 8px);
 }
 
 /* Dark baseline in html; system auto overrides later if no data-theme */
@@ -298,8 +302,8 @@ body::after {
 header {
     position: fixed; /* statt sticky */
     inset-inline: 0;
-    top: 0;
-    z-index: 70; /* etwas höher als vorher */
+    top: calc(var(--vv-top) + 0px);
+    z-index: 70; 
     isolation: isolate;
     width: 100%;
     backdrop-filter: saturate(170%) blur(26px);
@@ -307,6 +311,7 @@ header {
     background: color-mix(in oklab, var(--bg) 96%, transparent);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
+    padding-top: var(--safe-top);
 }
 header::before {
     content: "";
@@ -519,23 +524,21 @@ nav a:hover::after {
 }
 
 a.cta {
-  will-change: transform;
-  transform: translateZ(0);
+    will-change: transform;
+    transform: translateZ(0);
 }
-
 
 /* CTA immer gleich darstellen – auch wenn besucht */
 a.cta,
 a.cta:link,
 a.cta:visited {
-  color: var(--fg);
-  background: var(--glass-bg);
-  border-color: var(--glass-border);
-  text-decoration: none;
+    color: var(--fg);
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    text-decoration: none;
 }
 
 /* Hover/Active dürfen bleiben wie definiert */
-
 
 /* Generic glass helper */
 .glass {
@@ -1176,42 +1179,60 @@ header {
     }
 }
 
-section[id], [id].anchor-target {
-  scroll-margin-top: calc(var(--header-h) + 8px);
+section[id],
+[id].anchor-target {
+    scroll-margin-top: calc(var(--header-h) + 8px);
 }
 
 /* Standard: keine Focus-Ränder (verhindert rote/ blaue Rahmen überall) */
-:focus { outline: none; }
-:focus-visible { outline: none; }
+:focus {
+    outline: none;
+}
+:focus-visible {
+    outline: none;
+}
 
 /* iOS/Android: nie Markierungen */
 @media (hover: none) and (pointer: coarse) {
-  *:focus, *:focus-visible { outline: none !important; }
-  a, button { -webkit-tap-highlight-color: transparent; }
+    *:focus,
+    *:focus-visible {
+        outline: none !important;
+    }
+    a,
+    button {
+        -webkit-tap-highlight-color: transparent;
+    }
 }
 
 /* Desktop: Focus-Stile nur, wenn die Seite "using-keyboard" ist */
 @media (hover: hover) and (pointer: fine) {
-  body.using-keyboard a:focus-visible,
-  body.using-keyboard button:focus-visible,
-  body.using-keyboard input:focus-visible,
-  body.using-keyboard select:focus-visible,
-  body.using-keyboard textarea:focus-visible,
-  body.using-keyboard [role="button"]:focus-visible {
-    outline: 2px solid var(--accent, #6aa0ff);
-    outline-offset: 2px;
-  }
+    body.using-keyboard a:focus-visible,
+    body.using-keyboard button:focus-visible,
+    body.using-keyboard input:focus-visible,
+    body.using-keyboard select:focus-visible,
+    body.using-keyboard textarea:focus-visible,
+    body.using-keyboard [role="button"]:focus-visible {
+        outline: 2px solid var(--accent, #6aa0ff);
+        outline-offset: 2px;
+    }
 
-  /* Inhaltssektionen (z. B. Impressum/Datenschutz) nie markieren */
-  section[id]:focus, section[id]:focus-visible,
-  article[id]:focus, article[id]:focus-visible,
-  main[id]:focus, main[id]:focus-visible,
-  [id].anchor-target:focus, [id].anchor-target:focus-visible {
-    outline: none !important;
-  }
+    /* Inhaltssektionen (z. B. Impressum/Datenschutz) nie markieren */
+    section[id]:focus,
+    section[id]:focus-visible,
+    article[id]:focus,
+    article[id]:focus-visible,
+    main[id]:focus,
+    main[id]:focus-visible,
+    [id].anchor-target:focus,
+    [id].anchor-target:focus-visible {
+        outline: none !important;
+    }
 }
 
 /* Verhindert sichtbare Ränder im Titel-/Header-Menü auf Touch */
 @media (hover: none) and (pointer: coarse) {
-  header :focus, header :focus-visible { outline: none !important; }
+    header :focus,
+    header :focus-visible {
+        outline: none !important;
+    }
 }

@@ -291,3 +291,20 @@ if (header) {
     }
   });
 })();
+
+// --- iOS / Safari: Fixed-Header an den visuellen Viewport binden ---
+(() => {
+  if (!window.visualViewport) return; // andere Browser: nichts tun
+
+  const vv = window.visualViewport;
+
+  const update = () => {
+    // wie weit Safari den „sichtbaren Bereich“ nach unten geschoben hat
+    const top = vv.offsetTop || 0;
+    document.documentElement.style.setProperty('--vv-top', top + 'px');
+  };
+
+  update();
+  vv.addEventListener('scroll', update);
+  vv.addEventListener('resize', update);
+})();
