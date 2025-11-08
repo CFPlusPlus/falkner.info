@@ -5,24 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Christian Falkner – Persönliche Webseite (falkner.info)</title>
 
-    <link rel="stylesheet" href="/assets/css/site.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Manrope:wght@600..800&display=swap"
-      rel="stylesheet" />
+    <!-- Theme-Color für Browser-UI -->
+    <meta name="theme-color" content="#050518" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f5ff" media="(prefers-color-scheme: light)" />
 
     <meta name="author" content="Christian Falkner" />
-
-    <!-- Preload -->
-    <link rel="preload" as="image" href="/assets/img/profile.webp" />
-
     <meta
       name="description"
       content="Private Homepage von Christian Falkner – persönliche Infos, Hobbys, Minecraft-Community und berufliche Einblicke." />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://falkner.info/" />
+
+    <!-- Preconnect für Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Manrope:wght@600..800&display=swap"
+      rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/site.css" />
+
+    <!-- Preload wichtiges Bild -->
+    <link rel="preload" as="image" href="/assets/img/profile.webp" />
 
     <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:site_name" content="falkner.info" />
@@ -38,7 +46,7 @@
     <meta name="twitter:description" content="Persönliche Seite über mich, meine Hobbys und Projekte." />
     <meta name="twitter:image" content="https://falkner.info/assets/img/profile.webp" />
 
-    <!-- Optional: Robots (Standard ist index,follow – nur setzen, wenn du explizit sein willst) -->
+    <!-- Optional, aber explizit -->
     <meta name="robots" content="index,follow" />
 
     <!-- Structured Data -->
@@ -84,8 +92,6 @@
               { "@id": "https://falkner.info/#minecraft" }
             ]
           },
-
-          /* ---------- Abschnitt: Über mich ---------- */
           {
             "@type": "AboutPage",
             "@id": "https://falkner.info/#about",
@@ -100,8 +106,6 @@
             "about": { "@id": "https://falkner.info/#person" },
             "description": "Persönliche Website von Christian Falkner mit Kurzprofil und Lebensstationen (Nürnberg, Wolfsburg, Bad Nauheim, Raum München) und dualem Studium im öffentlichen Dienst."
           },
-
-          /* ---------- Abschnitt: Hobbys ---------- */
           {
             "@type": "CollectionPage",
             "@id": "https://falkner.info/#hobbies",
@@ -131,8 +135,6 @@
               }
             ]
           },
-
-          /* ---------- Abschnitt: Minecraft Gilde ---------- */
           {
             "@type": "WebPage",
             "@id": "https://falkner.info/#minecraft",
@@ -161,8 +163,21 @@
       }
     </script>
 
-    <link rel="icon" href="favicon.ico" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- PWA / Android Icons -->
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Icons (Font Awesome) -->
     <script src="https://kit.fontawesome.com/032e8d1ba8.js" crossorigin="anonymous" async></script>
+
+    <!-- Theme-Initialisierung -->
     <script>
       (function () {
         try {
@@ -172,8 +187,11 @@
         } catch (e) {}
       })();
     </script>
+
+    <!-- Main JS -->
     <script src="/assets/js/app.js" defer></script>
   </head>
+
   <body>
     <header class="glass site-header" data-menu="closed">
       <div class="nav" role="navigation" aria-label="Hauptnavigation">
