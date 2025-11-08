@@ -49,6 +49,11 @@
     --header-height: 64px; /* Fallback für mobile JS-Messung */
     --safe-top: env(safe-area-inset-top, 0px);
     --vv-top: 0px; /* wird per JS gesetzt – Fallback */
+
+    /* Scrollbar-Farben (neutral, dezent) */
+    --scroll-bar: color-mix(in oklab, var(--fg) 30%, transparent);
+    --scroll-bar-hover: color-mix(in oklab, var(--fg) 55%, transparent);
+    --stats-background: color-mix(in oklab, var(--bg) 94%, transparent);
 }
 
 /* Globaler Top-Offset unter festem Header */
@@ -59,6 +64,26 @@ main {
 /* Dark-Baseline: beeinflusst Form Controls u.ä. */
 html {
     color-scheme: dark;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar) transparent;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--stats-background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scroll-bar);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-bar-hover);
 }
 
 /* ---------------------------------------------------------------------
