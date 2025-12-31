@@ -28,7 +28,7 @@
     --glass-border: rgba(255, 255, 255, 0.18);
 
     /* Blur-Qualität: wird in kompakten Viewports reduziert, um Chromium/Edge-Seam-Artefakte zu minimieren */
-    --header-blur: 26px;
+    --header-blur: 40px;
     --glass-blur: 22px;
     --card-blur: 18px;
 
@@ -70,7 +70,7 @@
 
 @media (max-width: 1100px) {
     :root {
-        --header-blur: 22px;
+        --header-blur: 34px;
         --glass-blur: 18px;
         --card-blur: 14px;
     }
@@ -128,7 +128,10 @@ html {
     /* Social (system light) */
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
-        --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+        --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
         background: transparent;
         color: var(--fg);
     }
@@ -140,7 +143,10 @@ html {
     html:not([data-theme]) details.legal-details {
         border: 1px solid var(--border);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-        --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+        --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
         background: transparent;
     }
 }
@@ -165,7 +171,10 @@ html[data-theme="light"] {
 }
 html[data-theme="light"] .social-links a {
     border-color: var(--border);
-    --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+    --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
     background: transparent;
     color: var(--fg);
 }
@@ -390,25 +399,39 @@ header.site-header {
     */
     top: 0;
     z-index: 70;
-    isolation: isolate;
+    /*
+      WICHTIG (Chromium/Edge):
+      Damit der Blur im ::before wirklich den Seiteninhalt *hinter* dem Header
+      sampelt, darf der Header kein "backdrop root" sein.
+      Eigenschaften wie transform/filter/isolation können das auslösen und
+      führen dann dazu, dass im Header nur der Tint sichtbar ist (kein Blur).
+    */
+    isolation: auto;
     width: 100%;
-    /* Backdrop-Filter läuft über ::before (Chromium/Edge Seam-Fix) */
-    --bf-bg: color-mix(in oklab, var(--bg) 96%, transparent);
+    /*
+      Backdrop-Filter läuft über ::before (Chromium/Edge Seam-Fix).
+      Weniger "Lila-Stich": nicht mit --bg (violett) gegen transparent mischen,
+      sondern eine neutrale Glas-Tönung nutzen.
+    */
+    --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
     --bf-blur: var(--header-blur);
-    --bf-sat: 170%;
+    --bf-sat: 125%;
     --bf-inset: 0px;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0;
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
     padding-top: var(--safe-top); /* Notch-Freiraum */
     background-clip: padding-box;
-    outline: 1px solid transparent;
+    outline: none;
     backface-visibility: hidden;
-    transform: translateZ(0);
+    transform: none;
     /* iOS: vermeiden, dass Compositing/Containment den fixed-Header "entkoppelt" */
     will-change: auto;
-    filter: blur(0); /* Chromium: reduziert Stale-Pixel/Seams */
+    filter: none;
 
 }
 header.site-header::before {
@@ -431,7 +454,11 @@ header.site-header::after {
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 86%, transparent) 0%, transparent 70%);
+    /* Dezenter Highlight statt violettem Schleier */
+    background: linear-gradient(to bottom,
+        color-mix(in oklab, #ffffff 10%, color-mix(in oklab, var(--bg) 10%, transparent)) 0%,
+        transparent 72%
+    );
 }
 header.site-header > * {
     position: relative;
@@ -685,7 +712,8 @@ a.cta {
     border: 1px solid var(--glass-border);
     box-shadow: var(--card-shadow);
     background-clip: padding-box;
-    outline: 1px solid transparent; /* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
+    outline: none;
+/* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
     backface-visibility: hidden;
     transform: translateZ(0);
 
@@ -800,7 +828,8 @@ header.site-header {
     opacity: 0;
     animation: fadeInUp 1s ease forwards;
     background-clip: padding-box;
-    outline: 1px solid transparent; /* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
+    outline: none;
+/* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
     backface-visibility: hidden;
     will-change: transform;
     transform: translate3d(0, 0, 0);
@@ -860,7 +889,10 @@ footer .heart {
     gap: 1rem;
     margin-top: 1rem;
     position: relative;
-    --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+    --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
     --bf-blur: 10px;
     --bf-sat: 100%;
     --bf-inset: -20px;
@@ -934,7 +966,10 @@ details.legal-details {
     margin-top: 1rem;
     font-size: 0.9rem;
     color: var(--muted);
-    --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+    --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
     --bf-blur: 10px;
     --bf-sat: 150%;
     --bf-inset: -20px;
@@ -1091,7 +1126,7 @@ details.legal-details,
 .theme-toggle,
 .scrolltop {
     background-clip: padding-box;
-    outline: 1px solid transparent;
+    outline: none;
     backface-visibility: hidden;
     transform: translateZ(0);
     filter: blur(0);
@@ -1226,7 +1261,10 @@ details.legal-details,
     block-size: 42px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    --bf-bg: color-mix(in oklab, #ffffff 10%, transparent);
+    --bf-bg: color-mix(in oklab,
+        color-mix(in oklab, #ffffff 12%, transparent) 82%,
+        color-mix(in oklab, var(--bg) 14%, transparent) 18%
+    );
     --bf-blur: 10px;
     --bf-sat: 150%;
     --bf-inset: -16px;
