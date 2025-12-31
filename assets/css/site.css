@@ -361,7 +361,16 @@ b {
 header {
     position: fixed;
     inset-inline: 0;
-    top: calc(var(--vv-top) + 0px);
+    /*
+      iOS Safari "Rubber-Banding" (Überscrollen):
+      Die Kombination aus visualViewport-Offset (JS) + Compositing-Effekten
+      (z. B. backdrop-filter) kann dazu führen, dass ein fixed Header nach
+      einem Overscroll nach unten "wandert" und dort hängen bleibt.
+
+      Deshalb: Header immer strikt am Viewport-Top halten.
+      (Safe-Area wird weiterhin über padding-top berücksichtigt.)
+    */
+    top: 0;
     z-index: 70;
     isolation: isolate;
     width: 100%;
@@ -371,10 +380,8 @@ header {
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
     padding-top: var(--safe-top); /* Notch-Freiraum */
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    contain: layout paint;
+    /* iOS: vermeiden, dass Compositing/Containment den fixed-Header "entkoppelt" */
+    will-change: auto;
 }
 header::before {
     content: "";
@@ -387,6 +394,18 @@ header::before {
 header > * {
     position: relative;
     z-index: 1;
+}
+
+/*
+  iOS Safari: "position:fixed" + "backdrop-filter" kann beim Overscroll/"Rubber-Banding"
+  zu Rendering-Glitches führen (Header wirkt plötzlich nicht mehr wirklich fixed).
+  Fallback: Blur auf iOS deaktivieren, damit der Header stabil bleibt.
+*/
+@supports (-webkit-touch-callout: none) {
+    header {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
 }
 
 .nav {

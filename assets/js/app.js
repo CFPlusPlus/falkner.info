@@ -305,19 +305,8 @@ if (header) {
   });
 })();
 
-// --- iOS / Safari: Fixed-Header an den visuellen Viewport binden ---
-(() => {
-  if (!window.visualViewport) return; // andere Browser: nichts tun
-
-  const vv = window.visualViewport;
-
-  const update = () => {
-    // wie weit Safari den „sichtbaren Bereich“ nach unten geschoben hat
-    const top = vv.offsetTop || 0;
-    document.documentElement.style.setProperty('--vv-top', top + 'px');
-  };
-
-  update();
-  vv.addEventListener('scroll', update);
-  vv.addEventListener('resize', update);
-})();
+// --- iOS / Safari: Hinweis ---
+// Früher wurde der Header per visualViewport.offsetTop verschoben.
+// Auf neueren iOS-Versionen kann das beim Overscroll dazu führen, dass der
+// Header nach unten "wandert" und dort hängen bleibt.
+// Der Header wird deshalb rein per CSS strikt bei top:0 gehalten.
