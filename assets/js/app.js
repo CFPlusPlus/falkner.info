@@ -305,8 +305,4 @@ if (header) {
   });
 })();
 
-// --- iOS / Safari: Hinweis ---
-// Früher wurde der Header per visualViewport.offsetTop verschoben.
-// Auf neueren iOS-Versionen kann das beim Overscroll dazu führen, dass der
-// Header nach unten "wandert" und dort hängen bleibt.
-// Der Header wird deshalb rein per CSS strikt bei top:0 gehalten.
+;

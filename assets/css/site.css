@@ -27,11 +27,6 @@
     --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
     --glass-border: rgba(255, 255, 255, 0.18);
 
-    /* Blur-Qualität: einheitlich auf allen Viewports (Seam-Fix erfolgt über Pseudo-Layer) */
-    --header-blur: 40px;
-    --glass-blur: 22px;
-    --card-blur: 18px;
-
     /* Theme Toggle */
     --toggle-size: 34px;
     --toggle-radius: 10px;
@@ -119,26 +114,18 @@ html {
     /* Social (system light) */
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
-        --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-        background: transparent;
+        background: color-mix(in oklab, #ffffff 10%, transparent);
         color: var(--fg);
     }
     html:not([data-theme]) .social-links a:hover {
         box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
-    --bf-bg: color-mix(in oklab, var(--secondary) 14%, transparent);
+        background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
     /* Legal (system light) */
     html:not([data-theme]) details.legal-details {
         border: 1px solid var(--border);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-        --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-        background: transparent;
+        background: color-mix(in oklab, #ffffff 10%, transparent);
     }
 }
 
@@ -162,16 +149,12 @@ html[data-theme="light"] {
 }
 html[data-theme="light"] .social-links a {
     border-color: var(--border);
-    --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 10%, transparent);
     color: var(--fg);
 }
 html[data-theme="light"] .social-links a:hover {
     box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
-    --bf-bg: color-mix(in oklab, var(--secondary) 14%, transparent);
+    background: color-mix(in oklab, var(--secondary) 14%, transparent);
 }
 
 /* Dark erzwingen */
@@ -182,8 +165,7 @@ html[data-theme="dark"] {
 }
 html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
-    --bf-bg: color-mix(in oklab, #ffffff 8%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 8%, transparent);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
@@ -376,98 +358,35 @@ b {
    5) LAYOUT: Header, Navigation, Container, Hero
    --------------------------------------------------------------------- */
 /* Fester, glasiger Header inkl. iOS-Jank-Fixes gebündelt */
-header.site-header {
+header {
     position: fixed;
     inset-inline: 0;
-    /*
-      iOS Safari "Rubber-Banding" (Überscrollen):
-      Die Kombination aus visualViewport-Offset (JS) + Compositing-Effekten
-      (z. B. backdrop-filter) kann dazu führen, dass ein fixed Header nach
-      einem Overscroll nach unten "wandert" und dort hängen bleibt.
-
-      Deshalb: Header immer strikt am Viewport-Top halten.
-      (Safe-Area wird weiterhin über padding-top berücksichtigt.)
-    */
     top: 0;
-    z-index: 70;
-    /*
-      WICHTIG (Chromium/Edge):
-      Damit der Blur im ::before wirklich den Seiteninhalt *hinter* dem Header
-      sampelt, darf der Header kein "backdrop root" sein.
-      Eigenschaften wie transform/filter/isolation können das auslösen und
-      führen dann dazu, dass im Header nur der Tint sichtbar ist (kein Blur).
-    */
-    isolation: auto;
+z-index: 70;
+    isolation: isolate;
     width: 100%;
-    /*
-      Backdrop-Filter läuft über ::before (Chromium/Edge Seam-Fix).
-      Weniger "Lila-Stich": nicht mit --bg (violett) gegen transparent mischen,
-      sondern eine neutrale Glas-Tönung nutzen.
-    */
-    --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-    --bf-blur: var(--header-blur);
-    --bf-sat: 125%;
-    --bf-inset: 0px;
-    background: transparent;
-    border: 0;
-    border-bottom: 0;
+    backdrop-filter: saturate(170%) blur(26px);
+    -webkit-backdrop-filter: saturate(170%) blur(26px);
+    background: color-mix(in oklab, var(--bg) 96%, transparent);
+    border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
     padding-top: var(--safe-top); /* Notch-Freiraum */
-    background-clip: padding-box;
-    outline: none;
+    will-change: transform;
+    transform: translateZ(0);
     backface-visibility: hidden;
-    transform: none;
-    /* iOS: vermeiden, dass Compositing/Containment den fixed-Header "entkoppelt" */
-    will-change: auto;
-    filter: none;
-
+    contain: layout paint;
 }
-header.site-header::before {
-    /* Blur + Tint auf eigenem Layer, um Chromium/Edge-Seams zu vermeiden */
-    content: "";
-    position: absolute;
-    inset: var(--bf-inset, 0px);
-    /* Nicht-negatives z-index: Chromium/Edge zeigt backdrop-filter sonst teils ohne Blur (nur Tint) */
-    z-index: 0;
-    pointer-events: none;
-    background: var(--bf-bg, transparent);
-    backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%)) brightness(var(--bf-bright, 1)) contrast(var(--bf-contrast, 1));
-    -webkit-backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%)) brightness(var(--bf-bright, 1)) contrast(var(--bf-contrast, 1));
-    transform: translateZ(0) scale(1.001);
-}
-header.site-header::after {
-    /* Dezente Glanz-Kante oben – separat vom Blur-Layer */
+header::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
-    /* Dezenter Highlight statt violettem Schleier */
-    background: linear-gradient(to bottom,
-        color-mix(in oklab, #ffffff 10%, color-mix(in oklab, var(--bg) 10%, transparent)) 0%,
-        transparent 72%
-    );
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 86%, transparent) 0%, transparent 70%);
 }
-header.site-header > * {
+header > * {
     position: relative;
-    z-index: 2;
-}
-
-/*
-  iOS Safari unterstützt backdrop-filter zuverlässig genug für unseren Header.
-  Wir deaktivieren Blur hier NICHT, damit der Glass-Effekt auf allen Plattformen
-  konsistent aussieht.
-*/
-
-@supports (-webkit-touch-callout: none) {
-    /* iOS: Das minimale Overscan-Scaling (gegen Chromium-Seams) ist hier nicht nötig
-       und kann bei "Rubber-Banding" zu leichten Layer-Jitter führen. */
-    header.site-header::before {
-        transform: translateZ(0);
-    }
+    z-index: 1;
 }
 
 .nav {
@@ -602,13 +521,11 @@ nav a:hover::after {
     border-radius: 14px;
     text-decoration: none;
     cursor: pointer;
-    --bf-bg: var(--glass-bg);
-    --bf-blur: 14px;
-    --bf-sat: 160%;
-    --bf-inset: -18px;
-    background: transparent;
+    background: var(--glass-bg);
     color: var(--fg);
     border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.08) inset,
         0 -1px 0 rgba(255, 255, 255, 0.06) inset,
@@ -622,7 +539,7 @@ nav a:hover::after {
 }
 .cta:hover,
 .cta:active {
-    --bf-bg: color-mix(in oklab, var(--secondary) 10%, var(--glass-bg));
+    background: color-mix(in oklab, var(--secondary) 10%, var(--glass-bg));
     border-color: color-mix(in oklab, var(--secondary) 26%, var(--glass-border));
     box-shadow:
         0 12px 28px color-mix(in oklab, var(--secondary) 26%, rgba(0, 0, 0, 0.35)),
@@ -639,13 +556,12 @@ nav a:hover::after {
     border-radius: 16px;
 }
 .cta--tint {
-    --bf-bg: color-mix(in oklab, var(--secondary) 16%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, var(--secondary) 16%, transparent);
     border-color: color-mix(in oklab, var(--secondary) 30%, var(--glass-border));
 }
 .cta--tint:hover,
 .cta--tint:active {
-    --bf-bg: color-mix(in oklab, var(--secondary) 26%, transparent);
+    background: color-mix(in oklab, var(--secondary) 26%, transparent);
     border-color: color-mix(in oklab, var(--secondary) 38%, var(--glass-border));
     box-shadow:
         0 14px 34px color-mix(in oklab, var(--secondary) 34%, rgba(0, 0, 0, 0.35)),
@@ -684,8 +600,7 @@ a.cta,
 a.cta:link,
 a.cta:visited {
     color: var(--fg);
-    --bf-bg: var(--glass-bg);
-    background: transparent;
+    background: var(--glass-bg);
     border-color: var(--glass-border);
     text-decoration: none;
 }
@@ -697,99 +612,11 @@ a.cta {
 
 /* Generischer Glass-Helper */
 .glass {
-    --bf-bg: var(--glass-bg);
-    --bf-blur: var(--glass-blur);
-    --bf-sat: 160%;
-    --bf-inset: -22px;
-    background: transparent;
+    background: var(--glass-bg);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
     border: 1px solid var(--glass-border);
     box-shadow: var(--card-shadow);
-    background-clip: padding-box;
-    outline: none;
-/* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
-    backface-visibility: hidden;
-    transform: translateZ(0);
-
-}
-
-/* ---------------------------------------------------------------------
-   6.x) BACKDROP-FILTER AUF PSEUDO-ELEMENT (letzte Eskalationsstufe)
-   - Chromium/Edge kann bei backdrop-filter in Kombination mit Resize/Overlays
-     1px-Seams/Hairlines rendern. Auf einem eigenen Layer (Pseudo-Element)
-     ist das in der Praxis deutlich stabiler.
-   --------------------------------------------------------------------- */
-
-/* Alle "Glass"-Flächen bekommen eine eigene Backdrop-Layer-Box */
-.glass:not(.site-header),
-.card,
-.cta,
-.timeline,
-.icon-chip,
-details.legal-details,
-.social-links a,
-.status-badge,
-.theme-toggle,
-.theme-toggle--btn,
-.scrolltop {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden; /* clippt die übergroße Blur-Fläche (bf-inset) zuverlässig */
-}
-
-/* Der eigentliche Blur-/Tint-Layer */
-.glass:not(.site-header)::before,
-.card::before,
-.cta::before,
-.timeline::before,
-.icon-chip::before,
-details.legal-details::before,
-.social-links a::before,
-.status-badge::before,
-.theme-toggle::before,
-.theme-toggle--btn::before,
-.scrolltop::before {
-    content: "";
-    position: absolute;
-    inset: var(--bf-inset, 0px);
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: -1; /* sicher hinter Inhalt */
-    background: var(--bf-bg, transparent);
-    backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%));
-    -webkit-backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%));
-    transform: translateZ(0) scale(1.001);
-}
-
-
-/* ---------------------------------------------------------------------
-   6.x.a) OVERRIDES FÜR PSEUDO-BLUR (Bugfixes)
-   - Header muss fixed bleiben (nicht durch .glass-Helper überschrieben)
-   - Timeline-Dots dürfen links überstehen (kein overflow-clipping)
-   - Pill-CTAs: Blur-Layer ohne Overscan, damit keine sichtbaren Ecken entstehen
-   --------------------------------------------------------------------- */
-
-/* Header: bleibt fixed und nutzt seinen eigenen Blur-Layer (siehe header.site-header::before) */
-header.site-header {
-    position: fixed;
-}
-
-/* Timeline: Dots sollen über den Kasten hinausgehen */
-.timeline {
-    overflow: visible;
-    --bf-inset: 0px; /* kein Overscan -> kein Herausstehen des Blur-Layers */
-}
-.timeline::before {
-    inset: 0; /* Blur-Layer exakt im Kasten */
-    transform: translateZ(0); /* keine Scale -> kein "Bleed" nach außen */
-}
-
-/* Pill-CTAs: Overscan deaktivieren, damit die Rundung sauber bleibt */
-.cta--pill {
-    --bf-inset: 0px;
-}
-.cta--pill::before {
-    inset: 0;
-    transform: translateZ(0);
 }
 
 /* Cards Grid */
@@ -806,11 +633,9 @@ header.site-header {
 
 /* Card */
 .card {
-    --bf-bg: color-mix(in oklab, #ffffff 12%, transparent);
-    --bf-blur: var(--card-blur);
-    --bf-sat: 150%;
-    --bf-inset: -24px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 12%, transparent);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 18px;
     padding: 1.1rem;
@@ -820,19 +645,9 @@ header.site-header {
         box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeInUp 1s ease forwards;
-    background-clip: padding-box;
-    outline: none;
-/* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
-    backface-visibility: hidden;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    overflow: hidden; /* clippt Backdrop-Filter sauber innerhalb der Rundung */
-    isolation: isolate;
-    filter: blur(0); /* Chromium: reduziert Stale-Pixel/Seams bei Resize & UI-Overlays */
-
 }
 .card:hover {
-    transform: translate3d(0, -4px, 0);
+    transform: translateY(-4px);
     box-shadow: var(--card-shadow-hover);
 }
 
@@ -882,14 +697,8 @@ footer .heart {
     gap: 1rem;
     margin-top: 1rem;
     position: relative;
-    --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-    --bf-blur: 10px;
-    --bf-sat: 100%;
-    --bf-inset: -20px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 10%, transparent);
+    backdrop-filter: blur(10px);
     border-radius: 16px;
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.18) inset,
@@ -922,11 +731,8 @@ footer .heart {
     height: 2.5rem;
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.22);
-    --bf-bg: rgba(255, 255, 255, 0.06);
-    --bf-blur: 12px;
-    --bf-sat: 150%;
-    --bf-inset: -14px;
-    background: transparent;
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
     margin-bottom: 0.6rem;
 }
 .icon-chip .icon {
@@ -934,20 +740,16 @@ footer .heart {
     font-size: 1.3rem;
 }
 .chip-cyan {
-    --bf-bg: color-mix(in oklab, var(--secondary) 28%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, var(--secondary) 28%, transparent);
 }
 .chip-magenta {
-    --bf-bg: color-mix(in oklab, var(--accent) 28%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, var(--accent) 28%, transparent);
 }
 .chip-yellow {
-    --bf-bg: color-mix(in oklab, var(--primary) 28%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, var(--primary) 28%, transparent);
 }
 .chip-amber {
-    --bf-bg: linear-gradient(135deg, rgba(255, 200, 0, 0.25), rgba(255, 145, 0, 0.25));
-    background: transparent;
+    background: linear-gradient(135deg, rgba(255, 200, 0, 0.25), rgba(255, 145, 0, 0.25));
     border: 1px solid rgba(255, 183, 0, 0.35);
     box-shadow:
         0 6px 20px rgba(255, 170, 0, 0.25) inset,
@@ -959,17 +761,12 @@ details.legal-details {
     margin-top: 1rem;
     font-size: 0.9rem;
     color: var(--muted);
-    --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-    --bf-blur: 10px;
-    --bf-sat: 150%;
-    --bf-inset: -20px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 10%, transparent);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 0.6rem 1rem;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
     transition:
         box-shadow 0.25s ease,
@@ -1019,8 +816,7 @@ details.legal-details .legal-content {
     animation: fadeIn 0.35s ease;
 }
 html[data-theme="dark"] details.legal-details {
-    --bf-bg: color-mix(in oklab, #ffffff 8%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 8%, transparent);
     border-color: rgba(255, 255, 255, 0.16);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
@@ -1050,12 +846,10 @@ html[data-theme="dark"] details.legal-details:hover {
     align-items: center;
     justify-content: center;
     color: var(--fg);
-    --bf-bg: color-mix(in oklab, #ffffff 12%, transparent);
-    --bf-blur: 10px;
-    --bf-sat: 150%;
-    --bf-inset: -16px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 12%, transparent);
     border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
     text-decoration: none;
     font-size: 1.15rem;
     transition:
@@ -1068,7 +862,7 @@ html[data-theme="dark"] details.legal-details:hover {
     transform: translateY(-3px);
     color: color-mix(in oklab, var(--secondary) 85%, white 15%);
     box-shadow: 0 10px 28px color-mix(in oklab, var(--secondary) 30%, rgba(0, 0, 0, 0.35));
-    --bf-bg: color-mix(in oklab, var(--secondary) 18%, transparent);
+    background: color-mix(in oklab, var(--secondary) 18%, transparent);
 }
 .social-links a:focus-visible {
     outline: 2px solid color-mix(in oklab, var(--primary) 60%, transparent);
@@ -1082,11 +876,9 @@ html[data-theme="dark"] details.legal-details:hover {
     gap: 0.4rem;
     padding: 0.25rem 0.6rem;
     border-radius: 999px;
-    --bf-bg: rgba(255, 255, 255, 0.06);
-    --bf-blur: 6px;
-    --bf-sat: 100%;
-    --bf-inset: -14px;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.95rem;
     line-height: 1;
@@ -1102,49 +894,6 @@ html[data-theme="dark"] details.legal-details:hover {
 .status-badge.online .dot {
     background: #22c55e;
     box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
-}
-
-
-/* ---------------------------------------------------------------------
-   Chromium/Edge: zusätzlicher Backdrop-Filter Seam-Fix
-   - Artefakte treten besonders bei High-DPI + nicht-maximierten Fenstern auf,
-     weil Backdrop-Filter-Flächen intern gekachelt/gerundet werden.
-   - Diese Regeln stabilisieren das Compositing (ohne den Look zu ändern).
-   --------------------------------------------------------------------- */
-details.legal-details,
-.social-links a,
-.icon-chip,
-.status-badge,
-.timeline,
-.theme-toggle,
-.scrolltop {
-    background-clip: padding-box;
-    outline: none;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    filter: blur(0);
-}
-
-/* Bei diesen Elementen hilft zusätzliches Clipping sehr zuverlässig */
-details.legal-details,
-.social-links a,
-.icon-chip,
-.status-badge,
-.theme-toggle,
-.scrolltop {
-    overflow: hidden;
-    isolation: isolate;
-}
-
-/* Timeline: Dots sollen links überstehen (darf NICHT geclippt werden)
-   Gleichzeitig kein Overscan/Scale beim Blur-Layer, damit keine Kanten sichtbar werden. */
-.timeline {
-    overflow: visible;
-    --bf-inset: 0px;
-}
-.timeline::before {
-    inset: 0;
-    transform: translateZ(0);
 }
 
 /* ---------------------------------------------------------------------
@@ -1164,11 +913,11 @@ details.legal-details,
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translate3d(0, 20px, 0);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0);
+        transform: translateY(0);
     }
 }
 @keyframes fadeIn {
@@ -1254,15 +1003,10 @@ details.legal-details,
     block-size: 42px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    --bf-bg: color-mix(in oklab,
-        color-mix(in oklab, #ffffff 12%, transparent) 82%,
-        color-mix(in oklab, var(--bg) 14%, transparent) 18%
-    );
-    --bf-blur: 10px;
-    --bf-sat: 150%;
-    --bf-inset: -16px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 10%, transparent);
     color: var(--fg);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
     cursor: pointer;
 }
 .theme-toggle--btn:hover,
@@ -1329,13 +1073,11 @@ details.legal-details,
     margin: 0;
     border: 1px solid var(--toggle-border);
     border-radius: var(--toggle-radius);
-    --bf-bg: color-mix(in oklab, #ffffff 8%, transparent);
-    --bf-blur: var(--toggle-blur);
-    --bf-sat: 120%;
-    --bf-inset: -16px;
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 8%, transparent);
     color: var(--fg);
     cursor: pointer;
+    backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--toggle-blur)) saturate(120%);
     box-shadow: none;
     transition:
         background-color 0.2s ease,
@@ -1351,11 +1093,11 @@ details.legal-details,
         opacity 0.2s ease;
 }
 .theme-toggle:hover {
-    --bf-bg: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
+    background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
     border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
 }
 .theme-toggle:active {
-    --bf-bg: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
+    background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
     border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
 }
 .theme-toggle:focus-visible {
@@ -1364,21 +1106,15 @@ details.legal-details,
 }
 
 /* Icon-Farben je Theme */
-html[data-theme="light"] .theme-toggle {
-    --bf-bg: color-mix(in oklab, #ffffff 70%, transparent);
-    background: transparent;
-    border-color: var(--border);
-}
+html[data-theme="light"] .theme-toggle,
 @media (prefers-color-scheme: light) {
     html:not([data-theme]) .theme-toggle {
-        --bf-bg: color-mix(in oklab, #ffffff 70%, transparent);
-        background: transparent;
+        background: color-mix(in oklab, #ffffff 70%, transparent);
         border-color: var(--border);
     }
 }
 html[data-theme="dark"] .theme-toggle {
-    --bf-bg: color-mix(in oklab, #ffffff 6%, transparent);
-    background: transparent;
+    background: color-mix(in oklab, #ffffff 6%, transparent);
     border-color: rgba(255, 255, 255, 0.14);
 }
 html[data-theme="light"] .theme-toggle i {
@@ -1434,11 +1170,9 @@ html:not([data-theme]) .theme-toggle i {
     place-items: center;
     border-radius: 9999px;
     border: 1px solid var(--border);
-    --bf-bg: color-mix(in oklab, var(--bg) 82%, transparent);
-    --bf-blur: 20px;
-    --bf-sat: 180%;
-    --bf-inset: -26px;
-    background: transparent;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
     box-shadow: 0 6px 28px color-mix(in oklab, var(--secondary) 20%, transparent);
     color: var(--fg, currentColor);
     opacity: 0;
@@ -1559,3 +1293,71 @@ footer .legal-details {
     margin-inline: left;
     background: color-mix(in oklab, #ffffff 4%, transparent);
 }
+
+/* === UNIFORM HEADER GLASS OVERRIDE === */
+:root {
+  --header-uniform-blur: 26px;
+  --header-uniform-sat: 170%;
+  /* dezente lila Tönung, aber klar „glasig“ */
+  --header-uniform-tint: color-mix(in oklab, #ffffff 10%, color-mix(in oklab, var(--bg) 8%, transparent));
+  --header-uniform-highlight: linear-gradient(to bottom,
+    color-mix(in oklab, #ffffff 18%, transparent),
+    color-mix(in oklab, #ffffff 4%, transparent)
+  );
+}
+
+header.site-header.glass {
+  position: fixed;
+  inset-inline: 0;
+  top: 0 !important;
+  z-index: 70;
+
+  /* Header selbst bleibt transparent – Blur liegt auf ::before */
+  background: transparent !important;
+
+  /* Keine „Linie“ / keine Extra-Ränder */
+  border: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+
+  /* WICHTIG: Header darf kein Backdrop-Root sein */
+  transform: none !important;
+  filter: none !important;
+  contain: none !important;
+  isolation: auto !important;
+
+  /* falls irgendwo noch direkt ein backdrop-filter sitzt */
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+header.site-header.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: var(--header-uniform-tint);
+
+  /* Einheitlicher Blur auf ALLEN Größen/Plattformen */
+  -webkit-backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
+  backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
+
+  /* Seam-Artefakt-Fix (Chromium): eigenes Compositing */
+  transform: translateZ(0);
+}
+
+header.site-header.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--header-uniform-highlight);
+  transform: translateZ(0);
+}
+
+header.site-header.glass > * {
+  position: relative;
+  z-index: 2;
+}
+
