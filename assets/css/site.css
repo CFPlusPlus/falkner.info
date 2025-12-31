@@ -27,6 +27,11 @@
     --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
     --glass-border: rgba(255, 255, 255, 0.18);
 
+    /* Blur-Qualität: wird in kompakten Viewports reduziert, um Chromium/Edge-Seam-Artefakte zu minimieren */
+    --header-blur: 26px;
+    --glass-blur: 22px;
+    --card-blur: 18px;
+
     /* Theme Toggle */
     --toggle-size: 34px;
     --toggle-radius: 10px;
@@ -62,6 +67,15 @@
     --scroll-bar-hover: color-mix(in oklab, var(--fg) 55%, transparent);
     --stats-background: color-mix(in oklab, var(--bg) 94%, transparent);
 }
+
+@media (max-width: 1100px) {
+    :root {
+        --header-blur: 22px;
+        --glass-blur: 18px;
+        --card-blur: 14px;
+    }
+}
+
 
 /* Globaler Top-Offset unter festem Header */
 main {
@@ -374,14 +388,20 @@ header {
     z-index: 70;
     isolation: isolate;
     width: 100%;
-    backdrop-filter: saturate(170%) blur(26px);
-    -webkit-backdrop-filter: saturate(170%) blur(26px);
+    backdrop-filter: saturate(170%) blur(var(--header-blur));
+    -webkit-backdrop-filter: saturate(170%) blur(var(--header-blur));
     background: color-mix(in oklab, var(--bg) 96%, transparent);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
     padding-top: var(--safe-top); /* Notch-Freiraum */
+    background-clip: padding-box;
+    outline: 1px solid transparent;
+    backface-visibility: hidden;
+    transform: translateZ(0);
     /* iOS: vermeiden, dass Compositing/Containment den fixed-Header "entkoppelt" */
     will-change: auto;
+    filter: blur(0); /* Chromium: reduziert Stale-Pixel/Seams */
+
 }
 header::before {
     content: "";
@@ -632,10 +652,15 @@ a.cta {
 /* Generischer Glass-Helper */
 .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
     border: 1px solid var(--glass-border);
     box-shadow: var(--card-shadow);
+    background-clip: padding-box;
+    outline: 1px solid transparent; /* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
+    backface-visibility: hidden;
+    transform: translateZ(0);
+
 }
 
 /* Cards Grid */
@@ -653,8 +678,8 @@ a.cta {
 /* Card */
 .card {
     background: color-mix(in oklab, #ffffff 12%, transparent);
-    backdrop-filter: blur(18px) saturate(150%);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(var(--card-blur)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--card-blur)) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 18px;
     padding: 1.1rem;
@@ -664,9 +689,18 @@ a.cta {
         box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeInUp 1s ease forwards;
+    background-clip: padding-box;
+    outline: 1px solid transparent; /* Chromium/Edge: reduziert Hairline-/Seam-Artefakte */
+    backface-visibility: hidden;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    overflow: hidden; /* clippt Backdrop-Filter sauber innerhalb der Rundung */
+    isolation: isolate;
+    filter: blur(0); /* Chromium: reduziert Stale-Pixel/Seams bei Resize & UI-Overlays */
+
 }
 .card:hover {
-    transform: translateY(-4px);
+    transform: translate3d(0, -4px, 0);
     box-shadow: var(--card-shadow-hover);
 }
 
@@ -915,6 +949,39 @@ html[data-theme="dark"] details.legal-details:hover {
     box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
 }
 
+
+/* ---------------------------------------------------------------------
+   Chromium/Edge: zusätzlicher Backdrop-Filter Seam-Fix
+   - Artefakte treten besonders bei High-DPI + nicht-maximierten Fenstern auf,
+     weil Backdrop-Filter-Flächen intern gekachelt/gerundet werden.
+   - Diese Regeln stabilisieren das Compositing (ohne den Look zu ändern).
+   --------------------------------------------------------------------- */
+details.legal-details,
+.social-links a,
+.icon-chip,
+.status-badge,
+.timeline,
+.theme-toggle,
+.scroll-top {
+    background-clip: padding-box;
+    outline: 1px solid transparent;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    filter: blur(0);
+}
+
+/* Bei diesen Elementen hilft zusätzliches Clipping sehr zuverlässig */
+details.legal-details,
+.social-links a,
+.icon-chip,
+.status-badge,
+.timeline,
+.theme-toggle,
+.scroll-top {
+    overflow: hidden;
+    isolation: isolate;
+}
+
 /* ---------------------------------------------------------------------
    7) ANIMATIONEN
    --------------------------------------------------------------------- */
@@ -932,11 +999,11 @@ html[data-theme="dark"] details.legal-details:hover {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translate3d(0, 20px, 0);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
     }
 }
 @keyframes fadeIn {
