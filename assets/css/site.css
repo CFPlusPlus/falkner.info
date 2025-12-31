@@ -27,7 +27,7 @@
     --glass-bg: color-mix(in oklab, #ffffff 14%, transparent);
     --glass-border: rgba(255, 255, 255, 0.18);
 
-    /* Blur-Qualität: wird in kompakten Viewports reduziert, um Chromium/Edge-Seam-Artefakte zu minimieren */
+    /* Blur-Qualität: einheitlich auf allen Viewports (Seam-Fix erfolgt über Pseudo-Layer) */
     --header-blur: 40px;
     --glass-blur: 22px;
     --card-blur: 18px;
@@ -67,15 +67,6 @@
     --scroll-bar-hover: color-mix(in oklab, var(--fg) 55%, transparent);
     --stats-background: color-mix(in oklab, var(--bg) 94%, transparent);
 }
-
-@media (max-width: 1100px) {
-    :root {
-        --header-blur: 34px;
-        --glass-blur: 18px;
-        --card-blur: 14px;
-    }
-}
-
 
 /* Globaler Top-Offset unter festem Header */
 main {
@@ -443,8 +434,8 @@ header.site-header::before {
     z-index: 0;
     pointer-events: none;
     background: var(--bf-bg, transparent);
-    backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%));
-    -webkit-backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%));
+    backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%)) brightness(var(--bf-bright, 1)) contrast(var(--bf-contrast, 1));
+    -webkit-backdrop-filter: blur(var(--bf-blur, 0px)) saturate(var(--bf-sat, 100%)) brightness(var(--bf-bright, 1)) contrast(var(--bf-contrast, 1));
     transform: translateZ(0) scale(1.001);
 }
 header.site-header::after {
@@ -466,14 +457,16 @@ header.site-header > * {
 }
 
 /*
-  iOS Safari: "position:fixed" + "backdrop-filter" kann beim Overscroll/"Rubber-Banding"
-  zu Rendering-Glitches führen (Header wirkt plötzlich nicht mehr wirklich fixed).
-  Fallback: Blur auf iOS deaktivieren, damit der Header stabil bleibt.
+  iOS Safari unterstützt backdrop-filter zuverlässig genug für unseren Header.
+  Wir deaktivieren Blur hier NICHT, damit der Glass-Effekt auf allen Plattformen
+  konsistent aussieht.
 */
+
 @supports (-webkit-touch-callout: none) {
+    /* iOS: Das minimale Overscan-Scaling (gegen Chromium-Seams) ist hier nicht nötig
+       und kann bei "Rubber-Banding" zu leichten Layer-Jitter führen. */
     header.site-header::before {
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        transform: translateZ(0);
     }
 }
 
