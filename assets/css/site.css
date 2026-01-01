@@ -235,6 +235,19 @@ body {
 
 }
 
+/*
+  iOS Safari: "background-attachment: fixed" sorgt häufig dafür, dass die
+  radialen Farb-Blobs wie "festgeklebt" wirken (und/oder ruckelig werden).
+  Auf Touch-Geräten lassen wir den Background deshalb mitscrollen.
+*/
+@supports (-webkit-touch-callout: none) {
+    @media (hover: none) and (pointer: coarse) {
+        body {
+            background-attachment: scroll;
+        }
+    }
+}
+
 /* Hintergrund-Blobs laufen direkt über <body> (s. oben).
    => iOS/Safari zeigt fixed Pseudo-Elemente mit negativem z-index teils nicht zuverlässig. */
 body::before {

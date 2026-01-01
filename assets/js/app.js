@@ -25,61 +25,6 @@
   }
 })();
 
-// --- Theme-Toggle (Light → Dark → Auto) ---
-(() => {
-  const KEY = "theme-choice"; // "light" | "dark" | "auto"
-  const root = document.documentElement;
-  const btn = document.getElementById("themeToggle");
-  const icon = btn ? btn.querySelector("i") : null;
-  const order = ["light", "dark", "auto"];
-
-  function setIcon(choice) {
-    if (!icon) return;
-    icon.className =
-      "fa-solid " + (choice === "light" ? "fa-sun" : choice === "dark" ? "fa-moon" : "fa-circle-half-stroke");
-  }
-  function apply(choice) {
-    if (choice === "light") root.setAttribute("data-theme", "light");
-    else if (choice === "dark") root.setAttribute("data-theme", "dark");
-    else root.removeAttribute("data-theme"); // "auto" → System
-  }
-  function label(choice) {
-    return choice === "auto"
-      ? "Darstellung: Automatisch"
-      : choice === "light"
-        ? "Darstellung: Hell"
-        : "Darstellung: Dunkel";
-  }
-
-  // Initial
-  const saved = localStorage.getItem(KEY) || "auto";
-  apply(saved);
-  setIcon(saved);
-  if (btn) {
-    btn.setAttribute("aria-label", label(saved));
-    btn.title = "Hell/Dunkel/Auto (" + saved + ")";
-    btn.addEventListener("click", () => {
-      const cur = localStorage.getItem(KEY) || "auto";
-      const next = order[(order.indexOf(cur) + 1) % order.length];
-      localStorage.setItem(KEY, next);
-      apply(next);
-      setIcon(next);
-      btn.setAttribute("aria-label", label(next));
-      btn.title = "Hell/Dunkel/Auto (" + next + ")";
-    });
-  }
-
-  // Auf OS-Änderungen reagieren, wenn Auto aktiv
-  const mq = window.matchMedia("(prefers-color-scheme: dark)");
-  const reactToSystem = () => {
-    if ((localStorage.getItem(KEY) || "auto") === "auto") {
-      apply("auto");
-      setIcon("auto");
-    }
-  };
-  mq.addEventListener ? mq.addEventListener("change", reactToSystem) : mq.addListener(reactToSystem);
-})();
-
 (function () {
   const light = "#fafaff";
   const dark = "#1a0b2e";
@@ -111,8 +56,10 @@
   // Re-apply on changes (z. B. wenn dein Toggle das Attribut setzt)
   const obs = new MutationObserver(applyThemeColor);
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  // Optional: auf Systemwechsel hören, falls "auto"
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyThemeColor);
+  // Optional: auf Systemwechsel hören, falls "auto" (Safari-Fallback: addListener)
+  const mql = matchMedia("(prefers-color-scheme: dark)");
+  if (mql.addEventListener) mql.addEventListener("change", applyThemeColor);
+  else if (mql.addListener) mql.addListener(applyThemeColor);
 })();
 
 (function () {
@@ -121,10 +68,17 @@
   const menuIcon = document.getElementById("menuIcon");
   const expander = document.getElementById("headerExpander");
 
+  // Falls auf einer Seite kein Header existiert, nichts tun.
+  if (!header || !menuToggle || !menuIcon || !expander) return;
+
   const desktopBtn = document.getElementById("themeToggle");
   const mobileBtn = document.getElementById("themeToggleMobile");
 
-  function setOpen(open) {
+  // CSS-Breakpoint ist max-width: 880px (siehe site.css)
+  const mobileMql = window.matchMedia ? window.matchMedia("(max-width: 880px)") : null;
+
+  function setOpen(open, opts = {}) {
+    const { focus = false } = opts;
     header.setAttribute("data-menu", open ? "open" : "closed");
     menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
     expander.setAttribute("aria-hidden", open ? "false" : "true");
@@ -140,33 +94,63 @@
     if (open) {
       menuIcon.classList.remove("fa-bars");
       menuIcon.classList.add("fa-xmark");
-      const first = expander.querySelector("a, button");
-      first && first.focus({ preventScroll: true });
+      if (focus) {
+        const first = expander.querySelector("a, button");
+        first && first.focus({ preventScroll: true });
+      }
     } else {
       menuIcon.classList.remove("fa-xmark");
       menuIcon.classList.add("fa-bars");
-      menuToggle.focus({ preventScroll: true });
+      // IMPORTANT: kein programmatic focus im Normalfall.
+      // Sonst ist der Burger direkt nach Seitenaufruf fokussiert ("orange").
+      focus && menuToggle.focus({ preventScroll: true });
     }
   }
 
   // Klick auf den Toggle
   menuToggle.addEventListener("click", () => {
     const isOpen = header.getAttribute("data-menu") === "open";
-    setOpen(!isOpen);
+    // Beim Öffnen Fokus ins Menü (A11y). Beim Schließen keinen Fokus setzen.
+    setOpen(!isOpen, { focus: !isOpen });
   });
 
   // Menü schließen, wenn Link geklickt
   expander.addEventListener("click", (e) => {
-    if (e.target.tagName === "A") setOpen(false);
+    if (e.target.tagName === "A") setOpen(false, { focus: false });
   });
+
+  // Bug 4: Klick außerhalb schließt das Menü
+  const onOutside = (e) => {
+    if (header.getAttribute("data-menu") !== "open") return;
+    const t = e.target;
+    if (menuToggle.contains(t) || expander.contains(t)) return;
+    setOpen(false, { focus: false });
+  };
+  if (window.PointerEvent) {
+    document.addEventListener("pointerdown", onOutside);
+  } else {
+    document.addEventListener("mousedown", onOutside);
+    document.addEventListener("touchstart", onOutside, { passive: true });
+  }
 
   // ESC schließt
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setOpen(false);
+    if (e.key === "Escape") setOpen(false, { focus: true });
   });
 
-  // beim Laden sicherstellen, dass es wirklich zu ist
-  setOpen(false);
+  // Bug 3: Wenn man von Mobile → Desktop resized, Menü sicher schließen
+  const syncToViewport = () => {
+    if (!mobileMql) return;
+    if (!mobileMql.matches) setOpen(false, { focus: false });
+  };
+  if (mobileMql) {
+    if (mobileMql.addEventListener) mobileMql.addEventListener("change", syncToViewport);
+    else if (mobileMql.addListener) mobileMql.addListener(syncToViewport);
+  }
+
+  // Beim Laden sicherstellen, dass es wirklich zu ist (ohne Fokus)
+  setOpen(false, { focus: false });
+  syncToViewport();
 
   /* ---------- Theme-Logik mit Icon-Update ---------- */
   function readChoice() {
