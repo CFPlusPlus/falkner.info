@@ -7,7 +7,12 @@
   <title>Datenschutz – falkner.info</title>
 
   <!-- Theme-Color für Browser-UI -->
-  <meta name="theme-color" content="#050518" media="(prefers-color-scheme: dark)" />
+  <!--
+    iOS Safari färbt die Browser-UI (u.a. die untere Adressleiste) anhand von theme-color.
+    #050518 war nahezu schwarz und wirkt dadurch "farblos" im Dark-Mode.
+    Wir nutzen deshalb das Dark-Background-Violett der Seite.
+  -->
+  <meta name="theme-color" content="#1a0b2e" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#f5f5ff" media="(prefers-color-scheme: light)" />
 
   <meta name="description" content="Datenschutzerklärung für falkner.info" />

@@ -13,6 +13,12 @@
     --secondary: #00c6ff; /* helles Türkis */
     --accent: #ff2e6c; /* Magenta-Rot */
     --bg: #1a0b2e; /* dunkles Violett */
+    /* RGB-Triplets (für Safari-Fallbacks, z.B. wenn color-mix nicht greift) */
+    --primary-rgb: 255 196 0;
+    --secondary-rgb: 0 198 255;
+    --accent-rgb: 255 46 108;
+    --bg-rgb: 26 11 46;
+
     --fg: #ededed; /* heller Text */
     --muted: #9ca3af; /* grauer Sekundärtext */
     --card: rgba(255, 255, 255, 0.08);
@@ -71,6 +77,12 @@ main {
 /* Dark-Baseline: beeinflusst Form Controls u.ä. */
 html {
     color-scheme: dark;
+    /*
+      iOS Safari nutzt u.a. den Root-Background als Basis für die Browser-UI-Tönung
+      (besonders sichtbar an der unteren Adressleiste / beim "Rubber-Banding").
+      Ohne expliziten Root-Background kann es im Dark-Mode schnell "schwarz/weiß" wirken.
+    */
+    background-color: var(--bg);
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar) transparent;
 }
@@ -100,6 +112,7 @@ html {
     html:not([data-theme]) {
         color-scheme: light;
         --bg: #fafaff;
+        --bg-rgb: 250 250 255;
         --fg: #1a1a1a;
         --muted: #4b5563;
         --card: #ffffff;
@@ -136,6 +149,7 @@ html {
 html[data-theme="light"] {
     color-scheme: light;
     --bg: #fafaff;
+    --bg-rgb: 250 250 255;
     --fg: #1a1a1a;
     --muted: #4b5563;
     --card: #ffffff;
@@ -191,42 +205,43 @@ body {
     font-optical-sizing: auto;
     font-variation-settings: "opsz" 16;
     color: var(--fg);
-    
-}
+    background-color: var(--bg);
 
-/* Vollflächiger Hintergrund als fixe Ebene (kein Repeat -> keine Nähte) */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
-    
+    /* Hintergrund-Blobs + Verlauf (ohne color-mix → stabil auf iOS/Safari) */
     background:
         radial-gradient(
             var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-            color-mix(in oklab, var(--secondary) 22%, transparent),
+            rgb(var(--secondary-rgb) / 0.22),
             transparent 60%
         ),
         radial-gradient(
             var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-            color-mix(in oklab, var(--accent) 18%, transparent),
+            rgb(var(--accent-rgb) / 0.18),
             transparent 60%
         ),
         radial-gradient(
             var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
-            color-mix(in oklab, var(--primary) 14%, transparent),
+            rgb(var(--primary-rgb) / 0.14),
             transparent 62%
         ),
         linear-gradient(
             180deg,
-            color-mix(in oklab, var(--bg) 92%, transparent),
+            rgb(var(--bg-rgb) / 0.92),
             var(--bg)
         );
-
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    background-attachment: fixed;
+
 }
+
+/* Hintergrund-Blobs laufen direkt über <body> (s. oben).
+   => iOS/Safari zeigt fixed Pseudo-Elemente mit negativem z-index teils nicht zuverlässig. */
+body::before {
+    content: none;
+    display: none;
+}
+
 
 /* Subtiles Filmkorn (ebenfalls ohne Repeat -> keine Kachel-Nähte) */
 body::after {
@@ -329,19 +344,6 @@ b {
         --blob1-h: clamp(760px, 40vw, 1400px);
         --blob2-w: clamp(900px, 52vw, 1900px);
         --blob2-h: clamp(640px, 34vw, 1300px);
-    }
-    body {
-        background: radial-gradient(
-                var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-                color-mix(in oklab, var(--secondary) 26%, transparent),
-                transparent 62%
-            ),
-            radial-gradient(
-                var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-                color-mix(in oklab, var(--accent) 22%, transparent),
-                transparent 62%
-            ),
-            linear-gradient(180deg, color-mix(in oklab, var(--bg) 92%, transparent), var(--bg));
     }
 }
 @media (min-width: 1800px) {
@@ -1304,6 +1306,98 @@ footer .legal-details {
     color-mix(in oklab, #ffffff 18%, transparent),
     color-mix(in oklab, #ffffff 4%, transparent)
   );
+}
+
+/*
+  FIXES
+  Bug 1: Auf kleinen/mittleren Viewports wirkte Dark-Theme „abgedunkelt“.
+         Ursache ist v. a. die Kombination aus Hintergrund-Blobs + Grain-Overlay,
+         die auf kleineren Viewports stärker wahrgenommen wird.
+         => Hintergrund leicht anheben + Grain etwas reduzieren.
+
+  Bug 2: Der Glas-/Blur-Effekt im Header war auf kleineren Viewports sichtbar schwächer.
+         => Header-Tint etwas transparenter + Blur minimal erhöhen.
+*/
+
+/* Small & Medium (bis Laptop) */
+@media (max-width: 1399px) {
+  /* generell etwas mehr Blur, weil es bei kleineren Viewports oft "flacher" wirkt */
+  :root {
+    --header-uniform-blur: 30px;
+  }
+
+  html[data-theme="dark"] {
+    /* weniger „Verdunklung“ durch Grain */
+    --noise-opacity: 0.055;
+
+    /* stärkere, klarere Glass-Optik */
+    --header-uniform-blur: 30px;
+    --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
+  }
+
+  /* etwas lebendigere Blobs, damit Dark-Theme auf kleineren Screens nicht „absäuft“ */
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(
+        var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+        rgb(var(--secondary-rgb) / 0.28),
+        transparent 60%
+      ),
+      radial-gradient(
+        var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+        rgb(var(--accent-rgb) / 0.24),
+        transparent 60%
+      ),
+      radial-gradient(
+        var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
+        rgb(var(--primary-rgb) / 0.18),
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        rgb(var(--bg-rgb) / 0.88),
+        var(--bg)
+      );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+  }
+}
+
+/* Auto-Theme (kein data-theme gesetzt) + System Dark */
+@media (max-width: 1399px) and (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --noise-opacity: 0.055;
+    --header-uniform-blur: 30px;
+    --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
+  }
+
+  html:not([data-theme]) body {
+    background:
+      radial-gradient(
+        var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+        rgb(var(--secondary-rgb) / 0.28),
+        transparent 60%
+      ),
+      radial-gradient(
+        var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+        rgb(var(--accent-rgb) / 0.24),
+        transparent 60%
+      ),
+      radial-gradient(
+        var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
+        rgb(var(--primary-rgb) / 0.18),
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        rgb(var(--bg-rgb) / 0.88),
+        var(--bg)
+      );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+  }
 }
 
 header.site-header.glass {
