@@ -9,18 +9,24 @@
     --leading: 1.6;
 
     /* Farben (Dark-Baseline) */
-    --primary: #ffc400; /* leuchtendes Gelb-Orange */
-    --secondary: #00c6ff; /* helles Türkis */
-    --accent: #ff2e6c; /* Magenta-Rot */
-    --bg: #1a0b2e; /* dunkles Violett */
+    --primary: #ffc400;
+    /* leuchtendes Gelb-Orange */
+    --secondary: #00c6ff;
+    /* helles Türkis */
+    --accent: #ff2e6c;
+    /* Magenta-Rot */
+    --bg: #1a0b2e;
+    /* dunkles Violett */
     /* RGB-Triplets (für Safari-Fallbacks, z.B. wenn color-mix nicht greift) */
     --primary-rgb: 255 196 0;
     --secondary-rgb: 0 198 255;
     --accent-rgb: 255 46 108;
     --bg-rgb: 26 11 46;
 
-    --fg: #ededed; /* heller Text */
-    --muted: #9ca3af; /* grauer Sekundärtext */
+    --fg: #ededed;
+    /* heller Text */
+    --muted: #9ca3af;
+    /* grauer Sekundärtext */
     --card: rgba(255, 255, 255, 0.08);
     --border: #2e2a4f;
     --shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
@@ -58,10 +64,13 @@
     --noise-opacity: 0.08;
 
     /* Header & Safe-Area */
-    --header-h: 72px; /* für sections scroll-margin-top */
-    --header-height: 64px; /* Fallback für mobile JS-Messung */
+    --header-h: 72px;
+    /* für sections scroll-margin-top */
+    --header-height: 64px;
+    /* Fallback für mobile JS-Messung */
     --safe-top: env(safe-area-inset-top, 0px);
-    --vv-top: 0px; /* wird per JS gesetzt – Fallback */
+    --vv-top: 0px;
+    /* wird per JS gesetzt – Fallback */
 
     /* Scrollbar-Farben (neutral, dezent) */
     --scroll-bar: color-mix(in oklab, var(--fg) 30%, transparent);
@@ -124,16 +133,19 @@ html {
         --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     }
+
     /* Social (system light) */
     html:not([data-theme]) .social-links a {
         border-color: var(--border);
         background: color-mix(in oklab, #ffffff 10%, transparent);
         color: var(--fg);
     }
+
     html:not([data-theme]) .social-links a:hover {
         box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
         background: color-mix(in oklab, var(--secondary) 14%, transparent);
     }
+
     /* Legal (system light) */
     html:not([data-theme]) details.legal-details {
         border: 1px solid var(--border);
@@ -161,11 +173,13 @@ html[data-theme="light"] {
     --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --card-shadow-hover: 0 16px 45px color-mix(in oklab, var(--secondary) 35%, rgba(0, 0, 0, 0.28));
 }
+
 html[data-theme="light"] .social-links a {
     border-color: var(--border);
     background: color-mix(in oklab, #ffffff 10%, transparent);
     color: var(--fg);
 }
+
 html[data-theme="light"] .social-links a:hover {
     box-shadow: 0 10px 24px color-mix(in oklab, var(--secondary) 22%, rgba(0, 0, 0, 0.28));
     background: color-mix(in oklab, var(--secondary) 14%, transparent);
@@ -177,6 +191,7 @@ html[data-theme="dark"] {
     --glass-bg: color-mix(in oklab, #ffffff 8%, transparent);
     --glass-border: rgba(255, 255, 255, 0.16);
 }
+
 html[data-theme="dark"] details.legal-details {
     border: 1px solid var(--border);
     background: color-mix(in oklab, #ffffff 8%, transparent);
@@ -189,10 +204,12 @@ html[data-theme="dark"] details.legal-details {
 * {
     box-sizing: border-box;
 }
+
 html,
 body {
     min-height: 100%;
 }
+
 body {
     min-height: 100vh;
 }
@@ -210,26 +227,18 @@ body {
 
     /* Hintergrund-Blobs + Verlauf (ohne color-mix → stabil auf iOS/Safari) */
     background:
-        radial-gradient(
-            var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+        radial-gradient(var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
             rgb(var(--secondary-rgb) / 0.22),
-            transparent 60%
-        ),
-        radial-gradient(
-            var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+            transparent 60%),
+        radial-gradient(var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
             rgb(var(--accent-rgb) / 0.18),
-            transparent 60%
-        ),
-        radial-gradient(
-            var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
+            transparent 60%),
+        radial-gradient(var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
             rgb(var(--primary-rgb) / 0.14),
-            transparent 62%
-        ),
-        linear-gradient(
-            180deg,
+            transparent 62%),
+        linear-gradient(180deg,
             rgb(var(--bg-rgb) / 0.92),
-            var(--bg)
-        );
+            var(--bg));
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-attachment: fixed;
@@ -286,6 +295,7 @@ body::after {
         --noise-opacity: 0.05;
     }
 }
+
 html[data-theme="light"] {
     --noise-opacity: 0.05;
 }
@@ -350,6 +360,7 @@ b {
         --grain-size: clamp(260px, 10vw, 560px);
     }
 }
+
 @media (min-width: 1200px) {
     :root {
         --blob1-w: clamp(900px, 64vw, 2100px);
@@ -359,6 +370,7 @@ b {
         --grain-size: clamp(320px, 9vw, 620px);
     }
 }
+
 @media (min-width: 1400px) {
     :root {
         --blob1-w: clamp(1200px, 60vw, 2200px);
@@ -367,6 +379,7 @@ b {
         --blob2-h: clamp(640px, 34vw, 1300px);
     }
 }
+
 @media (min-width: 1800px) {
     :root {
         --blob1-w: clamp(1200px, 58vw, 2800px);
@@ -385,7 +398,7 @@ header {
     position: fixed;
     inset-inline: 0;
     top: 0;
-z-index: 70;
+    z-index: 70;
     isolation: isolate;
     width: 100%;
     backdrop-filter: saturate(170%) blur(26px);
@@ -393,12 +406,14 @@ z-index: 70;
     background: color-mix(in oklab, var(--bg) 96%, transparent);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 30px color-mix(in oklab, var(--secondary) 22%, transparent);
-    padding-top: var(--safe-top); /* Notch-Freiraum */
+    padding-top: var(--safe-top);
+    /* Notch-Freiraum */
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     contain: layout paint;
 }
+
 header::before {
     content: "";
     position: absolute;
@@ -407,7 +422,8 @@ header::before {
     pointer-events: none;
     background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 86%, transparent) 0%, transparent 70%);
 }
-header > * {
+
+header>* {
     position: relative;
     z-index: 1;
 }
@@ -420,6 +436,7 @@ header > * {
     justify-content: space-between;
     padding: 1.5rem 1.6rem;
 }
+
 .brand {
     display: inline-flex;
     align-items: center;
@@ -427,6 +444,7 @@ header > * {
     font-weight: 650;
     letter-spacing: 0.2px;
 }
+
 .brand-icon-wrap {
     /* Wrapper nötig, damit wir mit ::before einen echten Glow hinter dem IMG erzeugen können */
     width: 36px;
@@ -481,9 +499,7 @@ header > * {
     .brand-icon-wrap:hover .brand-icon {
         /* "stärker am Anfang" = kleiner Radius + höhere Opazität, dann weich auslaufen */
         filter:
-        drop-shadow(0 0 5px  rgb(var(--primary-rgb) / 0.80))
-        drop-shadow(0 0 12px rgb(var(--primary-rgb) / 0.38))
-        drop-shadow(0 0 22px rgb(var(--primary-rgb) / 0.16));
+            drop-shadow(0 0 5px rgb(var(--primary-rgb) / 0.80)) drop-shadow(0 0 12px rgb(var(--primary-rgb) / 0.38)) drop-shadow(0 0 22px rgb(var(--primary-rgb) / 0.16));
     }
 }
 
@@ -498,12 +514,14 @@ nav a {
         color 0.25s ease,
         text-shadow 0.25s ease;
 }
+
 nav a:hover {
     color: color-mix(in oklab, var(--nav-hover-color) 80%, white 20%);
     text-shadow:
         0 0 8px color-mix(in oklab, var(--nav-hover-color) 60%, transparent),
         0 0 16px color-mix(in oklab, var(--nav-hover-color) 40%, transparent);
 }
+
 nav a::after {
     content: "";
     position: absolute;
@@ -519,6 +537,7 @@ nav a::after {
         opacity 0.3s ease,
         transform 0.3s ease;
 }
+
 nav a:hover::after {
     opacity: 1;
     transform: scaleX(1);
@@ -543,6 +562,7 @@ nav a:hover::after {
     font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2rem);
     margin: 0 0 1rem;
 }
+
 .lead {
     font-size: 1.1rem;
     color: var(--muted);
@@ -552,6 +572,7 @@ nav a:hover::after {
     padding: 5.5rem 1rem 3.5rem;
     animation: fadeIn 1.2s ease both;
 }
+
 .hero-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -560,11 +581,13 @@ nav a:hover::after {
     gap: 2rem;
     align-items: center;
 }
+
 @media (max-width: 880px) {
     .hero-inner {
         grid-template-columns: 1fr;
     }
 }
+
 .hero h1 {
     font-size: clamp(2.1rem, 1.5rem + 2.5vw, 3rem);
     margin: 0 0 1rem;
@@ -578,6 +601,7 @@ nav a:hover::after {
     box-shadow: var(--shadow);
     animation: fadeInUp 1.5s ease both;
 }
+
 @media (min-width: 881px) {
     .profile {
         width: 220px;
@@ -613,6 +637,7 @@ nav a:hover::after {
         border-color 0.22s ease,
         color 0.22s ease;
 }
+
 .cta:hover,
 .cta:active {
     background: color-mix(in oklab, var(--secondary) 10%, var(--glass-bg));
@@ -621,20 +646,24 @@ nav a:hover::after {
         0 12px 28px color-mix(in oklab, var(--secondary) 26%, rgba(0, 0, 0, 0.35)),
         0 0 0 2px color-mix(in oklab, var(--secondary) 10%, transparent) inset;
 }
+
 .cta--sm {
     font-size: 0.95rem;
     padding: 0.5rem 0.8rem;
     border-radius: 12px;
 }
+
 .cta--lg {
     font-size: 1.05rem;
     padding: 0.95rem 1.35rem;
     border-radius: 16px;
 }
+
 .cta--tint {
     background: color-mix(in oklab, var(--secondary) 16%, transparent);
     border-color: color-mix(in oklab, var(--secondary) 30%, var(--glass-border));
 }
+
 .cta--tint:hover,
 .cta--tint:active {
     background: color-mix(in oklab, var(--secondary) 26%, transparent);
@@ -643,28 +672,34 @@ nav a:hover::after {
         0 14px 34px color-mix(in oklab, var(--secondary) 34%, rgba(0, 0, 0, 0.35)),
         0 0 0 2px color-mix(in oklab, var(--secondary) 14%, transparent) inset;
 }
+
 .cta--pill {
     border-radius: 9999px;
     padding: 0.75rem 1.2rem;
 }
+
 .cta--pill.cta--sm {
     padding: 0.55rem 0.95rem;
 }
+
 .cta--pill.cta--lg {
     padding: 0.9rem 1.4rem;
 }
+
 .cta__icon {
     display: inline-flex;
     align-items: center;
     margin-inline-end: 0.4rem;
     line-height: 0;
 }
+
 .cta:focus-visible {
     outline: none;
     box-shadow:
         0 0 0 3px color-mix(in oklab, var(--secondary) 22%, transparent),
         var(--card-shadow);
 }
+
 @media (prefers-reduced-motion: reduce) {
     .cta {
         transition: none;
@@ -701,6 +736,7 @@ a.cta {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.2rem;
 }
+
 @media (max-width: 880px) {
     .grid {
         grid-template-columns: 1fr;
@@ -722,6 +758,7 @@ a.cta {
     opacity: 0;
     animation: fadeInUp 1s ease forwards;
 }
+
 .card:hover {
     transform: translateY(-4px);
     box-shadow: var(--card-shadow-hover);
@@ -742,17 +779,21 @@ footer .footer-meta {
     align-items: center;
     gap: 0.25rem;
 }
+
 footer .footer-meta p {
     margin: 0;
     color: var(--muted);
 }
+
 footer .footer-copy {
     font-size: 0.9rem;
 }
+
 footer .footer-made {
     font-size: 0.85rem;
     opacity: 0.95;
 }
+
 footer .heart {
     display: inline-block;
     color: color-mix(in oklab, var(--accent) 85%, #ff3b30);
@@ -780,9 +821,11 @@ footer .heart {
         0 1px 0 rgba(255, 255, 255, 0.18) inset,
         0 8px 20px rgba(0, 0, 0, 0.12);
 }
+
 .tl-item {
     position: relative;
 }
+
 .tl-item::before {
     content: "";
     position: absolute;
@@ -794,6 +837,7 @@ footer .heart {
     border-radius: 50%;
     box-shadow: 0 0 0 6px color-mix(in oklab, var(--secondary) 25%, transparent);
 }
+
 .muted {
     color: var(--muted);
 }
@@ -811,19 +855,24 @@ footer .heart {
     -webkit-backdrop-filter: blur(12px) saturate(150%);
     margin-bottom: 0.6rem;
 }
+
 .icon-chip .icon {
     color: #fff;
     font-size: 1.3rem;
 }
+
 .chip-cyan {
     background: color-mix(in oklab, var(--secondary) 28%, transparent);
 }
+
 .chip-magenta {
     background: color-mix(in oklab, var(--accent) 28%, transparent);
 }
+
 .chip-yellow {
     background: color-mix(in oklab, var(--primary) 28%, transparent);
 }
+
 .chip-amber {
     background: linear-gradient(135deg, rgba(255, 200, 0, 0.25), rgba(255, 145, 0, 0.25));
     border: 1px solid rgba(255, 183, 0, 0.35);
@@ -849,6 +898,7 @@ details.legal-details {
         border-color 0.25s ease,
         background 0.25s ease;
 }
+
 details.legal-details[open],
 details.legal-details:hover {
     border-color: color-mix(in oklab, var(--accent) 18%, var(--border));
@@ -856,6 +906,7 @@ details.legal-details:hover {
         0 8px 24px rgba(0, 0, 0, 0.22),
         0 0 0 2px color-mix(in oklab, var(--accent) 8%, transparent) inset;
 }
+
 details.legal-details summary {
     cursor: pointer;
     display: flex;
@@ -866,12 +917,15 @@ details.legal-details summary {
     color: var(--fg);
     user-select: none;
 }
+
 details.legal-details summary::-webkit-details-marker {
     display: none;
 }
+
 details.legal-details summary::marker {
     content: "";
 }
+
 details.legal-details i {
     transition:
         transform 0.25s ease,
@@ -880,22 +934,27 @@ details.legal-details i {
     opacity: 0.9;
     filter: drop-shadow(0 0 0 transparent);
 }
+
 details.legal-details:hover i,
 details.legal-details[open] summary i {
     filter: drop-shadow(0 0 4px color-mix(in oklab, var(--accent) 28%, transparent));
 }
+
 details.legal-details[open] summary i {
     transform: rotate(180deg);
 }
+
 details.legal-details .legal-content {
     margin-top: 0.8rem;
     animation: fadeIn 0.35s ease;
 }
+
 html[data-theme="dark"] details.legal-details {
     background: color-mix(in oklab, #ffffff 8%, transparent);
     border-color: rgba(255, 255, 255, 0.16);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
+
 html[data-theme="dark"] details.legal-details[open],
 html[data-theme="dark"] details.legal-details:hover {
     border-color: color-mix(in oklab, var(--accent) 22%, rgba(255, 255, 255, 0.22));
@@ -913,6 +972,7 @@ html[data-theme="dark"] details.legal-details:hover {
     margin-top: 1.2rem;
     padding: 0.6rem 0;
 }
+
 .social-links a {
     position: relative;
     display: inline-flex;
@@ -934,12 +994,14 @@ html[data-theme="dark"] details.legal-details:hover {
         color 0.25s ease,
         background 0.25s ease;
 }
+
 .social-links a:hover {
     transform: translateY(-3px);
     color: color-mix(in oklab, var(--secondary) 85%, white 15%);
     box-shadow: 0 10px 28px color-mix(in oklab, var(--secondary) 30%, rgba(0, 0, 0, 0.35));
     background: color-mix(in oklab, var(--secondary) 18%, transparent);
 }
+
 .social-links a:focus-visible {
     outline: 2px solid color-mix(in oklab, var(--primary) 60%, transparent);
     outline-offset: 3px;
@@ -959,6 +1021,7 @@ html[data-theme="dark"] details.legal-details:hover {
     font-size: 0.95rem;
     line-height: 1;
 }
+
 .status-badge .dot {
     width: 0.6rem;
     height: 0.6rem;
@@ -967,6 +1030,7 @@ html[data-theme="dark"] details.legal-details:hover {
     box-shadow: 0 0 0 0.15rem rgba(244, 63, 94, 0.25);
     animation: pulse 2.8s ease-in-out infinite;
 }
+
 .status-badge.online .dot {
     background: #22c55e;
     box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
@@ -979,27 +1043,33 @@ html[data-theme="dark"] details.legal-details:hover {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.25);
     }
+
     100% {
         transform: scale(1);
     }
 }
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -1019,9 +1089,11 @@ html[data-theme="dark"] details.legal-details:hover {
     -webkit-tap-highlight-color: transparent;
     line-height: 1;
 }
+
 .menu-toggle-icon i {
     font-size: 1.25rem;
 }
+
 .menu-toggle-icon:hover,
 .menu-toggle-icon:focus-visible {
     color: var(--nav-hover-color);
@@ -1032,17 +1104,20 @@ html[data-theme="dark"] details.legal-details:hover {
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.28s ease;
 }
+
 .header-expander__inner {
     overflow: hidden;
     padding-inline: 1rem;
     padding-block: 0;
     transition: padding 0.28s ease;
 }
+
 .header-expander__links {
     display: grid;
     gap: 0.25rem;
     padding-top: 0.5rem;
 }
+
 .header-expander__links a {
     display: block;
     padding: 0.65rem 0.25rem;
@@ -1053,10 +1128,12 @@ html[data-theme="dark"] details.legal-details:hover {
     border-bottom: none !important;
     box-shadow: none !important;
 }
+
 .header-expander__links a::before,
 .header-expander__links a::after {
     display: none !important;
 }
+
 .header-expander__links a:hover,
 .header-expander__links a:focus-visible {
     color: var(--nav-hover-color);
@@ -1064,6 +1141,7 @@ html[data-theme="dark"] details.legal-details:hover {
     text-decoration-thickness: 1.5px;
     text-underline-offset: 0.22em;
 }
+
 .header-expander__footer {
     display: flex;
     align-items: center;
@@ -1085,6 +1163,7 @@ html[data-theme="dark"] details.legal-details:hover {
     -webkit-backdrop-filter: blur(10px) saturate(150%);
     cursor: pointer;
 }
+
 .theme-toggle--btn:hover,
 .theme-toggle--btn:focus-visible {
     color: var(--nav-hover-color);
@@ -1094,6 +1173,7 @@ html[data-theme="dark"] details.legal-details:hover {
 .site-header[data-menu="open"] .header-expander {
     grid-template-rows: 1fr;
 }
+
 .site-header[data-menu="open"] .header-expander__inner {
     padding-block: 0.4rem;
 }
@@ -1103,33 +1183,42 @@ html[data-theme="dark"] details.legal-details:hover {
     .nav {
         padding: 1rem 1rem;
     }
+
     .nav-links {
         display: none;
     }
+
     #themeToggle {
         display: none;
     }
+
     .menu-toggle-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
     }
+
     .hero {
         padding: 4rem 1rem 2.4rem;
     }
+
     .container {
         padding: 2rem 1rem;
     }
 }
+
 @media (min-width: 721px) and (max-width: 1024px) {
     .container {
         padding: 3rem 1.2rem;
     }
+
     .hero {
         padding: 5rem 1.2rem 3rem;
     }
 }
+
 @media (prefers-reduced-motion: reduce) {
+
     .header-expander,
     .header-expander__inner {
         transition: none;
@@ -1160,6 +1249,7 @@ html[data-theme="dark"] details.legal-details:hover {
         color 0.2s ease,
         border-color 0.2s ease;
 }
+
 .theme-toggle i {
     font-size: 1.05rem;
     line-height: 1;
@@ -1168,37 +1258,54 @@ html[data-theme="dark"] details.legal-details:hover {
         color 0.2s ease,
         opacity 0.2s ease;
 }
+
 .theme-toggle:hover {
     background: color-mix(in oklab, var(--nav-hover-color) 8%, #ffffff 6%);
     border-color: color-mix(in oklab, var(--nav-hover-color) 18%, var(--toggle-border));
 }
+
 .theme-toggle:active {
     background: color-mix(in oklab, var(--nav-hover-color) 12%, #000 4%);
     border-color: color-mix(in oklab, var(--nav-hover-color) 22%, var(--toggle-border));
 }
+
 .theme-toggle:focus-visible {
     outline: 0;
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
 /* Icon-Farben je Theme */
-html[data-theme="light"] .theme-toggle,
+
+/* Light: explizit per data-theme */
+html[data-theme="light"] .theme-toggle {
+    background: color-mix(in oklab, #ffffff 70%, transparent);
+    border-color: var(--border);
+}
+
+/* Light: automatisch per System, aber nur wenn kein data-theme gesetzt ist */
 @media (prefers-color-scheme: light) {
     html:not([data-theme]) .theme-toggle {
         background: color-mix(in oklab, #ffffff 70%, transparent);
         border-color: var(--border);
     }
 }
+
+/* Dark */
 html[data-theme="dark"] .theme-toggle {
     background: color-mix(in oklab, #ffffff 6%, transparent);
     border-color: rgba(255, 255, 255, 0.14);
 }
+
+/* Icon colors */
 html[data-theme="light"] .theme-toggle i {
     color: color-mix(in oklab, var(--primary) 65%, #111 35%);
 }
+
 html[data-theme="dark"] .theme-toggle i {
     color: color-mix(in oklab, var(--secondary) 65%, #fff 35%);
 }
+
+/* Fallback wenn kein data-theme gesetzt ist (dein Default) */
 html:not([data-theme]) .theme-toggle i {
     color: var(--fg);
 }
@@ -1207,11 +1314,14 @@ html:not([data-theme]) .theme-toggle i {
     :root {
         --toggle-size: 36px;
     }
+
     .theme-toggle i {
         font-size: 1rem;
     }
 }
+
 @media (prefers-reduced-motion: reduce) {
+
     .theme-toggle,
     .theme-toggle i {
         transition: none;
@@ -1261,22 +1371,27 @@ html:not([data-theme]) .theme-toggle i {
         background-color 0.25s ease,
         border-color 0.25s ease;
 }
+
 .scrolltop i {
     font-size: 1rem;
     line-height: 1;
 }
+
 .scrolltop--visible {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
+
 .scrolltop:hover {
     box-shadow: 0 10px 36px color-mix(in oklab, var(--secondary) 28%, transparent);
 }
+
 .scrolltop:focus-visible {
     outline: 2px solid color-mix(in oklab, var(--secondary) 42%, transparent);
     outline-offset: 2px;
 }
+
 .scrolltop:active {
     transform: translateY(1px) scale(0.98);
 }
@@ -1286,6 +1401,7 @@ a,
 button {
     -webkit-tap-highlight-color: transparent;
 }
+
 a:focus,
 button:focus {
     outline: none;
@@ -1296,6 +1412,7 @@ button:focus {
     main.container {
         padding-top: calc(var(--header-height) + var(--safe-top) + 12px);
     }
+
     :where(h1, h2, h3, h4, h5, h6, [id]) {
         scroll-margin-top: calc(var(--header-height) + var(--safe-top) + 12px);
     }
@@ -1315,10 +1432,12 @@ section[id],
 
 /* Touch-Geräte: NIE Markierungen */
 @media (hover: none) and (pointer: coarse) {
+
     *:focus,
     *:focus-visible {
         outline: none !important;
     }
+
     a,
     button {
         -webkit-tap-highlight-color: transparent;
@@ -1327,6 +1446,7 @@ section[id],
 
 /* Desktop: Focus-Stile nur bei Keyboard-Nutzung */
 @media (hover: hover) and (pointer: fine) {
+
     body.using-keyboard a:focus-visible,
     body.using-keyboard button:focus-visible,
     body.using-keyboard input:focus-visible,
@@ -1336,6 +1456,7 @@ section[id],
         outline: 2px solid var(--accent, #6aa0ff);
         outline-offset: 2px;
     }
+
     /* Inhalts-Sektionen (Impressum/Datenschutz) nie markieren */
     section[id]:focus,
     section[id]:focus-visible,
@@ -1351,6 +1472,7 @@ section[id],
 
 /* Titel-/Header-Menü: auf Touch niemals sichtbare Ränder */
 @media (hover: none) and (pointer: coarse) {
+
     header :focus,
     header :focus-visible {
         outline: none !important;
@@ -1372,14 +1494,13 @@ footer .legal-details {
 
 /* === UNIFORM HEADER GLASS OVERRIDE === */
 :root {
-  --header-uniform-blur: 26px;
-  --header-uniform-sat: 170%;
-  /* dezente lila Tönung, aber klar „glasig“ */
-  --header-uniform-tint: color-mix(in oklab, #ffffff 10%, color-mix(in oklab, var(--bg) 8%, transparent));
-  --header-uniform-highlight: linear-gradient(to bottom,
-    color-mix(in oklab, #ffffff 18%, transparent),
-    color-mix(in oklab, #ffffff 4%, transparent)
-  );
+    --header-uniform-blur: 26px;
+    --header-uniform-sat: 170%;
+    /* dezente lila Tönung, aber klar „glasig“ */
+    --header-uniform-tint: color-mix(in oklab, #ffffff 10%, color-mix(in oklab, var(--bg) 8%, transparent));
+    --header-uniform-highlight: linear-gradient(to bottom,
+            color-mix(in oklab, #ffffff 18%, transparent),
+            color-mix(in oklab, #ffffff 4%, transparent));
 }
 
 /*
@@ -1395,137 +1516,121 @@ footer .legal-details {
 
 /* Small & Medium (bis Laptop) */
 @media (max-width: 1399px) {
-  /* generell etwas mehr Blur, weil es bei kleineren Viewports oft "flacher" wirkt */
-  :root {
-    --header-uniform-blur: 30px;
-  }
 
-  html[data-theme="dark"] {
-    /* weniger „Verdunklung“ durch Grain */
-    --noise-opacity: 0.055;
+    /* generell etwas mehr Blur, weil es bei kleineren Viewports oft "flacher" wirkt */
+    :root {
+        --header-uniform-blur: 30px;
+    }
 
-    /* stärkere, klarere Glass-Optik */
-    --header-uniform-blur: 30px;
-    --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
-  }
+    html[data-theme="dark"] {
+        /* weniger „Verdunklung“ durch Grain */
+        --noise-opacity: 0.055;
 
-  /* etwas lebendigere Blobs, damit Dark-Theme auf kleineren Screens nicht „absäuft“ */
-  html[data-theme="dark"] body {
-    background:
-      radial-gradient(
-        var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-        rgb(var(--secondary-rgb) / 0.28),
-        transparent 60%
-      ),
-      radial-gradient(
-        var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-        rgb(var(--accent-rgb) / 0.24),
-        transparent 60%
-      ),
-      radial-gradient(
-        var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
-        rgb(var(--primary-rgb) / 0.18),
-        transparent 60%
-      ),
-      linear-gradient(
-        180deg,
-        rgb(var(--bg-rgb) / 0.88),
-        var(--bg)
-      );
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-attachment: fixed;
-  }
+        /* stärkere, klarere Glass-Optik */
+        --header-uniform-blur: 30px;
+        --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
+    }
+
+    /* etwas lebendigere Blobs, damit Dark-Theme auf kleineren Screens nicht „absäuft“ */
+    html[data-theme="dark"] body {
+        background:
+            radial-gradient(var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+                rgb(var(--secondary-rgb) / 0.28),
+                transparent 60%),
+            radial-gradient(var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+                rgb(var(--accent-rgb) / 0.24),
+                transparent 60%),
+            radial-gradient(var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
+                rgb(var(--primary-rgb) / 0.18),
+                transparent 60%),
+            linear-gradient(180deg,
+                rgb(var(--bg-rgb) / 0.88),
+                var(--bg));
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-attachment: fixed;
+    }
 }
 
 /* Auto-Theme (kein data-theme gesetzt) + System Dark */
 @media (max-width: 1399px) and (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
-    --noise-opacity: 0.055;
-    --header-uniform-blur: 30px;
-    --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
-  }
+    html:not([data-theme]) {
+        --noise-opacity: 0.055;
+        --header-uniform-blur: 30px;
+        --header-uniform-tint: color-mix(in oklab, #ffffff 9%, color-mix(in oklab, var(--bg) 6%, transparent));
+    }
 
-  html:not([data-theme]) body {
-    background:
-      radial-gradient(
-        var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
-        rgb(var(--secondary-rgb) / 0.28),
-        transparent 60%
-      ),
-      radial-gradient(
-        var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
-        rgb(var(--accent-rgb) / 0.24),
-        transparent 60%
-      ),
-      radial-gradient(
-        var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
-        rgb(var(--primary-rgb) / 0.18),
-        transparent 60%
-      ),
-      linear-gradient(
-        180deg,
-        rgb(var(--bg-rgb) / 0.88),
-        var(--bg)
-      );
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-attachment: fixed;
-  }
+    html:not([data-theme]) body {
+        background:
+            radial-gradient(var(--blob1-w) var(--blob1-h) at var(--blob1-x) var(--blob1-y),
+                rgb(var(--secondary-rgb) / 0.28),
+                transparent 60%),
+            radial-gradient(var(--blob2-w) var(--blob2-h) at var(--blob2-x) var(--blob2-y),
+                rgb(var(--accent-rgb) / 0.24),
+                transparent 60%),
+            radial-gradient(var(--blob3-w) var(--blob3-h) at var(--blob3-x) var(--blob3-y),
+                rgb(var(--primary-rgb) / 0.18),
+                transparent 60%),
+            linear-gradient(180deg,
+                rgb(var(--bg-rgb) / 0.88),
+                var(--bg));
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-attachment: fixed;
+    }
 }
 
 header.site-header.glass {
-  position: fixed;
-  inset-inline: 0;
-  top: 0 !important;
-  z-index: 70;
+    position: fixed;
+    inset-inline: 0;
+    top: 0 !important;
+    z-index: 70;
 
-  /* Header selbst bleibt transparent – Blur liegt auf ::before */
-  background: transparent !important;
+    /* Header selbst bleibt transparent – Blur liegt auf ::before */
+    background: transparent !important;
 
-  /* Keine „Linie“ / keine Extra-Ränder */
-  border: 0 !important;
-  border-bottom: 0 !important;
-  outline: 0 !important;
+    /* Keine „Linie“ / keine Extra-Ränder */
+    border: 0 !important;
+    border-bottom: 0 !important;
+    outline: 0 !important;
 
-  /* WICHTIG: Header darf kein Backdrop-Root sein */
-  transform: none !important;
-  filter: none !important;
-  contain: none !important;
-  isolation: auto !important;
+    /* WICHTIG: Header darf kein Backdrop-Root sein */
+    transform: none !important;
+    filter: none !important;
+    contain: none !important;
+    isolation: auto !important;
 
-  /* falls irgendwo noch direkt ein backdrop-filter sitzt */
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+    /* falls irgendwo noch direkt ein backdrop-filter sitzt */
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
 
 header.site-header.glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-  background: var(--header-uniform-tint);
+    background: var(--header-uniform-tint);
 
-  /* Einheitlicher Blur auf ALLEN Größen/Plattformen */
-  -webkit-backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
-  backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
+    /* Einheitlicher Blur auf ALLEN Größen/Plattformen */
+    -webkit-backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
+    backdrop-filter: blur(var(--header-uniform-blur)) saturate(var(--header-uniform-sat)) !important;
 
-  /* Seam-Artefakt-Fix (Chromium): eigenes Compositing */
-  transform: translateZ(0);
+    /* Seam-Artefakt-Fix (Chromium): eigenes Compositing */
+    transform: translateZ(0);
 }
 
 header.site-header.glass::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: var(--header-uniform-highlight);
-  transform: translateZ(0);
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--header-uniform-highlight);
+    transform: translateZ(0);
 }
 
-header.site-header.glass > * {
-  position: relative;
-  z-index: 2;
+header.site-header.glass>* {
+    position: relative;
+    z-index: 2;
 }
-
