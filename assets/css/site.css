@@ -427,6 +427,37 @@ header > * {
     font-weight: 650;
     letter-spacing: 0.2px;
 }
+.brand-icon-wrap {
+    /* Wrapper nötig, damit wir mit ::before einen echten Glow hinter dem IMG erzeugen können */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex: 0 0 36px;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+/* Glow: lieber als Drop-Shadow am IMG */
+.brand-icon-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+
+/* Tiefe ohne sichtbaren Ring: nur Schatten */
+.brand-icon-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+}
+
 .brand-icon {
     /* fixe Pixelgrößen vermeiden Subpixel-Skalierung (wirkt oft "schärfer") */
     width: 36px;
@@ -434,10 +465,28 @@ header > * {
     border-radius: 50%;
     display: block;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
+
     /* leichter "Schärfe"-Boost bei Downscaling (WebKit) */
     image-rendering: -webkit-optimize-contrast;
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--secondary) 35%, transparent);
+
+    /* Normalzustand: kein Glow (nur die Tiefe kommt über ::after am Wrapper) */
+    filter: none;
+    transition: filter 0.25s ease;
 }
+
+/* Glow nur beim Hover über dem Logo (nicht im Normalzustand). */
+@media (hover: hover) and (pointer: fine) {
+    .brand-icon-wrap:hover .brand-icon {
+        /* "stärker am Anfang" = kleiner Radius + höhere Opazität, dann weich auslaufen */
+        filter:
+        drop-shadow(0 0 5px  rgb(var(--primary-rgb) / 0.80))
+        drop-shadow(0 0 12px rgb(var(--primary-rgb) / 0.38))
+        drop-shadow(0 0 22px rgb(var(--primary-rgb) / 0.16));
+    }
+}
+
 
 nav a {
     color: var(--fg);
@@ -708,7 +757,7 @@ footer .heart {
     display: inline-block;
     color: color-mix(in oklab, var(--accent) 85%, #ff3b30);
     transform: translateY(0.05em);
-    filter: drop-shadow(0 0 10px color-mix(in oklab, var(--accent) 40%, transparent));
+    filter: drop-shadow(0 0 8px color-mix(in oklab, var(--accent) 40%, transparent));
 }
 
 /* Timeline */
