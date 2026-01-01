@@ -3,9 +3,9 @@
    --------------------------------------------------------------------- */
 :root {
     /* Fonts */
-    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans",
+    --font-sans: "Albert Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans",
         "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    --font-head: "Manrope", var(--font-sans);
+    --font-head: var(--font-sans);
     --leading: 1.6;
 
     /* Farben (Dark-Baseline) */
@@ -201,9 +201,10 @@ body {
     margin: 0;
     font-family: var(--font-sans);
     line-height: var(--leading);
-    font-weight: 400;
+    /* Albert Sans ist als Variable Font sehr gut in "Zwischengewichten".
+       320 wirkt eleganter/leichter, kann auf sehr kleinen Screens aber zu dünn wirken. */
+    font-weight: 320;
     font-optical-sizing: auto;
-    font-variation-settings: "opsz" 16;
     color: var(--fg);
     background-color: var(--bg);
 
@@ -233,6 +234,13 @@ body {
     background-size: 100% 100%;
     background-attachment: fixed;
 
+}
+
+/* Auf sehr kleinen Screens kann 320 etwas "faserig" wirken – leicht anheben für bessere Lesbarkeit. */
+@media (max-width: 520px) {
+    body {
+        font-weight: 340;
+    }
 }
 
 /*
@@ -286,7 +294,7 @@ h1,
 h2,
 .section-title {
     font-family: var(--font-head);
-    font-weight: 700;
+    font-weight: 650;
     letter-spacing: -0.01em;
 }
 
@@ -304,7 +312,7 @@ h2.section-title {
 
 nav a,
 .cta {
-    font-weight: 600;
+    font-weight: 520;
     letter-spacing: 0.002em;
 }
 
@@ -317,7 +325,7 @@ nav a,
 
 strong,
 b {
-    font-weight: 650;
+    font-weight: 600;
 }
 
 /* Light-Schatten-Safety */
@@ -416,14 +424,18 @@ header > * {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
-    font-weight: 700;
+    font-weight: 650;
     letter-spacing: 0.2px;
 }
 .brand-icon {
-    width: 2rem;
-    height: 2rem;
+    /* fixe Pixelgrößen vermeiden Subpixel-Skalierung (wirkt oft "schärfer") */
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    display: block;
     object-fit: cover;
+    /* leichter "Schärfe"-Boost bei Downscaling (WebKit) */
+    image-rendering: -webkit-optimize-contrast;
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--secondary) 35%, transparent);
 }
 
