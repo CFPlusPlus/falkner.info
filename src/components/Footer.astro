@@ -1,0 +1,105 @@
+---
+import Divider from "./Divider.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import { site, socialLinks } from "../lib/site";
+
+const year = new Date().getFullYear();
+
+const iconFor = (label: string) => {
+  const l = label.toLowerCase();
+  if (l.includes("discord")) return "discord";
+  if (l.includes("linkedin")) return "linkedin";
+  if (l.includes("github")) return "github";
+  if (l.includes("steam")) return "steam";
+  if (l.includes("xbox")) return "xbox";
+  return "arrow-up-right";
+};
+---
+<footer class="border-t border-border/70 bg-bg/40">
+  <div class="mx-auto max-w-6xl px-5 py-16">
+    <div class="grid gap-10 sm:grid-cols-[1.2fr_0.8fr]">
+      <div class="reveal">
+        <div class="meta">Impressum</div>
+        <h2 class="mt-2 text-2xl font-semibold tracking-tight">Private, nicht-kommerzielle Webseite</h2>
+        <p class="mt-4 text-muted leading-relaxed">
+          Angaben gemäß § 5 DDG — Verantwortlich: <strong class="text-text">{site.author}</strong>
+        </p>
+        <p class="mt-3 text-muted">
+          Kontakt: <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+
+        <details class="mt-6">
+          <summary class="cursor-pointer text-sm text-muted hover:text-text transition">
+            Rechtliche Hinweise anzeigen
+          </summary>
+          <div class="mt-4 text-sm text-muted leading-relaxed space-y-3">
+            <p>
+              <strong class="text-text">Haftungsausschluss:</strong> Trotz sorgfältiger Kontrolle übernehme ich keine Haftung für externe
+              Links. Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
+            </p>
+            <p>
+              <strong class="text-text">Urheberrecht:</strong> Inhalte und Werke auf dieser Seite unterliegen meinem Copyright. Eine Nutzung
+              ist nur mit ausdrücklicher Genehmigung erlaubt.
+            </p>
+            <p>
+              <strong class="text-text">Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="reveal" style="--reveal-delay: 90ms">
+        <div class="meta">Links</div>
+        <Divider class="mt-3" />
+
+        <div class="mt-6 border-t border-border/70">
+          {socialLinks.map((l, i) => (
+            <a
+              href={l.href}
+              target="_blank"
+              rel="noopener"
+              class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+              style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}>
+              <div class="flex items-center gap-3 min-w-0">
+                <Icon name={iconFor(l.label) as any} size={18} class="text-muted group-hover:text-text transition-colors" />
+                <div class="min-w-0">
+                  <div class="text-sm font-medium text-text">{l.label}</div>
+                  <div class="text-xs text-muted truncate">{l.href}</div>
+                </div>
+              </div>
+              <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
+            </a>
+          ))}
+
+          <a
+            href="/datenschutz/"
+            class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+            style="--reveal-delay: 200ms">
+            <div class="flex items-center gap-3 min-w-0">
+              <Icon name="arrow-right" size={18} class="text-muted group-hover:text-text transition-colors" />
+              <div class="min-w-0">
+                <div class="text-sm font-medium text-text">Datenschutz</div>
+                <div class="text-xs text-muted truncate">/datenschutz/</div>
+              </div>
+            </div>
+            <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
+          </a>
+        </div>
+
+        <div class="mt-8">
+          <Button href="/" variant="ghost">Zur Startseite</Button>
+        </div>
+      </div>
+    </div>
+
+    <Divider class="mt-12" />
+
+    <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-muted">
+      <p>© {year} {site.author} — Alle Rechte vorbehalten.</p>
+      <p>
+        Made with <span aria-hidden="true">♥</span> by {site.author}
+      </p>
+    </div>
+  </div>
+</footer>

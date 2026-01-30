@@ -1,0 +1,51 @@
+---
+import Chip from "./Chip.astro";
+import Icon from "./Icon.astro";
+import type { Project } from "../lib/site";
+
+type Props = {
+  projects: Project[];
+};
+
+const { projects } = Astro.props as Props;
+---
+<div class="border-t border-border/70">
+  {projects.map((p, i) => (
+    <article class="group border-b border-border/70 py-5 reveal" style={`--reveal-delay: ${Math.min(i * 60, 240)}ms`}>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0">
+          <h3 class="text-lg font-semibold tracking-tight">
+            {p.href ? (
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-2 text-text hover:text-text">
+                <span class="underline decoration-border/70 underline-offset-4 group-hover:decoration-accent/70 transition-colors">
+                  {p.title}
+                </span>
+                <Icon name="arrow-up-right" class="text-muted group-hover:text-text transition-colors" size={16} />
+              </a>
+            ) : (
+              <span class="text-text">{p.title}</span>
+            )}
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-muted max-w-3xl opacity-100 sm:opacity-70 sm:group-hover:opacity-100 transition-opacity duration-200">
+            {p.summary}
+          </p>
+
+          <div class="mt-3 flex flex-wrap gap-2">
+            {p.tags.map((t) => (
+              <Chip>{t}</Chip>
+            ))}
+          </div>
+        </div>
+
+        <div class="text-sm text-muted whitespace-nowrap sm:pt-1">
+          {p.meta ? <span>{p.meta}</span> : <span class="meta">—</span>}
+        </div>
+      </div>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,18 @@
+---
+type Props = {
+  children: any;
+  tone?: "neutral" | "accent";
+  class?: string;
+};
+
+const { tone = "neutral", class: className = "", children } = Astro.props as Props;
+
+const base =
+  "inline-flex items-center gap-2 px-2.5 py-1 text-[12px] leading-none tracking-[0.08em] uppercase rounded-md border";
+
+const tones = {
+  neutral: "border-border/70 text-muted bg-surface/60",
+  accent: "border-accent/40 text-text bg-accent/10"
+} as const;
+---
+<span class={`${base} ${tones[tone]} ${className}`}>{children}</span>

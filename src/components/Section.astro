@@ -1,0 +1,46 @@
+---
+import Divider from "./Divider.astro";
+import Chip from "./Chip.astro";
+
+type Props = {
+  id: string;
+  title: string;
+  kicker?: string;
+  lead?: string;
+  class?: string;
+};
+
+const { id, title, kicker, lead, class: className = "" } = Astro.props as Props;
+---
+<section id={id} class={`py-16 sm:py-20 ${className}`} aria-labelledby={`${id}-title`}>
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="flex items-start justify-between gap-6">
+      <div class="min-w-0">
+        {kicker ? (
+          <div class="mb-3 reveal" style="--reveal-delay: 0ms">
+            <Chip tone="neutral">{kicker}</Chip>
+          </div>
+        ) : null}
+
+        <h2
+          id={`${id}-title`}
+          class="text-3xl sm:text-4xl font-semibold tracking-tight reveal"
+          style="--reveal-delay: 70ms">
+          {title}
+        </h2>
+
+        {lead ? (
+          <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted reveal" style="--reveal-delay: 130ms">{lead}</p>
+        ) : null}
+      </div>
+
+      <div class="hidden sm:block w-24 pt-1 reveal" style="--reveal-delay: 160ms">
+        <Divider class="opacity-70" />
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <slot />
+    </div>
+  </div>
+</section>

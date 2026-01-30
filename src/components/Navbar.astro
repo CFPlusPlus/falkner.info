@@ -1,0 +1,211 @@
+---
+import Chip from "./Chip.astro";
+
+type NavLink = { label: string; href: string; targetId?: string };
+
+type Props = {
+  brand?: string;
+  links: NavLink[];
+};
+
+const { brand = "falkner.info", links } = Astro.props as Props;
+---
+<header class="sticky top-0 z-50">
+  <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
+    <!-- 1px scroll-progress -->
+    <div id="scrollProgress" class="absolute left-0 top-0 h-px w-full origin-left scale-x-0 bg-accent/50"></div>
+
+    <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3 group" aria-label="Zur Startseite">
+        <img
+          src="/icons/android-chrome-192x192.png"
+          width="28"
+          height="28"
+          alt=""
+          decoding="async"
+          class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
+        <div class="leading-none">
+          <div class="text-sm font-semibold tracking-tight">{brand}</div>
+          <div class="meta mt-1">Persönliche Website · Einblicke & Links</div>
+        </div>
+      </a>
+
+      <!-- Desktop navigation -->
+      <nav class="hidden md:flex items-center gap-1" aria-label="Navigation">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            data-nav-link
+            data-target={l.targetId || ""}
+            class="navlink px-3 py-2 text-sm text-muted hover:text-text transition-colors">
+            {l.label}
+          </a>
+        ))}
+        <div class="ml-2">
+          <Chip tone="accent">dark</Chip>
+        </div>
+      </nav>
+
+      <!-- Mobile button -->
+      <button
+        type="button"
+        id="menuBtn"
+        class="md:hidden inline-flex items-center justify-center rounded-md border border-border/70 bg-surface/60 px-3 py-2 text-sm text-text hover:bg-surface/80 transition"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="mobileMenu">
+        Menü
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile overlay menu (keeps navbar stable) -->
+  <div id="mobileMenu" class="fixed inset-0 z-[60] hidden" aria-hidden="true">
+    <div id="menuOverlay" class="absolute inset-0 bg-bg/60 backdrop-blur-2xl"></div>
+    <div class="absolute right-0 top-0 h-full w-full max-w-md border-l border-border/70 bg-bg/80 backdrop-blur-2xl">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div class="meta">Navigation</div>
+          <button
+            type="button"
+            id="menuClose"
+            class="rounded-md border border-border/70 bg-surface/60 px-3 py-2 text-sm hover:bg-surface/80"
+            aria-label="Menü schließen">
+            Schließen
+          </button>
+        </div>
+
+        <div class="mt-6 space-y-1">
+          {links.map((l) => (
+            <a
+              href={l.href}
+              class="block rounded-md px-3 py-3 text-base text-text border border-transparent hover:border-border/70 hover:bg-surface/50 transition"
+              data-mobile-link>
+              <span class="font-medium">{l.label}</span>
+              <span class="block mt-1 text-sm text-muted">{l.href}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+      // --- Sticky progress (1px) ---
+      const bar = document.getElementById("scrollProgress");
+      let ticking = false;
+      const updateBar = () => {
+        ticking = false;
+        if (!bar) return;
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        const p = max > 0 ? doc.scrollTop / max : 0;
+        bar.style.transform = `scaleX(${Math.min(1, Math.max(0, p))})`;
+      };
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(updateBar);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      updateBar();
+
+      // --- Mobile menu ---
+      const menu = document.getElementById("mobileMenu");
+      const btn = document.getElementById("menuBtn");
+      const closeBtn = document.getElementById("menuClose");
+      const overlay = document.getElementById("menuOverlay");
+
+      const open = () => {
+        if (!menu || !btn) return;
+        menu.classList.remove("hidden");
+        menu.setAttribute("aria-hidden", "false");
+        btn.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      };
+      const close = () => {
+        if (!menu || !btn) return;
+        menu.classList.add("hidden");
+        menu.setAttribute("aria-hidden", "true");
+        btn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      };
+
+      btn?.addEventListener("click", () => {
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+        expanded ? close() : open();
+      });
+      closeBtn?.addEventListener("click", close);
+      overlay?.addEventListener("click", close);
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+
+      // Close after clicking a link
+      menu?.querySelectorAll("[data-mobile-link]").forEach((a) => a.addEventListener("click", close));
+
+      // --- Active section highlight (IntersectionObserver) ---
+      const links = Array.from(document.querySelectorAll("[data-nav-link]"));
+      const sections = links
+        .map((a) => a.getAttribute("data-target"))
+        .filter(Boolean)
+        .map((id) => document.getElementById(id));
+
+      if ("IntersectionObserver" in window && sections.length) {
+        const setActive = (id) => {
+          links.forEach((a) => {
+            const match = a.getAttribute("data-target") === id;
+            a.setAttribute("data-active", match ? "true" : "false");
+            if (match) a.setAttribute("aria-current", "true");
+            else a.removeAttribute("aria-current");
+          });
+        };
+
+        const obs = new IntersectionObserver(
+          (entries) => {
+            // choose the most visible intersecting section
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0));
+            if (visible[0]?.target?.id) setActive(visible[0].target.id);
+          },
+          {
+            root: null,
+            rootMargin: "-20% 0px -65% 0px",
+            threshold: prefersReduced ? 0.1 : [0.1, 0.2, 0.35, 0.5]
+          }
+        );
+
+        sections.forEach((s) => s && obs.observe(s));
+      }
+    })();
+  </script>
+
+  <style>
+    /* Minimalistic active state: small underline */
+    :global(a.navlink[data-active="true"]) {
+      color: hsl(var(--text) / 1);
+      position: relative;
+    }
+    :global(a.navlink[data-active="true"]::after) {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 6px;
+      height: 1px;
+      background: hsl(var(--accent) / 0.65);
+      transform-origin: left;
+      animation: line-in 700ms ease-out both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      :global(a.navlink[data-active="true"]::after) {
+        animation: none;
+      }
+    }
+  </style>
+</header>

@@ -1,0 +1,217 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Divider from "../components/Divider.astro";
+import Chip from "../components/Chip.astro";
+import { site } from "../lib/site";
+
+const navLinks = [
+  { label: "Startseite", href: "/#top" },
+  { label: "Kontakt", href: "/#contact" }
+];
+---
+
+<BaseLayout title={`Datenschutz – ${site.domain}`} description="Datenschutzerklärung für falkner.info" canonicalPath="/datenschutz/">
+  <Navbar links={navLinks} />
+
+  <main class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="max-w-3xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <Chip tone="neutral">Legal</Chip>
+          <Chip>Datenschutz</Chip>
+        </div>
+
+        <h1 class="mt-6 text-4xl sm:text-5xl font-semibold tracking-tight">Datenschutzerklärung</h1>
+        <p class="mt-4 text-muted">
+          Stand: <time datetime="2025-11-01">01.11.2025</time>
+        </p>
+
+        <Divider class="mt-8" />
+
+        <article class="mt-10 space-y-8 text-muted leading-relaxed">
+          <p>
+            Diese Datenschutzerklärung soll die Nutzer dieser privaten Website über die Art, den Umfang und den Zweck der Erhebung
+            und Verwendung personenbezogener Daten durch den genannten Websitebetreiber informieren. Der Websitebetreiber nimmt
+            Ihren Datenschutz sehr ernst und behandelt Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen
+            Vorschriften. Da durch neue Technologien und die ständige Weiterentwicklung dieser Webseite Änderungen an dieser
+            Datenschutzerklärung vorgenommen werden können, empfehlen wir Ihnen, die Datenschutzerklärung in regelmäßigen Abständen
+            wieder zu lesen. Definitionen der verwendeten Begriffe (z. B. "personenbezogene Daten" oder "Verarbeitung") finden Sie in
+            Art. 4 DSGVO.
+          </p>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Websitebetreiber</h2>
+            <p>
+              Verantwortlicher im Sinne der EU-Datenschutzgrundverordnung (<a class="underline decoration-border hover:decoration-accent" href="https://dsgvo-gesetz.de/" target="_blank" rel="noopener">DSGVO</a>)
+              und anderer nationaler Datenschutzgesetze ist: Christian Falkner.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Widerspruch gegen Werbe-E-Mails</h2>
+            <p>
+              Der Nutzung von im Rahmen der oben genannten veröffentlichten Kontaktdaten zur Übersendung von nicht ausdrücklich
+              angeforderter Werbung und Informationsmaterialien wird hiermit widersprochen. Der Betreiber der Seiten behält sich
+              ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-E-Mails, vor.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Cookies</h2>
+            <p>
+              Wie viele andere Webseiten verwenden wir auch so genannte „Cookies“, um das Internetangebot nutzerfreundlicher, effektiver
+              und sicherer zu gestalten. Cookies sind kleine Textdateien. Sie unterstützen die Darstellung unserer Webseite und helfen Ihnen,
+              sich auf unserer Webseite zu bewegen. Cookies erfassen Daten zu Ihrer IP-Adresse, zu Ihrem Browser, Ihrem Betriebssystem und
+              Ihrer Internetverbindung. Diese Informationen verbinden wir nicht mit personenbezogenen Daten und geben sie nicht an Dritte weiter.
+            </p>
+            <p>
+              Sie können unsere Webseite auch ohne den Einsatz von Cookies nutzen, wodurch möglicherweise einige Darstellungen und Funktionen
+              unseres Angebots nur eingeschränkt arbeiten. Diese werden zur technischen Sitzungssteuerung im temporären Speicher des Webbrowsers
+              bzw. auf der Festplatte des Besuchers der Internetseite abgelegt.
+            </p>
+            <p>
+              Unter anderem speichern wir auf Ihrer Festplatte so genannte Session-Cookies, die nur für die Dauer Ihres Besuches auf unserer
+              Webseite Gültigkeit besitzen. Diese werden benötigt, um Sie nach erfolgreicher Anmeldung im geschützten Bereich für die gesamte Dauer
+              Ihres Besuches zu identifizieren und zu autorisieren. Nach Ende Ihres Besuches werden diese Cookies automatisch von Ihrer Festplatte
+              wieder gelöscht.
+            </p>
+            <p>
+              Das Speichern von Cookies können Besucher von Internetseiten durch bestimmte Browser-Einstellungen verhindern. In der Regel lässt sich
+              der Webbrowser auch so einstellen, dass dieser beim Besucher der Internetseite vor dem Setzen von Cookies nachfragt, ob er einverstanden
+              ist. Ferner können einmal gesetzte Cookies jederzeit wieder vom Besucher der Internetseite gelöscht werden. Die Produktbeschreibungen/Anleitungen
+              der jeweiligen Browser-Hersteller enthalten Informationen zu den hierzu erforderlichen Einstellungen. Bitte beachten Sie, dass einzelne Funktionen
+              unserer Webseite möglicherweise nicht funktionieren, wenn Sie die Verwendung von Cookies deaktiviert haben.
+            </p>
+            <p>
+              Cookies können nicht verwendet werden, um Programme zu starten oder Viren auf einen Computer zu übertragen. Anhand der in Cookies enthaltenen
+              Informationen können wir Ihnen die Navigation erleichtern und die korrekte Anzeige unserer Webseiten ermöglichen.
+            </p>
+            <p>
+              In keinem Fall werden die von uns erfassten Daten an Dritte weitergegeben oder ohne Ihre Einwilligung eine Verknüpfung mit personenbezogenen
+              Daten hergestellt.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Verschlüsselung</h2>
+            <p>
+              Um die Sicherheit Ihrer Daten bei der Übertragung zu schützen, wird nach aktuellem Stand der Technik ein entsprechendes SSL- bzw.
+              TLS-Verschlüsselungsverfahren verwendet. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von “http://”
+              auf “https://” wechselt und an dem Schloss-Symbol in der Browserzeile. Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können Daten,
+              die an mich übermittelt werden, nicht von Dritten mitgelesen werden.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Zugriffsdaten</h2>
+            <p>
+              Ihre Daten werden zum einen dadurch erhoben, dass Sie mir diese mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie mir per E-Mail senden.
+            </p>
+            <p>
+              Um Ihren Besuch so benutzerfreundlich wie möglich zu gestalten und sämtliche verfügbaren Funktionen anbieten zu können, wird ein Teil der Daten aufgrund
+              unseres berechtigten Interesses (s. Art. 6 Abs. 1 lit. f. DSGVO) erhoben, um eine fehlerfreie Bereitstellung der Website durch unseren Hosting-Anbieter
+              (ALL-INKL.COM) zu gewährleisten. Die Erfassung dieser Daten erfolgt automatisch, sobald Sie unsere Website besuchen und unterliegt den folgenden geltenden
+              Datenschutzerklärungen der jeweiligen Anbieter:
+              <a class="underline decoration-border hover:decoration-accent" href="https://all-inkl.com/datenschutzinformationen/" target="_blank" rel="noopener">ALL-INKL.COM</a>
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Onlinepräsenzen</h2>
+            <p>
+              Der Websitebetreiber unterhält auch Onlinepräsenzen innerhalb sozialer Netzwerke und Plattformen, um mit den dort aktiven Nutzern zu kommunizieren.
+              Ich weise darauf hin, dass dabei Daten der Nutzer außerhalb des Raumes der Europäischen Union verarbeitet werden können.
+            </p>
+            <p>
+              Für eine detaillierte Darstellung der jeweiligen Verarbeitungen, verweise ich auf die nachfolgend verlinkten Datenschutzerklärungen der Anbieter:
+              <a class="underline decoration-border hover:decoration-accent" href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener">Google</a>,
+              <a class="underline decoration-border hover:decoration-accent" href="https://discord.com/privacy" target="_blank" rel="noopener">Discord</a>.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Verwendung von Scriptbibliotheken (Google Webfonts)</h2>
+            <p>
+              Um unsere Inhalte browserübergreifend korrekt und grafisch ansprechend darzustellen, verwenden wir auf dieser Website „Google Web Fonts“ der Google LLC.
+              Weitere Informationen finden Sie unter
+              <a class="underline decoration-border hover:decoration-accent" href="https://developers.google.com/fonts/faq" target="_blank" rel="noopener nofollow">developers.google.com/fonts/faq</a>
+              und in der Datenschutzerklärung von Google:
+              <a class="underline decoration-border hover:decoration-accent" href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener nofollow">google.com/policies/privacy</a>.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Erfassung und Verarbeitung personenbezogener Daten</h2>
+            <p>
+              Der Websitebetreiber erhebt, nutzt und gibt Ihre personenbezogenen Daten nur dann weiter, wenn dies im gesetzlichen Rahmen erlaubt ist oder Sie in die
+              Datenerhebung einwilligen. Als personenbezogene Daten gelten sämtliche Informationen, welche dazu dienen, Ihre Person zu bestimmen und welche zu Ihnen
+              zurückverfolgt werden können.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Kontaktformular</h2>
+            <p>
+              Treten Sie bzgl. Fragen jeglicher Art per E-Mail oder Kontaktformular mit uns in Kontakt, erteilen Sie uns zum Zwecke der Kontaktaufnahme Ihre freiwillige
+              Einwilligung. Hierfür ist die Angabe einer validen E-Mail-Adresse erforderlich.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Umgang mit Kontaktdaten</h2>
+            <p>
+              Nehmen Sie mit uns als Websitebetreiber durch die angebotenen Kontaktmöglichkeiten Verbindung auf, werden Ihre Angaben gespeichert, damit auf diese zur
+              Bearbeitung und Beantwortung Ihrer Anfrage zurückgegriffen werden kann. Ohne Ihre Einwilligung werden diese Daten nicht an Dritte weitergegeben.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Rechte des Nutzers</h2>
+            <p>
+              Sie haben als Nutzer das Recht, auf Antrag eine kostenlose Auskunft darüber zu erhalten, welche personenbezogenen Daten über Sie gespeichert wurden.
+              Sie haben außerdem das Recht auf Berichtigung falscher Daten und auf die Verarbeitungseinschränkung oder Löschung Ihrer personenbezogenen Daten.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Löschung von Daten</h2>
+            <p>
+              Sofern Ihr Wunsch nicht mit einer gesetzlichen Pflicht zur Aufbewahrung von Daten kollidiert, haben Sie ein Anrecht auf Löschung Ihrer Daten.
+              Von uns gespeicherte Daten werden gelöscht, wenn sie für ihre Zweckbestimmung nicht mehr vonnöten sind und es keine gesetzlichen Aufbewahrungsfristen gibt.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Änderung unserer Datenschutzbestimmungen</h2>
+            <p>
+              Wir behalten uns vor, diese Datenschutzerklärung gelegentlich anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen
+              unserer Leistungen in der Datenschutzerklärung umzusetzen.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-semibold text-text tracking-tight">Widerspruchsrecht</h2>
+            <p>
+              Nutzer dieser Webseite können von ihrem Widerspruchsrecht Gebrauch machen und der Verarbeitung ihrer personenbezogenen Daten zu jeder Zeit widersprechen.
+              Wenn Sie eine Berichtigung, Sperrung, Löschung oder Auskunft über die zu Ihrer Person gespeicherten personenbezogenen Daten wünschen oder Fragen haben,
+              wenden Sie sich bitte an den Websitebetreiber.
+            </p>
+          </section>
+
+          <div class="pt-2">
+            <Divider />
+            <p class="mt-4 text-sm">
+              Kontakt: <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <Footer />
+    </div>
+  </main>
+</BaseLayout>
