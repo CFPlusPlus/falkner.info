@@ -5,7 +5,7 @@ export default defineConfig({
   site: "https://falkner.info",
   integrations: [
     tailwind({
-      applyBaseStyles: false
-    })
-  ]
+      applyBaseStyles: false,
+    }),
+  ],
 });
