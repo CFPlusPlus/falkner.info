@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark mode as default */
+  color-scheme: dark;
+
+  /* Neutral base */
+  --bg: 255 19% 5%;
+  --surface: 252 21% 8%;
+  --border: 255 18% 18%;
+  --text: 0 0% 98%;
+  --muted: 250 12% 72%;
+
+  /* Single accent (tuned teal) */
+  --accent: 171 92% 44%;
+  --accent2: 50 93% 65%; /* only for tiny highlights; keep rare */
+}
+
+/* Smooth anchor scrolling, but respect reduced motion */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Better scroll positioning under sticky navbar */
+[id] {
+  scroll-margin-top: 96px;
+}
+
+body {
+  @apply min-h-screen bg-bg text-text antialiased;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Inter", "Albert Sans", Arial, "Noto Sans", sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background: hsl(var(--accent) / 0.25);
+}
+
+a {
+  @apply outline-none;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--accent) / 0.7);
+  outline-offset: 3px;
+}
+
+/* Subtle grain overlay */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* A tiny helper for meta text */
+.meta {
+  @apply text-xs tracking-[0.14em] uppercase text-muted;
+}
+
+/* Lightweight on-load reveal */
+
+
+
+/* --- Subtle motion that still feels "editorial" --- */
+@media (prefers-reduced-motion: no-preference) {
+  .blob-float-a { animation: blob-float 14s ease-in-out infinite; }
+  .blob-float-b { animation: blob-float 18s ease-in-out infinite reverse; }
+  .blob-float-c { animation: blob-float 22s ease-in-out infinite; }
+}
+@keyframes blob-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10px, -14px, 0) scale(1.03); }
+}
+
+/* --- Scroll reveal (JS-enhanced, but safe without JS) --- */
+html[data-js="true"] .reveal {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  filter: blur(2px);
+  transition:
+    opacity 650ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+html[data-js="true"] .reveal.is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-js="true"] .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

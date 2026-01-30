@@ -1,14 +1,23 @@
 {
-  "name": "",
+  "name": "falkner-editorial-onepager",
+  "private": true,
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "format": "prettier . --write"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "astro": "latest",
+    "@astrojs/tailwind": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest",
+    "prettier": "latest",
+    "prettier-plugin-astro": "latest"
   }
 }

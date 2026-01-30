@@ -1,0 +1,138 @@
+---
+import "../styles/global.css";
+import { site } from "../lib/site";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  ogImagePath?: string;
+};
+
+const {
+  title = site.title,
+  description = site.description,
+  canonicalPath = "/",
+  ogImagePath = "/og/og.png"
+} = Astro.props as Props;
+
+const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
+const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+
+    <meta name="author" content={site.author} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Theme color (dark first) -->
+    <meta name="theme-color" content="#0b0b12" />
+
+    <script is:inline>
+      // Enables JS-enhanced styles without breaking no-JS rendering
+      document.documentElement.dataset.js = "true";
+    </script>
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Font: Inter (clean editorial default) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet" />
+
+    <!-- Global styles are imported via Astro (see frontmatter) -->
+
+    <!-- Preload hero image -->
+    <link rel="preload" as="image" href="/images/profile.webp" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={site.domain} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <!-- Background blobs (editorial artboard feel) -->
+    <div aria-hidden="true" class="fixed inset-0 -z-10 overflow-hidden">
+      <div class="absolute -top-48 -left-64 h-[520px] w-[520px] rounded-full bg-accent/12 blur-3xl blob-float-a"></div>
+      <div class="absolute top-[18%] -right-72 h-[620px] w-[620px] rounded-full bg-accent2/10 blur-3xl blob-float-b"></div>
+      <div class="absolute bottom-[-220px] left-[10%] h-[520px] w-[520px] rounded-full bg-accent/10 blur-3xl blob-float-c"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-bg/30 via-bg to-bg"></div>
+      <div class="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_120px_rgba(0,0,0,0.55)]"></div>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <slot />
+
+    <script is:inline>
+      (() => {
+        const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+        // --- Scroll reveal (IntersectionObserver) ---
+        const els = Array.from(document.querySelectorAll(".reveal"));
+        if (!prefersReduced && "IntersectionObserver" in window && els.length) {
+          const obs = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  e.target.classList.add("is-in");
+                  obs.unobserve(e.target);
+                }
+              });
+            },
+            { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
+          );
+          els.forEach((el) => obs.observe(el));
+        } else {
+          // If no IO / reduced motion: show immediately
+          els.forEach((el) => el.classList.add("is-in"));
+        }
+
+        // --- Copy-to-clipboard (opt-in) ---
+        const copyBtn = document.querySelector("[data-copy]");
+        const status = document.querySelector("[data-copy-status]");
+        if (copyBtn && status) {
+          copyBtn.addEventListener("click", async () => {
+            const value = copyBtn.getAttribute("data-copy-value") || "";
+            try {
+              await navigator.clipboard.writeText(value);
+              status.textContent = "Kopiert.";
+              copyBtn.setAttribute("data-copied", "true");
+              window.setTimeout(() => copyBtn.removeAttribute("data-copied"), 1200);
+            } catch {
+              status.textContent = "Konnte nicht kopieren — bitte manuell markieren.";
+            }
+            window.setTimeout(() => (status.textContent = ""), 1600);
+          });
+        }
+      })();
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,37 @@
+---
+type Props = {
+  href?: string;
+  target?: string;
+  rel?: string;
+  variant?: "primary" | "secondary" | "ghost";
+  class?: string;
+  ariaLabel?: string;
+  id?: string;
+};
+
+const { href, target, rel, variant = "primary", class: className = "", ariaLabel, ...rest } =
+  Astro.props as Props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium border transition-[color,background-color,border-color,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg";
+
+const variants = {
+  primary:
+    "bg-accent/15 border-accent/40 text-text hover:bg-accent/20 hover:border-accent/55 active:translate-y-[0.5px]",
+  secondary:
+    "bg-surface/60 border-border/70 text-text hover:bg-surface/80 hover:border-border active:translate-y-[0.5px]",
+  ghost:
+    "bg-transparent border-transparent text-muted hover:text-text hover:bg-surface/40 active:translate-y-[0.5px]"
+} as const;
+
+const cls = `${base} ${variants[variant]} ${className}`;
+---
+{href ? (
+  <a href={href} target={target} rel={rel} class={cls} aria-label={ariaLabel} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type="button" class={cls} aria-label={ariaLabel} {...rest}>
+    <slot />
+  </button>
+)}

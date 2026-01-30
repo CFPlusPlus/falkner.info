@@ -1,11 +1,302 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Section from "../components/Section.astro";
+import Divider from "../components/Divider.astro";
+import Button from "../components/Button.astro";
+import Chip from "../components/Chip.astro";
+import Icon from "../components/Icon.astro";
+import ProjectSpotlight from "../components/ProjectSpotlight.astro";
+import ProjectList from "../components/ProjectList.astro";
+import Footer from "../components/Footer.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { site, socialLinks, spotlightProject, projects, stackGroups } from "../lib/site";
+
+const navLinks = [
+  { label: "Über", href: "#about", targetId: "about" },
+  { label: "Projekte", href: "#projects", targetId: "projects" },
+  { label: "Interessen", href: "#stack", targetId: "stack" },
+  { label: "Kontakt", href: "#contact", targetId: "contact" }
+];
+
+const iconFor = (label: string) => {
+  const l = label.toLowerCase();
+  if (l.includes("discord")) return "discord";
+  if (l.includes("linkedin")) return "linkedin";
+  if (l.includes("github")) return "github";
+  if (l.includes("steam")) return "steam";
+  if (l.includes("xbox")) return "xbox";
+  return "arrow-up-right";
+};
 ---
+<BaseLayout>
+  <Navbar brand={site.domain} links={navLinks} />
 
-<Layout>
-	<Welcome />
-</Layout>
+  <main>
+    <!-- HERO -->
+    <section id="top" class="pt-12 pb-10 sm:pt-16">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+          <div class="reveal">
+            <div class="flex flex-wrap items-center gap-2">
+              <Chip tone="accent">private · nicht-kommerziell</Chip>
+              <Chip>falkner.info</Chip>
+            </div>
+
+            <h1 class="mt-6 text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.03]">
+              Schön, dass du hier bist!
+            </h1>
+
+            <p class="mt-5 text-base sm:text-lg leading-relaxed text-muted max-w-2xl">
+              Ich bin <strong class="text-text">Christian Falkner</strong>. Auf dieser Seite teile ich ein paar Einblicke in mein Leben,
+              meine Interessen und Projekte.
+            </p>
+
+            <p class="mt-4 text-sm text-muted max-w-2xl">
+              Geboren in <strong class="text-text">Nürnberg</strong>, Stationen in <strong class="text-text">Wolfsburg</strong> und
+              <strong class="text-text">Bad Nauheim</strong> — heute nahe <strong class="text-text">München</strong> im
+              <strong class="text-text">dualen Studium im öffentlichen Dienst</strong>.
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+              <Button href="#contact" variant="primary" ariaLabel="Zum Kontakt springen">
+                <Icon name="mail" size={16} />
+                Kontakt
+              </Button>
+              <Button href="#projects" variant="secondary" ariaLabel="Zu den Projekten springen">
+                Projekte ansehen
+                <Icon name="arrow-right" size={16} />
+              </Button>
+            </div>
+
+            <div class="mt-10">
+              <Divider />
+              <div class="mt-4 flex flex-wrap gap-3 text-sm text-muted">
+                <span class="meta">Schnelllinks</span>
+                {socialLinks.slice(0, 3).map((l) => (
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 hover:text-text transition-colors">
+                    <Icon name={iconFor(l.label) as any} size={16} class="text-muted" />
+                    <span class="underline decoration-border/70 underline-offset-4 hover:decoration-accent/70">{l.label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal lg:justify-self-end" style="--reveal-delay: 80ms">
+            <div class="relative">
+              <div aria-hidden="true" class="absolute -inset-6 rounded-lg bg-accent/10 blur-2xl"></div>
+              <img
+                src="/images/profile.webp"
+                alt="Profilfoto von Christian Falkner"
+                width="640"
+                height="640"
+                class="relative w-full max-w-[420px] rounded-lg border border-border/70 shadow-soft" />
+              <div class="mt-4 flex flex-wrap gap-2">
+                <Chip>
+                  <Icon name="gamepad" size={14} class="text-muted" /> Gaming
+                </Chip>
+                <Chip>
+                  <Icon name="cpu" size={14} class="text-muted" /> Computer
+                </Chip>
+                <Chip>
+                  <Icon name="mountain" size={14} class="text-muted" /> Wandern
+                </Chip>
+                <Chip>
+                  <Icon name="pickaxe" size={14} class="text-muted" /> Minecraft
+                </Chip>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <Section
+      id="about"
+      title="Über mich"
+      kicker="Kurzprofil"
+      lead="Ein paar Stationen, ein paar Interessen — und ein Projekt, das nebenbei ziemlich viel Herz bekommt.">
+      <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="space-y-5 text-muted leading-relaxed">
+          <p class="reveal" style="--reveal-delay: 120ms">
+            Willkommen auf der persönlichen Website von <strong class="text-text">Christian Falkner</strong>. Geboren wurde ich in
+            <strong class="text-text"> Nürnberg</strong> und habe schon früh in verschiedenen Städten gelebt — darunter
+            <strong class="text-text"> Wolfsburg</strong> und <strong class="text-text"> Bad Nauheim</strong>. Diese Zeit hat mir gezeigt,
+            dass man überall Freunde finden kann.
+          </p>
+          <p class="reveal" style="--reveal-delay: 170ms">
+            Heute lebe ich in einer kleinen Gemeinde nahe <strong class="text-text">München</strong>, wo ich aktuell ein
+            <strong class="text-text"> duales Studium im öffentlichen Dienst</strong> absolviere. Ich schätze die Kombination aus Natur,
+            Nähe zur Stadt und beruflicher Stabilität.
+          </p>
+          <p class="reveal" style="--reveal-delay: 220ms">
+            In meiner Freizeit betreibe ich die <strong class="text-text">Minecraft Gilde</strong> — ein entspannter deutscher
+            Vanilla-SMP-Server ohne Whitelist, perfekt zum Abschalten am Abend.
+          </p>
+        </div>
+
+        <aside class="space-y-6">
+          <div class="reveal" style="--reveal-delay: 140ms">
+            <div class="meta">Lebensstationen</div>
+            <div class="mt-4 border-l border-border/70 pl-4 space-y-4">
+              <div>
+                <div class="text-sm font-medium text-text">Nürnberg</div>
+                <div class="text-sm text-muted">Geboren und aufgewachsen.</div>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-text">Wolfsburg & Bad Nauheim</div>
+                <div class="text-sm text-muted">Schulzeit und Freundschaften, die bis heute bestehen.</div>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-text">Nahe München</div>
+                <div class="text-sm text-muted">Heimat & Studium im öffentlichen Dienst.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal" style="--reveal-delay: 220ms">
+            <div class="meta">Hobbys</div>
+            <Divider class="mt-3" />
+            <ul class="mt-5 space-y-3 text-sm text-muted">
+              <li class="flex items-start gap-3">
+                <Icon name="gamepad" size={16} class="mt-0.5 text-muted" />
+                <span>
+                  <strong class="text-text">Gaming</strong> — Renn-, Strategie- und Aufbauspiele (u. a. Minecraft). Community zählt.
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Icon name="cpu" size={16} class="mt-0.5 text-muted" />
+                <span>
+                  <strong class="text-text">Computer</strong> — Systeme zusammenbauen, reparieren und optimieren. Hardware & Software im
+                  Zusammenspiel.
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Icon name="mountain" size={16} class="mt-0.5 text-muted" />
+                <span>
+                  <strong class="text-text">Wandern</strong> — Ausgleich zum Alltag, besonders gerne in den Alpen.
+                </span>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </Section>
+
+    <!-- PROJECTS -->
+    <Section
+      id="projects"
+      title="Projekte"
+      kicker="Auswahl"
+      lead="Keine Kartenwand — nur eine klare Liste und ein Projekt im Fokus.">
+      <div class="space-y-10">
+        <div class="reveal">
+          <ProjectSpotlight project={spotlightProject} />
+        </div>
+
+        <div class="reveal" style="--reveal-delay: 80ms">
+          <div class="meta">Weitere</div>
+          <Divider class="mt-3" />
+          <div class="mt-6">
+            <ProjectList projects={projects} />
+          </div>
+        </div>
+      </div>
+    </Section>
+
+    <!-- INTERESTS / STACK -->
+    <Section id="stack" title="Interessen" kicker="Chips" lead="Kurz & bündig — die Themen, die mich gerade begleiten.">
+      <div class="grid gap-10 lg:grid-cols-2">
+        {stackGroups.map((g, gi) => (
+          <div class="reveal" style={`--reveal-delay: ${Math.min(gi * 80, 160)}ms`}>
+            <div class="meta">{g.title}</div>
+            <Divider class="mt-3" />
+            <div class="mt-5 flex flex-wrap gap-2">
+              {g.items.map((item) => (
+                <Chip>{item}</Chip>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+
+    <!-- CONTACT -->
+    <Section id="contact" title="Kontakt" kicker="Mail & Links" lead="Am schnellsten geht’s per E‑Mail.">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="reveal">
+          <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6">
+            <div class="meta">E‑Mail</div>
+            <p class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
+              <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <Button href={`mailto:${site.email}`} variant="primary">
+                <Icon name="mail" size={16} />
+                Mail öffnen
+              </Button>
+
+              <Button
+                variant="secondary"
+                ariaLabel="E-Mail-Adresse kopieren"
+                data-copy
+                data-copy-value={site.email}>
+                <Icon name="copy" size={16} />
+                Kopieren
+              </Button>
+
+              <span class="inline-flex items-center text-sm text-muted" data-copy-status aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="reveal" style="--reveal-delay: 80ms">
+          <div class="meta">Social</div>
+          <Divider class="mt-3" />
+
+          <div class="mt-6 border-t border-border/70">
+            {socialLinks.map((l, i) => (
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noopener"
+                class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+                style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}>
+                <div class="flex items-center gap-3 min-w-0">
+                  <Icon name={iconFor(l.label) as any} size={18} class="text-muted group-hover:text-text transition-colors" />
+                  <div class="min-w-0">
+                    <div class="text-sm font-medium text-text">{l.label}</div>
+                    <div class="text-xs text-muted truncate">{l.href}</div>
+                  </div>
+                </div>
+                <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
+              </a>
+            ))}
+
+            <a
+              href="/datenschutz/"
+              class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal">
+              <div class="flex items-center gap-3 min-w-0">
+                <Icon name="arrow-right" size={18} class="text-muted group-hover:text-text transition-colors" />
+                <div class="min-w-0">
+                  <div class="text-sm font-medium text-text">Datenschutz</div>
+                  <div class="text-xs text-muted truncate">/datenschutz/</div>
+                </div>
+              </div>
+              <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
+            </a>
+          </div>
+        </aside>
+      </div>
+    </Section>
+
+    <Footer />
+  </main>
+</BaseLayout>
