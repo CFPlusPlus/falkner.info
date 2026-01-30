@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://falkner.info/sitemap.xml
