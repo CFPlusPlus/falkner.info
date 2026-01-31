@@ -78,20 +78,6 @@ const iconFor = (label: string) => {
               <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
             </a>
           ))}
-
-          <a
-            href="/datenschutz/"
-            class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
-            style="--reveal-delay: 200ms">
-            <div class="flex items-center gap-3 min-w-0">
-              <Icon name="arrow-right" size={18} class="text-muted group-hover:text-text transition-colors" />
-              <div class="min-w-0">
-                <div class="text-sm font-medium text-text">Datenschutz</div>
-                <div class="text-xs text-muted truncate">/datenschutz/</div>
-              </div>
-            </div>
-            <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
-          </a>
         </div>
 
         <div class="mt-8">
@@ -105,7 +91,7 @@ const iconFor = (label: string) => {
     <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-muted">
       <p>© {year} {site.author} — Alle Rechte vorbehalten.</p>
       <p>
-        Made with <span aria-hidden="true">♥</span> by {site.author}
+        Mit <span aria-hidden="true">♥</span> gebaut — {site.author}
       </p>
     </div>
   </div>

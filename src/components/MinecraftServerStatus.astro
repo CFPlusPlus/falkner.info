@@ -1,0 +1,77 @@
+---
+type Props = {
+  /** Minecraft Java Server Address (hostname[:port]) */
+  address: string;
+  /** Optional label shown above */
+  label?: string;
+};
+
+const { address, label = "Spieler online" } = Astro.props as Props;
+
+// API docs: https://api.mcsrvstat.us (version 3)
+const apiUrl = `https://api.mcsrvstat.us/3/${address}`;
+
+// Unique IDs per component instance
+const idBase = `mc-${Math.random().toString(16).slice(2)}`;
+const valueId = `${idBase}-value`;
+const dotId = `${idBase}-dot`;
+const textId = `${idBase}-text`;
+---
+
+<div class="space-y-1">
+  <div class="meta">{label}</div>
+  <div class="flex items-center gap-2">
+    <span id={dotId} aria-hidden="true" class="h-2 w-2 rounded-full bg-border"></span>
+    <span id={valueId} class="tabular-nums text-text">…</span>
+    <span id={textId} class="text-muted text-xs"></span>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const apiUrl = {JSON.stringify(apiUrl)};
+    const valueEl = document.getElementById({JSON.stringify(valueId)});
+    const dotEl = document.getElementById({JSON.stringify(dotId)});
+    const textEl = document.getElementById({JSON.stringify(textId)});
+    if (!valueEl || !dotEl || !textEl) return;
+
+    const setState = (state, payload) => {
+      // Reset classes
+      dotEl.classList.remove('bg-accent','bg-border');
+      dotEl.classList.add(state === 'online' ? 'bg-accent' : 'bg-border');
+
+      if (state === 'online') {
+        valueEl.textContent = `${payload.online}/${payload.max}`;
+        textEl.textContent = 'online';
+      } else if (state === 'offline') {
+        valueEl.textContent = '—';
+        textEl.textContent = 'offline';
+      } else {
+        valueEl.textContent = '—';
+        textEl.textContent = 'nicht verfügbar';
+      }
+    };
+
+    const load = async () => {
+      try {
+        const res = await fetch(apiUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (data && data.online && data.players) {
+          setState('online', { online: data.players.online ?? 0, max: data.players.max ?? 0 });
+        } else if (data && data.online === false) {
+          setState('offline');
+        } else {
+          setState('unknown');
+        }
+      } catch (e) {
+        setState('unknown');
+      }
+    };
+
+    load();
+    // API cache is ~2 minutes; we refresh slightly after that.
+    window.setInterval(load, 125000);
+  })();
+</script>

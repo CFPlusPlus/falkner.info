@@ -1,0 +1,273 @@
+---
+import Icon from "./Icon.astro";
+import type { GalleryImage } from "../lib/site";
+
+type Props = {
+  /** Unique id so multiple galleries can live on the same page */
+  id: string;
+  images: GalleryImage[];
+  /** Optional label shown in the lightbox footer */
+  label?: string;
+};
+
+const { id, images, label = "" } = Astro.props as Props;
+
+const rootId = `lb-${id}`;
+const stripId = `${rootId}-strip`;
+const modalId = `${rootId}-modal`;
+const imgId = `${rootId}-img`;
+const captionId = `${rootId}-cap`;
+const countId = `${rootId}-count`;
+const closeId = `${rootId}-close`;
+const prevId = `${rootId}-prev`;
+const nextId = `${rootId}-next`;
+const scrollLeftId = `${rootId}-scroll-left`;
+const scrollRightId = `${rootId}-scroll-right`;
+---
+
+<div id={rootId} class="relative">
+  <!-- Carousel strip -->
+  <div class="relative mt-6">
+    <!-- edge fades (subtle) -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-bg via-bg/70 to-transparent"></div>
+
+    <div
+      id={stripId}
+      class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
+      {images.map((img, i) => (
+        <button
+          type="button"
+          class="reveal group relative snap-start shrink-0 overflow-hidden rounded-lg border border-border/70 bg-surface/40 shadow-soft focus-visible:outline-none"
+          style={`--reveal-delay: ${Math.min(i * 55, 220)}ms`}
+          data-lb-open
+          data-index={i}
+          data-src={img.src}
+          data-alt={img.alt}
+          data-caption={img.caption ?? ""}
+          aria-label={`Bild ${i + 1} ansehen`}
+        >
+          <img
+            src={img.src}
+            alt={img.alt}
+            loading="lazy"
+            decoding="async"
+            class="h-[210px] w-[280px] sm:h-[240px] sm:w-[340px] lg:h-[260px] lg:w-[380px] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+          <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-70"></div>
+          <div class="absolute left-3 bottom-3 flex items-center gap-2 rounded-full border border-border/70 bg-bg/40 backdrop-blur px-3 py-1 text-xs text-text/90">
+            <Icon name="zoom-in" size={14} class="text-text/80" />
+            <span>Ansehen</span>
+          </div>
+        </button>
+      ))}
+    </div>
+
+    <!-- Carousel controls -->
+    <div class="mt-4 flex items-center justify-between">
+      <div class="text-xs text-muted tabular-nums">{images.length} Fotos</div>
+      <div class="flex items-center gap-2">
+        <button
+          id={scrollLeftId}
+          type="button"
+          class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          aria-label="Nach links scrollen"
+        >
+          <Icon name="chevron-left" size={18} class="text-muted" />
+        </button>
+        <button
+          id={scrollRightId}
+          type="button"
+          class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          aria-label="Nach rechts scrollen"
+        >
+          <Icon name="chevron-right" size={18} class="text-muted" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox / modal -->
+  <div
+    id={modalId}
+    class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Bildanzeige"
+  >
+    <div data-lb-overlay class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+    <div class="relative w-full max-w-5xl">
+      <div class="mx-auto rounded-lg border border-border/70 bg-surface/55 backdrop-blur shadow-soft overflow-hidden">
+        <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-border/70">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id={countId} class="text-xs text-muted tabular-nums">&nbsp;</div>
+            {label ? <div class="hidden sm:block text-xs text-muted truncate">{label}</div> : null}
+          </div>
+          <button
+            id={closeId}
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition px-3 py-2"
+            aria-label="Schließen"
+          >
+            <Icon name="x" size={18} class="text-muted" />
+            <span class="hidden sm:inline text-sm text-muted">Schließen</span>
+          </button>
+        </div>
+
+        <div class="relative">
+          <img
+            id={imgId}
+            alt=""
+            class="block w-full max-h-[78vh] object-contain bg-bg/30"
+          />
+
+          <!-- Prev/Next -->
+          <button
+            id={prevId}
+            type="button"
+            class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            aria-label="Vorheriges Bild"
+          >
+            <Icon name="chevron-left" size={20} class="text-text/80" />
+          </button>
+          <button
+            id={nextId}
+            type="button"
+            class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            aria-label="Nächstes Bild"
+          >
+            <Icon name="chevron-right" size={20} class="text-text/80" />
+          </button>
+        </div>
+
+        <div class="px-4 py-3 border-t border-border/70">
+          <div id={captionId} class="text-xs text-muted leading-relaxed">&nbsp;</div>
+          <div class="mt-1 text-[11px] text-muted/80">Tipp: Pfeiltasten wechseln · Esc schließt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{
+    rootId,
+    stripId,
+    modalId,
+    imgId,
+    captionId,
+    countId,
+    closeId,
+    prevId,
+    nextId,
+    scrollLeftId,
+    scrollRightId,
+  }}>
+    (() => {
+      const root = document.getElementById(rootId);
+      if (!root) return;
+
+      const strip = document.getElementById(stripId);
+      const modal = document.getElementById(modalId);
+      const imgEl = document.getElementById(imgId);
+      const capEl = document.getElementById(captionId);
+      const countEl = document.getElementById(countId);
+      const btnClose = document.getElementById(closeId);
+      const btnPrev = document.getElementById(prevId);
+      const btnNext = document.getElementById(nextId);
+      const btnScrollLeft = document.getElementById(scrollLeftId);
+      const btnScrollRight = document.getElementById(scrollRightId);
+      const overlay = modal?.querySelector("[data-lb-overlay]");
+
+      if (!strip || !modal || !imgEl || !capEl || !countEl || !btnClose || !btnPrev || !btnNext) return;
+
+      const items = Array.from(root.querySelectorAll("[data-lb-open]"));
+      const data = items.map((el) => {
+        const src = el.getAttribute("data-src") || "";
+        const alt = el.getAttribute("data-alt") || "";
+        const caption = el.getAttribute("data-caption") || "";
+        return { src, alt, caption };
+      });
+
+      let index = 0;
+      let lastFocused = null;
+
+      const lockScroll = (locked) => {
+        if (locked) {
+          document.body.setAttribute("data-scroll-lock", "true");
+        } else {
+          document.body.removeAttribute("data-scroll-lock");
+        }
+      };
+
+      const set = (i) => {
+        index = (i + data.length) % data.length;
+        const cur = data[index];
+        imgEl.src = cur.src;
+        imgEl.alt = cur.alt;
+        capEl.textContent = cur.caption || cur.alt || "";
+        countEl.textContent = `${index + 1} / ${data.length}`;
+
+        // tiny preload of the next image
+        const nxt = data[(index + 1) % data.length];
+        if (nxt?.src) {
+          const pre = new Image();
+          pre.src = nxt.src;
+        }
+      };
+
+      const open = (i) => {
+        lastFocused = document.activeElement;
+        set(i);
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        lockScroll(true);
+        btnClose.focus();
+      };
+
+      const close = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        lockScroll(false);
+        if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+      };
+
+      items.forEach((el, i) => {
+        el.addEventListener("click", () => open(i));
+      });
+
+      btnClose.addEventListener("click", close);
+      overlay?.addEventListener("click", close);
+
+      btnPrev.addEventListener("click", () => set(index - 1));
+      btnNext.addEventListener("click", () => set(index + 1));
+
+      // keyboard controls
+      window.addEventListener("keydown", (e) => {
+        if (modal.classList.contains("hidden")) return;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          close();
+          return;
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          set(index - 1);
+          return;
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          set(index + 1);
+        }
+      });
+
+      // strip scroll buttons
+      const scrollByAmount = (dir) => {
+        if (!strip) return;
+        const amount = Math.max(220, Math.floor(strip.clientWidth * 0.85));
+        strip.scrollBy({ left: dir * amount, behavior: "smooth" });
+      };
+      btnScrollLeft?.addEventListener("click", () => scrollByAmount(-1));
+      btnScrollRight?.addEventListener("click", () => scrollByAmount(1));
+    })();
+  </script>
+</div>

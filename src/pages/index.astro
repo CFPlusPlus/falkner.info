@@ -9,14 +9,16 @@ import Icon from "../components/Icon.astro";
 import ProjectSpotlight from "../components/ProjectSpotlight.astro";
 import ProjectList from "../components/ProjectList.astro";
 import Footer from "../components/Footer.astro";
+import LightboxGallery from "../components/LightboxGallery.astro";
 
-import { site, socialLinks, spotlightProject, projects, stackGroups } from "../lib/site";
+import { site, socialLinks, spotlightProject, projects, interests, pcBuildPhotos, hikePhotos } from "../lib/site";
 
 const navLinks = [
   { label: "Über", href: "#about", targetId: "about" },
   { label: "Projekte", href: "#projects", targetId: "projects" },
   { label: "Interessen", href: "#stack", targetId: "stack" },
-  { label: "Kontakt", href: "#contact", targetId: "contact" }
+  { label: "Bilder", href: "#gallery", targetId: "gallery" },
+  { label: "Kontakt", href: "#contact", targetId: "contact" },
 ];
 
 const iconFor = (label: string) => {
@@ -29,6 +31,7 @@ const iconFor = (label: string) => {
   return "arrow-up-right";
 };
 ---
+
 <BaseLayout>
   <Navbar brand={site.domain} links={navLinks} />
 
@@ -48,8 +51,8 @@ const iconFor = (label: string) => {
             </h1>
 
             <p class="mt-5 text-base sm:text-lg leading-relaxed text-muted max-w-2xl">
-              Ich bin <strong class="text-text">Christian Falkner</strong>. Auf dieser Seite teile ich ein paar Einblicke in mein Leben,
-              meine Interessen und Projekte.
+              Ich bin <strong class="text-text">Christian Falkner</strong>. Diese Seite ist mein kleines Zuhause im Web: ein paar Links,
+              Projekte und Dinge, die mich gerade beschäftigen.
             </p>
 
             <p class="mt-4 text-sm text-muted max-w-2xl">
@@ -120,24 +123,22 @@ const iconFor = (label: string) => {
     <Section
       id="about"
       title="Über mich"
-      kicker="Kurzprofil"
-      lead="Ein paar Stationen, ein paar Interessen — und ein Projekt, das nebenbei ziemlich viel Herz bekommt.">
+      kicker="Ein paar Zeilen"
+      lead="Kurz gesagt: Ich mag ruhige Oberflächen, saubere Lösungen und Projekte, die man Stück für Stück besser macht.">
       <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
         <div class="space-y-5 text-muted leading-relaxed">
           <p class="reveal" style="--reveal-delay: 120ms">
-            Willkommen auf der persönlichen Website von <strong class="text-text">Christian Falkner</strong>. Geboren wurde ich in
-            <strong class="text-text"> Nürnberg</strong> und habe schon früh in verschiedenen Städten gelebt — darunter
-            <strong class="text-text"> Wolfsburg</strong> und <strong class="text-text"> Bad Nauheim</strong>. Diese Zeit hat mir gezeigt,
-            dass man überall Freunde finden kann.
+            Durch ein paar Umzüge habe ich früh gelernt, schnell anzukommen — und wie viel ein guter Freundeskreis ausmacht.
+            Genau deshalb faszinieren mich Communities bis heute.
           </p>
           <p class="reveal" style="--reveal-delay: 170ms">
-            Heute lebe ich in einer kleinen Gemeinde nahe <strong class="text-text">München</strong>, wo ich aktuell ein
-            <strong class="text-text"> duales Studium im öffentlichen Dienst</strong> absolviere. Ich schätze die Kombination aus Natur,
-            Nähe zur Stadt und beruflicher Stabilität.
+            Im Alltag bin ich gerne in Themen unterwegs, bei denen Technik und Praxis zusammenkommen. Im dualen Studium im öffentlichen
+            Dienst geht’s für mich oft darum, Dinge strukturiert anzugehen und gleichzeitig neugierig zu bleiben.
           </p>
           <p class="reveal" style="--reveal-delay: 220ms">
-            In meiner Freizeit betreibe ich die <strong class="text-text">Minecraft Gilde</strong> — ein entspannter deutscher
-            Vanilla-SMP-Server ohne Whitelist, perfekt zum Abschalten am Abend.
+            Abends wird’s dann meistens entspannter: Ich spiele, schraube an Rechnern oder bin draußen unterwegs. Und wenn ich an einem
+            <strong class="text-text">Herzensprojekt</strong> hänge, ist es oft die <strong class="text-text">Minecraft Gilde</strong> — dort betreue
+            ich Server und Website.
           </p>
         </div>
 
@@ -147,40 +148,39 @@ const iconFor = (label: string) => {
             <div class="mt-4 border-l border-border/70 pl-4 space-y-4">
               <div>
                 <div class="text-sm font-medium text-text">Nürnberg</div>
-                <div class="text-sm text-muted">Geboren und aufgewachsen.</div>
+                <div class="text-sm text-muted">Startpunkt.</div>
               </div>
               <div>
                 <div class="text-sm font-medium text-text">Wolfsburg & Bad Nauheim</div>
-                <div class="text-sm text-muted">Schulzeit und Freundschaften, die bis heute bestehen.</div>
+                <div class="text-sm text-muted">Schulzeit, neue Orte, neue Menschen.</div>
               </div>
               <div>
                 <div class="text-sm font-medium text-text">Nahe München</div>
-                <div class="text-sm text-muted">Heimat & Studium im öffentlichen Dienst.</div>
+                <div class="text-sm text-muted">Heute: Studium, Alltag, Berge in Reichweite.</div>
               </div>
             </div>
           </div>
 
           <div class="reveal" style="--reveal-delay: 220ms">
-            <div class="meta">Hobbys</div>
+            <div class="meta">Gerade aktuell</div>
             <Divider class="mt-3" />
             <ul class="mt-5 space-y-3 text-sm text-muted">
               <li class="flex items-start gap-3">
-                <Icon name="gamepad" size={16} class="mt-0.5 text-muted" />
+                <Icon name="cpu" size={16} class="mt-0.5 text-muted" />
                 <span>
-                  <strong class="text-text">Gaming</strong> — Renn-, Strategie- und Aufbauspiele (u. a. Minecraft). Community zählt.
+                  <strong class="text-text">PC-Builds</strong> — ich baue und optimiere gern Systeme, egal ob Luftkühlung oder Custom-Wasserkühlung.
                 </span>
               </li>
               <li class="flex items-start gap-3">
-                <Icon name="cpu" size={16} class="mt-0.5 text-muted" />
+                <Icon name="pickaxe" size={16} class="mt-0.5 text-muted" />
                 <span>
-                  <strong class="text-text">Computer</strong> — Systeme zusammenbauen, reparieren und optimieren. Hardware & Software im
-                  Zusammenspiel.
+                  <strong class="text-text">Minecraft Gilde</strong> — mein Herzensprojekt: Ich betreue Server und Website und halte alles am Laufen.
                 </span>
               </li>
               <li class="flex items-start gap-3">
                 <Icon name="mountain" size={16} class="mt-0.5 text-muted" />
                 <span>
-                  <strong class="text-text">Wandern</strong> — Ausgleich zum Alltag, besonders gerne in den Alpen.
+                  <strong class="text-text">Tagestouren</strong> — entspannt raus, viel Aussicht, Kopf frei bekommen.
                 </span>
               </li>
             </ul>
@@ -193,15 +193,15 @@ const iconFor = (label: string) => {
     <Section
       id="projects"
       title="Projekte"
-      kicker="Auswahl"
-      lead="Keine Kartenwand — nur eine klare Liste und ein Projekt im Fokus.">
+      kicker="Dinge, die ich baue"
+      lead="Ein paar Sachen, an denen ich regelmäßig hänge — und ein Projekt, das gerade am meisten Zeit bekommt.">
       <div class="space-y-10">
         <div class="reveal">
-          <ProjectSpotlight project={spotlightProject} />
+          <ProjectSpotlight project={spotlightProject} serverAddress="minecraft-gilde.de" />
         </div>
 
         <div class="reveal" style="--reveal-delay: 80ms">
-          <div class="meta">Weitere</div>
+          <div class="meta">Mehr</div>
           <Divider class="mt-3" />
           <div class="mt-6">
             <ProjectList projects={projects} />
@@ -210,25 +210,68 @@ const iconFor = (label: string) => {
       </div>
     </Section>
 
-    <!-- INTERESTS / STACK -->
-    <Section id="stack" title="Interessen" kicker="Chips" lead="Kurz & bündig — die Themen, die mich gerade begleiten.">
-      <div class="grid gap-10 lg:grid-cols-2">
-        {stackGroups.map((g, gi) => (
-          <div class="reveal" style={`--reveal-delay: ${Math.min(gi * 80, 160)}ms`}>
-            <div class="meta">{g.title}</div>
-            <Divider class="mt-3" />
-            <div class="mt-5 flex flex-wrap gap-2">
-              {g.items.map((item) => (
-                <Chip>{item}</Chip>
+    <!-- INTERESTS -->
+    <Section
+      id="stack"
+      title="Interessen"
+      kicker="Wofür ich schnell brenne"
+      lead="Nicht alles ist ein Projekt. Manche Dinge bleiben einfach hängen — weil sie Spaß machen oder gut tun.">
+      <div class="grid gap-6 md:grid-cols-2">
+        {interests.map((it, i) => (
+          <article
+            class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6 shadow-soft"
+            style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
+            <h3 class="text-lg font-semibold tracking-tight text-text">{it.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {it.chips.map((c) => (
+                <Chip>{c}</Chip>
               ))}
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </Section>
 
+    <!-- GALLERY -->
+    <Section
+      id="gallery"
+      title="Bilder"
+      kicker="Einblicke"
+      lead="Ein paar Schnappschüsse: PC-Systeme, an denen ich gern tüftle — und entspannte Tagestouren.">
+      <div class="space-y-12">
+        <div id="pc-builds" class="scroll-mt-24">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div class="meta">PC-Systeme</div>
+              <h3 class="mt-2 text-xl font-semibold tracking-tight text-text">Builds & Custom-Wasserkühlung</h3>
+              <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+                Ein paar Builds als Galerie — von sauberer Luftkühlung bis zum Custom-Loop.
+              </p>
+            </div>
+          </div>
+
+          <LightboxGallery id="pc" images={pcBuildPhotos} label="PC-Systeme" />
+        </div>
+
+        <Divider />
+
+        <div id="touren" class="scroll-mt-24">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div class="meta">Draußen</div>
+              <h3 class="mt-2 text-xl font-semibold tracking-tight text-text">Entspannte Tagestouren</h3>
+              <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">Raus aus dem Kopf, rein in die Aussicht.</p>
+            </div>
+          </div>
+
+          <LightboxGallery id="hike" images={hikePhotos} label="Tagestouren" />
+        </div>
+      </div>
+    </Section>
+
     <!-- CONTACT -->
-    <Section id="contact" title="Kontakt" kicker="Mail & Links" lead="Am schnellsten geht’s per E‑Mail.">
+    <Section id="contact" title="Kontakt" kicker="Mail & Links" lead="Schreib mir gern eine Mail — ich melde mich, sobald ich kann.">
       <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div class="reveal">
           <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6">
@@ -243,11 +286,7 @@ const iconFor = (label: string) => {
                 Mail öffnen
               </Button>
 
-              <Button
-                variant="secondary"
-                ariaLabel="E-Mail-Adresse kopieren"
-                data-copy
-                data-copy-value={site.email}>
+              <Button variant="secondary" ariaLabel="E-Mail-Adresse kopieren" data-copy data-copy-value={site.email}>
                 <Icon name="copy" size={16} />
                 Kopieren
               </Button>
@@ -279,19 +318,6 @@ const iconFor = (label: string) => {
                 <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
               </a>
             ))}
-
-            <a
-              href="/datenschutz/"
-              class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal">
-              <div class="flex items-center gap-3 min-w-0">
-                <Icon name="arrow-right" size={18} class="text-muted group-hover:text-text transition-colors" />
-                <div class="min-w-0">
-                  <div class="text-sm font-medium text-text">Datenschutz</div>
-                  <div class="text-xs text-muted truncate">/datenschutz/</div>
-                </div>
-              </div>
-              <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
-            </a>
           </div>
         </aside>
       </div>

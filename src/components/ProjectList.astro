@@ -8,6 +8,9 @@ type Props = {
 };
 
 const { projects } = Astro.props as Props;
+
+const isExternal = (href?: string) =>
+  !!href && (href.startsWith("https://") || href.startsWith("http://"));
 ---
 <div class="border-t border-border/70">
   {projects.map((p, i) => (
@@ -18,13 +21,17 @@ const { projects } = Astro.props as Props;
             {p.href ? (
               <a
                 href={p.href}
-                target="_blank"
-                rel="noopener"
+                target={isExternal(p.href) ? "_blank" : undefined}
+                rel={isExternal(p.href) ? "noopener" : undefined}
                 class="inline-flex items-center gap-2 text-text hover:text-text">
                 <span class="underline decoration-border/70 underline-offset-4 group-hover:decoration-accent/70 transition-colors">
                   {p.title}
                 </span>
-                <Icon name="arrow-up-right" class="text-muted group-hover:text-text transition-colors" size={16} />
+                <Icon
+                  name={isExternal(p.href) ? "arrow-up-right" : "arrow-right"}
+                  class="text-muted group-hover:text-text transition-colors"
+                  size={16}
+                />
               </a>
             ) : (
               <span class="text-text">{p.title}</span>

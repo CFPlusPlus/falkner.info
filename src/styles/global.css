@@ -128,3 +128,19 @@ html[data-js="true"] .reveal.is-in {
     transition: none;
   }
 }
+
+/* --- Utilities --- */
+
+/* Hide scrollbars while keeping scroll functionality (for carousels) */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Prevent background scroll when a modal is open */
+body[data-scroll-lock="true"] {
+  overflow: hidden;
+}
