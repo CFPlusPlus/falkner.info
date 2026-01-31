@@ -13,9 +13,9 @@
   --text: 0 0% 98%;
   --muted: 250 12% 72%;
 
-  /* Single accent */
-  --accent: 28 100% 66%;
-  --accent2: 28 100% 76%;
+  /* Single accent (tuned teal) */
+--accent: 28 100% 66%;
+--accent2: 28 100% 76%;
 }
 
 /* Smooth anchor scrolling, but respect reduced motion */
@@ -35,16 +35,7 @@ html {
 
 body {
   @apply min-h-screen bg-bg text-text antialiased;
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    "Inter",
-    "Albert Sans",
-    Arial,
-    "Noto Sans",
-    sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Inter", "Albert Sans", Arial, "Noto Sans", sans-serif;
   text-rendering: geometricPrecision;
 }
 
@@ -68,7 +59,8 @@ a {
   inset: 0;
   opacity: 0.06;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
   background-size: 160px 160px;
 }
 
@@ -79,26 +71,17 @@ a {
 
 /* Lightweight on-load reveal */
 
+
+
 /* --- Subtle motion that still feels "editorial" --- */
 @media (prefers-reduced-motion: no-preference) {
-  .blob-float-a {
-    animation: blob-float 14s ease-in-out infinite;
-  }
-  .blob-float-b {
-    animation: blob-float 18s ease-in-out infinite reverse;
-  }
-  .blob-float-c {
-    animation: blob-float 22s ease-in-out infinite;
-  }
+  .blob-float-a { animation: blob-float 14s ease-in-out infinite; }
+  .blob-float-b { animation: blob-float 18s ease-in-out infinite reverse; }
+  .blob-float-c { animation: blob-float 22s ease-in-out infinite; }
 }
 @keyframes blob-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(10px, -14px, 0) scale(1.03);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10px, -14px, 0) scale(1.03); }
 }
 
 /* --- Scroll reveal (JS-enhanced, but safe without JS) --- */
