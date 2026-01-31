@@ -44,7 +44,15 @@ const icon = TABLER[name] ?? name;
 
 const cls = `ti ti-${icon} inline-block align-[-0.125em] leading-none ${className}`.trim();
 const style = `font-size:${size}px; line-height:1;`;
+const cls = `ti ti-${icon} inline-block align-[-0.125em] leading-none ${className}`.trim();
+const style = `font-size:${size}px; line-height:1;`;
 ---
+
+<i
+  class={cls}
+  style={style}
+  {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" })}
+/>
 
 <i
   class={cls}
