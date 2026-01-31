@@ -1,76 +1,46 @@
 ---
-type Props = {
-  name:
-    | "arrow-up-right"
-    | "arrow-right"
-    | "mail"
-    | "copy"
-    | "check"
-    | "github"
-    | "linkedin"
-    | "discord"
-    | "steam"
-    | "xbox"
-    | "gamepad"
-    | "cpu"
-    | "mountain"
-    | "pickaxe";
-  size?: number;
-  class?: string;
-  title?: string;
+/**
+ * Icon component (Tabler Icons Webfont)
+ *
+ * Bewusst ohne TypeScript-Syntax, damit es in jeder Astro-Umgebung stabil baut.
+ */
+
+// Map unserer semantischen Namen -> Tabler Icon Names
+const TABLER = {
+  external: "external-link",
+  arrowUpRight: "arrow-up-right",
+  arrowRight: "arrow-right",
+  mail: "mail",
+  copy: "copy",
+  check: "check",
+
+  // Brand icons
+  github: "brand-github",
+  linkedin: "brand-linkedin",
+  discord: "brand-discord",
+  steam: "brand-steam",
+  xbox: "brand-xbox",
+
+  // UI / hobby icons
+  controller: "device-gamepad-2",
+  cpu: "cpu",
+  mountain: "mountain",
+
+  // used for "Minecraft" tag on the page
+  pickaxe: "brand-minecraft",
 };
 
-const { name, size = 18, class: className = "", title } = Astro.props as Props;
+const { name, size = 18, class: className = "", label } = Astro.props;
 
-const common = {
-  width: size,
-  height: size,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  xmlns: "http://www.w3.org/2000/svg",
-  "aria-hidden": title ? undefined : "true",
-  role: title ? "img" : "presentation"
-} as const;
+// erlaubt: gemappte Namen ("xbox") ODER raw Tabler Name ("brand-xbox")
+const icon = TABLER[name] ?? name;
 
-const paths: Record<string, string> = {
-  "arrow-up-right":
-    'M7 17L17 7M9 7h8v8',
-  "arrow-right":
-    'M5 12h12M13 6l6 6-6 6',
-  "mail":
-    'M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z M6.3 7.7 12 12l5.7-4.3',
-  "copy":
-    'M9 9h10v10H9V9Z M6 5h10v2H8v8H6V5Z',
-  "check":
-    'M20 6 9 17l-5-5',
-  // Simple brand-ish marks (stylized, not pixel-perfect)
-  "github":
-    'M9 19c-4 1.2-4-2-5-2m10 4v-3.3c0-1 .1-1.7-.5-2.4 1.7-.2 3.5-.9 3.5-4.1 0-.9-.3-1.6-.9-2.2.1-.2.4-1-.1-2.1 0 0-.7-.2-2.3.9a8 8 0 0 0-4.2 0c-1.6-1.1-2.3-.9-2.3-.9-.5 1.1-.2 1.9-.1 2.1-.6.6-.9 1.3-.9 2.2 0 3.2 1.8 3.9 3.5 4.1-.2.3-.4.7-.5 1.2',
-  "linkedin":
-    'M6.5 9.5V18M6.5 6.5h0.01M10 9.5V18m0-4.7c0-2.1 2.6-2.3 3.3-1.1.4.6.4 1.3.4 2.2V18h3v-4.4c0-1.5-.1-2.7-.9-3.7-1.3-1.5-4.1-1.4-5.8.1',
-  "discord":
-    'M8 8c1.3-.8 2.7-1.2 4-1.2S14.7 7.2 16 8c.5 1.2.9 2.5 1 3.9-.8.9-1.8 1.6-3 2 .2-.4.4-.9.5-1.3-.5.3-1 .5-1.6.6-.6.1-1.2.2-1.9.2s-1.3-.1-1.9-.2c-.6-.1-1.1-.3-1.6-.6.1.4.3.9.5 1.3-1.2-.4-2.2-1.1-3-2 .1-1.4.5-2.7 1-3.9Z M9.5 12.2h0.01M14.5 12.2h0.01',
-  "steam":
-    'M12 19a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z M9.2 14.2l2.3 1a2.2 2.2 0 1 0 .8-2.9l-1.5-.6 2.9-2.6a2.2 2.2 0 1 0-.9-1.1l-3 2.7',
-  "xbox":
-    'M7.2 7.2c2.1-2.1 7.5-2.1 9.6 0 1.7 1.7 1.9 4.2.7 6.1-1.4 2.2-3.8 4.7-5.5 6-1.7-1.3-4.1-3.8-5.5-6-1.2-1.9-1-4.4.7-6.1Z M9 9c1.6 1.5 2.5 2.7 3 3.3.5-.6 1.4-1.8 3-3.3',
-  "gamepad":
-    'M8 13h2m4 0h2M10 12v2M5 14.5l1.1-4.4A3 3 0 0 1 9.1 8h5.8a3 3 0 0 1 2.9 2.1l1.1 4.4A2.5 2.5 0 0 1 16.5 17h-.7a2 2 0 0 1-1.7-1l-.6-1H10.5l-.6 1a2 2 0 0 1-1.7 1H7.5A2.5 2.5 0 0 1 5 14.5Z',
-  "cpu":
-    'M9 9h6v6H9V9Z M4 10h2m0 4H4m16-4h-2m0 4h2M10 4v2m4-2v2M10 20v-2m4 2v-2',
-  "mountain":
-    'M3 19l7-12 4 7 3-5 4 10H3Z',
-  "pickaxe":
-    'M5 7c3-3 11-3 14 0l-2 2c-2-2-8-2-10 0L5 7Zm7 4 7 7-2 2-7-7-2 2-2-2 2-2Z'
-};
+const cls = `ti ti-${icon} inline-block align-[-0.125em] leading-none ${className}`.trim();
+const style = `font-size:${size}px; line-height:1;`;
 ---
-<svg
-  {...common}
-  class={`shrink-0 ${className}`}
-  stroke="currentColor"
-  stroke-width="1.75"
-  stroke-linecap="round"
-  stroke-linejoin="round">
-  {title ? <title>{title}</title> : null}
-  <path d={paths[name]} />
-</svg>
+
+<i
+  class={cls}
+  style={style}
+  {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" })}
+/>

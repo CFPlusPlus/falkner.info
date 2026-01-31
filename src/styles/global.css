@@ -14,8 +14,8 @@
   --muted: 250 12% 72%;
 
   /* Single accent (tuned teal) */
-  --accent: 171 92% 44%;
-  --accent2: 50 93% 65%; /* only for tiny highlights; keep rare */
+--accent: 28 100% 66%;
+--accent2: 28 100% 76%;
 }
 
 /* Smooth anchor scrolling, but respect reduced motion */
