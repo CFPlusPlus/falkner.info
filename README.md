@@ -1,46 +1,85 @@
-# Astro Starter Kit: Basics
+# falkner.info – persönliche Webseite (Astro + Tailwind)
 
-```sh
-npm create astro@latest -- --template basics
+Das ist der Quellcode meiner persönlichen One‑Pager‑Webseite **falkner.info**.
+Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑Galerie (Carousel + Lightbox).
+
+## Stack
+
+- **Astro** (Static Site)
+- **Tailwind CSS**
+- **Tabler Icons**
+- **Prettier** (inkl. `prettier-plugin-astro`)
+
+## Voraussetzungen
+
+- **Node.js**
+- **npm**
+
+## Schnellstart
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Danach läuft die Seite lokal unter: `http://localhost:4321`
 
-## 🚀 Project Structure
+## Wichtige Commands
 
-Inside of your Astro project, you'll see the following folders and files:
+Alle Befehle werden im Projekt‑Root ausgeführt:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm run dev      # Dev‑Server (Hot Reload)
+npm run build    # Production Build nach ./dist
+npm run preview  # Production Build lokal testen
+npm run format   # Prettier auf das ganze Projekt
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Inhalte bearbeiten
 
-## 🧞 Commands
+Die meisten Texte/Links/Bilder werden zentral in **`src/lib/site.ts`** gepflegt:
 
-All commands are run from the root of the project, from a terminal:
+- `site`: Titel, Beschreibung, Canonical, E‑Mail
+- `socialLinks`: Social/Profil‑Links
+- `spotlightProject` + `projects`: Projekte auf der Startseite
+- `interests`: Interessen‑Karten
+- `pcBuildPhotos` / `hikePhotos`: Bilder für die Galerien inkl. Captions
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Bilder (Galerie / Lightbox)
 
-## 👀 Want to learn more?
+Bilder werden hier abgelegt:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `public/images/pc/…` (PC‑Systeme)
+- `public/images/touren/…` (Tagestouren)
+
+In `src/lib/site.ts` können beliebig viele Bilder hinzugefügt werden. Jede Karte unterstützt:
+
+```ts
+{ src: "/images/pc/pc-1.webp", alt: "PC-System 1", caption: "Custom Loop – RTX/…" }
+```
+
+Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.
+
+### Minecraft-Server-Status (Spieler online)
+
+Die Anzeige holt sich den Status clientseitig über **mcsrvstat.us**.
+Die Server‑Adresse wird aktuell hier gesetzt:
+
+- `src/pages/index.astro` → Prop `serverAddress="minecraft-gilde.de"` (ggf. mit Port `:25565`)
+
+Komponente:
+
+- `src/components/MinecraftServerStatus.astro`
+
+## Projektstruktur (Kurz)
+
+- `src/pages/…` – Seiten (z. B. `index.astro`, `datenschutz.astro`)
+- `src/components/…` – UI‑Komponenten (Navbar, Footer, Galerie/Lightbox, etc.)
+- `src/layouts/…` – Layouts (Meta/SEO, Grundlayout)
+- `src/styles/global.css` – globale Styles
+- `public/…` – statische Assets (Icons, Bilder)
+
+## Deployment
+
+`npm run build` erzeugt eine statische Ausgabe in **`dist/`**.
+Den Ordner `dist/` kann dann auf den Webserver hochladen werden.
