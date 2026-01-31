@@ -58,7 +58,7 @@ export const projects: Project[] = [
   {
     title: "PC Builds – Galerie",
     summary:
-      "Eine kleine Sammlung von Builds und Kühlungs-Setups – vor allem als Bilder und Details.",
+      "Eine kleine Sammlung meiner Builds und Kühlungs-Setups – von Luftkühlung bis zu Custom-Wasserkühlung.",
     tags: ["Hardware", "Galerie"],
     href: "#pc-builds",
     meta: "Bilder",
@@ -74,15 +74,41 @@ export type GalleryImage = {
 // Bilder: Lege deine Fotos einfach unter /public/images/pc/ und /public/images/touren/ ab
 // und passe die Dateinamen hier an.
 export const pcBuildPhotos: GalleryImage[] = [
-  { src: "/images/pc/pc-1.webp", alt: "PC-Build" },
-  { src: "/images/pc/pc-2.webp", alt: "PC-Build" },
-  { src: "/images/pc/pc-3.webp", alt: "PC-Build" },
+  // Optional: Gib jedem Foto eine kurze Caption (z. B. CPU/GPU/Loop-Info oder ein Build-Name).
+  { src: "/images/pc/pc-1.webp", alt: "PC-System 1", caption: "PC-System 1" },
+  { src: "/images/pc/pc-2.webp", alt: "PC-System 2", caption: "PC-System 2" },
+  { src: "/images/pc/pc-3.webp", alt: "PC-System 3", caption: "PC-System 3" },
+  { src: "/images/pc/pc-4.webp", alt: "PC-System 4", caption: "PC-System 4" },
+  { src: "/images/pc/pc-5.webp", alt: "PC-System 5", caption: "PC-System 5" },
 ];
 
 export const hikePhotos: GalleryImage[] = [
-  { src: "/images/touren/tour-1.webp", alt: "Wandertour" },
-  { src: "/images/touren/tour-2.webp", alt: "Wandertour" },
-  { src: "/images/touren/tour-3.webp", alt: "Wandertour" },
+  // Optional: Caption-Idee: Tourname, Region oder ein kurzer Hinweis (z. B. "Tegernsee – Abendrunde").
+  {
+    src: "/images/touren/tour-1.webp",
+    alt: "Tagestour 1",
+    caption: "Tagestour 1",
+  },
+  {
+    src: "/images/touren/tour-2.webp",
+    alt: "Tagestour 2",
+    caption: "Tagestour 2",
+  },
+  {
+    src: "/images/touren/tour-3.webp",
+    alt: "Tagestour 3",
+    caption: "Tagestour 3",
+  },
+    {
+    src: "/images/touren/tour-4.webp",
+    alt: "Tagestour 4",
+    caption: "Tagestour 4",
+  },
+    {
+    src: "/images/touren/tour-5.webp",
+    alt: "Tagestour 5",
+    caption: "Tagestour 5",
+  },
 ];
 
 export type InterestCard = {

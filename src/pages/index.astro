@@ -168,7 +168,7 @@ const iconFor = (label: string) => {
               <li class="flex items-start gap-3">
                 <Icon name="cpu" size={16} class="mt-0.5 text-muted" />
                 <span>
-                  <strong class="text-text">PC-Builds</strong> — ich baue und optimiere gern Systeme, egal ob Luftkühlung oder Custom-Wasserkühlung.
+                  <strong class="text-text">PC-Builds</strong> — aktuell bin ich oft im Feintuning-Modus und schraube so lange, bis Setup und Kühlung einfach rund wirken.
                 </span>
               </li>
               <li class="flex items-start gap-3">
@@ -246,7 +246,7 @@ const iconFor = (label: string) => {
               <div class="meta">PC-Systeme</div>
               <h3 class="mt-2 text-xl font-semibold tracking-tight text-text">Builds & Custom-Wasserkühlung</h3>
               <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
-                Ein paar Builds als Galerie — von sauberer Luftkühlung bis zum Custom-Loop.
+                Ein paar ausgewählte Builds — von Luftkühlung bis zum Custom-Loop ist alles dabei.
               </p>
             </div>
           </div>
@@ -306,13 +306,13 @@ const iconFor = (label: string) => {
                 href={l.href}
                 target="_blank"
                 rel="noopener"
-                class="group flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+                class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
                 style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}>
-                <div class="flex items-center gap-3 min-w-0">
+                <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
                   <Icon name={iconFor(l.label) as any} size={18} class="text-muted group-hover:text-text transition-colors" />
-                  <div class="min-w-0">
+                  <div class="min-w-0 flex-1">
                     <div class="text-sm font-medium text-text">{l.label}</div>
-                    <div class="text-xs text-muted truncate">{l.href}</div>
+                    <div class="text-xs text-muted truncate hidden sm:block">{l.href}</div>
                   </div>
                 </div>
                 <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />

@@ -27,51 +27,57 @@ const textId = `${idBase}-text`;
   </div>
 </div>
 
-<script is:inline>
+<script define:vars={{ apiUrl, valueId, dotId, textId }}>
   (() => {
-    const apiUrl = {JSON.stringify(apiUrl)};
-    const valueEl = document.getElementById({JSON.stringify(valueId)});
-    const dotEl = document.getElementById({JSON.stringify(dotId)});
-    const textEl = document.getElementById({JSON.stringify(textId)});
+    const valueEl = document.getElementById(valueId);
+    const dotEl = document.getElementById(dotId);
+    const textEl = document.getElementById(textId);
     if (!valueEl || !dotEl || !textEl) return;
 
-    const setState = (state, payload) => {
-      // Reset classes
-      dotEl.classList.remove('bg-accent','bg-border');
-      dotEl.classList.add(state === 'online' ? 'bg-accent' : 'bg-border');
+    const setState = (state, valueText, infoText = "") => {
+      // state: "online" | "offline" | "unknown"
+      dotEl.classList.remove("bg-emerald-500/80", "bg-red-500/80", "bg-border");
+      if (state === "online") dotEl.classList.add("bg-emerald-500/80");
+      else if (state === "offline") dotEl.classList.add("bg-red-500/80");
+      else dotEl.classList.add("bg-border");
 
-      if (state === 'online') {
-        valueEl.textContent = `${payload.online}/${payload.max}`;
-        textEl.textContent = 'online';
-      } else if (state === 'offline') {
-        valueEl.textContent = '—';
-        textEl.textContent = 'offline';
-      } else {
-        valueEl.textContent = '—';
-        textEl.textContent = 'nicht verfügbar';
-      }
+      valueEl.textContent = valueText;
+      textEl.textContent = infoText;
     };
 
-    const load = async () => {
+    const fmtPlayers = (online, max) => {
+      if (typeof online === "number" && typeof max === "number") return `${online}/${max}`;
+      if (typeof online === "number") return String(online);
+      return "–";
+    };
+
+    const fetchStatus = async () => {
       try {
-        const res = await fetch(apiUrl, { cache: 'no-store' });
+        const res = await fetch(apiUrl, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
-        if (data && data.online && data.players) {
-          setState('online', { online: data.players.online ?? 0, max: data.players.max ?? 0 });
-        } else if (data && data.online === false) {
-          setState('offline');
-        } else {
-          setState('unknown');
+        // API v3: "online" boolean. When online, players.online/max available.
+        if (data?.online) {
+          const online = data?.players?.online;
+          const max = data?.players?.max;
+          setState("online", fmtPlayers(online, max), "online");
+          return;
         }
+
+        if (data?.online === false) {
+          setState("offline", "0", "offline");
+          return;
+        }
+
+        setState("unknown", "–", "nicht verfügbar");
       } catch (e) {
-        setState('unknown');
+        setState("unknown", "–", "nicht verfügbar");
       }
     };
 
-    load();
-    // API cache is ~2 minutes; we refresh slightly after that.
-    window.setInterval(load, 125000);
+    fetchStatus();
+    // Refresh every ~2 minutes (mcsrvstat.us is cached anyway)
+    setInterval(fetchStatus, 120000);
   })();
 </script>

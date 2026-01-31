@@ -17,6 +17,7 @@ const stripId = `${rootId}-strip`;
 const modalId = `${rootId}-modal`;
 const imgId = `${rootId}-img`;
 const captionId = `${rootId}-cap`;
+const captionSubId = `${rootId}-cap-sub`;
 const countId = `${rootId}-count`;
 const closeId = `${rootId}-close`;
 const prevId = `${rootId}-prev`;
@@ -28,39 +29,41 @@ const scrollRightId = `${rootId}-scroll-right`;
 <div id={rootId} class="relative">
   <!-- Carousel strip -->
   <div class="relative mt-6">
-    <!-- edge fades (subtle) -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-bg via-bg/70 to-transparent"></div>
+    <div class="relative">
+      <!-- edge fades (subtle) -->
+      <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-bg via-bg/70 to-transparent"></div>
 
-    <div
-      id={stripId}
-      class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
-      {images.map((img, i) => (
-        <button
-          type="button"
-          class="reveal group relative snap-start shrink-0 overflow-hidden rounded-lg border border-border/70 bg-surface/40 shadow-soft focus-visible:outline-none"
-          style={`--reveal-delay: ${Math.min(i * 55, 220)}ms`}
-          data-lb-open
-          data-index={i}
-          data-src={img.src}
-          data-alt={img.alt}
-          data-caption={img.caption ?? ""}
-          aria-label={`Bild ${i + 1} ansehen`}
-        >
-          <img
-            src={img.src}
-            alt={img.alt}
-            loading="lazy"
-            decoding="async"
-            class="h-[210px] w-[280px] sm:h-[240px] sm:w-[340px] lg:h-[260px] lg:w-[380px] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-          />
-          <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-70"></div>
-          <div class="absolute left-3 bottom-3 flex items-center gap-2 rounded-full border border-border/70 bg-bg/40 backdrop-blur px-3 py-1 text-xs text-text/90">
-            <Icon name="zoom-in" size={14} class="text-text/80" />
-            <span>Ansehen</span>
-          </div>
-        </button>
-      ))}
+      <div
+        id={stripId}
+        class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
+        {images.map((img, i) => (
+          <button
+            type="button"
+            class="reveal group relative snap-start shrink-0 overflow-hidden rounded-lg border border-border/70 bg-surface/40 shadow-soft focus-visible:outline-none"
+            style={`--reveal-delay: ${Math.min(i * 55, 220)}ms`}
+            data-lb-open
+            data-index={i}
+            data-src={img.src}
+            data-alt={img.alt}
+            data-caption={img.caption ?? ""}
+            aria-label={`Bild ${i + 1} ansehen`}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              decoding="async"
+              class="h-[210px] w-[280px] sm:h-[240px] sm:w-[340px] lg:h-[260px] lg:w-[380px] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+            <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-70"></div>
+            <div class="absolute left-3 bottom-3 flex items-center gap-2 rounded-full border border-border/70 bg-bg/40 backdrop-blur px-3 py-1 text-xs text-text/90">
+              <Icon name="zoom-in" size={14} class="text-text/80" />
+              <span>Ansehen</span>
+            </div>
+          </button>
+        ))}
+      </div>
     </div>
 
     <!-- Carousel controls -->
@@ -142,8 +145,11 @@ const scrollRightId = `${rootId}-scroll-right`;
         </div>
 
         <div class="px-4 py-3 border-t border-border/70">
-          <div id={captionId} class="text-xs text-muted leading-relaxed">&nbsp;</div>
-          <div class="mt-1 text-[11px] text-muted/80">Tipp: Pfeiltasten wechseln · Esc schließt</div>
+          <div class="flex flex-col gap-1">
+            <div id={captionId} class="text-sm font-medium text-text leading-relaxed">&nbsp;</div>
+            <div id={captionSubId} class="text-xs text-muted leading-relaxed">&nbsp;</div>
+          </div>
+          <div class="mt-2 text-[11px] text-muted/80">Tipp: Pfeiltasten wechseln · Esc schließt</div>
         </div>
       </div>
     </div>
@@ -161,6 +167,8 @@ const scrollRightId = `${rootId}-scroll-right`;
     nextId,
     scrollLeftId,
     scrollRightId,
+    captionSubId,
+    label,
   }}>
     (() => {
       const root = document.getElementById(rootId);
@@ -170,6 +178,7 @@ const scrollRightId = `${rootId}-scroll-right`;
       const modal = document.getElementById(modalId);
       const imgEl = document.getElementById(imgId);
       const capEl = document.getElementById(captionId);
+      const capSubEl = document.getElementById(captionSubId);
       const countEl = document.getElementById(countId);
       const btnClose = document.getElementById(closeId);
       const btnPrev = document.getElementById(prevId);
@@ -178,7 +187,7 @@ const scrollRightId = `${rootId}-scroll-right`;
       const btnScrollRight = document.getElementById(scrollRightId);
       const overlay = modal?.querySelector("[data-lb-overlay]");
 
-      if (!strip || !modal || !imgEl || !capEl || !countEl || !btnClose || !btnPrev || !btnNext) return;
+      if (!strip || !modal || !imgEl || !capEl || !capSubEl || !countEl || !btnClose || !btnPrev || !btnNext) return;
 
       const items = Array.from(root.querySelectorAll("[data-lb-open]"));
       const data = items.map((el) => {
@@ -204,7 +213,11 @@ const scrollRightId = `${rootId}-scroll-right`;
         const cur = data[index];
         imgEl.src = cur.src;
         imgEl.alt = cur.alt;
-        capEl.textContent = cur.caption || cur.alt || "";
+        const title = (cur.caption || cur.alt || `Foto ${index + 1}`).trim();
+        capEl.textContent = title;
+        const sub = [label, `Foto ${index + 1} / ${data.length}`].filter(Boolean).join(" · ");
+        capSubEl.textContent = sub;
+        capSubEl.style.display = sub ? "" : "none";
         countEl.textContent = `${index + 1} / ${data.length}`;
 
         // tiny preload of the next image
