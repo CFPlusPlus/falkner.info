@@ -29,9 +29,16 @@ const iconFor = (label: string) => {
           Kontakt: <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
         </p>
 
-        <details class="mt-6">
-          <summary class="cursor-pointer text-sm text-muted hover:text-text transition">
-            Rechtliche Hinweise anzeigen
+        <details class="mt-6 legal-details">
+          <summary class="legal-summary flex items-center gap-2 cursor-pointer text-sm text-muted hover:text-text transition">
+            {/*
+              IMPORTANT: The <Icon /> renders inside a child component, so scoped CSS in this file
+              would NOT reliably target the <i> element. We animate a wrapper <span> instead.
+            */}
+            <span class="legal-chevron" aria-hidden="true">
+              <Icon name="chevron-right" size={16} />
+            </span>
+            <span>Rechtliche Hinweise anzeigen</span>
           </summary>
           <div class="mt-4 text-sm text-muted leading-relaxed space-y-3">
             <p>
@@ -103,3 +110,26 @@ const iconFor = (label: string) => {
     </div>
   </div>
 </footer>
+
+
+<style>
+  /* Replace the default browser <details>/<summary> marker with a Tabler icon */
+  .legal-summary { list-style: none; }
+  .legal-summary::-webkit-details-marker { display: none; }
+
+  /* Visible open/close animation */
+  .legal-chevron {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 180ms ease;
+    transform: rotate(0deg);
+    transform-origin: center;
+    will-change: transform;
+  }
+  /* 90° right -> down */
+  .legal-details[open] .legal-chevron { transform: rotate(90deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .legal-chevron { transition: none; }
+  }
+</style>

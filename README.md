@@ -1,27 +1,46 @@
-# falkner.info
+# Astro Starter Kit: Basics
 
-Dieses Repository enthält den Quellcode meiner privaten Website **falkner.info**.  
-Die Seite ist als typografie-orientierter, dark-first **Editorial One-Pager** umgesetzt – mit Fokus auf klare Informationshierarchie, hochwertige Details (Linien/Divider, Meta-Labels, präzises Spacing) und sehr guter Performance.
+```sh
+npm create astro@latest -- --template basics
+```
 
-## Überblick
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-Die Website ist bewusst **editorial** gestaltet: weniger „Landingpage-Pattern“, mehr „Design-Exponat“.  
-Statt klassischer Card-Grids setzt das Layout auf Flächen, Linien, Listen und asymmetrische Spalten, damit Inhalte ruhig, hochwertig und gut lesbar bleiben.
+## 🚀 Project Structure
 
-## Tech Stack
+Inside of your Astro project, you'll see the following folders and files:
 
-- **Astro** (aktuelle Version)
-- **Tailwind CSS**
-- **PostCSS** + Autoprefixer
-- **Prettier** (+ `prettier-plugin-astro`)
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src
+│   ├── assets
+│   │   └── astro.svg
+│   ├── components
+│   │   └── Welcome.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       └── index.astro
+└── package.json
+```
 
-## Lokales Setup
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-### Voraussetzungen
-- Node.js (LTS empfohlen)
+## 🧞 Commands
 
-### Installation & Development
+All commands are run from the root of the project, from a terminal:
 
-```bash
-npm install
-npm run dev
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

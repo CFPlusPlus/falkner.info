@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "astro": "latest",
-    "@astrojs/tailwind": "latest"
+    "@astrojs/tailwind": "latest",
+    "@tabler/icons-webfont": "3.36.1"
   },
   "devDependencies": {
     "tailwindcss": "latest",
