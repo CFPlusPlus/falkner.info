@@ -3,6 +3,7 @@
 This project includes icon SVG path data based on **Tabler Icons**.
 
 **Tabler Icons**
+
 - Source: https://tabler.io/icons
 - Repository: https://github.com/tabler/tabler-icons
 - License: MIT
