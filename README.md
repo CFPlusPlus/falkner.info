@@ -1,4 +1,4 @@
-# falkner.info – persönliche Webseite (Astro + Tailwind)
+# falkner.info – persönliche Webseite
 
 Das ist der Quellcode meiner persönlichen One‑Pager‑Webseite **falkner.info**.
 Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑Galerie (Carousel + Lightbox).
@@ -34,19 +34,6 @@ npm run build    # Production Build nach ./dist
 npm run preview  # Production Build lokal testen
 npm run format   # Prettier auf das ganze Projekt
 ```
-
-## Footer: letzter Commit anzeigen
-
-Im Footer kann optional der **letzte Commit** angezeigt werden.
-
-- Der Commit-Hash wird beim Build automatisch ermittelt (GitHub Actions via `GITHUB_SHA`, lokal via `git rev-parse`).
-- Für klickbare Links (Repo + Commit) setze die Umgebungsvariable:
-
-```bash
-PUBLIC_REPO_URL="https://github.com/USER/REPO"
-```
-
-Wenn `PUBLIC_REPO_URL` nicht gesetzt ist, wird nur der Hash als Text angezeigt.
 
 ## Inhalte bearbeiten
 
@@ -84,7 +71,7 @@ Komponente:
 
 - `src/components/MinecraftServerStatus.astro`
 
-## Projektstruktur (Kurz)
+## Projektstruktur
 
 - `src/pages/…` – Seiten (z. B. `index.astro`, `datenschutz.astro`)
 - `src/components/…` – UI‑Komponenten (Navbar, Footer, Galerie/Lightbox, etc.)
