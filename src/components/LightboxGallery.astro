@@ -3,10 +3,10 @@ import Icon from "./Icon.astro";
 import type { GalleryImage } from "../lib/site";
 
 type Props = {
-  /** Unique id so multiple galleries can live on the same page */
+  /** Eindeutige ID, damit mehrere Galerien auf einer Seite möglich sind */
   id: string;
   images: GalleryImage[];
-  /** Optional label shown in the lightbox footer */
+  /** Optionaler Text, der im Lightbox-Footer angezeigt wird */
   label?: string;
 };
 
@@ -27,10 +27,10 @@ const scrollRightId = `${rootId}-scroll-right`;
 ---
 
 <div id={rootId} class="relative">
-  <!-- Carousel strip -->
+  <!-- Carousel-Leiste -->
   <div class="relative mt-6">
     <div class="relative">
-      <!-- edge fades (subtle) -->
+      <!-- Kanten-Fade (dezent) -->
       <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
       <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-bg via-bg/70 to-transparent"></div>
 
@@ -66,7 +66,7 @@ const scrollRightId = `${rootId}-scroll-right`;
       </div>
     </div>
 
-    <!-- Carousel controls -->
+    <!-- Carousel-Steuerung -->
     <div class="mt-4 flex items-center justify-between">
       <div class="text-xs text-muted tabular-nums">{images.length} Fotos</div>
       <div class="flex items-center gap-2">
@@ -90,7 +90,7 @@ const scrollRightId = `${rootId}-scroll-right`;
     </div>
   </div>
 
-  <!-- Lightbox / modal -->
+  <!-- Lightbox / Modal -->
   <div
     id={modalId}
     class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
@@ -125,7 +125,7 @@ const scrollRightId = `${rootId}-scroll-right`;
             class="block w-full max-h-[78vh] object-contain bg-bg/30"
           />
 
-          <!-- Prev/Next -->
+          <!-- Vor/Zurück -->
           <button
             id={prevId}
             type="button"
@@ -220,7 +220,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         capSubEl.style.display = sub ? "" : "none";
         countEl.textContent = `${index + 1} / ${data.length}`;
 
-        // tiny preload of the next image
+        // Kleiner Preload für das nächste Bild
         const nxt = data[(index + 1) % data.length];
         if (nxt?.src) {
           const pre = new Image();
@@ -254,7 +254,7 @@ const scrollRightId = `${rootId}-scroll-right`;
       btnPrev.addEventListener("click", () => set(index - 1));
       btnNext.addEventListener("click", () => set(index + 1));
 
-      // keyboard controls
+      // Tastatursteuerung
       window.addEventListener("keydown", (e) => {
         if (modal.classList.contains("hidden")) return;
         if (e.key === "Escape") {
@@ -273,7 +273,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         }
       });
 
-      // strip scroll buttons
+      // Scroll-Buttons für die Leiste
       const scrollByAmount = (dir) => {
         if (!strip) return;
         const amount = Math.max(220, Math.floor(strip.clientWidth * 0.85));

@@ -12,7 +12,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
 ---
 <header class="sticky top-0 z-50">
   <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
-    <!-- 1px scroll-progress -->
+    <!-- 1px Scroll-Progress -->
     <div id="scrollProgress" class="absolute left-0 top-0 h-px w-full origin-left scale-x-0 bg-accent/50"></div>
 
     <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
@@ -30,7 +30,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
         </div>
       </a>
 
-      <!-- Desktop navigation -->
+      <!-- Desktop-Navigation -->
       <nav class="hidden md:flex items-center gap-1" aria-label="Navigation">
         {links.map((l) => (
           <a
@@ -46,7 +46,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
         </div>
       </nav>
 
-      <!-- Mobile button -->
+      <!-- Mobile-Menü Button -->
       <button
         type="button"
         id="menuBtn"
@@ -59,7 +59,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
     </div>
   </div>
 
-  <!-- Mobile overlay menu (keeps navbar stable) -->
+  <!-- Mobile Overlay-Menü (Navbar bleibt stabil) -->
   <div id="mobileMenu" class="fixed inset-0 z-[60] hidden" aria-hidden="true">
     <div id="menuOverlay" class="absolute inset-0 bg-bg/60 backdrop-blur-2xl"></div>
     <div class="absolute right-0 top-0 h-full w-full max-w-md border-l border-border/70 bg-bg/80 backdrop-blur-2xl">
@@ -94,7 +94,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
     (() => {
       const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
-      // --- Sticky progress (1px) ---
+      // --- Scroll-Fortschritt (1px-Leiste) ---
       const bar = document.getElementById("scrollProgress");
       let ticking = false;
       const updateBar = () => {
@@ -113,7 +113,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
       window.addEventListener("scroll", onScroll, { passive: true });
       updateBar();
 
-      // --- Mobile menu ---
+      // --- Mobile Menü ---
       const menu = document.getElementById("mobileMenu");
       const btn = document.getElementById("menuBtn");
       const closeBtn = document.getElementById("menuClose");
@@ -145,10 +145,10 @@ const { brand = "falkner.info", links } = Astro.props as Props;
         if (e.key === "Escape") close();
       });
 
-      // Close after clicking a link
+      // Nach Klick auf einen Link schließen
       menu?.querySelectorAll("[data-mobile-link]").forEach((a) => a.addEventListener("click", close));
 
-      // --- Active section highlight (IntersectionObserver) ---
+      // --- Aktiven Abschnitt markieren (IntersectionObserver) ---
       const links = Array.from(document.querySelectorAll("[data-nav-link]"));
       const sections = links
         .map((a) => a.getAttribute("data-target"))
@@ -167,7 +167,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
 
         const obs = new IntersectionObserver(
           (entries) => {
-            // choose the most visible intersecting section
+            // Die sichtbarste Sektion gewinnt
             const visible = entries
               .filter((e) => e.isIntersecting)
               .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0));
@@ -186,7 +186,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
   </script>
 
   <style>
-    /* Minimalistic active state: small underline */
+    /* Minimalistischer Active-State: kleine Unterstreichung */
     :global(a.navlink[data-active="true"]) {
       color: hsl(var(--text) / 1);
       position: relative;

@@ -44,8 +44,9 @@ const iconFor = (label: string) => {
         <details class="mt-6 legal-details">
           <summary class="legal-summary flex items-center gap-2 cursor-pointer text-sm text-muted hover:text-text transition">
             {/*
-              IMPORTANT: The <Icon /> renders inside a child component, so scoped CSS in this file
-              would NOT reliably target the <i> element. We animate a wrapper <span> instead.
+              Wichtig: <Icon /> wird in einer Child-Komponente gerendert.
+              Scoped CSS in dieser Datei würde das innere <i> daher nicht zuverlässig treffen.
+              Deshalb animieren wir stattdessen den Wrapper-<span>.
             */}
             <span class="legal-chevron" aria-hidden="true">
               <Icon name="chevron-right" size={16} />
@@ -111,11 +112,11 @@ const iconFor = (label: string) => {
 
 
 <style>
-  /* Replace the default browser <details>/<summary> marker with a Tabler icon */
+  /* Standard-Markierung von <details>/<summary> ersetzen (Tabler-Icon statt Browser-Pfeil) */
   .legal-summary { list-style: none; }
   .legal-summary::-webkit-details-marker { display: none; }
 
-  /* Visible open/close animation */
+  /* Sichtbare Open/Close-Animation */
   .legal-chevron {
     display: inline-flex;
     align-items: center;
@@ -124,7 +125,7 @@ const iconFor = (label: string) => {
     transform-origin: center;
     will-change: transform;
   }
-  /* 90° right -> down */
+  /* 90°: rechts -> unten */
   .legal-details[open] .legal-chevron { transform: rotate(90deg); }
 
   @media (prefers-reduced-motion: reduce) {

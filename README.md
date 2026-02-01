@@ -49,13 +49,13 @@ Die meisten Texte/Links/Bilder werden zentral in **`src/lib/site.ts`** gepflegt:
 
 Bilder werden hier abgelegt:
 
-- `public/images/pc/…` (PC‑Systeme)
-- `public/images/touren/…` (Tagestouren)
+- `public/images/gallery/pc/…` (PC‑Systeme)
+- `public/images/gallery/touren/…` (Tagestouren)
 
 In `src/lib/site.ts` können beliebig viele Bilder hinzugefügt werden. Jede Karte unterstützt:
 
 ```ts
-{ src: "/images/pc/pc-1.webp", alt: "PC-System 1", caption: "Custom Loop – RTX/…" }
+{ src: "/images/gallery/pc/pc-1.webp", alt: "PC-System 1", caption: "Custom Loop – RTX/…" }
 ```
 
 Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.

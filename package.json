@@ -10,15 +10,13 @@
     "format": "prettier . --write"
   },
   "dependencies": {
-    "astro": "latest",
-    "@astrojs/tailwind": "latest",
-    "@tabler/icons-webfont": "3.36.1"
+    "astro": "^5.17.1",
+    "@tabler/icons-webfont": "^3.36.1"
   },
   "devDependencies": {
-    "tailwindcss": "latest",
-    "postcss": "latest",
-    "autoprefixer": "latest",
-    "prettier": "latest",
-    "prettier-plugin-astro": "latest"
+    "tailwindcss": "^4.1.18",
+    "@tailwindcss/vite": "^4.1.18",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

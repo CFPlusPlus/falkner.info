@@ -1,17 +1,17 @@
 ---
 type Props = {
-  /** Minecraft Java Server Address (hostname[:port]) */
+  /** Minecraft Java Server-Adresse (hostname[:port]) */
   address: string;
-  /** Optional label shown above */
+  /** Optionaler Text oberhalb der Anzeige */
   label?: string;
 };
 
 const { address, label = "Spieler online" } = Astro.props as Props;
 
-// API docs: https://api.mcsrvstat.us (version 3)
+// API-Doku: https://api.mcsrvstat.us (Version 3)
 const apiUrl = `https://api.mcsrvstat.us/3/${address}`;
 
-// Unique IDs per component instance
+// Eindeutige IDs pro Komponenten-Instanz
 const idBase = `mc-${Math.random().toString(16).slice(2)}`;
 const valueId = `${idBase}-value`;
 const dotId = `${idBase}-dot`;
@@ -35,7 +35,7 @@ const textId = `${idBase}-text`;
     if (!valueEl || !dotEl || !textEl) return;
 
     const setState = (state, valueText, infoText = "") => {
-      // state: "online" | "offline" | "unknown"
+      // Status: "online" | "offline" | "unknown"
       dotEl.classList.remove("bg-emerald-500/80", "bg-red-500/80", "bg-border");
       if (state === "online") dotEl.classList.add("bg-emerald-500/80");
       else if (state === "offline") dotEl.classList.add("bg-red-500/80");
@@ -57,7 +57,7 @@ const textId = `${idBase}-text`;
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
-        // API v3: "online" boolean. When online, players.online/max available.
+        // API v3: "online" ist boolean. Wenn online, sind players.online/max verfügbar.
         if (data?.online) {
           const online = data?.players?.online;
           const max = data?.players?.max;
@@ -77,7 +77,7 @@ const textId = `${idBase}-text`;
     };
 
     fetchStatus();
-    // Refresh every ~2 minutes (mcsrvstat.us is cached anyway)
+    // Aktualisierung alle ~2 Minuten (mcsrvstat.us ist ohnehin gecached)
     setInterval(fetchStatus, 120000);
   })();
 </script>

@@ -1,24 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind CSS v4 liest die tailwind.config.* nur dann, wenn sie explizit eingebunden wird.
+   Damit Utilities wie `bg-bg`, `text-muted` etc. (aus unserem Theme) weiterhin funktionieren,
+   referenzieren wir hier die Config.
+*/
+@config "../../tailwind.config.mjs";
+
+@import "tailwindcss";
 
 :root {
-  /* Dark mode as default */
+  /* Standard: Dark Mode */
   color-scheme: dark;
 
-  /* Neutral base */
+  /* Neutrale Basis */
   --bg: 255 19% 5%;
   --surface: 252 21% 8%;
   --border: 255 18% 18%;
   --text: 0 0% 98%;
   --muted: 250 12% 72%;
 
-  /* Single accent (tuned teal) */
+  /* Akzent (warm, leicht goldig) */
   --accent: 28 100% 66%;
   --accent2: 28 100% 76%;
 }
 
-/* Smooth anchor scrolling, but respect reduced motion */
+/* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
 html {
   scroll-behavior: smooth;
 }
@@ -28,7 +32,7 @@ html {
   }
 }
 
-/* Better scroll positioning under sticky navbar */
+/* Besseres Scroll-Offset unter der sticky Navbar */
 [id] {
   scroll-margin-top: 96px;
 }
@@ -61,7 +65,7 @@ a {
   outline-offset: 3px;
 }
 
-/* Subtle grain overlay */
+/* Dezentes Grain-Overlay */
 .grain {
   pointer-events: none;
   position: fixed;
@@ -72,14 +76,12 @@ a {
   background-size: 160px 160px;
 }
 
-/* A tiny helper for meta text */
+/* Kleine Helfer-Klasse für Meta-Text */
 .meta {
   @apply text-xs tracking-[0.14em] uppercase text-muted;
 }
 
-/* Lightweight on-load reveal */
-
-/* --- Subtle motion that still feels "editorial" --- */
+/* --- Subtile Bewegung, die trotzdem "editorial" wirkt --- */
 @media (prefers-reduced-motion: no-preference) {
   .blob-float-a {
     animation: blob-float 14s ease-in-out infinite;
@@ -101,7 +103,7 @@ a {
   }
 }
 
-/* --- Scroll reveal (JS-enhanced, but safe without JS) --- */
+/* --- Scroll-Reveal (JS-optimiert, aber ohne JS trotzdem ok) --- */
 html[data-js="true"] .reveal {
   opacity: 0;
   transform: translate3d(0, 10px, 0);
@@ -131,7 +133,7 @@ html[data-js="true"] .reveal.is-in {
 
 /* --- Utilities --- */
 
-/* Hide scrollbars while keeping scroll functionality (for carousels) */
+/* Scrollbars ausblenden, aber Scrollen beibehalten (z. B. für Carousels) */
 .no-scrollbar {
   -ms-overflow-style: none; /* IE/Edge */
   scrollbar-width: none; /* Firefox */
@@ -140,7 +142,7 @@ html[data-js="true"] .reveal.is-in {
   display: none; /* Chrome/Safari */
 }
 
-/* Prevent background scroll when a modal is open */
+/* Hintergrund-Scroll sperren, wenn ein Modal offen ist */
 body[data-scroll-lock="true"] {
   overflow: hidden;
 }

@@ -9,7 +9,7 @@ type Props = { project: Project; serverAddress?: string };
 const { project, serverAddress } = Astro.props as Props;
 ---
 <article class="relative overflow-hidden rounded-lg border border-border/70 bg-surface/50 backdrop-blur-sm shadow-soft">
-  <!-- subtle top gradient line -->
+  <!-- Dezente Gradient-Linie oben -->
   <div class="absolute inset-x-0 top-0 h-px bg-accent/50"></div>
   <div class="p-6 sm:p-8">
     <div class="grid gap-8 sm:grid-cols-[1.4fr_0.6fr]">
@@ -60,6 +60,6 @@ const { project, serverAddress } = Astro.props as Props;
     </div>
   </div>
 
-  <!-- background blob inside panel -->
+  <!-- Hintergrund-Blob innerhalb des Panels -->
   <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"></div>
 </article>
