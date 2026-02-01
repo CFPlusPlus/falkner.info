@@ -35,6 +35,19 @@ npm run preview  # Production Build lokal testen
 npm run format   # Prettier auf das ganze Projekt
 ```
 
+## Footer: letzter Commit anzeigen
+
+Im Footer kann optional der **letzte Commit** angezeigt werden.
+
+- Der Commit-Hash wird beim Build automatisch ermittelt (GitHub Actions via `GITHUB_SHA`, lokal via `git rev-parse`).
+- Für klickbare Links (Repo + Commit) setze die Umgebungsvariable:
+
+```bash
+PUBLIC_REPO_URL="https://github.com/USER/REPO"
+```
+
+Wenn `PUBLIC_REPO_URL` nicht gesetzt ist, wird nur der Hash als Text angezeigt.
+
 ## Inhalte bearbeiten
 
 Die meisten Texte/Links/Bilder werden zentral in **`src/lib/site.ts`** gepflegt:

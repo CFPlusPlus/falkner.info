@@ -6,11 +6,56 @@ import { site, socialLinks } from "../lib/site";
 
 const year = new Date().getFullYear();
 
+// Build-Info (letzter Commit) für den Footer
+const gitHash = (import.meta.env.GIT_COMMIT_HASH || "").trim();
+const rawRepoUrl = (import.meta.env.PUBLIC_REPO_URL || "").trim();
+
+// Repo-URL für Links normalisieren (Trailing Slash + .git entfernen)
+// Wichtig: wir unterstützen hier bewusst nur GitHub.
+const repoUrl = (() => {
+  const candidate = rawRepoUrl.replace(/\.git$/i, "").replace(/\/+$/, "");
+  if (!candidate) return "";
+  try {
+    const u = new URL(candidate);
+    const host = u.hostname.toLowerCase();
+    const isGitHub = host === "github.com" || host === "www.github.com";
+    if (!isGitHub) return "";
+
+    // Tracking entfernen
+    u.search = "";
+    u.hash = "";
+
+    // Trailing Slash im Pfad entfernen
+    if (u.pathname.length > 1) u.pathname = u.pathname.replace(/\/+$/, "");
+
+    return u.toString();
+  } catch {
+    return "";
+  }
+})();
+
+const repoLabel = (() => {
+  if (!repoUrl) return "";
+  try {
+    const u = new URL(repoUrl);
+    const path = u.pathname.replace(/^\/+|\/+$/g, "");
+    // Für GitHub-URLs: "owner/repo" anzeigen
+    return path || u.hostname;
+  } catch {
+    // Fallback: Protokoll entfernen
+    return repoUrl.replace(/^https?:\/\//, "");
+  }
+})();
+
+const commitUrl = repoUrl && gitHash ? `${repoUrl}/commit/${gitHash}` : "";
+
 const footerLinks = (() => {
   const links = [...socialLinks];
   const privacy = { label: "Datenschutz", href: "/datenschutz" };
 
-  const xboxIndex = links.findIndex((l) => l.label.toLowerCase().includes("xbox"));
+  const xboxIndex = links.findIndex((l) =>
+    l.label.toLowerCase().includes("xbox"),
+  );
   if (xboxIndex >= 0) links.splice(xboxIndex + 1, 0, privacy);
   else links.push(privacy);
 
@@ -28,26 +73,38 @@ const iconFor = (label: string) => {
   return "arrow-up-right";
 };
 ---
+
 <footer class="border-t border-border/70 bg-bg/40">
   <div class="mx-auto max-w-6xl px-5 py-16">
     <div class="grid gap-10 sm:grid-cols-[1.2fr_0.8fr]">
       <div class="reveal">
         <div class="meta">Impressum</div>
-        <h2 class="mt-2 text-2xl font-semibold tracking-tight">Private, nicht-kommerzielle Webseite</h2>
+        <h2 class="mt-2 text-2xl font-semibold tracking-tight">
+          Private, nicht-kommerzielle Webseite
+        </h2>
         <p class="mt-4 text-muted leading-relaxed">
-          Angaben gemäß § 5 DDG — Verantwortlich: <strong class="text-text">{site.author}</strong>
+          Angaben gemäß § 5 DDG — Verantwortlich: <strong class="text-text"
+            >{site.author}</strong
+          >
         </p>
         <p class="mt-3 text-muted">
-          Kontakt: <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+          Kontakt: <a
+            class="underline decoration-border hover:decoration-accent"
+            href={`mailto:${site.email}`}>{site.email}</a
+          >
         </p>
 
         <details class="mt-6 legal-details">
-          <summary class="legal-summary flex items-center gap-2 cursor-pointer text-sm text-muted hover:text-text transition">
-            {/*
+          <summary
+            class="legal-summary flex items-center gap-2 cursor-pointer text-sm text-muted hover:text-text transition"
+          >
+            {
+              /*
               Wichtig: <Icon /> wird in einer Child-Komponente gerendert.
               Scoped CSS in dieser Datei würde das innere <i> daher nicht zuverlässig treffen.
               Deshalb animieren wir stattdessen den Wrapper-<span>.
-            */}
+            */
+            }
             <span class="legal-chevron" aria-hidden="true">
               <Icon name="chevron-right" size={16} />
             </span>
@@ -55,15 +112,18 @@ const iconFor = (label: string) => {
           </summary>
           <div class="mt-4 text-sm text-muted leading-relaxed space-y-3">
             <p>
-              <strong class="text-text">Haftungsausschluss:</strong> Trotz sorgfältiger Kontrolle übernehme ich keine Haftung für externe
-              Links. Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
+              <strong class="text-text">Haftungsausschluss:</strong> Trotz sorgfältiger
+              Kontrolle übernehme ich keine Haftung für externe Links. Für den Inhalt
+              verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
             </p>
             <p>
-              <strong class="text-text">Urheberrecht:</strong> Inhalte und Werke auf dieser Seite unterliegen meinem Copyright. Eine Nutzung
-              ist nur mit ausdrücklicher Genehmigung erlaubt.
+              <strong class="text-text">Urheberrecht:</strong> Inhalte und Werke auf
+              dieser Seite unterliegen meinem Copyright. Eine Nutzung ist nur mit
+              ausdrücklicher Genehmigung erlaubt.
             </p>
             <p>
-              <strong class="text-text">Werbung:</strong> Der Nutzung veröffentlichter Kontaktdaten zu Werbezwecken wird widersprochen.
+              <strong class="text-text">Werbung:</strong> Der Nutzung veröffentlichter
+              Kontaktdaten zu Werbezwecken wird widersprochen.
             </p>
           </div>
         </details>
@@ -74,23 +134,36 @@ const iconFor = (label: string) => {
         <Divider class="mt-3" />
 
         <div class="mt-6 border-t border-border/70">
-          {footerLinks.map((l, i) => (
-            <a
-              href={l.href}
-              target={l.href.startsWith("/") ? undefined : "_blank"}
-              rel={l.href.startsWith("/") ? undefined : "noopener"}
-              class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
-              style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}>
-              <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
-                <Icon name={iconFor(l.label) as any} size={18} class="text-muted group-hover:text-text transition-colors" />
-                <div class="min-w-0 flex-1">
-                  <div class="text-sm font-medium text-text">{l.label}</div>
-                  <div class="text-xs text-muted truncate hidden sm:block">{l.href}</div>
+          {
+            footerLinks.map((l, i) => (
+              <a
+                href={l.href}
+                target={l.href.startsWith("/") ? undefined : "_blank"}
+                rel={l.href.startsWith("/") ? undefined : "noopener"}
+                class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+                style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}
+              >
+                <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
+                  <Icon
+                    name={iconFor(l.label) as any}
+                    size={18}
+                    class="text-muted group-hover:text-text transition-colors"
+                  />
+                  <div class="min-w-0 flex-1">
+                    <div class="text-sm font-medium text-text">{l.label}</div>
+                    <div class="text-xs text-muted truncate hidden sm:block">
+                      {l.href}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
-            </a>
-          ))}
+                <Icon
+                  name="arrow-up-right"
+                  size={16}
+                  class="text-muted group-hover:text-text transition-colors"
+                />
+              </a>
+            ))
+          }
         </div>
 
         <div class="mt-8">
@@ -101,20 +174,77 @@ const iconFor = (label: string) => {
 
     <Divider class="mt-12" />
 
-    <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-muted">
-      <p>© {year} {site.author} — Alle Rechte vorbehalten.</p>
-      <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span>Mit <span aria-hidden="true">♥</span> gebaut — {site.author}</span>
-      </p>
-    </div>
+<div class="mt-8 flex flex-col gap-3">
+  {/* Linksbündig */}
+  <p class="text-sm text-muted text-left">
+    © {year} {site.author} — Alle Rechte vorbehalten.
+  </p>
+
+  {/* Rechtsbündig */}
+  <div class="flex flex-col items-end text-right gap-2">
+    <p class="text-sm text-muted">
+      <span class="inline-flex items-center justify-end gap-1">
+        <span>Handmade with</span>
+        <span class="group inline-flex items-center">
+          <Icon
+            name="heart"
+            size={14}
+            class="text-muted transition-colors duration-200 group-hover:text-red-500"
+          />
+        </span>
+        <span>in DE</span>
+      </span>
+    </p>
+
+    {
+      gitHash ? (
+        <p class="text-xs text-muted">
+          {repoUrl ? (
+            <>
+              <a
+                class="font-medium underline decoration-border hover:text-text hover:decoration-accent transition"
+                href={repoUrl}
+                target="_blank"
+                rel="noopener"
+              >
+                {repoLabel}
+              </a>
+              {" @ "}
+              <a
+                class="font-medium underline decoration-border hover:text-text hover:decoration-accent transition"
+                href={commitUrl}
+                target="_blank"
+                rel="noopener"
+              >
+                {gitHash}
+              </a>
+            </>
+          ) : (
+            <>
+              <span class="font-medium text-text/80">Build</span>
+              {" @ "}
+              <span class="font-medium text-text/80">{gitHash}</span>
+            </>
+          )}
+        </p>
+      ) : null
+    }
+  </div>
+</div>
+
+
+
   </div>
 </footer>
 
-
 <style>
   /* Standard-Markierung von <details>/<summary> ersetzen (Tabler-Icon statt Browser-Pfeil) */
-  .legal-summary { list-style: none; }
-  .legal-summary::-webkit-details-marker { display: none; }
+  .legal-summary {
+    list-style: none;
+  }
+  .legal-summary::-webkit-details-marker {
+    display: none;
+  }
 
   /* Sichtbare Open/Close-Animation */
   .legal-chevron {
@@ -126,9 +256,13 @@ const iconFor = (label: string) => {
     will-change: transform;
   }
   /* 90°: rechts -> unten */
-  .legal-details[open] .legal-chevron { transform: rotate(90deg); }
+  .legal-details[open] .legal-chevron {
+    transform: rotate(90deg);
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .legal-chevron { transition: none; }
+    .legal-chevron {
+      transition: none;
+    }
   }
 </style>
