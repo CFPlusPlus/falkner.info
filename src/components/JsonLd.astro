@@ -1,0 +1,14 @@
+---
+type Props = {
+  /** Ein Schema-Objekt oder ein Array aus Schema-Objekten */
+  data: unknown | unknown[];
+};
+
+const { data } = Astro.props as Props;
+
+// Wichtig: JSON-LD muss als "roher" JSON-String im Script stehen.
+// Wir ersetzen "<" zur Sicherheit, damit kein unbeabsichtigtes </script> entstehen kann.
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" set:html={json}></script>

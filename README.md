@@ -79,6 +79,14 @@ Komponente:
 - `src/styles/global.css` – globale Styles
 - `public/…` – statische Assets (Icons, Bilder)
 
+## SEO: Sitemap & strukturierte Daten (JSON-LD)
+
+- **Sitemap** wird automatisch beim Build generiert über `@astrojs/sitemap`.
+  - Output: `dist/sitemap-index.xml` und `dist/sitemap-0.xml`.
+  - In `public/robots.txt` ist `sitemap-index.xml` bereits eingetragen.
+- **JSON-LD** ist global im `BaseLayout` integriert (WebSite + Person + WebPage).
+  - Optional kannst du pro Seite zusätzliches Schema über `jsonLd` an `BaseLayout` übergeben.
+
 ## Deployment
 
 `npm run build` erzeugt eine statische Ausgabe in **`dist/`**.

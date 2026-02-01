@@ -22,6 +22,44 @@ export const socialLinks = [
   },
 ] as const;
 
+// SEO-clean: Für JSON-LD "sameAs" bitte nur echte, öffentliche Profil-URLs verwenden.
+// Discord-Invites, Xbox/Steam-Profile oder Tracking-Links sind für "sameAs" meist eher Rauschen.
+// Hier halten wir es bewusst minimal (GitHub + LinkedIn).
+const SAME_AS_ALLOWLIST = [
+  "github.com",
+  "linkedin.com",
+  "www.linkedin.com",
+] as const;
+
+function normalizeSameAsUrl(rawUrl: string): string | null {
+  try {
+    const u = new URL(rawUrl);
+    if (u.protocol !== "https:") return null;
+
+    const host = u.hostname.toLowerCase();
+    const allowed = SAME_AS_ALLOWLIST.some(
+      (d) => host === d || host.endsWith(`.${d}`),
+    );
+    if (!allowed) return null;
+
+    // Query/Hash entfernen (Tracking), Pfad sauber halten
+    u.search = "";
+    u.hash = "";
+
+    // Trailing Slash entfernen (außer Root)
+    if (u.pathname.length > 1) u.pathname = u.pathname.replace(/\/+$/, "");
+
+    return u.toString();
+  } catch {
+    return null;
+  }
+}
+
+export const sameAsLinks = socialLinks
+  .filter((l) => l.label === "GitHub" || l.label === "LinkedIn")
+  .map((l) => normalizeSameAsUrl(l.href))
+  .filter((v): v is string => Boolean(v));
+
 export type Project = {
   title: string;
   summary: string;

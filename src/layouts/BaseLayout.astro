@@ -3,13 +3,19 @@
 // "-300" = etwas dünnere Striche als Standard (wirkt feiner / weniger bold)
 import "@tabler/icons-webfont/dist/tabler-icons-300.min.css";
 import "../styles/global.css";
-import { site } from "../lib/site";
+import { site, sameAsLinks } from "../lib/site";
+import JsonLd from "../components/JsonLd.astro";
+import { buildOrganizationJsonLd, buildWebPageJsonLd, buildWebSiteJsonLd } from "../lib/jsonld";
 
 type Props = {
   title?: string;
   description?: string;
   canonicalPath?: string;
   ogImagePath?: string;
+  /** Zusätzliche (oder alternative) JSON-LD Daten für Spezialfälle.
+   *  Wenn du hier etwas übergibst, werden die Standard-Schemas trotzdem ergänzt.
+   */
+  jsonLd?: unknown | unknown[];
 };
 
 const {
@@ -21,6 +27,33 @@ const {
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
 const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
+
+// JSON-LD: Basis-Schemas (WebSite + Organization) und pro Seite ein WebPage-Schema
+const baseSchemas = [
+  buildWebSiteJsonLd({ url: site.canonicalBase, name: site.title, description }),
+  buildOrganizationJsonLd({
+    url: site.canonicalBase,
+    name: site.author,
+    logoUrl: new URL("/icons/android-chrome-512x512.png", site.canonicalBase).toString(),
+    email: site.email,
+    // "sameAs" hilft Suchmaschinen beim Zuordnen deiner Profile.
+    // SEO-clean: bewusst nur öffentliche Profil-URLs (z. B. GitHub + LinkedIn).
+    sameAs: sameAsLinks,
+  }),
+  buildWebPageJsonLd({
+    url: canonicalUrl,
+    name: title,
+    description,
+    isPartOf: site.canonicalBase,
+  }),
+];
+
+const extraSchemas = (Astro.props as Props).jsonLd;
+const allSchemas = Array.isArray(extraSchemas)
+  ? [...baseSchemas, ...extraSchemas]
+  : extraSchemas
+    ? [...baseSchemas, extraSchemas]
+    : baseSchemas;
 ---
 <!doctype html>
 <html lang="de">
@@ -69,13 +102,18 @@ const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <!-- Sitemap-Hinweis (die Datei wird beim Build von @astrojs/sitemap erzeugt) -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
     <!-- Favicons / App-Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Strukturierte Daten (JSON-LD) -->
+    <JsonLd data={allSchemas} />
 
     <slot name="head" />
   </head>
