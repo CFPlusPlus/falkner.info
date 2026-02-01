@@ -11,9 +11,8 @@ type Props = {
 const { brand = "falkner.info", links } = Astro.props as Props;
 ---
 <header class="sticky top-0 z-50">
+
   <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
-    <!-- 1px Scroll-Progress -->
-    <div id="scrollProgress" class="absolute left-0 top-0 h-px w-full origin-left scale-x-0 bg-accent/50"></div>
 
     <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
       <a href="/" class="flex items-center gap-3 group" aria-label="Zur Startseite">
@@ -93,25 +92,6 @@ const { brand = "falkner.info", links } = Astro.props as Props;
   <script is:inline>
     (() => {
       const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
-      // --- Scroll-Fortschritt (1px-Leiste) ---
-      const bar = document.getElementById("scrollProgress");
-      let ticking = false;
-      const updateBar = () => {
-        ticking = false;
-        if (!bar) return;
-        const doc = document.documentElement;
-        const max = doc.scrollHeight - doc.clientHeight;
-        const p = max > 0 ? doc.scrollTop / max : 0;
-        bar.style.transform = `scaleX(${Math.min(1, Math.max(0, p))})`;
-      };
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(updateBar);
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      updateBar();
 
       // --- Mobile Menü ---
       const menu = document.getElementById("mobileMenu");

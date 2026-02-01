@@ -1,7 +1,11 @@
 ---
-// Tabler Icons Webfont
-// "-300" = etwas dünnere Striche als Standard (wirkt feiner / weniger bold)
-import "@tabler/icons-webfont/dist/tabler-icons-300.min.css";
+// Tabler Icons (SVG Sprite)
+//
+// Für ein "dünneres" Icon-Design verwenden wir kein Webfont-Glyph,
+// sondern ein SVG-Sprite. Das erlaubt uns, die Strichstärke (stroke-width)
+// pro Icon zu steuern.
+import tablerSpriteUrl from "@tabler/icons-sprite/dist/tabler-sprite-nostroke.svg?url";
+
 import "../styles/global.css";
 import { site, sameAsLinks } from "../lib/site";
 import JsonLd from "../components/JsonLd.astro";
@@ -59,6 +63,9 @@ const allSchemas = Array.isArray(extraSchemas)
 <html lang="de">
   <head>
     <meta charset="utf-8" />
+
+    <!-- Tabler Icons (SVG Sprite) -->
+    <link rel="preload" as="image" type="image/svg+xml" href={tablerSpriteUrl} />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
 
@@ -119,6 +126,15 @@ const allSchemas = Array.isArray(extraSchemas)
   </head>
 
   <body>
+    <!-- Scroll-Fortschritt (immer über allem, oberhalb der Navbar) -->
+    <div id="scrollProgressWrap" class="fixed inset-x-0 top-0 z-[100] pointer-events-none">
+      <div class="h-[1px] w-full bg-border/50">
+        <div
+          id="scrollProgressFill"
+          class="h-full w-0 bg-gradient-to-r from-accent/95 via-accent2/95 to-accent/95 shadow-[0_0_18px_hsl(var(--accent)/0.35)]"></div>
+      </div>
+    </div>
+
     <!-- Hintergrund-Blobs (Artboard/Editorial-Feeling) -->
     <div aria-hidden="true" class="fixed inset-0 -z-10 overflow-hidden">
       <div class="absolute -top-48 -left-64 h-[520px] w-[520px] rounded-full bg-accent/12 blur-3xl blob-float-a"></div>
@@ -173,6 +189,44 @@ const allSchemas = Array.isArray(extraSchemas)
             window.setTimeout(() => (status.textContent = ""), 1600);
           });
         }
+      })();
+    </script>
+
+    <script is:inline>
+      (() => {
+        const fill = document.getElementById("scrollProgressFill");
+        const track = document.getElementById("scrollProgressWrap");
+        if (!fill || !track) return;
+
+        let ticking = false;
+        const doc = document.documentElement;
+
+        const update = () => {
+          ticking = false;
+
+          const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+          const y = window.pageYOffset ?? doc.scrollTop ?? 0;
+          const p = Math.min(1, Math.max(0, y / max));
+
+          // Breite statt Transform: robuster gegenüber Stacking-/Transform-Kontexten
+          fill.style.width = `${p * 100}%`;
+
+          // Wenn die Seite nicht scrollt, Track leicht zurücknehmen (nicht komplett ausblenden)
+          track.style.opacity = max <= 1 ? "0.65" : "1";
+        };
+
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+        window.addEventListener("load", update, { passive: true });
+
+        // Initial
+        update();
       })();
     </script>
 

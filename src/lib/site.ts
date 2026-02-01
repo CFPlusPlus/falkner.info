@@ -8,7 +8,12 @@ export const site = {
   email: "webmaster@falkner.info",
 } as const;
 
-export const socialLinks = [
+export type SocialLink = {
+  label: string;
+  href: string;
+};
+
+export const socialLinks: readonly SocialLink[] = [
   { label: "Discord", href: "https://discord.minecraft-gilde.de/" },
   {
     label: "LinkedIn",
@@ -20,7 +25,7 @@ export const socialLinks = [
     label: "Xbox",
     href: "https://account.xbox.com/de-DE/Profile?gamerTag=QuickChrissi",
   },
-] as const;
+];
 
 // SEO-clean: Für JSON-LD "sameAs" bitte nur echte, öffentliche Profil-URLs verwenden.
 // Discord-Invites, Xbox/Steam-Profile oder Tracking-Links sind für "sameAs" meist eher Rauschen.

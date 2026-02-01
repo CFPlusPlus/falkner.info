@@ -1,7 +1,16 @@
 ---
 /**
- * Icon-Komponente (Tabler Icons Webfont)
+ * Icon-Komponente (Tabler Icons SVG Sprite)
+ *
+ * Warum Sprite?
+ * - Tabler Webfont wirkt schnell "zu fett" (Glyph ist "gefüllt")
+ * - SVG lässt sich sauber über stroke-width "dünner" machen
+ *
+ * Wir nutzen dafür @tabler/icons-sprite (tabler-sprite-nostroke.svg)
+ * und steuern Stroke/Strokewidth pro Icon.
  */
+
+import spriteUrl from "@tabler/icons-sprite/dist/tabler-sprite-nostroke.svg?url";
 
 // Map unserer semantischen Namen -> Tabler Icon-Namen
 const TABLER: Record<string, string> = {
@@ -38,22 +47,43 @@ type Props = {
   /** gemappter Name (z.B. "xbox") ODER roher Tabler-Name (z.B. "brand-xbox") */
   name: string;
   size?: number;
+  /** Standard bei Tabler ist 2 – wir wollen es schlanker (z.B. 1.25) */
+  strokeWidth?: number;
   class?: string;
   label?: string;
 };
 
-const { name, size = 18, class: className = "", label } = Astro.props as Props;
+const { name, size = 18, strokeWidth = 1.25, class: className = "", label } =
+  Astro.props as Props;
 
 // Erlaubt: gemappte Namen ("xbox") ODER roher Tabler-Name ("brand-xbox")
 const icon = TABLER[name] ?? name;
 
-const cls = `ti ti-${icon} inline-block align-[-0.125em] leading-none ${className}`.trim();
-const style = `font-size:${size}px; line-height:1;`;
+const cls = `inline-block align-[-0.125em] leading-none ${className}`.trim();
+const style = `width:${size}px;height:${size}px;`;
+
+// Symbol-IDs im Sprite sind nach dem Schema: #tabler-<icon-name>
+const href = `${spriteUrl}#tabler-${icon}`;
 
 ---
 
-<i
+<svg
   class={cls}
   style={style}
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  focusable="false"
   {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" })}
-/>
+>
+  {/*
+    Wir setzen href UND xlink:href, damit es in allen Browsern sauber läuft.
+    (xlink ist deprecated, aber harmlos als Fallback)
+  */}
+  <use href={href} xlink:href={href} />
+</svg>
