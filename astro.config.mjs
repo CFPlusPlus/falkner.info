@@ -18,7 +18,22 @@ export default defineConfig({
   site: "https://falkner.info",
   // Automatische Sitemap-Generierung (erstellt standardmäßig sitemap-index.xml + sitemap-0.xml)
   // Doku: https://docs.astro.build/en/guides/integrations-guide/sitemap/
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // 404 soll nicht in der Sitemap landen.
+      // (Zusätzlich ist die Seite per Meta-Robots auf noindex gesetzt.)
+      filter: (page) => {
+        try {
+          const { pathname } = new URL(page);
+          return pathname !== "/404" && pathname !== "/404/";
+        } catch {
+          return (
+            !String(page).endsWith("/404") && !String(page).endsWith("/404/")
+          );
+        }
+      },
+    }),
+  ],
   // Tailwind CSS v4: offizielles Setup über das Vite-Plugin.
   // Siehe: https://tailwindcss.com/docs/installation/framework-guides/astro
   vite: {
