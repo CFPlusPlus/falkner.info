@@ -43,15 +43,6 @@ export function isScrollLocked(): boolean {
 
 // Inline-Skripte in Astro-Komponenten können keine /src-Imports auflösen.
 // Deshalb stellen wir eine kleine API auf window bereit.
-declare global {
-  interface Window {
-    __scrollLock?: {
-      lock: () => void;
-      unlock: () => void;
-      isLocked: () => boolean;
-    };
-  }
-}
 
 if (typeof window !== "undefined") {
   window.__scrollLock = {

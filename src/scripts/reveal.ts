@@ -66,11 +66,6 @@ function initClipboard(): void {
   });
 }
 
-function init(): void {
-  initReveal();
-  initClipboard();
-}
-
 export function initGlobalUI(): void {
   initReveal();
   initClipboard();

@@ -14,7 +14,7 @@ type ScrollLockApi = {
 };
 
 function getScrollLock(): ScrollLockApi | null {
-  return (window as any).__scrollLock ?? null;
+  return window.__scrollLock ?? null;
 }
 
 type GalleryItem = { src: string; alt: string; caption: string };
@@ -79,7 +79,7 @@ export function initLightboxes(): void {
     if (!data.length) return;
 
     let index = 0;
-    let lastFocused: Element | null = null;
+    let lastFocused: HTMLElement | null = null;
 
     const getFocusables = () =>
       Array.from(
@@ -121,9 +121,7 @@ export function initLightboxes(): void {
       unlockScroll();
       window.removeEventListener("keydown", onKey);
 
-      if (lastFocused && typeof (lastFocused as any).focus === "function") {
-        (lastFocused as any).focus();
-      }
+      lastFocused?.focus();
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -167,7 +165,8 @@ export function initLightboxes(): void {
     };
 
     const open = (i: number) => {
-      lastFocused = document.activeElement;
+      const active = document.activeElement;
+      lastFocused = active instanceof HTMLElement ? active : null;
       set(i);
 
       modal.classList.remove("hidden");

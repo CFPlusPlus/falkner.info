@@ -11,11 +11,11 @@
 type ScrollLockApi = {
   lock: () => void;
   unlock: () => void;
-  isLocked: () => boolean;
+  isLocked?: () => boolean;
 };
 
 function getScrollLock(): ScrollLockApi | null {
-  return (window as any).__scrollLock ?? null;
+  return window.__scrollLock ?? null;
 }
 
 let controller: AbortController | null = null;
@@ -43,7 +43,7 @@ export function initNavbar(): void {
     window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
 
   let isOpen = false;
-  let lastFocused: Element | null = null;
+  let lastFocused: HTMLElement | null = null;
 
   const getFocusables = () => {
     return Array.from(
@@ -87,7 +87,8 @@ export function initNavbar(): void {
     if (isOpen) return;
     isOpen = true;
 
-    lastFocused = document.activeElement;
+    const active = document.activeElement;
+    lastFocused = active instanceof HTMLElement ? active : null;
 
     menu.classList.remove("hidden");
     menu.setAttribute("aria-hidden", "false");
@@ -121,9 +122,7 @@ export function initNavbar(): void {
     window.removeEventListener("keydown", onKey);
 
     // Fokus wiederherstellen
-    if (lastFocused && typeof (lastFocused as any).focus === "function") {
-      (lastFocused as any).focus();
-    }
+    lastFocused?.focus();
   };
 
   btn.addEventListener("click", () => (isOpen ? close() : open()), { signal });

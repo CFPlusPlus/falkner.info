@@ -18,12 +18,12 @@ type Variant =
 
 type Props = {
   /** HTML-Tag (z. B. div, article, button, a, ...). */
-  as?: string;
+  as?: keyof HTMLElementTagNameMap;
   /** Optische Variante. */
   variant?: Variant;
   /** Zusätzliche Klassen. */
   class?: string;
-} & Record<string, any>;
+} & Record<string, unknown>;
 
 const { as: Tag = "div", variant = "panel", class: className = "", ...rest } = Astro.props as Props;
 

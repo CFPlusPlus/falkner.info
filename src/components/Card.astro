@@ -13,11 +13,11 @@ type Variant = "panel" | "soft" | "glass" | "softBlur" | "softBlurFlat";
 type Padding = "none" | "sm" | "md";
 
 type Props = {
-  as?: string;
+  as?: keyof HTMLElementTagNameMap;
   variant?: Variant;
   padding?: Padding;
   class?: string;
-} & Record<string, any>;
+} & Record<string, unknown>;
 
 const { as, variant = "panel", padding = "none", class: className = "", ...rest } = Astro.props as Props;
 
