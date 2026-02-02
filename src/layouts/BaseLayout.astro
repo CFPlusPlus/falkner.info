@@ -6,6 +6,17 @@
 // pro Icon zu steuern.
 import tablerSpriteUrl from "@tabler/icons-sprite/dist/tabler-sprite-nostroke.svg?url";
 
+// Fonts (lokal gehostet via Fontsource)
+// Headlines: Space Grotesk
+// Body/UI: Geist Sans
+import "@fontsource-variable/space-grotesk";
+// Geist Sans ist bei Fontsource aktuell als statische Familie verfügbar.
+// Deshalb importieren wir die benötigten Gewichte explizit.
+import "@fontsource/geist-sans/300.css";
+import "@fontsource/geist-sans/400.css";
+import "@fontsource/geist-sans/500.css";
+import "@fontsource/geist-sans/600.css";
+
 import "../styles/global.css";
 import { site, sameAsLinks } from "../lib/site";
 import JsonLd from "../components/JsonLd.astro";
@@ -28,6 +39,9 @@ const {
   canonicalPath = "/",
   ogImagePath = "/og/og.png"
 } = Astro.props as Props;
+
+// Nur auf der Startseite sinnvoll: Hero-Bild preloaden
+const shouldPreloadHero = canonicalPath === "/";
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
 const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
@@ -81,19 +95,12 @@ const allSchemas = Array.isArray(extraSchemas)
       document.documentElement.dataset.js = "true";
     </script>
 
-    <!-- Preconnect für Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Schrift: Inter (cleaner, "editorial" Default) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet" />
+    <!-- Fonts werden lokal via Fontsource geladen (siehe Frontmatter) -->
 
     <!-- Globale Styles werden über Astro importiert (siehe Frontmatter) -->
 
-    <!-- Hero-Bild vorladen -->
-    <link rel="preload" as="image" href="/images/profile.webp" />
+    <!-- Hero-Bild vorladen (nur auf der Startseite) -->
+    {shouldPreloadHero ? <link rel="preload" as="image" href="/images/profile.webp" /> : null}
 
     <!-- Open Graph -->
     <meta property="og:site_name" content={site.domain} />
@@ -146,89 +153,18 @@ const allSchemas = Array.isArray(extraSchemas)
 
     <div class="grain" aria-hidden="true"></div>
 
+    <!--
+      Scroll-Lock API registrieren (wird u.a. von Navbar/Lightbox genutzt)
+      WICHTIG: keine zusätzlichen Attribute (z.B. type/defer) setzen,
+      sonst verarbeitet Astro das Script nicht und Imports würden im Browser 404en.
+    -->
+    <script src="../scripts/scrollLock.ts"></script>
+
     <slot />
 
-    <script is:inline>
-      (() => {
-        const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
-        // --- Scroll-Reveal (IntersectionObserver) ---
-        const els = Array.from(document.querySelectorAll(".reveal"));
-        if (!prefersReduced && "IntersectionObserver" in window && els.length) {
-          const obs = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((e) => {
-                if (e.isIntersecting) {
-                  e.target.classList.add("is-in");
-                  obs.unobserve(e.target);
-                }
-              });
-            },
-            { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
-          );
-          els.forEach((el) => obs.observe(el));
-        } else {
-          // Fallback: ohne IO / bei Reduced Motion sofort anzeigen
-          els.forEach((el) => el.classList.add("is-in"));
-        }
-
-        // --- In die Zwischenablage kopieren (optional) ---
-        const copyBtn = document.querySelector("[data-copy]");
-        const status = document.querySelector("[data-copy-status]");
-        if (copyBtn && status) {
-          copyBtn.addEventListener("click", async () => {
-            const value = copyBtn.getAttribute("data-copy-value") || "";
-            try {
-              await navigator.clipboard.writeText(value);
-              status.textContent = "Kopiert.";
-              copyBtn.setAttribute("data-copied", "true");
-              window.setTimeout(() => copyBtn.removeAttribute("data-copied"), 1200);
-            } catch {
-              status.textContent = "Konnte nicht kopieren — bitte manuell markieren.";
-            }
-            window.setTimeout(() => (status.textContent = ""), 1600);
-          });
-        }
-      })();
-    </script>
-
-    <script is:inline>
-      (() => {
-        const fill = document.getElementById("scrollProgressFill");
-        const track = document.getElementById("scrollProgressWrap");
-        if (!fill || !track) return;
-
-        let ticking = false;
-        const doc = document.documentElement;
-
-        const update = () => {
-          ticking = false;
-
-          const max = Math.max(1, doc.scrollHeight - window.innerHeight);
-          const y = window.pageYOffset ?? doc.scrollTop ?? 0;
-          const p = Math.min(1, Math.max(0, y / max));
-
-          // Breite statt Transform: robuster gegenüber Stacking-/Transform-Kontexten
-          fill.style.width = `${p * 100}%`;
-
-          // Wenn die Seite nicht scrollt, Track leicht zurücknehmen (nicht komplett ausblenden)
-          track.style.opacity = max <= 1 ? "0.65" : "1";
-        };
-
-        const onScroll = () => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(update);
-        };
-
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", onScroll, { passive: true });
-        window.addEventListener("load", update, { passive: true });
-
-        // Initial
-        update();
-      })();
-    </script>
+    <!-- UI-Skripte (gebundelt) -->
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/scrollProgress.ts"></script>
 
   </body>
 </html>

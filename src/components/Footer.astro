@@ -3,6 +3,7 @@ import Divider from "./Divider.astro";
 import Button from "./Button.astro";
 import Icon from "./Icon.astro";
 import { site, socialLinks } from "../lib/site";
+import { iconForLabel } from "../lib/icons";
 
 const year = new Date().getFullYear();
 
@@ -62,16 +63,6 @@ const footerLinks = (() => {
   return links;
 })();
 
-const iconFor = (label: string) => {
-  const l = label.toLowerCase();
-  if (l.includes("discord")) return "discord";
-  if (l.includes("linkedin")) return "linkedin";
-  if (l.includes("github")) return "github";
-  if (l.includes("steam")) return "steam";
-  if (l.includes("xbox")) return "xbox";
-  if (l.includes("datenschutz")) return "lock";
-  return "arrow-up-right";
-};
 ---
 
 <footer class="border-t border-border/70 bg-bg/40">
@@ -79,7 +70,7 @@ const iconFor = (label: string) => {
     <div class="grid gap-10 sm:grid-cols-[1.2fr_0.8fr]">
       <div class="reveal">
         <div class="meta">Impressum</div>
-        <h2 class="mt-2 text-2xl font-semibold tracking-tight">
+        <h2 class="mt-2 text-2xl font-[450] tracking-tight">
           Private, nicht-kommerzielle Webseite
         </h2>
         <p class="mt-4 text-muted leading-relaxed">
@@ -145,12 +136,12 @@ const iconFor = (label: string) => {
               >
                 <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
                   <Icon
-                    name={iconFor(l.label) as any}
+                    name={iconForLabel(l.label)}
                     size={18}
                     class="text-muted group-hover:text-text transition-colors"
                   />
                   <div class="min-w-0 flex-1">
-                    <div class="text-sm font-medium text-text">{l.label}</div>
+                    <div class="text-sm font-[450] text-text">{l.label}</div>
                     <div class="text-xs text-muted truncate hidden sm:block">
                       {l.href}
                     </div>
@@ -202,7 +193,7 @@ const iconFor = (label: string) => {
           {repoUrl ? (
             <>
               <a
-                class="font-medium underline decoration-border hover:text-text hover:decoration-accent transition"
+                class="font-[450] underline decoration-border hover:text-text hover:decoration-accent transition"
                 href={repoUrl}
                 target="_blank"
                 rel="noopener"
@@ -211,7 +202,7 @@ const iconFor = (label: string) => {
               </a>
               {" @ "}
               <a
-                class="font-medium underline decoration-border hover:text-text hover:decoration-accent transition"
+                class="font-[450] underline decoration-border hover:text-text hover:decoration-accent transition"
                 href={commitUrl}
                 target="_blank"
                 rel="noopener"
@@ -221,9 +212,9 @@ const iconFor = (label: string) => {
             </>
           ) : (
             <>
-              <span class="font-medium text-text/80">Build</span>
+              <span class="font-[450] text-text/80">Build</span>
               {" @ "}
-              <span class="font-medium text-text/80">{gitHash}</span>
+              <span class="font-[450] text-text/80">{gitHash}</span>
             </>
           )}
         </p>

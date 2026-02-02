@@ -20,6 +20,14 @@
   /* Akzent (warm, leicht goldig) */
   --accent: 28 100% 66%;
   --accent2: 28 100% 76%;
+
+  /* Typography */
+  --font-sans:
+    "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+    "Noto Sans", sans-serif;
+  --font-display:
+    "Space Grotesk Variable", "Space Grotesk", "Geist Sans", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
 }
 
 /* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
@@ -39,17 +47,25 @@ html {
 
 body {
   @apply min-h-screen bg-bg text-text antialiased;
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    "Inter",
-    "Albert Sans",
-    Arial,
-    "Noto Sans",
-    sans-serif;
+  font-family: var(--font-sans);
+  /* 300 wirkt deutlich cleaner als 400 (Inter-Standard) */
+  font-weight: 300;
   text-rendering: geometricPrecision;
+}
+
+/* Strong-Text etwas dezenter, damit die Typo clean bleibt */
+strong {
+  font-weight: 500;
+}
+
+/* Headlines etwas "editorialer" */
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 ::selection {
