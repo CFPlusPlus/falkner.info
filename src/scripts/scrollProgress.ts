@@ -50,7 +50,6 @@ function setupScrollProgress(): void {
   update();
 }
 
-
 export function initScrollProgress(): void {
   setupScrollProgress();
 }

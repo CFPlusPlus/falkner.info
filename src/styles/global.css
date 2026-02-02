@@ -22,8 +22,12 @@
   --accent2: 28 100% 76%;
 
   /* Typography */
-  --font-sans: "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
-  --font-display: "Space Grotesk Variable", "Space Grotesk", "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
+  --font-sans:
+    "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+    "Noto Sans", sans-serif;
+  --font-display:
+    "Space Grotesk Variable", "Space Grotesk", "Geist Sans", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
 
   /* Design-Tokens (zentral steuerbar) */
   --w-body: 300;
@@ -34,7 +38,6 @@
   --space-section-y: 4.25rem; /* ~68px */
   --space-section-y-sm: 5.25rem; /* ~84px */
   --space-section-gap: 2.75rem; /* ~44px */
-
 
   /* Radius (subtil, aber zentral steuerbar) */
   --r-card: 0.5rem; /* entspricht rounded-lg */
@@ -77,7 +80,7 @@ body {
   font-family: var(--font-sans);
   /* 300 wirkt deutlich cleaner als 400 (Inter-Standard) */
   font-weight: var(--w-body);
-text-rendering: geometricPrecision;
+  text-rendering: geometricPrecision;
 }
 
 /* Strong-Text etwas dezenter, damit die Typo clean bleibt */
@@ -106,8 +109,10 @@ a {
 :focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 var(--focus-offset) hsl(var(--focus-offset-bg) / var(--focus-offset-alpha)),
-    0 0 0 calc(var(--focus-offset) + var(--focus-width)) hsl(var(--focus-ring) / var(--focus-alpha));
+    0 0 0 var(--focus-offset)
+      hsl(var(--focus-offset-bg) / var(--focus-offset-alpha)),
+    0 0 0 calc(var(--focus-offset) + var(--focus-width))
+      hsl(var(--focus-ring) / var(--focus-alpha));
 }
 
 @layer utilities {
@@ -118,12 +123,16 @@ a {
     text-decoration-thickness: var(--u-thickness);
     text-underline-offset: var(--u-offset);
     text-decoration-color: hsl(var(--link) / var(--link-underline-alpha));
-    transition: color 150ms ease, text-decoration-color 150ms ease;
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
   }
   .u-link:hover,
   .u-link:focus-visible {
     color: hsl(var(--link-hover));
-    text-decoration-color: hsl(var(--link-hover) / var(--link-underline-alpha-hover));
+    text-decoration-color: hsl(
+      var(--link-hover) / var(--link-underline-alpha-hover)
+    );
   }
 
   /* Footer/Secondary-Link: bewusst neutral, ohne Gelb */
@@ -133,7 +142,9 @@ a {
     text-decoration-thickness: var(--u-thickness);
     text-underline-offset: var(--u-offset);
     text-decoration-color: hsl(var(--border) / 0.75);
-    transition: color 150ms ease, text-decoration-color 150ms ease;
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
   }
   .u-link-muted:hover,
   .u-link-muted:focus-visible {
@@ -141,7 +152,6 @@ a {
     text-decoration-color: hsl(var(--border) / 0.9);
   }
 }
-
 
 /* Dezentes Grain-Overlay */
 .grain {

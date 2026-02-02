@@ -28,7 +28,9 @@ export function initNavbar(): void {
 
   const btn = document.getElementById("menuBtn") as HTMLButtonElement | null;
   const menu = document.getElementById("mobileMenu") as HTMLElement | null;
-  const closeBtn = document.getElementById("menuClose") as HTMLButtonElement | null;
+  const closeBtn = document.getElementById(
+    "menuClose",
+  ) as HTMLButtonElement | null;
   const overlay = document.getElementById("menuOverlay") as HTMLElement | null;
 
   if (!btn || !menu) return;
@@ -46,8 +48,8 @@ export function initNavbar(): void {
   const getFocusables = () => {
     return Array.from(
       menu.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
     );
   };
 
@@ -97,9 +99,11 @@ export function initNavbar(): void {
 
     // Fokus sinnvoll setzen
     const focusables = getFocusables();
-    (focusables.find((el) => el.id === "menuClose") ??
+    (
+      focusables.find((el) => el.id === "menuClose") ??
       focusables[0] ??
-      menu).focus();
+      menu
+    ).focus();
 
     window.addEventListener("keydown", onKey, { signal });
   };
@@ -133,7 +137,7 @@ export function initNavbar(): void {
 
   // --- Aktiven Abschnitt markieren (IntersectionObserver) ---
   const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]")
+    document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
   );
   const sections = links
     .map((a) => a.getAttribute("data-target"))
@@ -158,7 +162,7 @@ export function initNavbar(): void {
       const visible = entries
         .filter((e) => e.isIntersecting)
         .sort(
-          (a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0)
+          (a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0),
         );
 
       const id = (visible[0]?.target as HTMLElement | undefined)?.id;
@@ -168,7 +172,7 @@ export function initNavbar(): void {
       root: null,
       rootMargin: "-20% 0px -65% 0px",
       threshold: prefersReduced ? 0.1 : [0.1, 0.2, 0.35, 0.5],
-    }
+    },
   );
 
   sections.forEach((s) => obs.observe(s));
