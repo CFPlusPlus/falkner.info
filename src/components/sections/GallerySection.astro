@@ -1,0 +1,50 @@
+---
+import Section from "../Section.astro";
+import Divider from "../Divider.astro";
+import LightboxGallery from "../LightboxGallery.astro";
+
+import type { GalleryImage } from "../../lib/site";
+
+type Props = {
+  pcBuildPhotos: GalleryImage[];
+  hikePhotos: GalleryImage[];
+};
+
+const { pcBuildPhotos, hikePhotos } = Astro.props;
+---
+
+<Section
+  id="gallery"
+  title="Bilder"
+  kicker="Einblicke"
+  lead="Ein paar Schnappschüsse: PC-Systeme, an denen ich gern tüftle — und entspannte Tagestouren.">
+  <div class="space-y-12">
+    <div id="pc-builds" class="scroll-mt-24">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div class="meta">PC-Systeme</div>
+          <h3 class="mt-2 text-xl font-[450] tracking-tight text-text">Builds & Custom-Wasserkühlung</h3>
+          <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+            Ein paar ausgewählte Builds — von Luftkühlung bis zum Custom-Loop ist alles dabei.
+          </p>
+        </div>
+      </div>
+
+      <LightboxGallery id="pc" images={pcBuildPhotos} label="PC-Systeme" />
+    </div>
+
+    <Divider />
+
+    <div id="touren" class="scroll-mt-24">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div class="meta">Draußen</div>
+          <h3 class="mt-2 text-xl font-[450] tracking-tight text-text">Entspannte Tagestouren</h3>
+          <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">Raus aus dem Kopf, rein in die Aussicht.</p>
+        </div>
+      </div>
+
+      <LightboxGallery id="hike" images={hikePhotos} label="Tagestouren" />
+    </div>
+  </div>
+</Section>

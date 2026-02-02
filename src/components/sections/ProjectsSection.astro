@@ -1,0 +1,36 @@
+---
+import Section from "../Section.astro";
+import Divider from "../Divider.astro";
+import ProjectSpotlight from "../ProjectSpotlight.astro";
+import ProjectList from "../ProjectList.astro";
+
+import type { Project } from "../../lib/site";
+
+type Props = {
+  spotlightProject: Project;
+  projects: Project[];
+  serverAddress: string;
+};
+
+const { spotlightProject, projects, serverAddress } = Astro.props;
+---
+
+<Section
+  id="projects"
+  title="Projekte"
+  kicker="Dinge, die ich baue"
+  lead="Ein paar Sachen, an denen ich regelmäßig hänge — und ein Projekt, das gerade am meisten Zeit bekommt.">
+  <div class="space-y-10">
+    <div class="reveal">
+      <ProjectSpotlight project={spotlightProject} serverAddress={serverAddress} />
+    </div>
+
+    <div class="reveal" style="--reveal-delay: 80ms">
+      <div class="meta">Mehr</div>
+      <Divider class="mt-3" />
+      <div class="mt-6">
+        <ProjectList projects={projects} />
+      </div>
+    </div>
+  </div>
+</Section>

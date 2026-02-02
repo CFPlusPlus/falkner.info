@@ -1,0 +1,90 @@
+---
+import Button from "../Button.astro";
+import Chip from "../Chip.astro";
+import Divider from "../Divider.astro";
+import Icon from "../Icon.astro";
+
+import { iconForLabel } from "../../lib/icons";
+import type { SocialLink } from "../../lib/site";
+
+type Props = {
+  socialLinks: readonly SocialLink[];
+};
+
+const { socialLinks } = Astro.props;
+---
+
+<section id="top" class="pt-12 pb-10 sm:pt-16">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+      <div class="reveal">
+        <h1 class="mt-4 text-4xl sm:text-6xl font-[450] tracking-tight leading-[1.03]">Schön, dass du hier bist!</h1>
+
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-muted max-w-2xl">
+          Ich bin <strong class="text-text">Christian Falkner</strong>. Diese Seite ist mein kleines Zuhause im Web: ein paar Links,
+          Projekte und Dinge, die mich gerade beschäftigen.
+        </p>
+
+        <p class="mt-4 text-sm text-muted max-w-2xl">
+          Geboren in <strong class="text-text">Nürnberg</strong>, Stationen in <strong class="text-text">Wolfsburg</strong> und
+          <strong class="text-text">Bad Nauheim</strong> — heute nahe <strong class="text-text">München</strong> im
+          <strong class="text-text">dualen Studium im öffentlichen Dienst</strong>.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href="#contact" variant="primary" ariaLabel="Zum Kontakt springen">
+            <Icon name="mail" size={16} />
+            Kontakt
+          </Button>
+          <Button href="#projects" variant="secondary" ariaLabel="Zu den Projekten springen">
+            Projekte ansehen
+            <Icon name="arrow-right" size={16} />
+          </Button>
+        </div>
+
+        <div class="mt-10">
+          <Divider />
+          <div class="mt-4 flex flex-wrap gap-3 text-sm text-muted">
+            <span class="meta">Schnelllinks</span>
+            {socialLinks.slice(0, 3).map((l) => (
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-2 hover:text-text transition-colors">
+                <Icon name={iconForLabel(l.label)} size={16} class="text-muted" />
+                <span class="underline decoration-border/70 underline-offset-4 hover:decoration-accent/70">{l.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal lg:justify-self-end" style="--reveal-delay: 80ms">
+        <div class="relative">
+          <div aria-hidden="true" class="absolute -inset-6 rounded-lg bg-accent/10 blur-2xl"></div>
+          <img
+            src="/images/profile.webp"
+            alt="Profilfoto von Christian Falkner"
+            width="640"
+            height="640"
+            class="relative w-full max-w-[420px] rounded-lg border border-border/70 shadow-soft" />
+          <div class="mt-4 flex flex-wrap gap-2">
+            <Chip>
+              <Icon name="gamepad" size={14} class="text-muted" /> Gaming
+            </Chip>
+            <Chip>
+              <Icon name="cpu" size={14} class="text-muted" /> Computer
+            </Chip>
+            <Chip>
+              <Icon name="mountain" size={14} class="text-muted" /> Wandern
+            </Chip>
+            <Chip>
+              <Icon name="pickaxe" size={14} class="text-muted" /> Minecraft
+            </Chip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

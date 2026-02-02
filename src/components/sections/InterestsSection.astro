@@ -1,0 +1,34 @@
+---
+import Section from "../Section.astro";
+import Chip from "../Chip.astro";
+
+import type { InterestCard } from "../../lib/site";
+
+type Props = {
+  interests: readonly InterestCard[];
+};
+
+const { interests } = Astro.props;
+---
+
+<Section
+  id="stack"
+  title="Interessen"
+  kicker="Wofür ich schnell brenne"
+  lead="Nicht alles ist ein Projekt. Manche Dinge bleiben einfach hängen — weil sie Spaß machen oder gut tun.">
+  <div class="grid gap-6 md:grid-cols-2">
+    {interests.map((it, i) => (
+      <article
+        class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6 shadow-soft"
+        style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
+        <h3 class="text-lg font-[450] tracking-tight text-text">{it.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {it.chips.map((c) => (
+            <Chip>{c}</Chip>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+</Section>

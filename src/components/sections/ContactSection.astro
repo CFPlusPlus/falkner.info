@@ -1,0 +1,72 @@
+---
+import Section from "../Section.astro";
+import Divider from "../Divider.astro";
+import Button from "../Button.astro";
+import Icon from "../Icon.astro";
+
+import { iconForLabel } from "../../lib/icons";
+import type { SocialLink } from "../../lib/site";
+
+type SiteInfo = {
+  email: string;
+};
+
+type Props = {
+  site: SiteInfo;
+  socialLinks: readonly SocialLink[];
+};
+
+const { site, socialLinks } = Astro.props;
+---
+
+<Section id="contact" title="Kontakt" kicker="Mail & Links" lead="Schreib mir gern eine Mail — ich melde mich, sobald ich kann.">
+  <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="reveal">
+      <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6">
+        <div class="meta">E‑Mail</div>
+        <p class="mt-3 text-xl sm:text-2xl font-[450] tracking-tight">
+          <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <Button href={`mailto:${site.email}`} variant="primary">
+            <Icon name="mail" size={16} />
+            Mail öffnen
+          </Button>
+
+          <Button variant="secondary" ariaLabel="E-Mail-Adresse kopieren" data-copy data-copy-value={site.email}>
+            <Icon name="copy" size={16} />
+            Kopieren
+          </Button>
+
+          <span class="inline-flex items-center text-sm text-muted" data-copy-status aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="reveal" style="--reveal-delay: 80ms">
+      <div class="meta">Social</div>
+      <Divider class="mt-3" />
+
+      <div class="mt-6 border-t border-border/70">
+        {socialLinks.map((l, i) => (
+          <a
+            href={l.href}
+            target="_blank"
+            rel="noopener"
+            class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
+            style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}>
+            <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
+              <Icon name={iconForLabel(l.label)} size={18} class="text-muted group-hover:text-text transition-colors" />
+              <div class="min-w-0 flex-1">
+                <div class="text-sm font-[450] text-text">{l.label}</div>
+                <div class="text-xs text-muted truncate hidden sm:block">{l.href}</div>
+              </div>
+            </div>
+            <Icon name="arrow-up-right" size={16} class="text-muted group-hover:text-text transition-colors" />
+          </a>
+        ))}
+      </div>
+    </aside>
+  </div>
+</Section>
