@@ -152,12 +152,15 @@ const allSchemas = Array.isArray(extraSchemas)
     </div>
 
     <!-- Hintergrund-Blobs (Artboard/Editorial-Feeling) -->
-    <div aria-hidden="true" class="fixed inset-0 -z-10 overflow-hidden">
-      <div class="absolute -top-48 -left-64 h-[520px] w-[520px] rounded-full bg-accent/12 blur-3xl blob-float-a"></div>
-      <div class="absolute top-[18%] -right-72 h-[620px] w-[620px] rounded-full bg-accent2/10 blur-3xl blob-float-b"></div>
-      <div class="absolute bottom-[-220px] left-[10%] h-[520px] w-[520px] rounded-full bg-accent/10 blur-3xl blob-float-c"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-bg/30 via-bg to-bg"></div>
-      <div class="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_120px_rgba(0,0,0,0.55)]"></div>
+    <!-- Hinweis: Größen/Blur sind bewusst über CSS-Variablen responsiv skaliert (siehe global.css) -->
+    <div aria-hidden="true" class="bg-artboard">
+      <div class="bg-blob bg-blob-a blob-float-a"></div>
+      <div class="bg-blob bg-blob-b blob-float-b"></div>
+      <div class="bg-blob bg-blob-c blob-float-c"></div>
+
+      <!-- sanfte Abdunklung + Lesbarkeit -->
+      <div class="bg-overlay"></div>
+      <div class="bg-vignette"></div>
     </div>
 
     <div class="grain" aria-hidden="true"></div>

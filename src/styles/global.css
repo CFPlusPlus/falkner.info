@@ -164,6 +164,79 @@ a {
   background-size: 160px 160px;
 }
 
+/* Hintergrund-Blobs: responsiv skalieren, damit sie auch auf großen Screens sichtbar bleiben
+   ohne "knallig" zu wirken. */
+:root {
+  /* vmin skaliert sauber bei Ultrawide/4K, clamp verhindert Übertreibung */
+  --blob-a: clamp(420px, 66vmin, 1400px);
+  --blob-b: clamp(520px, 76vmin, 1600px);
+  --blob-c: clamp(420px, 64vmin, 1400px);
+
+  /* Blur skaliert ebenfalls mit (auf großen Screens sonst zu "hart") */
+  --blob-blur: clamp(60px, 7vmin, 220px);
+
+  /* Vignette: hält Kontrast/Lesbarkeit stabil */
+  --blob-vignette: clamp(120px, 12vmin, 260px);
+}
+
+.bg-artboard {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(var(--blob-blur));
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Positionen bewusst "out of frame", damit es nur ein sanftes Farblicht ist */
+.bg-blob-a {
+  width: var(--blob-a);
+  height: var(--blob-a);
+  top: calc(var(--blob-a) * -0.28);
+  left: calc(var(--blob-a) * -0.34);
+  background: hsl(var(--accent) / 0.16);
+}
+
+.bg-blob-b {
+  width: var(--blob-b);
+  height: var(--blob-b);
+  top: 12vmin;
+  right: calc(var(--blob-b) * -0.36);
+  background: hsl(var(--accent2) / 0.14);
+}
+
+.bg-blob-c {
+  width: var(--blob-c);
+  height: var(--blob-c);
+  bottom: calc(var(--blob-c) * -0.34);
+  left: 10vmin;
+  background: hsl(var(--accent) / 0.13);
+}
+
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--bg) / 0.28),
+    hsl(var(--bg)),
+    hsl(var(--bg))
+  );
+}
+
+.bg-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 var(--blob-vignette) rgba(0, 0, 0, 0.55);
+}
+
 /* Kleine Helfer-Klasse für Meta-Text */
 .meta {
   @apply text-xs tracking-[0.14em] uppercase text-muted;
