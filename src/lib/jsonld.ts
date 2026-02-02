@@ -19,6 +19,7 @@ export function buildWebSiteJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${input.url}#website`,
     url: input.url,
     name: input.name,
     ...(input.description ? { description: input.description } : {}),
@@ -44,9 +45,12 @@ export function buildPersonJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${input.url}#person`,
     url: input.url,
     name: input.name,
-    ...(input.logoUrl ? { image: input.logoUrl } : {}),
+    ...(input.logoUrl
+      ? { image: { "@type": "ImageObject", url: input.logoUrl } }
+      : {}),
     ...(input.email ? { email: input.email } : {}),
     ...(input.sameAs && input.sameAs.length ? { sameAs: input.sameAs } : {}),
   };
@@ -57,6 +61,8 @@ export type WebPageJsonLdInput = {
   name: string;
   description?: string;
   isPartOf?: string;
+  /** Referenz auf die Person/Organisation (z. B. https://example.com#person) */
+  aboutId?: string;
 };
 
 export function buildWebPageJsonLd(
@@ -65,16 +71,17 @@ export function buildWebPageJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": `${input.url}#webpage`,
     url: input.url,
     name: input.name,
     ...(input.description ? { description: input.description } : {}),
     ...(input.isPartOf
       ? {
           isPartOf: {
-            "@type": "WebSite",
-            url: input.isPartOf,
+            "@id": `${input.isPartOf}#website`,
           },
         }
       : {}),
+    ...(input.aboutId ? { about: { "@id": input.aboutId } } : {}),
   };
 }

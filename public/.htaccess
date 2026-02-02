@@ -1,0 +1,8 @@
+# ------------------------------------------------------------
+# Custom 404-Seite (Astro Static Build)
+# ------------------------------------------------------------
+# Wenn eine URL nicht existiert, soll Apache unsere Astro-404 ausliefern
+# (statt der Hosting-Standard-Fehlerseite).
+#
+# Hinweis: Astro baut `src/pages/404.astro` standardmäßig als `dist/404/index.html`.
+ErrorDocument 404 /404.html

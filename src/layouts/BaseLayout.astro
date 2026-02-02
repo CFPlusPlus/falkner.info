@@ -43,14 +43,28 @@ const {
   description = site.description,
   canonicalPath = "/",
   // Statt eines großen OG-Bildes nutzen wir standardmäßig das Logo-Icon
-  ogImagePath = "/icons/android-chrome-512x512.png"
+  ogImagePath = "/favicons/android-chrome-512x512.png"
 } = Astro.props as Props;
+
+// Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
+
+// Hilfsfunktion: akzeptiert relative Pfade (z. B. /favicons/...) oder absolute URLs
+const resolvePublicUrl = (value: string) => {
+  try {
+    return new URL(value).toString();
+  } catch {
+    return new URL(withBase(value), Astro.site).toString();
+  }
+};
+
 
 // Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
 // OG-Bild: Standardmäßig Logo-Icon, kann aber pro Seite via `ogImagePath` überschrieben werden.
-const ogImageUrl = new URL(ogImagePath, Astro.site).toString();
+const ogImageUrl = resolvePublicUrl(ogImagePath);
 
 // JSON-LD: Basis-Schemas (WebSite + Organization) und pro Seite ein WebPage-Schema
 const baseSchemas = [
@@ -58,7 +72,7 @@ const baseSchemas = [
   buildPersonJsonLd({
     url: site.canonicalBase,
     name: site.author,
-    logoUrl: new URL("/icons/android-chrome-512x512.png", site.canonicalBase).toString(),
+    logoUrl: new URL("/favicons/android-chrome-512x512.png", site.canonicalBase).toString(),
     email: site.email,
     // "sameAs" hilft Suchmaschinen beim Zuordnen deiner Profile.
     // SEO-clean: bewusst nur öffentliche Profil-URLs (z. B. GitHub + LinkedIn).
@@ -69,6 +83,7 @@ const baseSchemas = [
     name: title,
     description,
     isPartOf: site.canonicalBase,
+    aboutId: `${site.canonicalBase}#person`,
   }),
 ];
 
@@ -78,6 +93,29 @@ const allSchemas = Array.isArray(extraSchemas)
   : extraSchemas
     ? [...baseSchemas, extraSchemas]
     : baseSchemas;
+// JSON-LD in einem @graph bündeln.
+// Grund: Manche Validatoren/Tools zeigen Arrays nicht immer sauber an.
+// Außerdem vermeidet das mehrfaches "@context" auf Root-Ebene.
+const graphNodes = allSchemas.map((schema) => {
+  // "@context" gehört nur auf Root-Ebene. Falls einzelne Nodes es mitbringen,
+  // entfernen wir es, um ein sauberes @graph zu erzeugen.
+  if (
+    schema &&
+    typeof schema === "object" &&
+    Object.prototype.hasOwnProperty.call(schema, "@context")
+  ) {
+    const rest = { ...(schema as Record<string, unknown>) };
+    delete rest["@context"];
+    return rest;
+  }
+  return schema;
+});
+
+const jsonLdGraph = {
+  "@context": "https://schema.org",
+  "@graph": graphNodes,
+};
+
 ---
 <!doctype html>
 <html lang="de">
@@ -126,17 +164,17 @@ const allSchemas = Array.isArray(extraSchemas)
     <meta name="twitter:image:alt" content={title} />
 
     <!-- Sitemap-Hinweis (die Datei wird beim Build von @astrojs/sitemap erzeugt) -->
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
 
     <!-- Favicons / App-Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicons/favicon-32x32.png")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicons/favicon-16x16.png")} />
+    <link rel="shortcut icon" href={withBase("/favicon.ico")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/favicons/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/site.webmanifest")} />
 
     <!-- Strukturierte Daten (JSON-LD) -->
-    <JsonLd data={allSchemas} />
+    <JsonLd data={jsonLdGraph} />
 
     <slot name="head" />
   </head>

@@ -12,15 +12,22 @@ type Props = {
 };
 
 const { brand = "falkner.info", links } = Astro.props as Props;
+
+// Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
+
+const homeHref = withBase('/');
+const logoSrc = withBase('/favicons/android-chrome-192x192.png');
 ---
 <header class="sticky top-0 z-50">
 
   <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
 
     <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
-      <a href="/" class="flex items-center gap-3 group" aria-label="Zur Startseite">
+      <a href={homeHref} class="flex items-center gap-3 group" aria-label="Zur Startseite">
         <img
-          src="/icons/android-chrome-192x192.png"
+          src={logoSrc}
           width="28"
           height="28"
           alt=""

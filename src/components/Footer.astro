@@ -7,6 +7,12 @@ import { iconForLabel } from "../lib/icons";
 
 const year = new Date().getFullYear();
 
+// Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (href: string) =>
+  href.startsWith("/") && !href.startsWith(baseUrl) ? `${baseUrl}${href.slice(1)}` : href;
+
+
 // Build-Info (letzter Commit) für den Footer
 const gitHash = (import.meta.env.GIT_COMMIT_HASH || "").trim();
 const rawRepoUrl = (import.meta.env.PUBLIC_REPO_URL || "").trim();
@@ -78,7 +84,7 @@ const footerLinks = (() => {
           Privates Webprojekt
         </h2>
         <p class="mt-4 text-muted leading-relaxed">
-          Eine moderne, schnelle und bewusst schlanke Seite — ohne Tracking. Rechtliche Infos findest du unter <a class="u-link-muted" href="/impressum">Impressum</a> und <a class="u-link-muted" href="/datenschutz">Datenschutz</a>.
+          Eine moderne, schnelle und bewusst schlanke Seite — ohne Tracking. Rechtliche Infos findest du unter <a class="u-link-muted" href={withBase("/impressum")}>Impressum</a> und <a class="u-link-muted" href={withBase("/datenschutz")}>Datenschutz</a>.
         </p>
 
         <div class="mt-6 flex flex-wrap gap-3">
@@ -96,7 +102,7 @@ const footerLinks = (() => {
           {
             footerLinks.map((l, i) => (
               <a
-                href={l.href}
+                href={withBase(l.href)}
                 target={l.href.startsWith("/") ? undefined : "_blank"}
                 rel={l.href.startsWith("/") ? undefined : "noopener"}
                 class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
