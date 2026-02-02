@@ -71,12 +71,7 @@ function init(): void {
   initClipboard();
 }
 
-// Initial
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init, { once: true });
-} else {
-  init();
+export function initGlobalUI(): void {
+  initReveal();
+  initClipboard();
 }
-
-// Astro View Transitions: nach Seitenwechsel erneut initialisieren
-document.addEventListener("astro:page-load", init);

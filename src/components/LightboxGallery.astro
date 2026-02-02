@@ -26,7 +26,7 @@ const scrollLeftId = `${rootId}-scroll-left`;
 const scrollRightId = `${rootId}-scroll-right`;
 ---
 
-<div id={rootId} class="relative">
+<div id={rootId} class="relative" data-lightbox-root data-lb-label={label}>
   <!-- Carousel-Leiste -->
   <div class="relative mt-6">
     <div class="relative">
@@ -36,6 +36,7 @@ const scrollRightId = `${rootId}-scroll-right`;
 
       <div
         id={stripId}
+        data-lb-strip
         class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
         {images.map((img, i) => (
           <button
@@ -72,6 +73,7 @@ const scrollRightId = `${rootId}-scroll-right`;
       <div class="flex items-center gap-2">
         <button
           id={scrollLeftId}
+          data-lb-scroll-left
           type="button"
           class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
           aria-label="Nach links scrollen"
@@ -80,6 +82,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         </button>
         <button
           id={scrollRightId}
+          data-lb-scroll-right
           type="button"
           class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
           aria-label="Nach rechts scrollen"
@@ -93,6 +96,7 @@ const scrollRightId = `${rootId}-scroll-right`;
   <!-- Lightbox / Modal -->
   <div
     id={modalId}
+    data-lb-modal
     class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
     role="dialog"
     aria-modal="true"
@@ -104,11 +108,12 @@ const scrollRightId = `${rootId}-scroll-right`;
       <div class="mx-auto rounded-[var(--r-card)] border border-border/70 bg-surface/55 backdrop-blur shadow-soft overflow-hidden">
         <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-border/70">
           <div class="flex items-center gap-3 min-w-0">
-            <div id={countId} class="text-xs text-muted tabular-nums">&nbsp;</div>
+            <div id={countId} data-lb-count class="text-xs text-muted tabular-nums">&nbsp;</div>
             {label ? <div class="hidden sm:block text-xs text-muted truncate">{label}</div> : null}
           </div>
           <button
             id={closeId}
+            data-lb-close
             type="button"
             class="inline-flex items-center gap-2 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition px-3 py-2"
             aria-label="Schließen"
@@ -121,6 +126,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         <div class="relative">
           <img
             id={imgId}
+            data-lb-img
             alt=""
             class="block w-full max-h-[78vh] object-contain bg-bg/30"
           />
@@ -128,6 +134,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           <!-- Vor/Zurück -->
           <button
             id={prevId}
+            data-lb-prev
             type="button"
             class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
             aria-label="Vorheriges Bild"
@@ -136,6 +143,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           </button>
           <button
             id={nextId}
+            data-lb-next
             type="button"
             class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
             aria-label="Nächstes Bild"
@@ -146,165 +154,12 @@ const scrollRightId = `${rootId}-scroll-right`;
 
         <div class="px-4 py-3 border-t border-border/70">
           <div class="flex flex-col gap-1">
-            <div id={captionId} class="text-sm font-[var(--w-title)] text-text leading-relaxed">&nbsp;</div>
-            <div id={captionSubId} class="text-xs text-muted leading-relaxed">&nbsp;</div>
+            <div id={captionId} data-lb-caption class="text-sm font-[var(--w-title)] text-text leading-relaxed">&nbsp;</div>
+            <div id={captionSubId} data-lb-caption-sub class="text-xs text-muted leading-relaxed">&nbsp;</div>
           </div>
           <div class="mt-2 text-[11px] text-muted/80">Tipp: Pfeiltasten wechseln · Esc schließt</div>
         </div>
       </div>
     </div>
   </div>
-
-  <script type="module" define:vars={{
-    rootId,
-    stripId,
-    modalId,
-    imgId,
-    captionId,
-    countId,
-    closeId,
-    prevId,
-    nextId,
-    scrollLeftId,
-    scrollRightId,
-    captionSubId,
-    label,
-  }}>
-    const scrollLock = window.__scrollLock;
-    const lockScroll = () => scrollLock?.lock?.();
-    const unlockScroll = () => scrollLock?.unlock?.();
-
-    (() => {
-      const root = document.getElementById(rootId);
-      if (!root) return;
-
-      const strip = document.getElementById(stripId);
-      const modal = document.getElementById(modalId);
-      const imgEl = document.getElementById(imgId);
-      const capEl = document.getElementById(captionId);
-      const capSubEl = document.getElementById(captionSubId);
-      const countEl = document.getElementById(countId);
-      const btnClose = document.getElementById(closeId);
-      const btnPrev = document.getElementById(prevId);
-      const btnNext = document.getElementById(nextId);
-      const btnScrollLeft = document.getElementById(scrollLeftId);
-      const btnScrollRight = document.getElementById(scrollRightId);
-      const overlay = modal?.querySelector("[data-lb-overlay]");
-
-      if (!strip || !modal || !imgEl || !capEl || !capSubEl || !countEl || !btnClose || !btnPrev || !btnNext) return;
-
-      const items = Array.from(root.querySelectorAll("[data-lb-open]"));
-      const data = items.map((el) => {
-        const src = el.getAttribute("data-src") || "";
-        const alt = el.getAttribute("data-alt") || "";
-        const caption = el.getAttribute("data-caption") || "";
-        return { src, alt, caption };
-      });
-
-      let index = 0;
-      let lastFocused = null;
-
-      const getFocusables = () =>
-        Array.from(
-          modal.querySelectorAll(
-            'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
-          )
-        );
-
-      const set = (i) => {
-        index = (i + data.length) % data.length;
-        const cur = data[index];
-        imgEl.src = cur.src;
-        imgEl.alt = cur.alt;
-        const title = (cur.caption || cur.alt || `Foto ${index + 1}`).trim();
-        capEl.textContent = title;
-        const sub = [label, `Foto ${index + 1} / ${data.length}`].filter(Boolean).join(" · ");
-        capSubEl.textContent = sub;
-        capSubEl.style.display = sub ? "" : "none";
-        countEl.textContent = `${index + 1} / ${data.length}`;
-
-        // Kleiner Preload für das nächste Bild
-        const nxt = data[(index + 1) % data.length];
-        if (nxt?.src) {
-          const pre = new Image();
-          pre.src = nxt.src;
-        }
-      };
-
-      const open = (i) => {
-        lastFocused = document.activeElement;
-        set(i);
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-        lockScroll();
-        btnClose.focus();
-      };
-
-      const close = () => {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-        unlockScroll();
-        if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
-      };
-
-      items.forEach((el, i) => {
-        el.addEventListener("click", () => open(i));
-      });
-
-      btnClose.addEventListener("click", close);
-      overlay?.addEventListener("click", close);
-
-      btnPrev.addEventListener("click", () => set(index - 1));
-      btnNext.addEventListener("click", () => set(index + 1));
-
-      // Tastatursteuerung
-      window.addEventListener("keydown", (e) => {
-        if (modal.classList.contains("hidden")) return;
-
-        // Fokus im Modal halten
-        if (e.key === "Tab") {
-          const focusables = getFocusables();
-          if (focusables.length) {
-            const first = focusables[0];
-            const last = focusables[focusables.length - 1];
-            const active = document.activeElement;
-            if (e.shiftKey && active === first) {
-              e.preventDefault();
-              last.focus();
-              return;
-            }
-            if (!e.shiftKey && active === last) {
-              e.preventDefault();
-              first.focus();
-              return;
-            }
-          }
-        }
-
-        if (e.key === "Escape") {
-          e.preventDefault();
-          close();
-          return;
-        }
-        if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          set(index - 1);
-          return;
-        }
-        if (e.key === "ArrowRight") {
-          e.preventDefault();
-          set(index + 1);
-        }
-      });
-
-      // Scroll-Buttons für die Leiste
-      const scrollByAmount = (dir) => {
-        if (!strip) return;
-        const amount = Math.max(220, Math.floor(strip.clientWidth * 0.85));
-        strip.scrollBy({ left: dir * amount, behavior: "smooth" });
-      };
-      btnScrollLeft?.addEventListener("click", () => scrollByAmount(-1));
-      btnScrollRight?.addEventListener("click", () => scrollByAmount(1));
-    })();
-  </script>
 </div>

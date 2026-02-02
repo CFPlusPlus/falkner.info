@@ -4,12 +4,19 @@
 // - Layout schlank halten
 // - Performance: requestAnimationFrame + passive listeners
 
-function initScrollProgress(): void {
+let controller: AbortController | null = null;
+
+function setupScrollProgress(): void {
   const fill = document.getElementById("scrollProgressFill");
   const track = document.getElementById("scrollProgressWrap");
   if (!fill || !track) return;
 
+  controller?.abort();
+  controller = new AbortController();
+  const { signal } = controller;
+
   // Mehrfach-Initialisierungen vermeiden (z.B. bei View Transitions)
+  // Hinweis: pro Element binden wir nur einmal, trotzdem aborten wir alte Listener zur Sicherheit.
   if ((fill as HTMLElement).dataset.progressBound === "true") return;
   (fill as HTMLElement).dataset.progressBound = "true";
 
@@ -36,22 +43,13 @@ function initScrollProgress(): void {
     requestAnimationFrame(update);
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true, signal });
+  window.addEventListener("resize", onScroll, { passive: true, signal });
 
   // Initial
   update();
 }
 
-function init(): void {
-  initScrollProgress();
+export function initScrollProgress(): void {
+  setupScrollProgress();
 }
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init, { once: true });
-} else {
-  init();
-}
-
-// Astro View Transitions: nach Seitenwechsel erneut initialisieren
-document.addEventListener("astro:page-load", init);

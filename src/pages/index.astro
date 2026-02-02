@@ -11,14 +11,8 @@ import GallerySection from "../components/sections/GallerySection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
 
 import { site, socialLinks, spotlightProject, projects, interests, pcBuildPhotos, hikePhotos } from "../lib/site";
+import { navLinks } from "../lib/navigation";
 
-const navLinks = [
-  { label: "Über", href: "#about", targetId: "about" },
-  { label: "Projekte", href: "#projects", targetId: "projects" },
-  { label: "Interessen", href: "#stack", targetId: "stack" },
-  { label: "Bilder", href: "#gallery", targetId: "gallery" },
-  { label: "Kontakt", href: "#contact", targetId: "contact" },
-];
 ---
 
 <BaseLayout>
@@ -27,7 +21,7 @@ const navLinks = [
   <main>
     <HeroSection socialLinks={socialLinks} />
     <AboutSection />
-    <ProjectsSection spotlightProject={spotlightProject} projects={projects} serverAddress="minecraft-gilde.de" />
+    <ProjectsSection spotlightProject={spotlightProject} projects={projects} serverAddress={site.minecraft.serverAddress} />
     <InterestsSection interests={interests} />
     <GallerySection pcBuildPhotos={pcBuildPhotos} hikePhotos={hikePhotos} />
     <ContactSection site={site} socialLinks={socialLinks} />

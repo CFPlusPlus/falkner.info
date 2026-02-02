@@ -6,6 +6,9 @@ export const site = {
     "Persönliche Seite von Christian Falkner – Links, Projekte und ein paar Einblicke.",
   author: "Christian Falkner",
   email: "webmaster@falkner.info",
+  minecraft: {
+    serverAddress: "minecraft-gilde.de",
+  },
 } as const;
 
 export type SocialLink = {

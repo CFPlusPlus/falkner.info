@@ -153,18 +153,10 @@ const allSchemas = Array.isArray(extraSchemas)
 
     <div class="grain" aria-hidden="true"></div>
 
-    <!--
-      Scroll-Lock API registrieren (wird u.a. von Navbar/Lightbox genutzt)
-      WICHTIG: keine zusätzlichen Attribute (z.B. type/defer) setzen,
-      sonst verarbeitet Astro das Script nicht und Imports würden im Browser 404en.
-    -->
-    <script src="../scripts/scrollLock.ts"></script>
-
     <slot />
 
     <!-- UI-Skripte (gebundelt) -->
-    <script src="../scripts/reveal.ts"></script>
-    <script src="../scripts/scrollProgress.ts"></script>
+    <script src="../scripts/client.ts"></script>
 
   </body>
 </html>
