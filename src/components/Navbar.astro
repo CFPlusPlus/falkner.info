@@ -2,6 +2,7 @@
 // Hinweis: Theme-Badge ist aktuell deaktiviert (Design bleibt vorerst fest).
 
 import type { NavLink } from "../lib/navigation";
+import Icon from "./Icon.astro";
 
 type Props = {
   brand?: string;
@@ -49,11 +50,12 @@ const { brand = "falkner.info", links } = Astro.props as Props;
       <button
         type="button"
         id="menuBtn"
-        class="md:hidden inline-flex items-center justify-center rounded-md border border-border/70 bg-surface/60 px-3 py-2 text-sm text-text hover:bg-surface/80 transition"
+        class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
         aria-label="Menü öffnen"
         aria-expanded="false"
         aria-controls="mobileMenu">
-        Menü
+        <Icon name="menu-2" size={20} strokeWidth={1.4} />
+        <span class="sr-only">Menü</span>
       </button>
     </div>
   </div>
@@ -75,9 +77,10 @@ const { brand = "falkner.info", links } = Astro.props as Props;
           <button
             type="button"
             id="menuClose"
-            class="rounded-md border border-border/70 bg-surface/60 px-3 py-2 text-sm hover:bg-surface/80"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
             aria-label="Menü schließen">
-            Schließen
+            <Icon name="x" size={20} strokeWidth={1.4} />
+            <span class="sr-only">Schließen</span>
           </button>
         </div>
 

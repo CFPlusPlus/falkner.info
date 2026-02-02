@@ -1,4 +1,4 @@
-# falkner.info – persönliche Webseite
+# falkner.info ![Astro](https://img.shields.io/badge/Astro-0b0b0c?style=flat&logo=astro&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind-0b0b0c?style=flat&logo=tailwindcss&logoColor=white)
 
 Das ist der Quellcode meiner persönlichen One‑Pager‑Webseite **falkner.info**.
 Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑Galerie (Carousel + Lightbox).
