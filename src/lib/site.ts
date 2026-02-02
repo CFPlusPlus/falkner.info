@@ -1,3 +1,17 @@
+import type { ImageMetadata } from "astro";
+
+import pc1 from "../assets/gallery/pc/pc-1.webp";
+import pc2 from "../assets/gallery/pc/pc-2.webp";
+import pc3 from "../assets/gallery/pc/pc-3.webp";
+import pc4 from "../assets/gallery/pc/pc-4.webp";
+import pc5 from "../assets/gallery/pc/pc-5.webp";
+
+import tour1 from "../assets/gallery/touren/tour-1.webp";
+import tour2 from "../assets/gallery/touren/tour-2.webp";
+import tour3 from "../assets/gallery/touren/tour-3.webp";
+import tour4 from "../assets/gallery/touren/tour-4.webp";
+import tour5 from "../assets/gallery/touren/tour-5.webp";
+
 export const site = {
   domain: "falkner.info",
   canonicalBase: "https://falkner.info",
@@ -112,72 +126,59 @@ export const projects: Project[] = [
 ];
 
 export type GalleryImage = {
+  /** Importiertes Asset (für astro:assets <Image />) */
+  asset: ImageMetadata;
+  /** Praktische URL (z. B. für Lightbox/JS). Entspricht i. d. R. asset.src */
   src: string;
   alt: string;
   caption?: string;
 };
 
-// Bilder: Lege deine Fotos einfach unter
-// - /public/images/gallery/pc/
-// - /public/images/gallery/touren/
-// ab und passe die Dateinamen hier an.
+function galleryImage(
+  asset: ImageMetadata,
+  alt: string,
+  caption?: string,
+): GalleryImage {
+  return { asset, src: asset.src, alt, caption };
+}
+
+// Galerie-Bilder:
+// Lege deine Fotos unter `src/assets/gallery/...` ab und importiere sie oben.
+// Vorteil: Astro kann daraus optimierte Varianten (z. B. AVIF/WebP + responsive Größen) generieren.
 export const pcBuildPhotos: GalleryImage[] = [
-  // Optional: Gib jedem Foto eine kurze Caption (z. B. CPU/GPU/Loop-Info oder ein Build-Name).
-  {
-    src: "/images/gallery/pc/pc-1.webp",
-    alt: "Hauptrechner (2023)",
-    caption: "Specs: CPU: Core i5 13600K, GPU: RTX 3090, RAM: 32GB DDR5",
-  },
-  {
-    src: "/images/gallery/pc/pc-2.webp",
-    alt: "Hauptrechner (2023)",
-    caption: "Die CPU und GPU werden per Custom-Wasserkühlung gekühlt.",
-  },
-  {
-    src: "/images/gallery/pc/pc-3.webp",
-    alt: "Hauptrechner (2022)",
-    caption: "Specs: CPU: Ryzen 9 5900X, GPU: RTX 3080, RAM: 32GB DDR5",
-  },
-  {
-    src: "/images/gallery/pc/pc-4.webp",
-    alt: "Hauptrechner (2022)",
-    caption: "Im Mai 2022 wurde der Rechner auf Custom-Wasserkühlung umgebaut.",
-  },
-  {
-    src: "/images/gallery/pc/pc-5.webp",
-    alt: "Hauptrechner (2021)",
-    caption:
-      "Mein damaliger Hauptrechner im Wunderschönen Corsair Obsidian 500D.",
-  },
+  galleryImage(
+    pc1,
+    "Hauptrechner (2023)",
+    "Specs: CPU: Core i5 13600K, GPU: RTX 3090, RAM: 32GB DDR5",
+  ),
+  galleryImage(
+    pc2,
+    "Hauptrechner (2023)",
+    "Die CPU und GPU werden per Custom-Wasserkühlung gekühlt.",
+  ),
+  galleryImage(
+    pc3,
+    "Hauptrechner (2022)",
+    "Specs: CPU: Ryzen 9 5900X, GPU: RTX 3080, RAM: 32GB DDR4",
+  ),
+  galleryImage(
+    pc4,
+    "Hauptrechner (2022)",
+    "Im Mai 2022 wurde der Rechner auf Custom-Wasserkühlung umgebaut.",
+  ),
+  galleryImage(
+    pc5,
+    "Hauptrechner (2021)",
+    "Mein damaliger Hauptrechner im Wunderschönen Corsair Obsidian 500D.",
+  ),
 ];
 
 export const hikePhotos: GalleryImage[] = [
-  // Optional: Caption-Idee: Tourname, Region oder ein kurzer Hinweis (z. B. "Tegernsee – Abendrunde").
-  {
-    src: "/images/gallery/touren/tour-1.webp",
-    alt: "Tagestour 1",
-    caption: "Tagestour 1",
-  },
-  {
-    src: "/images/gallery/touren/tour-2.webp",
-    alt: "Tagestour 2",
-    caption: "Tagestour 2",
-  },
-  {
-    src: "/images/gallery/touren/tour-3.webp",
-    alt: "Tagestour 3",
-    caption: "Tagestour 3",
-  },
-  {
-    src: "/images/gallery/touren/tour-4.webp",
-    alt: "Tagestour 4",
-    caption: "Tagestour 4",
-  },
-  {
-    src: "/images/gallery/touren/tour-5.webp",
-    alt: "Tagestour 5",
-    caption: "Tagestour 5",
-  },
+  galleryImage(tour1, "Tagestour 1", "Tagestour 1"),
+  galleryImage(tour2, "Tagestour 2", "Tagestour 2"),
+  galleryImage(tour3, "Tagestour 3", "Tagestour 3"),
+  galleryImage(tour4, "Tagestour 4", "Tagestour 4"),
+  galleryImage(tour5, "Tagestour 5", "Tagestour 5"),
 ];
 
 export type InterestCard = {

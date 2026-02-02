@@ -41,15 +41,22 @@ Die meisten Texte/Links/Bilder werden zentral in **`src/lib/site.ts`** gepflegt:
 
 ### Bilder (Galerie / Lightbox)
 
-Bilder werden hier abgelegt:
+Die Galerie nutzt `astro:assets` für optimierte Bilder (responsive Größen + AVIF/WebP).
+Lege deine Fotos hier ab:
 
-- `public/images/gallery/pc/…` (PC‑Systeme)
-- `public/images/gallery/touren/…` (Tagestouren)
+- `src/assets/gallery/pc/…` (PC‑Systeme)
+- `src/assets/gallery/touren/…` (Tagestouren)
 
-In `src/lib/site.ts` können beliebig viele Bilder hinzugefügt werden. Jede Karte unterstützt:
+In `src/lib/site.ts` importierst du die Bilder oben und fügst sie dann in die Arrays ein.
+Beispiel:
 
 ```ts
-{ src: "/images/gallery/pc/pc-1.webp", alt: "PC-System 1", caption: "Custom Loop – RTX/…" }
+import pc6 from "../assets/gallery/pc/pc-6.webp";
+
+export const pcBuildPhotos = [
+  // ... bestehende Einträge
+  galleryImage(pc6, "Hauptrechner (2024)", "Kurze Caption…"),
+];
 ```
 
 Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.

@@ -1,4 +1,6 @@
 ---
+import { Picture } from "astro:assets";
+
 import Icon from "./Icon.astro";
 import Surface from "./Surface.astro";
 import type { GalleryImage } from "../lib/site";
@@ -53,11 +55,13 @@ const scrollRightId = `${rootId}-scroll-right`;
             data-caption={img.caption ?? ""}
             aria-label={`Bild ${i + 1} ansehen`}
           >
-            <img
-              src={img.src}
+            <Picture
+              src={img.asset}
               alt={img.alt}
-              width="380"
-              height="260"
+              widths={[280, 340, 380, 760]}
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 340px, 280px"
+              formats={["avif", "webp"]}
+              quality={80}
               loading="lazy"
               decoding="async"
               class="h-[210px] w-[280px] sm:h-[240px] sm:w-[340px] lg:h-[260px] lg:w-[380px] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
