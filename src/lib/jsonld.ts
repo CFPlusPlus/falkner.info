@@ -28,7 +28,7 @@ export function buildWebSiteJsonLd(
   };
 }
 
-export type OrganizationJsonLdInput = {
+export type PersonJsonLdInput = {
   url: string;
   name: string;
   logoUrl?: string;
@@ -37,9 +37,9 @@ export type OrganizationJsonLdInput = {
 };
 
 // Für eine private Website ist "Person" meistens passender als "Organization".
-// Der Funktionsname bleibt trotzdem "Organization...", damit er sich gut in globale SEO-Bausteine einfügt.
-export function buildOrganizationJsonLd(
-  input: OrganizationJsonLdInput,
+// Der Helper baut daher bewusst ein "Person"-Schema.
+export function buildPersonJsonLd(
+  input: PersonJsonLdInput,
 ): SchemaBase & Record<string, unknown> {
   return {
     "@context": "https://schema.org",

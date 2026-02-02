@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Divider from "../components/Divider.astro";
+import Chip from "../components/Chip.astro";
+import { site } from "../lib/site";
+
+const navLinks = [
+  { label: "Startseite", href: "/#top" },
+  { label: "Kontakt", href: "/#contact" },
+];
+---
+
+<BaseLayout title={`Impressum – ${site.domain}`} description="Impressum / Anbieterkennzeichnung" canonicalPath="/impressum/">
+  <Navbar links={navLinks} />
+
+  <main class="py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="max-w-3xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <Chip tone="neutral">Legal</Chip>
+          <Chip>Impressum</Chip>
+        </div>
+
+        <h1 class="mt-6 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">Impressum</h1>
+        <p class="mt-4 text-muted">
+          Stand: <time datetime="2026-02-02">02.02.2026</time>
+        </p>
+
+        <Divider class="mt-8" />
+
+        <article class="mt-10 space-y-8 text-muted leading-relaxed">
+          <p>
+            Diese Website ist privat und nicht-kommerziell. Die folgenden Angaben dienen als Anbieterkennzeichnung.
+          </p>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Angaben gemäß § 5 DDG</h2>
+            <p>
+              Verantwortlich: <strong class="text-text">{site.author}</strong>
+            </p>
+            <p>
+              Kontakt: <a class="u-link" href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+            {/*
+              Hinweis (nur für dich als Betreiber): Je nach Einzelfall können zusätzliche Angaben erforderlich sein
+              (z. B. ladungsfähige Anschrift). Hier ist der richtige Abschnitt, um das bei Bedarf zu ergänzen.
+            */}
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Haftungsausschluss</h2>
+            <p>
+              Trotz sorgfältiger inhaltlicher Kontrolle übernehme ich keine Haftung für externe Links. Für den Inhalt verlinkter Seiten
+              sind ausschließlich deren Betreiber verantwortlich.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Urheberrecht</h2>
+            <p>
+              Inhalte und Werke auf dieser Website unterliegen meinem Copyright. Eine Nutzung ist nur mit ausdrücklicher Genehmigung erlaubt.
+            </p>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Hinweis zu Werbe-E-Mails</h2>
+            <p>
+              Der Nutzung der veröffentlichten Kontaktdaten zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien
+              wird hiermit widersprochen.
+            </p>
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <Footer />
+    </div>
+  </main>
+</BaseLayout>

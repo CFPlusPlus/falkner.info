@@ -52,13 +52,17 @@ const commitUrl = repoUrl && gitHash ? `${repoUrl}/commit/${gitHash}` : "";
 
 const footerLinks = (() => {
   const links = [...socialLinks];
-  const privacy = { label: "Datenschutz", href: "/datenschutz" };
+  // Interne Legal-Links (bewusst im Footer sichtbar)
+  const legal = [
+    { label: "Impressum", href: "/impressum" },
+    { label: "Datenschutz", href: "/datenschutz" },
+  ];
 
   const xboxIndex = links.findIndex((l) =>
     l.label.toLowerCase().includes("xbox"),
   );
-  if (xboxIndex >= 0) links.splice(xboxIndex + 1, 0, privacy);
-  else links.push(privacy);
+  if (xboxIndex >= 0) links.splice(xboxIndex + 1, 0, ...legal);
+  else links.push(...legal);
 
   return links;
 })();
@@ -69,56 +73,20 @@ const footerLinks = (() => {
   <div class="mx-auto max-w-6xl px-5 py-16">
     <div class="grid gap-10 sm:grid-cols-[1.2fr_0.8fr]">
       <div class="reveal">
-        <div class="meta">Impressum</div>
+        <div class="meta">Info</div>
         <h2 class="mt-2 text-2xl font-[var(--w-title)] tracking-tight">
-          Private, nicht-kommerzielle Webseite
+          Privates Webprojekt
         </h2>
         <p class="mt-4 text-muted leading-relaxed">
-          Angaben gemäß § 5 DDG — Verantwortlich: <strong class="text-text"
-            >{site.author}</strong
-          >
-        </p>
-        <p class="mt-3 text-muted">
-          Kontakt: <a
-            class="u-link-muted"
-            href={`mailto:${site.email}`}>{site.email}</a
-          >
+          Eine moderne, schnelle und bewusst schlanke Seite — ohne Tracking. Rechtliche Infos findest du unter <a class="u-link-muted" href="/impressum">Impressum</a> und <a class="u-link-muted" href="/datenschutz">Datenschutz</a>.
         </p>
 
-        <details class="mt-6 legal-details">
-          <summary
-            class="legal-summary flex items-center gap-2 cursor-pointer text-sm text-muted hover:text-text transition"
-          >
-            {
-              /*
-              Wichtig: <Icon /> wird in einer Child-Komponente gerendert.
-              Scoped CSS in dieser Datei würde das innere <i> daher nicht zuverlässig treffen.
-              Deshalb animieren wir stattdessen den Wrapper-<span>.
-            */
-            }
-            <span class="legal-chevron" aria-hidden="true">
-              <Icon name="chevron-right" size={16} />
-            </span>
-            <span>Rechtliche Hinweise anzeigen</span>
-          </summary>
-          <div class="mt-4 text-sm text-muted leading-relaxed space-y-3">
-            <p>
-              <strong class="text-text">Haftungsausschluss:</strong> Trotz sorgfältiger
-              Kontrolle übernehme ich keine Haftung für externe Links. Für den Inhalt
-              verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
-            </p>
-            <p>
-              <strong class="text-text">Urheberrecht:</strong> Inhalte und Werke auf
-              dieser Seite unterliegen meinem Copyright. Eine Nutzung ist nur mit
-              ausdrücklicher Genehmigung erlaubt.
-            </p>
-            <p>
-              <strong class="text-text">Werbung:</strong> Der Nutzung veröffentlichter
-              Kontaktdaten zu Werbezwecken wird widersprochen.
-            </p>
-          </div>
-        </details>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <Button href="/#contact" variant="ghost">Kontakt</Button>
+        </div>
       </div>
+
+
 
       <div class="reveal" style="--reveal-delay: 90ms">
         <div class="meta">Links</div>
@@ -228,32 +196,3 @@ const footerLinks = (() => {
   </div>
 </footer>
 
-<style>
-  /* Standard-Markierung von <details>/<summary> ersetzen (Tabler-Icon statt Browser-Pfeil) */
-  .legal-summary {
-    list-style: none;
-  }
-  .legal-summary::-webkit-details-marker {
-    display: none;
-  }
-
-  /* Sichtbare Open/Close-Animation */
-  .legal-chevron {
-    display: inline-flex;
-    align-items: center;
-    transition: transform 180ms ease;
-    transform: rotate(0deg);
-    transform-origin: center;
-    will-change: transform;
-  }
-  /* 90°: rechts -> unten */
-  .legal-details[open] .legal-chevron {
-    transform: rotate(90deg);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .legal-chevron {
-      transition: none;
-    }
-  }
-</style>

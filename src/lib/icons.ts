@@ -17,6 +17,7 @@ export function iconForLabel(label: string): string {
   if (l.includes("xbox")) return "xbox";
 
   // Interne Seite
+  if (l.includes("impressum")) return "section-sign";
   if (l.includes("datenschutz")) return "lock";
 
   // Default: „öffnet extern“
