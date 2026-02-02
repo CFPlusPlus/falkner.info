@@ -1,4 +1,9 @@
 ---
+import { Image } from "astro:assets";
+
+// Above-the-fold Profilbild (über Astro Assets optimiert)
+import profileImage from "../../assets/profile.webp";
+
 import Button from "../Button.astro";
 import Chip from "../Chip.astro";
 import Divider from "../Divider.astro";
@@ -63,12 +68,14 @@ const { socialLinks } = Astro.props;
       <div class="reveal lg:justify-self-end" style="--reveal-delay: 80ms">
         <div class="relative">
           <div aria-hidden="true" class="absolute -inset-6 rounded-[var(--r-card)] bg-accent/10 blur-2xl"></div>
-          <img
-            src="/images/profile.webp"
+          <Image
+            src={profileImage}
             alt="Profilfoto von Christian Falkner"
-            width="640"
-            height="640"
-            class="relative w-full max-w-[420px] rounded-[var(--r-card)] border border-border/70 shadow-soft" />
+            widths={[320, 420, 640, 840]}
+            sizes="(min-width: 1024px) 420px, 100vw"
+            priority
+            class="relative w-full max-w-[420px] rounded-[var(--r-card)] border border-border/70 shadow-soft"
+          />
           <div class="mt-4 flex flex-wrap gap-2">
             <Chip>
               <Icon name="gamepad" size={14} class="text-muted" /> Gaming

@@ -125,28 +125,29 @@ export const pcBuildPhotos: GalleryImage[] = [
   // Optional: Gib jedem Foto eine kurze Caption (z. B. CPU/GPU/Loop-Info oder ein Build-Name).
   {
     src: "/images/gallery/pc/pc-1.webp",
-    alt: "PC-System 1",
-    caption: "PC-System 1",
+    alt: "Hauptrechner (2023)",
+    caption: "Specs: CPU: Core i5 13600K, GPU: RTX 3090, RAM: 32GB DDR5",
   },
   {
     src: "/images/gallery/pc/pc-2.webp",
-    alt: "PC-System 2",
-    caption: "PC-System 2",
+    alt: "Hauptrechner (2023)",
+    caption: "Die CPU und GPU werden per Custom-Wasserkühlung gekühlt.",
   },
   {
     src: "/images/gallery/pc/pc-3.webp",
-    alt: "PC-System 3",
-    caption: "PC-System 3",
+    alt: "Hauptrechner (2022)",
+    caption: "Specs: CPU: Ryzen 9 5900X, GPU: RTX 3080, RAM: 32GB DDR5",
   },
   {
     src: "/images/gallery/pc/pc-4.webp",
-    alt: "PC-System 4",
-    caption: "PC-System 4",
+    alt: "Hauptrechner (2022)",
+    caption: "Im Mai 2022 wurde der Rechner auf Custom-Wasserkühlung umgebaut.",
   },
   {
     src: "/images/gallery/pc/pc-5.webp",
-    alt: "PC-System 5",
-    caption: "PC-System 5",
+    alt: "Hauptrechner (2021)",
+    caption:
+      "Mein damaliger Hauptrechner im Wunderschönen Corsair Obsidian 500D.",
   },
 ];
 

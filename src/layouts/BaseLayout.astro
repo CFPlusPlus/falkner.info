@@ -4,7 +4,12 @@
 // Für ein "dünneres" Icon-Design verwenden wir kein Webfont-Glyph,
 // sondern ein SVG-Sprite. Das erlaubt uns, die Strichstärke (stroke-width)
 // pro Icon zu steuern.
-import tablerSpriteUrl from "@tabler/icons-sprite/dist/tabler-sprite-nostroke.svg?url";
+//
+// WICHTIG: Kein <link rel="preload"> fürs Sprite.
+// Browser können extern referenzierte Sprite-SVGs (via <use href="sprite.svg#id">)
+// aktuell nicht zuverlässig aus dem Preload-Cache wiederverwenden.
+// Ergebnis: Chrome/Safari warnen („preloaded but not used“) und teils wird
+// die Datei sogar doppelt geladen. Deshalb lassen wir das Preload bewusst weg.
 
 // Fonts (lokal gehostet via Fontsource)
 // Headlines: Space Grotesk
@@ -40,8 +45,7 @@ const {
   ogImagePath = "/og/og.png"
 } = Astro.props as Props;
 
-// Nur auf der Startseite sinnvoll: Hero-Bild preloaden
-const shouldPreloadHero = canonicalPath === "/";
+// Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
 const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
@@ -79,7 +83,6 @@ const allSchemas = Array.isArray(extraSchemas)
     <meta charset="utf-8" />
 
     <!-- Tabler Icons (SVG Sprite) -->
-    <link rel="preload" as="image" type="image/svg+xml" href={tablerSpriteUrl} />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
 
@@ -99,8 +102,7 @@ const allSchemas = Array.isArray(extraSchemas)
 
     <!-- Globale Styles werden über Astro importiert (siehe Frontmatter) -->
 
-    <!-- Hero-Bild vorladen (nur auf der Startseite) -->
-    {shouldPreloadHero ? <link rel="preload" as="image" href="/images/profile.webp" /> : null}
+    <!-- Hero-Bild: siehe HeroSection (<Image priority />) -->
 
     <!-- Open Graph -->
     <meta property="og:site_name" content={site.domain} />
