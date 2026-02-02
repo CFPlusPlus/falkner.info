@@ -49,7 +49,8 @@ const {
 // Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
-const ogImageUrl = new URL("/icons/android-chrome-512x512.png", Astro.site).toString();
+// OG-Bild: Standardmäßig Logo-Icon, kann aber pro Seite via `ogImagePath` überschrieben werden.
+const ogImageUrl = new URL(ogImagePath, Astro.site).toString();
 
 // JSON-LD: Basis-Schemas (WebSite + Organization) und pro Seite ein WebPage-Schema
 const baseSchemas = [
