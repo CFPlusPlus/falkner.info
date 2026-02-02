@@ -31,7 +31,7 @@ export function initLightboxes(): void {
   const unlockScroll = () => scrollLock?.unlock?.();
 
   const roots = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-lightbox-root]"),
+    document.querySelectorAll<HTMLElement>("[data-lightbox-root]")
   );
 
   roots.forEach((root) => {
@@ -47,10 +47,10 @@ export function initLightboxes(): void {
     const btnPrev = root.querySelector<HTMLButtonElement>("[data-lb-prev]");
     const btnNext = root.querySelector<HTMLButtonElement>("[data-lb-next]");
     const btnScrollLeft = root.querySelector<HTMLButtonElement>(
-      "[data-lb-scroll-left]",
+      "[data-lb-scroll-left]"
     );
     const btnScrollRight = root.querySelector<HTMLButtonElement>(
-      "[data-lb-scroll-right]",
+      "[data-lb-scroll-right]"
     );
     const overlay = modal?.querySelector<HTMLElement>("[data-lb-overlay]");
 
@@ -67,9 +67,7 @@ export function initLightboxes(): void {
     )
       return;
 
-    const items = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-lb-open]"),
-    );
+    const items = Array.from(root.querySelectorAll<HTMLElement>("[data-lb-open]"));
     const data: GalleryItem[] = items.map((el) => ({
       src: el.getAttribute("data-src") || "",
       alt: el.getAttribute("data-alt") || "",
@@ -84,8 +82,8 @@ export function initLightboxes(): void {
     const getFocusables = () =>
       Array.from(
         modal.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
-        ),
+          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+        )
       );
 
     const set = (i: number) => {
@@ -182,7 +180,7 @@ export function initLightboxes(): void {
     };
 
     items.forEach((el, i) =>
-      el.addEventListener("click", () => open(i), { signal }),
+      el.addEventListener("click", () => open(i), { signal })
     );
 
     btnClose.addEventListener("click", close, { signal });
@@ -196,11 +194,7 @@ export function initLightboxes(): void {
       const amount = Math.max(220, Math.floor(strip.clientWidth * 0.85));
       strip.scrollBy({ left: dir * amount, behavior: "smooth" });
     };
-    btnScrollLeft?.addEventListener("click", () => scrollByAmount(-1), {
-      signal,
-    });
-    btnScrollRight?.addEventListener("click", () => scrollByAmount(1), {
-      signal,
-    });
+    btnScrollLeft?.addEventListener("click", () => scrollByAmount(-1), { signal });
+    btnScrollRight?.addEventListener("click", () => scrollByAmount(1), { signal });
   });
 }

@@ -10,12 +10,7 @@ type State = "online" | "offline" | "unknown";
 let controller: AbortController | null = null;
 let intervals: number[] = [];
 
-function setState(
-  root: HTMLElement,
-  state: State,
-  valueText: string,
-  infoText = "",
-): void {
+function setState(root: HTMLElement, state: State, valueText: string, infoText = ""): void {
   const dotEl = root.querySelector<HTMLElement>("[data-mc-dot]");
   const valueEl = root.querySelector<HTMLElement>("[data-mc-value]");
   const textEl = root.querySelector<HTMLElement>("[data-mc-text]");
@@ -32,8 +27,7 @@ function setState(
 }
 
 function fmtPlayers(online: unknown, max: unknown): string {
-  if (typeof online === "number" && typeof max === "number")
-    return `${online}/${max}`;
+  if (typeof online === "number" && typeof max === "number") return `${online}/${max}`;
   if (typeof online === "number") return String(online);
   return "–";
 }
@@ -70,9 +64,7 @@ export function initMinecraftStatus(): void {
   intervals.forEach((id) => window.clearInterval(id));
   intervals = [];
 
-  const roots = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-mc-status]"),
-  );
+  const roots = Array.from(document.querySelectorAll<HTMLElement>("[data-mc-status]"));
   roots.forEach((root) => {
     const apiUrl = root.getAttribute("data-api-url");
     if (!apiUrl) return;

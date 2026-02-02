@@ -1,5 +1,6 @@
 ---
 import Section from "../Section.astro";
+import Card from "../Card.astro";
 import Chip from "../Chip.astro";
 
 import type { InterestCard } from "../../lib/site";
@@ -18,8 +19,8 @@ const { interests } = Astro.props;
   lead="Nicht alles ist ein Projekt. Manche Dinge bleiben einfach hängen — weil sie Spaß machen oder gut tun.">
   <div class="grid gap-6 md:grid-cols-2">
     {interests.map((it, i) => (
-      <article
-        class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-[var(--r-card)] p-6 shadow-soft"
+      <Card
+        as="article" variant="softBlur" class="reveal p-6"
         style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
         <h3 class="text-lg font-[var(--w-title)] tracking-tight text-text">{it.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>
@@ -28,7 +29,7 @@ const { interests } = Astro.props;
             <Chip>{c}</Chip>
           ))}
         </div>
-      </article>
+      </Card>
     ))}
   </div>
 </Section>

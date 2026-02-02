@@ -9,6 +9,8 @@ Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑
 - **Tailwind CSS**
 - **Tabler Icons**
 - **Prettier** (inkl. `prettier-plugin-astro`)
+- **ESLint** (Astro + TypeScript)
+- **/check** (Type/Template Checks)
 
 ## Voraussetzungen
 
@@ -18,21 +20,13 @@ Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑
 ## Schnellstart
 
 ```bash
-npm install
-npm run dev
-```
-
-Danach läuft die Seite lokal unter: `http://localhost:4321`
-
-## Wichtige Commands
-
-Alle Befehle werden im Projekt‑Root ausgeführt:
-
-```bash
-npm run dev      # Dev‑Server (Hot Reload)
-npm run build    # Production Build nach ./dist
-npm run preview  # Production Build lokal testen
-npm run format   # Prettier auf das ganze Projekt
+npm run dev           # Dev‑Server (Hot Reload)
+npm run build         # Production Build nach ./dist
+npm run preview       # Production Build lokal testen
+npm run format        # Prettier (Check)
+npm run format:write  # Prettier (Write)
+npm run lint          # ESLint
+npm run check         # Astro Check (Types/Templates)
 ```
 
 ## Inhalte bearbeiten

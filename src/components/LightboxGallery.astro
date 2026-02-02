@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import Surface from "./Surface.astro";
 import type { GalleryImage } from "../lib/site";
 
 type Props = {
@@ -39,9 +40,11 @@ const scrollRightId = `${rootId}-scroll-right`;
         data-lb-strip
         class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
         {images.map((img, i) => (
-          <button
+          <Surface
+            as="button"
             type="button"
-            class="reveal group relative snap-start shrink-0 overflow-hidden rounded-[var(--r-card)] border border-border/70 bg-surface/40 shadow-soft"
+            variant="soft"
+            class="reveal group relative snap-start shrink-0 overflow-hidden"
             style={`--reveal-delay: ${Math.min(i * 55, 220)}ms`}
             data-lb-open
             data-index={i}
@@ -62,7 +65,7 @@ const scrollRightId = `${rootId}-scroll-right`;
               <Icon name="zoom-in" size={14} class="text-text/80" />
               <span>Ansehen</span>
             </div>
-          </button>
+          </Surface>
         ))}
       </div>
     </div>
@@ -71,24 +74,28 @@ const scrollRightId = `${rootId}-scroll-right`;
     <div class="mt-4 flex items-center justify-between">
       <div class="text-xs text-muted tabular-nums">{images.length} Fotos</div>
       <div class="flex items-center gap-2">
-        <button
+        <Surface
+          as="button"
+          variant="control"
           id={scrollLeftId}
           data-lb-scroll-left
           type="button"
-          class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          class="inline-flex items-center justify-center h-9 w-9"
           aria-label="Nach links scrollen"
         >
           <Icon name="chevron-left" size={18} class="text-muted" />
-        </button>
-        <button
+        </Surface>
+        <Surface
+          as="button"
+          variant="control"
           id={scrollRightId}
           data-lb-scroll-right
           type="button"
-          class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          class="inline-flex items-center justify-center h-9 w-9"
           aria-label="Nach rechts scrollen"
         >
           <Icon name="chevron-right" size={18} class="text-muted" />
-        </button>
+        </Surface>
       </div>
     </div>
   </div>
@@ -105,22 +112,24 @@ const scrollRightId = `${rootId}-scroll-right`;
     <div data-lb-overlay class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
     <div class="relative w-full max-w-5xl">
-      <div class="mx-auto rounded-[var(--r-card)] border border-border/70 bg-surface/55 backdrop-blur shadow-soft overflow-hidden">
+      <Surface variant="glass" class="mx-auto overflow-hidden">
         <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-border/70">
           <div class="flex items-center gap-3 min-w-0">
             <div id={countId} data-lb-count class="text-xs text-muted tabular-nums">&nbsp;</div>
             {label ? <div class="hidden sm:block text-xs text-muted truncate">{label}</div> : null}
           </div>
-          <button
+          <Surface
+            as="button"
+            variant="control"
             id={closeId}
             data-lb-close
             type="button"
-            class="inline-flex items-center gap-2 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition px-3 py-2"
+            class="inline-flex items-center gap-2 px-3 py-2"
             aria-label="Schließen"
           >
             <Icon name="x" size={18} class="text-muted" />
             <span class="hidden sm:inline text-sm text-muted">Schließen</span>
-          </button>
+          </Surface>
         </div>
 
         <div class="relative">
@@ -132,24 +141,28 @@ const scrollRightId = `${rootId}-scroll-right`;
           />
 
           <!-- Vor/Zurück -->
-          <button
+          <Surface
+            as="button"
+            variant="overlayControl"
             id={prevId}
             data-lb-prev
             type="button"
-            class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10"
             aria-label="Vorheriges Bild"
           >
             <Icon name="chevron-left" size={20} class="text-text/80" />
-          </button>
-          <button
+          </Surface>
+          <Surface
+            as="button"
+            variant="overlayControl"
             id={nextId}
             data-lb-next
             type="button"
-            class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10"
             aria-label="Nächstes Bild"
           >
             <Icon name="chevron-right" size={20} class="text-text/80" />
-          </button>
+          </Surface>
         </div>
 
         <div class="px-4 py-3 border-t border-border/70">
@@ -159,7 +172,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           </div>
           <div class="mt-2 text-[11px] text-muted/80">Tipp: Pfeiltasten wechseln · Esc schließt</div>
         </div>
-      </div>
+      </Surface>
     </div>
   </div>
 </div>

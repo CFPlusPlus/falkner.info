@@ -1,0 +1,35 @@
+---
+/**
+ * Card
+ * Semantisches Wrapper-Primitive über Surface.
+ * Default: kein Padding (damit wir bestehende Layouts 1:1 beibehalten können).
+ */
+
+import Surface from "./Surface.astro";
+
+
+type Variant = "panel" | "soft" | "glass" | "softBlur" | "softBlurFlat";
+
+type Padding = "none" | "sm" | "md";
+
+type Props = {
+  as?: string;
+  variant?: Variant;
+  padding?: Padding;
+  class?: string;
+} & Record<string, any>;
+
+const { as, variant = "panel", padding = "none", class: className = "", ...rest } = Astro.props as Props;
+
+const PADDING: Record<Padding, string> = {
+  none: "",
+  sm: "p-4 sm:p-5",
+  md: "p-6 sm:p-8",
+};
+
+const classes = `${PADDING[padding]} ${className}`.trim();
+---
+
+<Surface as={as} variant={variant} class={classes} {...rest}>
+  <slot />
+</Surface>

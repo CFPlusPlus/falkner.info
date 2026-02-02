@@ -5,19 +5,14 @@
 // - Logik zentral halten und bei Astro View Transitions sauber neu initialisieren
 
 function initReveal(): void {
-  const prefersReduced = window.matchMedia?.(
-    "(prefers-reduced-motion: reduce)",
-  )?.matches;
+  const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
   // --- Scroll-Reveal (IntersectionObserver) ---
   const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
   if (!els.length) return;
 
   // Bereits sichtbare Elemente nicht erneut anfassen
-  const targets = els.filter(
-    (el) =>
-      !el.classList.contains("is-in") && el.dataset.revealBound !== "true",
-  );
+  const targets = els.filter((el) => !el.classList.contains("is-in") && el.dataset.revealBound !== "true");
 
   if (!prefersReduced && "IntersectionObserver" in window && targets.length) {
     const obs = new IntersectionObserver(
@@ -30,7 +25,7 @@ function initReveal(): void {
           }
         });
       },
-      { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+      { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
     );
 
     targets.forEach((el) => {
@@ -70,6 +65,7 @@ function init(): void {
   initReveal();
   initClipboard();
 }
+
 
 export function initGlobalUI(): void {
   initReveal();
