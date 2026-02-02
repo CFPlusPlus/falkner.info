@@ -24,7 +24,7 @@ const { site, socialLinks } = Astro.props;
     <div class="reveal">
       <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6">
         <div class="meta">E‑Mail</div>
-        <p class="mt-3 text-xl sm:text-2xl font-[450] tracking-tight">
+        <p class="mt-3 text-xl sm:text-2xl font-[var(--w-title)] tracking-tight">
           <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
         </p>
 
@@ -59,7 +59,7 @@ const { site, socialLinks } = Astro.props;
             <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
               <Icon name={iconForLabel(l.label)} size={18} class="text-muted group-hover:text-text transition-colors" />
               <div class="min-w-0 flex-1">
-                <div class="text-sm font-[450] text-text">{l.label}</div>
+                <div class="text-sm font-[var(--w-title)] text-text">{l.label}</div>
                 <div class="text-xs text-muted truncate hidden sm:block">{l.href}</div>
               </div>
             </div>

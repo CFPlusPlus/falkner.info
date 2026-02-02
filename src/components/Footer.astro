@@ -70,7 +70,7 @@ const footerLinks = (() => {
     <div class="grid gap-10 sm:grid-cols-[1.2fr_0.8fr]">
       <div class="reveal">
         <div class="meta">Impressum</div>
-        <h2 class="mt-2 text-2xl font-[450] tracking-tight">
+        <h2 class="mt-2 text-2xl font-[var(--w-title)] tracking-tight">
           Private, nicht-kommerzielle Webseite
         </h2>
         <p class="mt-4 text-muted leading-relaxed">
@@ -141,7 +141,7 @@ const footerLinks = (() => {
                     class="text-muted group-hover:text-text transition-colors"
                   />
                   <div class="min-w-0 flex-1">
-                    <div class="text-sm font-[450] text-text">{l.label}</div>
+                    <div class="text-sm font-[var(--w-title)] text-text">{l.label}</div>
                     <div class="text-xs text-muted truncate hidden sm:block">
                       {l.href}
                     </div>
@@ -193,7 +193,7 @@ const footerLinks = (() => {
           {repoUrl ? (
             <>
               <a
-                class="font-[450] underline decoration-border hover:text-text hover:decoration-accent transition"
+                class="font-[var(--w-title)] underline decoration-border hover:text-text hover:decoration-accent transition"
                 href={repoUrl}
                 target="_blank"
                 rel="noopener"
@@ -202,7 +202,7 @@ const footerLinks = (() => {
               </a>
               {" @ "}
               <a
-                class="font-[450] underline decoration-border hover:text-text hover:decoration-accent transition"
+                class="font-[var(--w-title)] underline decoration-border hover:text-text hover:decoration-accent transition"
                 href={commitUrl}
                 target="_blank"
                 rel="noopener"
@@ -212,9 +212,9 @@ const footerLinks = (() => {
             </>
           ) : (
             <>
-              <span class="font-[450] text-text/80">Build</span>
+              <span class="font-[var(--w-title)] text-text/80">Build</span>
               {" @ "}
-              <span class="font-[450] text-text/80">{gitHash}</span>
+              <span class="font-[var(--w-title)] text-text/80">{gitHash}</span>
             </>
           )}
         </p>

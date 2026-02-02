@@ -21,7 +21,7 @@ const { interests } = Astro.props;
       <article
         class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6 shadow-soft"
         style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
-        <h3 class="text-lg font-[450] tracking-tight text-text">{it.title}</h3>
+        <h3 class="text-lg font-[var(--w-title)] tracking-tight text-text">{it.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>
         <div class="mt-4 flex flex-wrap gap-2">
           {it.chips.map((c) => (

@@ -28,6 +28,16 @@
   --font-display:
     "Space Grotesk Variable", "Space Grotesk", "Geist Sans", ui-sans-serif,
     system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
+
+  /* Design-Tokens (zentral steuerbar) */
+  --w-body: 300;
+  --w-title: 420;
+  --w-strong: 500;
+
+  /* Spacing: eher luftiger, Layout bleibt gleich */
+  --space-section-y: 4.25rem; /* ~68px */
+  --space-section-y-sm: 5.25rem; /* ~84px */
+  --space-section-gap: 2.75rem; /* ~44px */
 }
 
 /* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
@@ -49,13 +59,13 @@ body {
   @apply min-h-screen bg-bg text-text antialiased;
   font-family: var(--font-sans);
   /* 300 wirkt deutlich cleaner als 400 (Inter-Standard) */
-  font-weight: 300;
+  font-weight: var(--w-body);
   text-rendering: geometricPrecision;
 }
 
 /* Strong-Text etwas dezenter, damit die Typo clean bleibt */
 strong {
-  font-weight: 500;
+  font-weight: var(--w-strong);
 }
 
 /* Headlines etwas "editorialer" */

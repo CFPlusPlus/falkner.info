@@ -24,7 +24,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
           decoding="async"
           class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
         <div class="leading-none">
-          <div class="text-sm font-[450] tracking-tight">{brand}</div>
+          <div class="text-sm font-[var(--w-title)] tracking-tight">{brand}</div>
           <div class="meta mt-1">Persönliche Website · Einblicke & Links</div>
         </div>
       </a>
@@ -85,7 +85,7 @@ const { brand = "falkner.info", links } = Astro.props as Props;
               href={l.href}
               class="block rounded-md px-3 py-3 text-base text-text border border-transparent hover:border-border/70 hover:bg-surface/50 transition"
               data-mobile-link>
-              <span class="font-[450]">{l.label}</span>
+              <span class="font-[var(--w-title)]">{l.label}</span>
               <span class="block mt-1 text-sm text-muted">{l.href}</span>
             </a>
           ))}

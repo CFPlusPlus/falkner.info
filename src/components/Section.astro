@@ -12,7 +12,7 @@ type Props = {
 
 const { id, title, kicker, lead, class: className = "" } = Astro.props as Props;
 ---
-<section id={id} class={`py-16 sm:py-20 ${className}`} aria-labelledby={`${id}-title`}>
+<section id={id} class={`py-[var(--space-section-y)] sm:py-[var(--space-section-y-sm)] ${className}`} aria-labelledby={`${id}-title`}>
   <div class="mx-auto max-w-6xl px-5">
     <div class="flex items-start justify-between gap-6">
       <div class="min-w-0">
@@ -24,7 +24,7 @@ const { id, title, kicker, lead, class: className = "" } = Astro.props as Props;
 
         <h2
           id={`${id}-title`}
-          class="text-3xl sm:text-4xl font-[450] tracking-tight reveal"
+          class="text-3xl sm:text-4xl font-[var(--w-title)] tracking-tight reveal"
           style="--reveal-delay: 70ms">
           {title}
         </h2>
@@ -39,7 +39,7 @@ const { id, title, kicker, lead, class: className = "" } = Astro.props as Props;
       </div>
     </div>
 
-    <div class="mt-10">
+    <div class="mt-[var(--space-section-gap)]">
       <slot />
     </div>
   </div>
