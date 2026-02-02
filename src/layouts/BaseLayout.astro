@@ -42,13 +42,14 @@ const {
   title = site.title,
   description = site.description,
   canonicalPath = "/",
-  ogImagePath = "/og/og.png"
+  // Statt eines großen OG-Bildes nutzen wir standardmäßig das Logo-Icon
+  ogImagePath = "/icons/android-chrome-512x512.png"
 } = Astro.props as Props;
 
 // Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
 const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
-const ogImageUrl = new URL(ogImagePath, site.canonicalBase).toString();
+const ogImageUrl = new URL("/icons/android-chrome-512x512.png", Astro.site).toString();
 
 // JSON-LD: Basis-Schemas (WebSite + Organization) und pro Seite ein WebPage-Schema
 const baseSchemas = [
@@ -111,12 +112,17 @@ const allSchemas = Array.isArray(extraSchemas)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={title} />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={title} />
 
     <!-- Sitemap-Hinweis (die Datei wird beim Build von @astrojs/sitemap erzeugt) -->
     <link rel="sitemap" href="/sitemap-index.xml" />
