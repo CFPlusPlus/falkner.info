@@ -19,7 +19,7 @@ const { interests } = Astro.props;
   <div class="grid gap-6 md:grid-cols-2">
     {interests.map((it, i) => (
       <article
-        class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6 shadow-soft"
+        class="reveal border border-border/70 bg-surface/40 backdrop-blur-sm rounded-[var(--r-card)] p-6 shadow-soft"
         style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
         <h3 class="text-lg font-[var(--w-title)] tracking-tight text-text">{it.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>

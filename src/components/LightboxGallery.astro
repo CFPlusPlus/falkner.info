@@ -40,7 +40,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         {images.map((img, i) => (
           <button
             type="button"
-            class="reveal group relative snap-start shrink-0 overflow-hidden rounded-lg border border-border/70 bg-surface/40 shadow-soft focus-visible:outline-none"
+            class="reveal group relative snap-start shrink-0 overflow-hidden rounded-[var(--r-card)] border border-border/70 bg-surface/40 shadow-soft"
             style={`--reveal-delay: ${Math.min(i * 55, 220)}ms`}
             data-lb-open
             data-index={i}
@@ -73,7 +73,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         <button
           id={scrollLeftId}
           type="button"
-          class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
           aria-label="Nach links scrollen"
         >
           <Icon name="chevron-left" size={18} class="text-muted" />
@@ -81,7 +81,7 @@ const scrollRightId = `${rootId}-scroll-right`;
         <button
           id={scrollRightId}
           type="button"
-          class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
+          class="inline-flex items-center justify-center h-9 w-9 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition"
           aria-label="Nach rechts scrollen"
         >
           <Icon name="chevron-right" size={18} class="text-muted" />
@@ -101,7 +101,7 @@ const scrollRightId = `${rootId}-scroll-right`;
     <div data-lb-overlay class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
     <div class="relative w-full max-w-5xl">
-      <div class="mx-auto rounded-lg border border-border/70 bg-surface/55 backdrop-blur shadow-soft overflow-hidden">
+      <div class="mx-auto rounded-[var(--r-card)] border border-border/70 bg-surface/55 backdrop-blur shadow-soft overflow-hidden">
         <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-border/70">
           <div class="flex items-center gap-3 min-w-0">
             <div id={countId} class="text-xs text-muted tabular-nums">&nbsp;</div>
@@ -110,7 +110,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           <button
             id={closeId}
             type="button"
-            class="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-surface/30 hover:bg-surface/45 transition px-3 py-2"
+            class="inline-flex items-center gap-2 rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition px-3 py-2"
             aria-label="Schließen"
           >
             <Icon name="x" size={18} class="text-muted" />
@@ -129,7 +129,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           <button
             id={prevId}
             type="button"
-            class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
             aria-label="Vorheriges Bild"
           >
             <Icon name="chevron-left" size={20} class="text-text/80" />
@@ -137,7 +137,7 @@ const scrollRightId = `${rootId}-scroll-right`;
           <button
             id={nextId}
             type="button"
-            class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
+            class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-10 w-10 rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition"
             aria-label="Nächstes Bild"
           >
             <Icon name="chevron-right" size={20} class="text-text/80" />

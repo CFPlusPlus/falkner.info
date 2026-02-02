@@ -8,7 +8,7 @@ type Props = { project: Project; serverAddress?: string };
 
 const { project, serverAddress } = Astro.props as Props;
 ---
-<article class="relative overflow-hidden rounded-lg border border-border/70 bg-surface/50 backdrop-blur-sm shadow-soft">
+<article class="relative overflow-hidden rounded-[var(--r-card)] border border-border/70 bg-surface/50 backdrop-blur-sm shadow-soft">
   <!-- Dezente Gradient-Linie oben -->
   <div class="absolute inset-x-0 top-0 h-px bg-accent/50"></div>
   <div class="p-6 sm:p-8">

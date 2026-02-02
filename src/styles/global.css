@@ -38,6 +38,26 @@
   --space-section-y: 4.25rem; /* ~68px */
   --space-section-y-sm: 5.25rem; /* ~84px */
   --space-section-gap: 2.75rem; /* ~44px */
+
+  /* Radius (subtil, aber zentral steuerbar) */
+  --r-card: 0.5rem; /* entspricht rounded-lg */
+  --r-control: 0.375rem; /* entspricht rounded-md */
+
+  /* Link-Style (Gelb mit leicht mehr Orange) */
+  --link: 42 100% 62%;
+  --link-hover: 38 100% 70%;
+  --link-underline-alpha: 0.55;
+  --link-underline-alpha-hover: 0.85;
+  --u-thickness: 0.08em;
+  --u-offset: 0.22em;
+
+  /* Focus-Ring (einheitlich, subtil) */
+  --focus-ring: var(--link);
+  --focus-alpha: 0.45;
+  --focus-width: 2px;
+  --focus-offset: 3px;
+  --focus-offset-bg: var(--bg);
+  --focus-offset-alpha: 0.9;
 }
 
 /* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
@@ -87,8 +107,50 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.7);
-  outline-offset: 3px;
+  outline: none;
+  box-shadow:
+    0 0 0 var(--focus-offset)
+      hsl(var(--focus-offset-bg) / var(--focus-offset-alpha)),
+    0 0 0 calc(var(--focus-offset) + var(--focus-width))
+      hsl(var(--focus-ring) / var(--focus-alpha));
+}
+
+@layer utilities {
+  /* Standard-Link: Gelb/Orange, sauberer Underline-Rhythmus */
+  .u-link {
+    color: hsl(var(--link));
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--u-thickness);
+    text-underline-offset: var(--u-offset);
+    text-decoration-color: hsl(var(--link) / var(--link-underline-alpha));
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+  .u-link:hover,
+  .u-link:focus-visible {
+    color: hsl(var(--link-hover));
+    text-decoration-color: hsl(
+      var(--link-hover) / var(--link-underline-alpha-hover)
+    );
+  }
+
+  /* Footer/Secondary-Link: bewusst neutral, ohne Gelb */
+  .u-link-muted {
+    color: hsl(var(--muted));
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--u-thickness);
+    text-underline-offset: var(--u-offset);
+    text-decoration-color: hsl(var(--border) / 0.75);
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+  .u-link-muted:hover,
+  .u-link-muted:focus-visible {
+    color: hsl(var(--text));
+    text-decoration-color: hsl(var(--border) / 0.9);
+  }
 }
 
 /* Dezentes Grain-Overlay */

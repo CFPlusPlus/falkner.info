@@ -22,10 +22,10 @@ const { site, socialLinks } = Astro.props;
 <Section id="contact" title="Kontakt" kicker="Mail & Links" lead="Schreib mir gern eine Mail — ich melde mich, sobald ich kann.">
   <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
     <div class="reveal">
-      <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-lg p-6">
+      <div class="border border-border/70 bg-surface/40 backdrop-blur-sm rounded-[var(--r-card)] p-6">
         <div class="meta">E‑Mail</div>
         <p class="mt-3 text-xl sm:text-2xl font-[var(--w-title)] tracking-tight">
-          <a class="underline decoration-border hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="u-link" href={`mailto:${site.email}`}>{site.email}</a>
         </p>
 
         <div class="mt-6 flex flex-wrap gap-3">

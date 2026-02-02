@@ -62,13 +62,13 @@ const { socialLinks } = Astro.props;
 
       <div class="reveal lg:justify-self-end" style="--reveal-delay: 80ms">
         <div class="relative">
-          <div aria-hidden="true" class="absolute -inset-6 rounded-lg bg-accent/10 blur-2xl"></div>
+          <div aria-hidden="true" class="absolute -inset-6 rounded-[var(--r-card)] bg-accent/10 blur-2xl"></div>
           <img
             src="/images/profile.webp"
             alt="Profilfoto von Christian Falkner"
             width="640"
             height="640"
-            class="relative w-full max-w-[420px] rounded-lg border border-border/70 shadow-soft" />
+            class="relative w-full max-w-[420px] rounded-[var(--r-card)] border border-border/70 shadow-soft" />
           <div class="mt-4 flex flex-wrap gap-2">
             <Chip>
               <Icon name="gamepad" size={14} class="text-muted" /> Gaming
