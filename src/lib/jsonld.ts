@@ -3,7 +3,7 @@
 
 type SchemaBase = {
   "@context": "https://schema.org";
-  "@type": string;
+  "@type": string | string[];
 };
 
 export type WebSiteJsonLdInput = {
@@ -11,6 +11,8 @@ export type WebSiteJsonLdInput = {
   name: string;
   description?: string;
   inLanguage?: string;
+  /** Optional: alternative Kurzform(en) für "Site Names" in Google */
+  alternateName?: string | string[];
 };
 
 export function buildWebSiteJsonLd(
@@ -22,6 +24,7 @@ export function buildWebSiteJsonLd(
     "@id": `${input.url}#website`,
     url: input.url,
     name: input.name,
+    ...(input.alternateName ? { alternateName: input.alternateName } : {}),
     ...(input.description ? { description: input.description } : {}),
     ...(input.inLanguage
       ? { inLanguage: input.inLanguage }
@@ -63,6 +66,8 @@ export type WebPageJsonLdInput = {
   isPartOf?: string;
   /** Referenz auf die Person/Organisation (z. B. https://example.com#person) */
   aboutId?: string;
+  /** Optional: Referenz auf BreadcrumbList (@id) */
+  breadcrumbId?: string;
 };
 
 export function buildWebPageJsonLd(
@@ -83,5 +88,37 @@ export function buildWebPageJsonLd(
         }
       : {}),
     ...(input.aboutId ? { about: { "@id": input.aboutId } } : {}),
+    ...(input.breadcrumbId
+      ? { breadcrumb: { "@id": input.breadcrumbId } }
+      : {}),
+  };
+}
+
+export type BreadcrumbListJsonLdInput = {
+  /** Eigene ID der BreadcrumbList, z. B. https://example.com/impressum/#breadcrumb */
+  id: string;
+  items: Array<{
+    name: string;
+    url: string;
+  }>;
+};
+
+/**
+ * BreadcrumbList ist (neben FAQ/HowTo/etc.) eines der wenigen Features,
+ * das der Google Rich Results Test zuverlässig erkennt – auch für "normale" Websites.
+ */
+export function buildBreadcrumbListJsonLd(
+  input: BreadcrumbListJsonLdInput,
+): SchemaBase & Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": input.id,
+    itemListElement: input.items.map((it, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: it.name,
+      item: it.url,
+    })),
   };
 }

@@ -25,7 +25,7 @@ import "@fontsource/geist-sans/600.css";
 import "../styles/global.css";
 import { site, sameAsLinks } from "../lib/site";
 import JsonLd from "../components/JsonLd.astro";
-import { buildPersonJsonLd, buildWebPageJsonLd, buildWebSiteJsonLd } from "../lib/jsonld";
+import { buildBreadcrumbListJsonLd, buildPersonJsonLd, buildWebPageJsonLd, buildWebSiteJsonLd } from "../lib/jsonld";
 
 type Props = {
   title?: string;
@@ -62,17 +62,46 @@ const resolvePublicUrl = (value: string) => {
 
 // Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
-const canonicalUrl = new URL(canonicalPath, site.canonicalBase).toString();
+const siteUrl = new URL("/", site.canonicalBase).toString();
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 // OG-Bild: Standardmäßig Logo-Icon, kann aber pro Seite via `ogImagePath` überschrieben werden.
 const ogImageUrl = resolvePublicUrl(ogImagePath);
 
-// JSON-LD: Basis-Schemas (WebSite + Organization) und pro Seite ein WebPage-Schema
+// Breadcrumbs (JSON-LD)
+// Hinweis: Der Google Rich Results Test zeigt nur Features an, die als "Rich Result" gelten.
+// "WebSite/WebPage/Person" sind valide, aber lösen meist kein Rich Result aus.
+// BreadcrumbList hingegen wird typischerweise erkannt.
+const breadcrumbId = `${canonicalUrl}#breadcrumb`;
+
+const humanizePathSegment = (path: string) => {
+  const seg = path.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean).pop() ?? "";
+  if (!seg) return "Startseite";
+  // "kebab-case" -> "Kebab case"
+  const words = seg.split("-").filter(Boolean);
+  return words.map((w) => (w ? w[0].toUpperCase() + w.slice(1) : "")).join(" ");
+};
+
+const breadcrumbItems =
+  canonicalPath.startsWith("/404")
+    ? null
+    : [
+        { name: "Startseite", url: siteUrl },
+        ...(canonicalPath === "/" ? [] : [{ name: humanizePathSegment(canonicalPath), url: canonicalUrl }]),
+      ];
+
+// JSON-LD: Basis-Schemas (WebSite + Person) und pro Seite ein WebPage-Schema
 const baseSchemas = [
-  buildWebSiteJsonLd({ url: site.canonicalBase, name: site.title, description }),
+  buildWebSiteJsonLd({
+    url: siteUrl,
+    name: site.title,
+    description,
+    // Optional: Hilft Google beim "Site Name" (wenn dein Title sehr lang ist)
+    alternateName: site.domain,
+  }),
   buildPersonJsonLd({
-    url: site.canonicalBase,
+    url: siteUrl,
     name: site.author,
-    logoUrl: new URL("/favicons/android-chrome-512x512.png", site.canonicalBase).toString(),
+    logoUrl: new URL("/favicons/android-chrome-512x512.png", siteUrl).toString(),
     email: site.email,
     // "sameAs" hilft Suchmaschinen beim Zuordnen deiner Profile.
     // SEO-clean: bewusst nur öffentliche Profil-URLs (z. B. GitHub + LinkedIn).
@@ -82,9 +111,11 @@ const baseSchemas = [
     url: canonicalUrl,
     name: title,
     description,
-    isPartOf: site.canonicalBase,
-    aboutId: `${site.canonicalBase}#person`,
+    isPartOf: siteUrl,
+    aboutId: `${siteUrl}#person`,
+    ...(breadcrumbItems ? { breadcrumbId } : {}),
   }),
+  ...(breadcrumbItems ? [buildBreadcrumbListJsonLd({ id: breadcrumbId, items: breadcrumbItems })] : []),
 ];
 
 const extraSchemas = (Astro.props as Props).jsonLd;
