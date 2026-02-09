@@ -1,14 +1,19 @@
 // Minecraft Server Status (mcsrvstat.us API v3)
 //
-// Ziel:
+// Ziele:
 // - Kein Inline-JS in MinecraftServerStatus.astro
-// - DOM-Hooks via data-Attribute
-// - Bei View Transitions: Intervalle sauber neu starten
+// - DOM-Hooks ueber data-Attribute
+// - Lazy-Load nur bei Sichtbarkeit
+// - Saubere Re-Initialisierung bei Astro View Transitions
 
 type State = "online" | "offline" | "unknown";
 
+const POLL_INTERVAL_MS = 300000;
+
 let controller: AbortController | null = null;
-let intervals: number[] = [];
+let observer: IntersectionObserver | null = null;
+let intervals = new Map<HTMLElement, number>();
+let visibleRoots = new Set<HTMLElement>();
 
 function setState(
   root: HTMLElement,
@@ -21,7 +26,6 @@ function setState(
   const textEl = root.querySelector<HTMLElement>("[data-mc-text]");
   if (!dotEl || !valueEl || !textEl) return;
 
-  // Status-Farbe setzen (Tailwind-Klassen)
   dotEl.classList.remove("bg-emerald-500/80", "bg-red-500/80", "bg-border");
   if (state === "online") dotEl.classList.add("bg-emerald-500/80");
   else if (state === "offline") dotEl.classList.add("bg-red-500/80");
@@ -32,19 +36,22 @@ function setState(
 }
 
 function fmtPlayers(online: unknown, max: unknown): string {
-  if (typeof online === "number" && typeof max === "number")
+  if (typeof online === "number" && typeof max === "number") {
     return `${online}/${max}`;
+  }
   if (typeof online === "number") return String(online);
-  return "–";
+  return "-";
 }
 
 async function fetchStatus(root: HTMLElement, apiUrl: string): Promise<void> {
   try {
-    const res = await fetch(apiUrl, { cache: "no-store" });
+    const res = await fetch(apiUrl, {
+      cache: "force-cache",
+      referrerPolicy: "no-referrer",
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // API v3: "online" ist boolean. Wenn online, sind players.online/max verfügbar.
     if (data?.online) {
       const online = data?.players?.online;
       const max = data?.players?.max;
@@ -57,31 +64,99 @@ async function fetchStatus(root: HTMLElement, apiUrl: string): Promise<void> {
       return;
     }
 
-    setState(root, "unknown", "–", "nicht verfügbar");
+    setState(root, "unknown", "-", "nicht verfuegbar");
   } catch {
-    setState(root, "unknown", "–", "nicht verfügbar");
+    setState(root, "unknown", "-", "nicht verfuegbar");
   }
 }
 
-export function initMinecraftStatus(): void {
-  // Cleanup (Intervals + Listener)
+function clearPolling(root: HTMLElement): void {
+  const id = intervals.get(root);
+  if (id === undefined) return;
+
+  window.clearInterval(id);
+  intervals.delete(root);
+}
+
+function startPolling(root: HTMLElement, apiUrl: string): void {
+  if (intervals.has(root)) return;
+
+  void fetchStatus(root, apiUrl);
+  const id = window.setInterval(() => {
+    void fetchStatus(root, apiUrl);
+  }, POLL_INTERVAL_MS);
+  intervals.set(root, id);
+}
+
+function clearAll(): void {
   controller?.abort();
-  controller = new AbortController();
+  controller = null;
+  observer?.disconnect();
+  observer = null;
+
   intervals.forEach((id) => window.clearInterval(id));
-  intervals = [];
+  intervals = new Map<HTMLElement, number>();
+  visibleRoots = new Set<HTMLElement>();
+}
+
+export function initMinecraftStatus(): void {
+  clearAll();
 
   const roots = Array.from(
     document.querySelectorAll<HTMLElement>("[data-mc-status]"),
   );
-  roots.forEach((root) => {
-    const apiUrl = root.getAttribute("data-api-url");
-    if (!apiUrl) return;
+  if (roots.length === 0) return;
 
-    // Initial laden
-    fetchStatus(root, apiUrl);
+  controller = new AbortController();
+  const { signal } = controller;
 
-    // Aktualisierung alle ~2 Minuten (mcsrvstat.us ist ohnehin gecached)
-    const id = window.setInterval(() => fetchStatus(root, apiUrl), 120000);
-    intervals.push(id);
-  });
+  if (!("IntersectionObserver" in window)) {
+    roots.forEach((root) => {
+      const apiUrl = root.getAttribute("data-api-url");
+      if (!apiUrl) return;
+      startPolling(root, apiUrl);
+    });
+    return;
+  }
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const root = entry.target;
+        if (!(root instanceof HTMLElement)) return;
+
+        const apiUrl = root.getAttribute("data-api-url");
+        if (!apiUrl) return;
+
+        if (entry.isIntersecting) {
+          visibleRoots.add(root);
+          startPolling(root, apiUrl);
+        } else {
+          visibleRoots.delete(root);
+          clearPolling(root);
+        }
+      });
+    },
+    { threshold: 0.1 },
+  );
+
+  roots.forEach((root) => observer?.observe(root));
+
+  // Optional: Polling pausieren/fortsetzen, wenn die Tab-Sichtbarkeit wechselt.
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+      if (document.hidden) {
+        roots.forEach(clearPolling);
+        return;
+      }
+
+      visibleRoots.forEach((root) => {
+        const apiUrl = root.getAttribute("data-api-url");
+        if (!apiUrl) return;
+        startPolling(root, apiUrl);
+      });
+    },
+    { signal },
+  );
 }

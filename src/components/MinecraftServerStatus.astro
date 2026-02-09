@@ -14,9 +14,14 @@ const apiUrl = `https://api.mcsrvstat.us/3/${address}`;
 
 <div class="space-y-1" data-mc-status data-api-url={apiUrl}>
   <div class="meta">{label}</div>
-  <div class="flex items-center gap-2">
+  <div
+    class="flex items-center gap-2"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
     <span data-mc-dot aria-hidden="true" class="h-2 w-2 rounded-full bg-border"></span>
     <span data-mc-value class="tabular-nums text-text">…</span>
-    <span data-mc-text class="text-muted text-xs"></span>
+    <span data-mc-text class="text-muted text-xs">wird geladen</span>
   </div>
 </div>
