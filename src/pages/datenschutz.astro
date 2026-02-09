@@ -15,7 +15,7 @@ const navLinks = [
 <BaseLayout title={`Datenschutz – ${site.domain}`} description="Datenschutzerklärung für falkner.info" canonicalPath="/datenschutz/">
   <Navbar links={navLinks} />
 
-  <main class="py-16 sm:py-20">
+  <main id="main" tabindex="-1" class="py-16 sm:py-20">
     <div class="mx-auto max-w-6xl px-5">
       <div class="max-w-3xl">
         <div class="flex flex-wrap items-center gap-2">
@@ -194,8 +194,9 @@ const navLinks = [
       </div>
     </div>
 
-    <div class="mt-16">
-      <Footer />
-    </div>
   </main>
+
+  <div class="mt-16">
+    <Footer />
+  </div>
 </BaseLayout>

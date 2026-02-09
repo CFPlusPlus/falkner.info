@@ -18,14 +18,14 @@ import { navLinks } from "../lib/navigation";
 <BaseLayout>
   <Navbar brand={site.domain} links={navLinks} />
 
-  <main>
+  <main id="main" tabindex="-1">
     <HeroSection socialLinks={socialLinks} />
     <AboutSection />
     <ProjectsSection spotlightProject={spotlightProject} projects={projects} serverAddress={site.minecraft.serverAddress} />
     <InterestsSection interests={interests} />
     <GallerySection pcBuildPhotos={pcBuildPhotos} hikePhotos={hikePhotos} />
     <ContactSection site={site} socialLinks={socialLinks} />
-
-    <Footer />
   </main>
+
+  <Footer />
 </BaseLayout>
