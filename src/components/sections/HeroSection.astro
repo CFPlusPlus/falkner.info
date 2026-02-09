@@ -55,7 +55,7 @@ const { socialLinks } = Astro.props;
               <a
                 href={l.href}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 class="inline-flex items-center gap-2 hover:text-text transition-colors">
                 <Icon name={iconForLabel(l.label)} size={16} class="text-muted" />
                 <span class="underline decoration-border/70 underline-offset-4 hover:decoration-accent/70">{l.label}</span>

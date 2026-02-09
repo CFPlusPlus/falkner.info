@@ -22,7 +22,7 @@ const isExternal = (href?: string) =>
               <a
                 href={p.href}
                 target={isExternal(p.href) ? "_blank" : undefined}
-                rel={isExternal(p.href) ? "noopener" : undefined}
+                rel={isExternal(p.href) ? "noopener noreferrer" : undefined}
                 class="inline-flex items-center gap-2 text-text hover:text-text">
                 <span class="underline decoration-border/70 underline-offset-4 group-hover:decoration-accent/70 transition-colors">
                   {p.title}

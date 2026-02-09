@@ -104,7 +104,7 @@ const footerLinks = (() => {
               <a
                 href={withBase(l.href)}
                 target={l.href.startsWith("/") ? undefined : "_blank"}
-                rel={l.href.startsWith("/") ? undefined : "noopener"}
+                rel={l.href.startsWith("/") ? undefined : "noopener noreferrer"}
                 class="group w-full flex items-center justify-between gap-4 py-4 border-b border-border/70 hover:bg-surface/30 transition reveal"
                 style={`--reveal-delay: ${Math.min(i * 40, 160)}ms`}
               >
@@ -170,7 +170,7 @@ const footerLinks = (() => {
                 class="font-[var(--w-title)] u-link-muted"
                 href={repoUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 {repoLabel}
               </a>
@@ -179,7 +179,7 @@ const footerLinks = (() => {
                 class="font-[var(--w-title)] u-link-muted"
                 href={commitUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 {gitHash}
               </a>
@@ -201,4 +201,3 @@ const footerLinks = (() => {
 
   </div>
 </footer>
-

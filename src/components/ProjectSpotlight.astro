@@ -51,7 +51,7 @@ const { project, serverAddress } = Astro.props as Props;
 
         {project.href ? (
           <div class="mt-6">
-            <Button href={project.href} target="_blank" rel="noopener" variant="secondary">
+            <Button href={project.href} target="_blank" rel="noopener noreferrer" variant="secondary">
               Zur Website
               <span aria-hidden="true">→</span>
             </Button>

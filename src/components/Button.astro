@@ -20,6 +20,28 @@ const resolvedHref = href
     : href
   : undefined;
 
+const isBlankTarget = target?.toLowerCase() === "_blank";
+
+// Bei externen Tabs immer sichere rel-Token erzwingen und Duplikate vermeiden.
+const resolvedRel = (() => {
+  if (!isBlankTarget) return rel;
+
+  const inputTokens = (rel || "").split(/\s+/).filter(Boolean);
+  const uniqueTokens: string[] = [];
+  const seen = new Set<string>();
+
+  for (const token of inputTokens) {
+    const normalized = token.toLowerCase();
+    if (seen.has(normalized)) continue;
+    seen.add(normalized);
+    uniqueTokens.push(token);
+  }
+
+  if (!seen.has("noopener")) uniqueTokens.push("noopener");
+  if (!seen.has("noreferrer")) uniqueTokens.push("noreferrer");
+
+  return uniqueTokens.join(" ");
+})();
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-[var(--r-control)] px-4 py-2 text-sm font-medium border transition-[color,background-color,border-color,transform] duration-200";
@@ -36,7 +58,7 @@ const variants = {
 const cls = `${base} ${variants[variant]} ${className}`;
 ---
 {href ? (
-  <a href={resolvedHref} target={target} rel={rel} class={cls} aria-label={ariaLabel} {...rest}>
+  <a href={resolvedHref} target={target} rel={resolvedRel} class={cls} aria-label={ariaLabel} {...rest}>
     <slot />
   </a>
 ) : (
