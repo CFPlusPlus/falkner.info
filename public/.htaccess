@@ -6,3 +6,25 @@
 #
 # Hinweis: Astro baut `src/pages/404.astro` standardmäßig als `dist/404/index.html`.
 ErrorDocument 404 /404.html
+
+# ------------------------------------------------------------
+# Security Header Baseline (nur wenn mod_headers verfuegbar)
+# ------------------------------------------------------------
+# Falls dein Hosting keine Header via .htaccess erlaubt:
+# Bitte die gleichen Header im Hosting-Panel (Apache/Nginx Header) setzen.
+<IfModule mod_headers.c>
+  # MIME-Sniffing verhindern (Browser soll Content-Type nicht "erraten")
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Referrer auf ein sinnvolles Minimum reduzieren (interne Details schuetzen)
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Browser-Features standardmaessig sperren, nur Noetiges erlaubt.
+  # Hinweis: nur breit unterstuetzte Direktiven nutzen, damit keine Console-Warnungen entstehen.
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), usb=(), fullscreen=(self)"
+
+  # CSP zunaechst nur beobachten (Report-Only), damit nichts live blockiert.
+  # Quellen passend zur Seite: lokale Assets/Fonts, data:-URIs und Minecraft-Status-API.
+  # Hinweis: `upgrade-insecure-requests` wirkt nur bei erzwungener CSP, nicht bei Report-Only.
+  Header always set Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.mcsrvstat.us"
+</IfModule>
