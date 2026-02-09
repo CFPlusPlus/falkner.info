@@ -10,7 +10,7 @@ Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑
 - **Tabler Icons**
 - **Prettier** (inkl. `prettier-plugin-astro`)
 - **ESLint** (Astro + TypeScript)
-- **/check** (Type/Template Checks)
+- **Astro Check** (`npm run check`, Type/Template Checks)
 
 ## Voraussetzungen
 
@@ -66,7 +66,8 @@ Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.
 Die Anzeige holt sich den Status clientseitig über **mcsrvstat.us**.
 Die Server‑Adresse wird aktuell hier gesetzt:
 
-- `src/pages/index.astro` → Prop `serverAddress="minecraft-gilde.de"` (ggf. mit Port `:25565`)
+- `src/lib/site.ts` → `site.minecraft.serverAddress` (ggf. mit Port `:25565`)
+- Weitergabe an die Section erfolgt in `src/pages/index.astro`
 
 Komponente:
 
@@ -84,7 +85,7 @@ Komponente:
 
 - **Sitemap** wird automatisch beim Build generiert über `@astrojs/sitemap`.
   - Output: `dist/sitemap-index.xml` und `dist/sitemap-0.xml`.
-  - In `public/robots.txt` ist `sitemap-index.xml` bereits eingetragen.
+  - Die `robots.txt` wird über `src/pages/robots.txt.ts` erzeugt und verweist auf `sitemap-index.xml`.
 - **JSON-LD** ist global im `BaseLayout` integriert (WebSite + Person + WebPage).
   - Optional kannst du pro Seite zusätzliches Schema über `jsonLd` an `BaseLayout` übergeben.
 
