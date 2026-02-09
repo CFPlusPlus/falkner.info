@@ -28,3 +28,48 @@ ErrorDocument 404 /404.html
   # Hinweis: `upgrade-insecure-requests` wirkt nur bei erzwungener CSP, nicht bei Report-Only.
   Header always set Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.mcsrvstat.us"
 </IfModule>
+
+# ------------------------------------------------------------
+# Caching fuer statische Assets (Performance auf Shared Hosting)
+# ------------------------------------------------------------
+# Ziel:
+# - Fingerprinted Assets (js/css/fonts/bilder) lange cachen.
+# - HTML bewusst kurz halten, damit Deploy-Updates schnell sichtbar sind.
+#
+# Hinweis:
+# `immutable` ist ideal fuer versionierte Dateinamen (z. B. app.abc123.js).
+# Falls ein Asset ohne Versionshash ersetzt wird, kann es bis TTL-Ende gecacht bleiben.
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Sinnvoller Fallback fuer nicht explizit gematchte Typen.
+  ExpiresDefault "access plus 1 hour"
+
+  # HTML moeglichst kurz cachen, damit neue Deploys schnell ankommen.
+  ExpiresByType text/html "access plus 5 minutes"
+
+  # Lange TTL fuer statische Assets.
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+
+  # Icons sind oft nicht versioniert: deshalb moderat statt extrem lang.
+  ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType image/vnd.microsoft.icon "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Fuer versionierte Assets Browser-Revalidierung vermeiden.
+  <FilesMatch "\.(?:js|css|woff2|png|webp|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML soll bei Navigationen regelmaessig revalidiert werden.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
