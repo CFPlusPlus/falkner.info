@@ -158,23 +158,4 @@ const quickLinks = [
 
   <Footer />
 
-  <script is:inline>
-    (() => {
-      // „Zurück“ fühlt sich auf einer 404 Seite natürlich an.
-      // Wenn es keine Historie gibt, zeigen wir einen Hinweis und schicken zur Startseite.
-      const btn = document.getElementById("backBtn");
-      const hint = document.querySelector("[data-back-fallback]");
-      if (!btn) return;
-
-      btn.addEventListener("click", () => {
-        if (window.history.length > 1) {
-          window.history.back();
-          return;
-        }
-
-        hint?.classList.remove("hidden");
-        window.location.href = "/";
-      });
-    })();
-  </script>
 </BaseLayout>

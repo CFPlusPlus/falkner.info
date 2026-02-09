@@ -12,6 +12,7 @@ import { initScrollProgress } from "./scrollProgress";
 import { initNavbar } from "./navbar";
 import { initLightboxes } from "./lightbox";
 import { initMinecraftStatus } from "./minecraftStatus";
+import { initBackButton } from "./backButton";
 
 function init(): void {
   initGlobalUI();
@@ -19,6 +20,7 @@ function init(): void {
   initNavbar();
   initLightboxes();
   initMinecraftStatus();
+  initBackButton();
 }
 
 if (document.readyState === "loading") {
