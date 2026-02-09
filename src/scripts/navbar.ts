@@ -150,7 +150,7 @@ export function initNavbar(): void {
     links.forEach((a) => {
       const match = a.getAttribute("data-target") === id;
       a.setAttribute("data-active", match ? "true" : "false");
-      if (match) a.setAttribute("aria-current", "true");
+      if (match) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
   };
