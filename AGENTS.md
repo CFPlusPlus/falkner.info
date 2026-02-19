@@ -25,6 +25,9 @@ Leitfaden fuer KI-Agenten in diesem Repository.
 - Bestehende Namenskonventionen und Dateistruktur einhalten.
 - Kommentare im Code immer auf Deutsch verfassen.
 - Kommentare nur dort setzen, wo sie wirklich zum Verstaendnis beitragen.
+- Bei Astro-APIs oder unklaren Patterns zuerst die aktuelle Astro-Dokumentation pruefen (bevor Code geaendert wird).
+- Integrationen bevorzugt ueber `npx astro add <integration>` einbinden statt Konfigurationen manuell in Abhaengigkeiten/Config-Dateien nachzubauen.
+- Wenn Unsicherheit zu Astro-Verhalten besteht, zuerst Doku (MCP/LLMS) pruefen und erst danach implementieren.
 
 ## Qualitaet vor Abschluss
 
