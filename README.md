@@ -93,14 +93,3 @@ Komponente:
 
 `npm run build` erzeugt eine statische Ausgabe in **`dist/`**.
 Den Ordner `dist/` kann dann auf den Webserver hochladen werden.
-
-### Cloudflare Pages
-
-- **Build command:** `npm run build`
-- **Build output directory:** `dist`
-
-Optional per CLI:
-
-```bash
-npm run cf:deploy -- --project-name <dein-pages-projektname>
-```
