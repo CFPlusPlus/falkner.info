@@ -8,11 +8,15 @@ import { site } from "../lib/site";
 
 const navLinks = [
   { label: "Startseite", href: "/#top" },
-  { label: "Kontakt", href: "/#contact" }
+  { label: "Kontakt", href: "/#contact" },
 ];
 ---
 
-<BaseLayout title={`Datenschutz – ${site.domain}`} description="Datenschutzerklärung für falkner.info" canonicalPath="/datenschutz/">
+<BaseLayout
+  title={`Datenschutz – ${site.domain}`}
+  description="Datenschutzerklärung für falkner.info"
+  canonicalPath="/datenschutz/"
+>
   <Navbar links={navLinks} />
 
   <main id="main" tabindex="-1" class="py-16 sm:py-20">
@@ -23,164 +27,203 @@ const navLinks = [
           <Chip>Datenschutz</Chip>
         </div>
 
-        <h1 class="mt-6 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">Datenschutzerklärung</h1>
+        <h1 class="mt-6 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">
+          Datenschutzerklärung
+        </h1>
         <p class="mt-4 text-muted">
-          Stand: <time datetime="2026-02-02">02.02.2026</time>
+          Stand: <time datetime="2026-02-22">22.02.2026</time>
         </p>
 
         <Divider class="mt-8" />
 
         <article class="mt-10 space-y-8 text-muted leading-relaxed">
           <p>
-            Diese Website ist privat und kommt ohne Tracking aus. Trotzdem fallen beim Besuch technische Daten an (z. B. IP-Adresse in
-            Server-Logfiles). Hier erkläre ich kurz, was dabei passiert und welche Rechte Sie haben. Definitionen wie "personenbezogene Daten"
-            oder "Verarbeitung" finden Sie in Art. 4 DSGVO.
+            Diese Website ist eine private, statische Website ohne Analyse- oder Marketing-Tracking.
+            Beim Besuch der Website werden dennoch technisch erforderliche Daten verarbeitet, damit
+            die Seite ausgeliefert und sicher betrieben werden kann.
           </p>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Websitebetreiber</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">1. Verantwortlicher</h2>
             <p>
-              Verantwortlicher im Sinne der EU-Datenschutzgrundverordnung (<a class="u-link" href="https://dsgvo-gesetz.de/" target="_blank" rel="noopener noreferrer">DSGVO</a>)
-              und anderer nationaler Datenschutzgesetze ist: Christian Falkner.
+              Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+            </p>
+            <p>
+              <strong class="text-text">{site.author}</strong>
+              <br />
+              E-Mail: <a class="u-link" href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+            <p>
+              Weitere Angaben finden Sie im <a class="u-link" href="/impressum/">Impressum</a>.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Widerspruch gegen Werbe-E-Mails</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              2. Hosting und Auslieferung der Website (Cloudflare Pages)
+            </h2>
             <p>
-              Der Nutzung von im Rahmen der oben genannten veröffentlichten Kontaktdaten zur Übersendung von nicht ausdrücklich
-              angeforderter Werbung und Informationsmaterialien wird hiermit widersprochen. Der Betreiber der Seiten behält sich
-              ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-E-Mails, vor.
+              Diese Website wird über <strong class="text-text">Cloudflare Pages</strong> bereitgestellt.
+              Anbieter ist Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA.
+            </p>
+            <p>
+              Beim Aufruf der Website verarbeitet Cloudflare technisch erforderliche Daten, insbesondere:
+            </p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>IP-Adresse</li>
+              <li>Datum und Uhrzeit der Anfrage</li>
+              <li>aufgerufene URL / angeforderte Datei</li>
+              <li>Referrer-URL (falls übermittelt)</li>
+              <li>Browsertyp/-version und Betriebssystem</li>
+              <li>HTTP-Statuscode und technische Protokolldaten</li>
+            </ul>
+            <p>
+              Die Verarbeitung erfolgt zur sicheren und performanten Bereitstellung der Website
+              (Hosting, Auslieferung, Stabilität, Missbrauchsabwehr).
+            </p>
+            <p>
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).
+            </p>
+            <p>
+              Soweit erforderlich erfolgt die Verarbeitung im Rahmen einer Auftragsverarbeitung
+              (DPA/AV-Vertrag) mit Cloudflare.
+            </p>
+            <p>
+              <strong class="text-text">Hinweis zu Drittländern:</strong> Cloudflare ist ein US-Anbieter.
+              Eine Verarbeitung in den USA kann daher nicht ausgeschlossen werden. Soweit erforderlich,
+              erfolgt dies auf Grundlage geeigneter Garantien (z. B. Standardvertragsklauseln).
+            </p>
+            <p>
+              Weitere Informationen:
+              <a class="u-link" href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener noreferrer">
+                {" "}Cloudflare Pages
+              </a>,
+              <a class="u-link" href="https://www.cloudflare.com/trust-hub/gdpr/" target="_blank" rel="noopener noreferrer">
+                {" "}Cloudflare & GDPR
+              </a>,
+              <a class="u-link" href="https://www.cloudflare.com/cloudflare-customer-dpa/" target="_blank" rel="noopener noreferrer">
+                {" "}Cloudflare DPA
+              </a>.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Cookies</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              3. Kontaktaufnahme per E-Mail (ALL-INKL)
+            </h2>
             <p>
-              Diese Website setzt keine Cookies für Reichweitenmessung, Werbung oder Profilbildung.
+              Wenn Sie mich per E-Mail kontaktieren, verarbeite ich Ihre Nachricht und die darin
+              enthaltenen Daten (z. B. E-Mail-Adresse, Name, Inhalt), um Ihre Anfrage zu bearbeiten.
             </p>
             <p>
-              Sie können Cookies in Ihrem Browser jederzeit löschen oder blockieren. Dadurch kann es auf anderen Websites zu
-              Einschränkungen kommen; diese Seite funktioniert in der Regel auch ohne Cookies.
-            </p>
-          </section>
-
-          <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Verschlüsselung</h2>
-            <p>
-              Um die Sicherheit Ihrer Daten bei der Übertragung zu schützen, wird nach aktuellem Stand der Technik ein entsprechendes SSL- bzw.
-              TLS-Verschlüsselungsverfahren verwendet. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von “http://”
-              auf “https://” wechselt und an dem Schloss-Symbol in der Browserzeile. Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können Daten,
-              die an mich übermittelt werden, nicht von Dritten mitgelesen werden.
-            </p>
-          </section>
-
-          <section class="space-y-3">
-  <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Zugriffsdaten</h2>
-  <p>
-    Beim Aufruf dieser Website verarbeitet der Hosting-Anbieter automatisch Informationen in sogenannten Server-Logfiles
-    (z. B. IP-Adresse, Datum/Uhrzeit, aufgerufene Seite/Datei, Referrer-URL, Browser/ Betriebssystem).
-  </p>
-  <p>
-    Die Verarbeitung erfolgt zur technischen Bereitstellung, zur Sicherheit und zur Fehleranalyse
-    (Art. 6 Abs. 1 lit. f DSGVO). Logfiles werden in der Regel nach einer kurzen Zeit gelöscht.
-  </p>
-</section>
-
-          <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Minecraft Server Status (mcsrvstat.us)</h2>
-            <p>
-              Auf der Startseite kann ein Minecraft-Server-Status angezeigt werden (z. B. ob der Server online ist und wie viele Spieler gerade online sind).
-              Diese Anzeige wird nur geladen, wenn JavaScript im Browser aktiviert ist und der Bereich sichtbar wird.
+              Die E-Mail-Postfächer werden über <strong class="text-text">ALL-INKL.COM – Neue Medien Münnich</strong>,
+              Hauptstraße 68, 02742 Friedersdorf, Deutschland betrieben.
             </p>
             <p>
-              Dafür wird eine Anfrage an <strong class="text-text">api.mcsrvstat.us</strong> gestellt. Dabei werden technisch bedingt Informationen wie Ihre IP-Adresse
-              und ggf. Browser-Header an diesen Dienst übertragen. Die Anfrage wird ohne Referrer-Information gesendet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer aktuellen
-              Statusanzeige).
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (bei vertragsbezogenen Anfragen) bzw.
+              Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Kommunikation).
             </p>
             <p>
-              Wenn Sie diese Datenübertragung nicht möchten, können Sie JavaScript deaktivieren. Die Seite bleibt grundsätzlich nutzbar, der Server-Status wird dann
-              jedoch nicht aktualisiert.
+              Weitere Informationen:
+              <a class="u-link" href="https://all-inkl.com/datenschutzinformationen/" target="_blank" rel="noopener noreferrer">
+                {" "}Datenschutzinformationen von ALL-INKL
+              </a>.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Onlinepräsenzen</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              4. Cookies und Tracking
+            </h2>
             <p>
-              Der Websitebetreiber unterhält auch Onlinepräsenzen innerhalb sozialer Netzwerke und Plattformen, um mit den dort aktiven Nutzern zu kommunizieren.
-              Ich weise darauf hin, dass dabei Daten der Nutzer außerhalb des Raumes der Europäischen Union verarbeitet werden können.
+              Diese Website verwendet derzeit <strong class="text-text">keine Analyse- oder Marketing-Cookies</strong>.
             </p>
             <p>
-              Für eine detaillierte Darstellung der jeweiligen Verarbeitungen, verweise ich auf die nachfolgend verlinkten Datenschutzerklärungen der Anbieter:
-              <a class="u-link" href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Google</a>,
-              <a class="u-link" href="https://discord.com/privacy" target="_blank" rel="noopener noreferrer">Discord</a>.
-            </p>
-          </section>
-
-          <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Webfonts</h2>
-            <p>
-              Diese Website verwendet Webfonts (z. B. <strong class="text-text">Space Grotesk</strong> und <strong class="text-text">Geist Sans</strong>).
-              Die Schriftdateien werden lokal auf meinem Server bereitgestellt. Beim Aufruf der Seite wird daher <strong class="text-text">keine Verbindung</strong>
-              zu externen Font-Servern (z. B. Google) aufgebaut.
+              Es werden nach aktuellem Stand keine einwilligungspflichtigen Tracking-Technologien
+              zur Reichweitenmessung, Werbung oder Profilbildung eingesetzt.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Erfassung und Verarbeitung personenbezogener Daten</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              5. Minecraft-Server-Status (mcsrvstat.us)
+            </h2>
             <p>
-              Der Websitebetreiber erhebt, nutzt und gibt Ihre personenbezogenen Daten nur dann weiter, wenn dies im gesetzlichen Rahmen erlaubt ist oder Sie in die
-              Datenerhebung einwilligen. Als personenbezogene Daten gelten sämtliche Informationen, welche dazu dienen, Ihre Person zu bestimmen und welche zu Ihnen
-              zurückverfolgt werden können.
+              Auf der Website kann ein Minecraft-Server-Status angezeigt werden. Dafür wird bei aktiver
+              JavaScript-Ausführung eine Anfrage an <strong class="text-text">api.mcsrvstat.us</strong> gesendet.
+            </p>
+            <p>
+              Dabei können technisch bedingt Daten wie IP-Adresse und Browser-Header an diesen Dienst
+              übertragen werden.
+            </p>
+            <p>
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer aktuellen
+              Server-Statusanzeige).
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Kontakt</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              6. Lokal eingebundene Schriftarten
+            </h2>
             <p>
-              Wenn Sie mich kontaktieren (z. B. per E-Mail), werden die von Ihnen übermittelten Angaben verarbeitet, um Ihre Anfrage zu
-              beantworten (Art. 6 Abs. 1 lit. b oder lit. f DSGVO).
+              Verwendete Schriftarten (z. B. Space Grotesk, Geist Sans) werden lokal bereitgestellt.
+              Es findet dafür keine Verbindung zu externen Font-Diensten statt.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Umgang mit Kontaktdaten</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              7. Externe Links
+            </h2>
             <p>
-              Nehmen Sie mit mir als Websitebetreiber durch die angebotenen Kontaktmöglichkeiten Verbindung auf, werden die Angaben
-              verarbeitet, damit ich Ihre Anfrage bearbeiten und beantworten kann. Ohne Rechtsgrundlage oder Ihre Einwilligung gebe
-              ich diese Daten nicht an Dritte weiter.
+              Diese Website enthält Links zu externen Websites. Für die Datenverarbeitung auf den
+              verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Rechte des Nutzers</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              8. Speicherdauer
+            </h2>
             <p>
-              Sie haben als Nutzer das Recht, auf Antrag eine kostenlose Auskunft darüber zu erhalten, welche personenbezogenen Daten über Sie gespeichert wurden.
-              Sie haben außerdem das Recht auf Berichtigung falscher Daten und auf die Verarbeitungseinschränkung oder Löschung Ihrer personenbezogenen Daten.
+              Personenbezogene Daten werden nur so lange gespeichert, wie dies für die jeweiligen Zwecke
+              erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Löschung von Daten</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              9. Ihre Rechte
+            </h2>
+            <p>Sie haben insbesondere folgende Rechte nach der DSGVO:</p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Auskunft (Art. 15 DSGVO)</li>
+              <li>Berichtigung (Art. 16 DSGVO)</li>
+              <li>Löschung (Art. 17 DSGVO)</li>
+              <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+              <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+              <li>Widerspruch (Art. 21 DSGVO)</li>
+            </ul>
+          </section>
+
+          <section class="space-y-3">
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              10. Beschwerderecht
+            </h2>
             <p>
-              Sofern Ihr Wunsch nicht mit einer gesetzlichen Pflicht zur Aufbewahrung von Daten kollidiert, haben Sie ein Anrecht auf Löschung Ihrer Daten.
-              Gespeicherte Daten werden gelöscht, wenn sie für ihren Zweck nicht mehr erforderlich sind und es keine gesetzlichen Aufbewahrungsfristen gibt.
+              Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Sie der
+              Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO verstößt.
             </p>
           </section>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Änderung dieser Datenschutzerklärung</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              11. Änderungen dieser Datenschutzerklärung
+            </h2>
             <p>
-              Ich behalte mir vor, diese Datenschutzerklärung anzupassen, wenn sich rechtliche Anforderungen ändern oder sich Inhalte/Technik dieser Website verändern.
-            </p>
-          </section>
-
-          <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">Widerspruchsrecht</h2>
-            <p>
-              Nutzer dieser Webseite können von ihrem Widerspruchsrecht Gebrauch machen und der Verarbeitung ihrer personenbezogenen Daten zu jeder Zeit widersprechen.
-              Wenn Sie eine Berichtigung, Sperrung, Löschung oder Auskunft über die zu Ihrer Person gespeicherten personenbezogenen Daten wünschen oder Fragen haben,
-              wenden Sie sich bitte an den Websitebetreiber.
+              Ich behalte mir vor, diese Datenschutzerklärung anzupassen, wenn sich rechtliche Anforderungen
+              oder die technische Umsetzung der Website ändern.
             </p>
           </section>
 
@@ -193,7 +236,6 @@ const navLinks = [
         </article>
       </div>
     </div>
-
   </main>
 
   <div class="mt-16">
