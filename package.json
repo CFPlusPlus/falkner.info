@@ -7,6 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "cf:dev": "wrangler pages dev dist",
+    "cf:deploy": "wrangler pages deploy",
     "format": "prettier . --check",
     "format:write": "prettier . --write",
     "check": "astro check",
@@ -14,24 +16,25 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "astro": "^5.17.1",
     "@astrojs/sitemap": "3.7.0",
-    "@tabler/icons-sprite": "3.36.1",
     "@fontsource-variable/space-grotesk": "^5.2.5",
-    "@fontsource/geist-sans": "^5.2.5"
+    "@fontsource/geist-sans": "^5.2.5",
+    "@tabler/icons-sprite": "3.36.1",
+    "astro": "^5.17.1"
   },
   "devDependencies": {
-    "tailwindcss": "^4.1.18",
+    "@astrojs/check": "^0.9.0",
+    "@eslint/js": "^9.0.0",
     "@tailwindcss/vite": "^4.1.18",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.2.0",
+    "globals": "^17.0.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "@astrojs/check": "^0.9.0",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.5.0",
-    "eslint": "^9.0.0",
-    "@eslint/js": "^9.0.0",
-    "eslint-plugin-astro": "^1.2.0",
     "typescript-eslint": "^8.0.0",
-    "globals": "^17.0.0"
+    "wrangler": "^4.67.0"
   },
   "engines": {
     "node": ">=20"
