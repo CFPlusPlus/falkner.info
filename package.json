@@ -16,7 +16,7 @@
   "dependencies": {
     "astro": "^5.17.1",
     "@astrojs/sitemap": "3.7.0",
-    "@tabler/icons-sprite": "3.36.1",
+    "@tabler/icons-sprite": "3.37.1",
     "@fontsource-variable/space-grotesk": "^5.2.5",
     "@fontsource/geist-sans": "^5.2.5"
   },
