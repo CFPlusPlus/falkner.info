@@ -1,10 +1,11 @@
+/* Tailwind zuerst importieren (CSS-Regel: @import muss vor anderen At-Rules stehen) */
+@import "tailwindcss";
+
 /* Tailwind CSS v4 liest die tailwind.config.* nur dann, wenn sie explizit eingebunden wird.
    Damit Utilities wie `bg-bg`, `text-muted` etc. (aus unserem Theme) weiterhin funktionieren,
    referenzieren wir hier die Config.
 */
 @config "../../tailwind.config.mjs";
-
-@import "tailwindcss";
 
 :root {
   /* Standard: Dark Mode */
@@ -58,6 +59,18 @@
   --focus-offset: 3px;
   --focus-offset-bg: var(--bg);
   --focus-offset-alpha: 0.9;
+
+  /* Hintergrund-Blobs: responsiv skalieren, damit sie auch auf großen Screens sichtbar bleiben
+     ohne "knallig" zu wirken. */
+  --blob-a: clamp(420px, 66vmin, 1400px);
+  --blob-b: clamp(520px, 76vmin, 1600px);
+  --blob-c: clamp(420px, 64vmin, 1400px);
+
+  /* Blur skaliert ebenfalls mit (auf großen Screens sonst zu "hart") */
+  --blob-blur: clamp(60px, 7vmin, 220px);
+
+  /* Vignette: hält Kontrast/Lesbarkeit stabil */
+  --blob-vignette: clamp(120px, 12vmin, 260px);
 }
 
 /* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
@@ -188,21 +201,6 @@ a {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-}
-
-/* Hintergrund-Blobs: responsiv skalieren, damit sie auch auf großen Screens sichtbar bleiben
-   ohne "knallig" zu wirken. */
-:root {
-  /* vmin skaliert sauber bei Ultrawide/4K, clamp verhindert Übertreibung */
-  --blob-a: clamp(420px, 66vmin, 1400px);
-  --blob-b: clamp(520px, 76vmin, 1600px);
-  --blob-c: clamp(420px, 64vmin, 1400px);
-
-  /* Blur skaliert ebenfalls mit (auf großen Screens sonst zu "hart") */
-  --blob-blur: clamp(60px, 7vmin, 220px);
-
-  /* Vignette: hält Kontrast/Lesbarkeit stabil */
-  --blob-vignette: clamp(120px, 12vmin, 260px);
 }
 
 .bg-artboard {
