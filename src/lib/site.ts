@@ -15,6 +15,7 @@ import tour5 from "../assets/gallery/touren/tour-5.webp";
 export const site = {
   domain: "falkner.info",
   canonicalBase: "https://falkner.info",
+  repositoryUrl: "https://github.com/CFPlusPlus/falkner.info",
   title: "Christian Falkner – falkner.info",
   description:
     "Persönliche Seite von Christian Falkner – Links, Projekte und ein paar Einblicke.",

@@ -15,7 +15,7 @@ const withBase = (href: string) =>
 
 // Build-Info (letzter Commit) für den Footer
 const gitHash = (import.meta.env.GIT_COMMIT_HASH || "").trim();
-const rawRepoUrl = (import.meta.env.PUBLIC_REPO_URL || "").trim();
+const rawRepoUrl = (site.repositoryUrl || "").trim();
 
 // Repo-URL für Links normalisieren (Trailing Slash + .git entfernen)
 // Wichtig: wir unterstützen hier bewusst nur GitHub.
