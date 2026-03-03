@@ -45,7 +45,9 @@ const VARIANTS: Record<Variant, string> = {
   overlayControl: "rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition",
 };
 
-const classes = `${VARIANTS[variant]} ${className}`.trim();
+const isButtonLike = Tag === "button" || rest.role === "button";
+const interactiveClasses = isButtonLike ? "cursor-pointer disabled:cursor-not-allowed" : "";
+const classes = `${VARIANTS[variant]} ${interactiveClasses} ${className}`.trim();
 ---
 
 <Tag class={classes} {...rest}>

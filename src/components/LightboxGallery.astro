@@ -130,11 +130,14 @@ const scrollRightId = `${rootId}-scroll-right`;
             id={closeId}
             data-lb-close
             type="button"
-            class="inline-flex items-center gap-2 px-3 py-2"
+            class="group inline-flex h-10 w-10 items-center justify-center p-0"
             aria-label="Schließen"
           >
-            <Icon name="x" size={18} class="text-muted" />
-            <span class="hidden sm:inline text-sm text-muted">Schließen</span>
+            <Icon
+              name="x"
+              size={18}
+              class="text-muted transition-colors group-hover:text-accent group-focus-visible:text-accent"
+            />
           </Surface>
         </div>
 
