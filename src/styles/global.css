@@ -277,6 +277,9 @@ a {
   .blob-float-c {
     animation: blob-float 22s ease-in-out infinite;
   }
+  .mc-dot-online {
+    animation: mc-dot-pulse 2.6s ease-out infinite;
+  }
 }
 @keyframes blob-float {
   0%,
@@ -285,6 +288,17 @@ a {
   }
   50% {
     transform: translate3d(10px, -14px, 0) scale(1.03);
+  }
+}
+@keyframes mc-dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 hsl(142 70% 45% / 0.42);
+  }
+  78% {
+    box-shadow: 0 0 0 0.46rem hsl(142 70% 45% / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0.46rem hsl(142 70% 45% / 0);
   }
 }
 
