@@ -26,9 +26,15 @@ function setState(
   const textEl = root.querySelector<HTMLElement>("[data-mc-text]");
   if (!dotEl || !valueEl || !textEl) return;
 
-  dotEl.classList.remove("bg-emerald-500/80", "bg-red-500/80", "bg-border");
-  if (state === "online") dotEl.classList.add("bg-emerald-500/80");
-  else if (state === "offline") dotEl.classList.add("bg-red-500/80");
+  dotEl.classList.remove(
+    "bg-emerald-500/80",
+    "bg-red-500/80",
+    "bg-border",
+    "mc-dot-online",
+  );
+  if (state === "online") {
+    dotEl.classList.add("bg-emerald-500/80", "mc-dot-online");
+  } else if (state === "offline") dotEl.classList.add("bg-red-500/80");
   else dotEl.classList.add("bg-border");
 
   valueEl.textContent = valueText;
