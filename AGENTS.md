@@ -1,33 +1,120 @@
 # AGENTS.md
 
-Leitfaden fuer KI-Agenten in diesem Repository.
+## Mission
+Dieses Repository wird zu einer hochwertigen persönlichen Website im Stil
+„Editorial Tech Premium mit technischer Präzision“ umgebaut.
 
-## Ziel
+## Product intent
+Die Website soll:
+- modern
+- hochwertig
+- clean
+- individuell statt generisch
+- technisch/professionell
+- visuell stark, aber nicht verspielt oder überladen
 
-- Kleine, praezise Aenderungen bevorzugen.
-- Bestehende Struktur und Stil beibehalten.
-- Keine ungefragten Refactors oder Umstrukturierungen.
+wirken.
 
-## Stack und Kontext
+## Core direction
+Die Startseite ist eine kuratierte Hauptbühne, kein vollständiger Onepager.
+Weniger Elemente, mehr Gewicht.
+Weniger Cards, mehr offene Flächen, Typografie und Komposition.
 
-- Framework: Astro (statische Seite)
-- Sprache: TypeScript
-- Styling: Tailwind CSS
-- Relevante Bereiche:
-- `src/pages/` fuer Seiten (z. B. `404.astro`)
-- `src/scripts/` fuer Browser-Logik (z. B. `client.ts`, `backButton.ts`, `minecraftStatus.ts`)
-- `public/` fuer statische Dateien und Server-Konfig (z. B. `.htaccess`)
+## Information architecture
+Die Startseite besteht aus genau diesen Hauptsektionen:
+1. Hero
+2. Selected Work
+3. Profil
+4. Impressionen
+5. Kontakt
 
-## Arbeitsregeln
+Vollständige Inhalte werden auf Unterseiten ausgelagert:
+- /projekte
+- /projekte/[slug]
+- /impressionen
+- /ueber
 
-- Nur aendern, was zur Aufgabe gehoert.
-- Keine Secrets, Tokens oder Zugangsdaten in Code/Repo schreiben.
-- Bestehende Namenskonventionen und Dateistruktur einhalten.
-- Kommentare im Code immer auf Deutsch verfassen.
-- Kommentare nur dort setzen, wo sie wirklich zum Verstaendnis beitragen.
-- Bei Astro-APIs oder unklaren Patterns zuerst die aktuelle Astro-Dokumentation pruefen (bevor Code geaendert wird).
-- Integrationen bevorzugt ueber `npx astro add <integration>` einbinden statt Konfigurationen manuell in Abhaengigkeiten/Config-Dateien nachzubauen.
-- Wenn Unsicherheit zu Astro-Verhalten besteht, zuerst Doku (MCP/LLMS) pruefen und erst danach implementieren.
+## Design rules
+- Hero ist der wichtigste Bereich der Seite.
+- Keine Begrüßungsfloskeln.
+- Keine generische Card-Landschaft.
+- Keine unnötigen Chips, Badges oder Dekoelemente.
+- Keine verspielte Developer-Optik.
+- Technik soll als Haltung sichtbar sein, nicht als Gimmick.
+- Dunkle, kontrollierte Basis mit warmem Akzent.
+- Kühle Töne nur sehr sparsam einsetzen.
+- Typografie trägt die Wertigkeit.
+
+## Typography
+Bevorzugte Typo-Richtung:
+- Headlines / Display: Space Grotesk
+- Body / UI / Navigation: Geist
+
+Nicht ohne guten Grund wechseln.
+
+## Motion
+Bewegung nur subtil:
+- fade
+- slight slide
+- micro hover
+- optional sehr leichte Hero-Parallax
+
+Keine Effektshow. Keine aggressiven Scroll-Reveals.
+
+## Components
+Bevorzuge semantische, bereichsspezifische Komponenten statt generischer UI-Bausteine.
+
+Gewünschte Richtung:
+- components/chrome/
+- components/home/
+- components/primitives/
+
+Cards nur dort einsetzen, wo sie wirklich nötig sind.
+
+## Data architecture
+Globale Metadaten gehören nach:
+- src/data/site.ts
+
+Startseiteninhalte gehören nach:
+- src/data/home.ts
+- src/data/impressions.ts
+- src/data/navigation.ts
+- src/data/social.ts
+
+Projekte gehören als Astro Content Collection nach:
+- src/content/projects/
+
+## Implementation rules
+- Bestehende Struktur gezielt refactoren, nicht blind alles neu erzeugen.
+- Vorhandene sinnvolle Dateien weiterverwenden, wenn das Ergebnis sauber bleibt.
+- Keine unnötigen neuen Dependencies hinzufügen.
+- Bestehende Rechtsseiten und SEO-Strukturen nur anfassen, wenn nötig.
+- Accessibility, Semantik und Responsive-Verhalten mitdenken.
+- Mobile ist Pflicht, nicht Nacharbeit.
+
+## Quality bar
+Jede Änderung soll:
+- nachvollziehbar
+- reviewbar
+- visuell konsistent
+- responsiv
+- wartbar
+
+sein.
+
+## Before finishing a task
+- Relevante Dateien prüfen
+- Bestehende Patterns im Repo berücksichtigen
+- Build ausführen
+- Lint ausführen, falls vorhanden
+- Offene Punkte knapp dokumentieren
+
+## Output expectations
+Am Ende jedes Tasks bitte immer liefern:
+1. kurze Zusammenfassung der Änderung
+2. Liste der geänderten Dateien
+3. offene Punkte / Risiken
+4. sinnvoller nächster Task
 
 ## Qualitaet vor Abschluss
 
@@ -36,9 +123,3 @@ Leitfaden fuer KI-Agenten in diesem Repository.
 - `npm run lint`
 - `npm run build`
 - Bei rein kleinen Text-/Markup-Aenderungen mindestens `npm run check` ausfuehren.
-
-## Antwortformat fuer Agenten
-
-- Kurz zusammenfassen, was geaendert wurde.
-- Betroffene Dateien konkret nennen.
-- Falls etwas nicht verifiziert wurde, klar benennen.
