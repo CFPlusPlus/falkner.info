@@ -1,31 +1,47 @@
 ---
+import { getCollection } from "astro:content";
+
+import SiteFooter from "../components/chrome/SiteFooter.astro";
+import SiteHeader from "../components/chrome/SiteHeader.astro";
+import HomeContact from "../components/home/HomeContact.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import HomeImpressions from "../components/home/HomeImpressions.astro";
+import HomeProfile from "../components/home/HomeProfile.astro";
+import HomeSelectedWork from "../components/home/HomeSelectedWork.astro";
+import { homeContent } from "../data/home";
+import { impressions } from "../data/impressions";
+import { homeNavigation } from "../data/navigation";
+import { socialLinks } from "../data/social";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Navbar from "../components/Navbar.astro";
-import Footer from "../components/Footer.astro";
 
-import HeroSection from "../components/sections/HeroSection.astro";
-import AboutSection from "../components/sections/AboutSection.astro";
-import ProjectsSection from "../components/sections/ProjectsSection.astro";
-import InterestsSection from "../components/sections/InterestsSection.astro";
-import GallerySection from "../components/sections/GallerySection.astro";
-import ContactSection from "../components/sections/ContactSection.astro";
+const projects = (await getCollection("projects")).sort((a, b) => {
+  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
 
-import { site, socialLinks, spotlightProject, projects, interests, pcBuildPhotos, hikePhotos } from "../lib/site";
-import { navLinks } from "../lib/navigation";
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  return b.data.year - a.data.year;
+});
 
+const selectedProjects = projects.filter((project) => project.data.featured).slice(0, 3);
+const impressionPreview = impressions.slice(0, 4);
 ---
 
 <BaseLayout>
-  <Navbar brand={site.domain} links={navLinks} />
+  <SiteHeader links={homeNavigation} />
 
   <main id="main" tabindex="-1">
-    <HeroSection socialLinks={socialLinks} />
-    <AboutSection />
-    <ProjectsSection spotlightProject={spotlightProject} projects={projects} serverAddress={site.minecraft.serverAddress} />
-    <InterestsSection interests={interests} />
-    <GallerySection pcBuildPhotos={pcBuildPhotos} hikePhotos={hikePhotos} />
-    <ContactSection site={site} socialLinks={socialLinks} />
+    <HomeHero content={homeContent.hero} />
+    <HomeSelectedWork
+      title={homeContent.selectedWork.title}
+      intro={homeContent.selectedWork.intro}
+      cta={homeContent.selectedWork.allProjectsCta}
+      projects={selectedProjects}
+    />
+    <HomeProfile content={homeContent.profile} />
+    <HomeImpressions content={homeContent.impressions} images={impressionPreview} />
+    <HomeContact content={homeContent.contact} socialLinks={socialLinks} />
   </main>
 
-  <Footer />
+  <SiteFooter />
 </BaseLayout>
+

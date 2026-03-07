@@ -4,11 +4,11 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import Divider from "../components/Divider.astro";
 import Chip from "../components/Chip.astro";
-import { site } from "../lib/site";
+import { site } from "../data/site";
 
 const navLinks = [
   { label: "Startseite", href: "/#top" },
-  { label: "Kontakt", href: "/#contact" },
+  { label: "Kontakt", href: "/#kontakt" },
 ];
 ---
 
@@ -81,3 +81,4 @@ const navLinks = [
     <Footer />
   </div>
 </BaseLayout>
+

@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import SectionShell from "../primitives/SectionShell.astro";
+import { homeContent } from "../../data/home";
+import type { ImpressionImage } from "../../data/impressions";
+
+type Props = {
+  content: (typeof homeContent)["impressions"];
+  images: ImpressionImage[];
+};
+
+const { content, images } = Astro.props as Props;
+---
+
+<SectionShell id="impressionen" title={content.title} intro={content.text}>
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    {images.map((image, index) => (
+      <figure class="reveal" style={`--reveal-delay: ${Math.min(index * 60, 180)}ms`}>
+        <Image
+          src={image.asset}
+          alt={image.alt}
+          widths={[320, 480, 640]}
+          sizes="(min-width: 1024px) 25vw, 50vw"
+          class="h-44 w-full rounded-md border border-border/70 object-cover sm:h-52"
+        />
+        <figcaption class="mt-2 text-xs text-muted">{image.title}</figcaption>
+      </figure>
+    ))}
+  </div>
+
+  <div class="mt-8 reveal" style="--reveal-delay: 180ms">
+    <Button href={content.cta.href} variant="ghost">{content.cta.label}</Button>
+  </div>
+</SectionShell>

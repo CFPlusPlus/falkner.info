@@ -1,0 +1,44 @@
+---
+import SiteFooter from "../components/chrome/SiteFooter.astro";
+import SiteHeader from "../components/chrome/SiteHeader.astro";
+import { homeContent } from "../data/home";
+import { pageNavigation } from "../data/navigation";
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`Ueber - ${site.domain}`}
+  description="Profil und Arbeitsweise von Christian Falkner."
+  canonicalPath="/ueber/"
+>
+  <SiteHeader links={pageNavigation} />
+
+  <main id="main" tabindex="-1" class="py-14 sm:py-20">
+    <article class="mx-auto max-w-4xl px-5">
+      <p class="meta reveal">Profil</p>
+      <h1 class="mt-4 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight reveal" style="--reveal-delay: 60ms">
+        {homeContent.profile.title}
+      </h1>
+
+      <div class="mt-8 space-y-6">
+        {homeContent.profile.paragraphs.map((paragraph, index) => (
+          <p class="text-base text-muted leading-relaxed reveal" style={`--reveal-delay: ${100 + index * 70}ms`}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      <section class="mt-12 reveal" style="--reveal-delay: 200ms">
+        <h2 class="text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight">Arbeitsweise</h2>
+        <p class="mt-4 text-muted leading-relaxed">
+          Ich arbeite iterativ: erst Struktur und Informationsarchitektur, dann visuelle Verfeinerung.
+          So bleibt die technische Basis stabil, waehrend sich Designentscheidungen klar ableiten lassen.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+

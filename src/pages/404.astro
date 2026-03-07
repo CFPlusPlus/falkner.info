@@ -6,22 +6,22 @@ import Divider from "../components/Divider.astro";
 import Button from "../components/Button.astro";
 import Chip from "../components/Chip.astro";
 import Icon from "../components/Icon.astro";
-import { site } from "../lib/site";
+import { site } from "../data/site";
 
 // Für eine 404-Seite sind klassische One-Pager-Ankerlinks praktisch,
 // damit man sofort wieder „in die Seite rein“ findet.
 const navLinks = [
   { label: "Startseite", href: "/" },
-  { label: "Projekte", href: "/#projects" },
-  { label: "Kontakt", href: "/#contact" },
+  { label: "Projekte", href: "/projekte" },
+  { label: "Kontakt", href: "/#kontakt" },
 ];
 
 const quickLinks = [
-  { label: "Über mich", href: "/#about", icon: "user" },
-  { label: "Projekte", href: "/#projects", icon: "folder" },
-  { label: "Interessen", href: "/#stack", icon: "sparkles" },
-  { label: "Bilder", href: "/#gallery", icon: "photo" },
-  { label: "Kontakt", href: "/#contact", icon: "mail" },
+  { label: "Über mich", href: "/ueber", icon: "user" },
+  { label: "Projekte", href: "/projekte", icon: "folder" },
+  { label: "Interessen", href: "/ueber", icon: "sparkles" },
+  { label: "Bilder", href: "/impressionen", icon: "photo" },
+  { label: "Kontakt", href: "/#kontakt", icon: "mail" },
   { label: "Impressum", href: "/impressum", icon: "section-sign" },
   { label: "Datenschutz", href: "/datenschutz", icon: "lock" },
 ];
@@ -101,7 +101,7 @@ const quickLinks = [
                 Zurück
               </Button>
 
-              <Button href="/#contact" variant="ghost" ariaLabel="Zum Kontakt springen">
+              <Button href="/#kontakt" variant="ghost" ariaLabel="Zum Kontakt springen">
                 Kontakt
                 <Icon name="arrow-right" size={16} />
               </Button>
@@ -159,3 +159,4 @@ const quickLinks = [
   <Footer />
 
 </BaseLayout>
+

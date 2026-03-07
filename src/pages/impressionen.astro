@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets";
+
+import SiteFooter from "../components/chrome/SiteFooter.astro";
+import SiteHeader from "../components/chrome/SiteHeader.astro";
+import { impressions } from "../data/impressions";
+import { pageNavigation } from "../data/navigation";
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pcBuilds = impressions.filter((image) => image.category === "pc-builds");
+const tours = impressions.filter((image) => image.category === "touren");
+---
+
+<BaseLayout
+  title={`Impressionen - ${site.domain}`}
+  description="Kuratierte Impressionen aus Build-Details und Touren."
+  canonicalPath="/impressionen/"
+>
+  <SiteHeader links={pageNavigation} />
+
+  <main id="main" tabindex="-1" class="py-14 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5">
+      <header class="max-w-3xl reveal">
+        <p class="meta">Impressionen</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">
+          Kuratierte visuelle Einblicke
+        </h1>
+        <p class="mt-5 text-muted leading-relaxed">
+          Die Galerie zeigt reduzierte Auszuege aus technischen Builds und Touren.
+        </p>
+      </header>
+
+      <section class="mt-12" aria-labelledby="pc-builds-title">
+        <h2 id="pc-builds-title" class="text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight reveal">PC Builds</h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {pcBuilds.map((image, index) => (
+            <figure class="reveal" style={`--reveal-delay: ${Math.min(index * 40, 160)}ms`}>
+              <Image
+                src={image.asset}
+                alt={image.alt}
+                widths={[420, 640, 960]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                class="h-56 w-full rounded-md border border-border/70 object-cover"
+              />
+              <figcaption class="mt-2 text-xs text-muted">{image.title}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-14" aria-labelledby="touren-title">
+        <h2 id="touren-title" class="text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight reveal">Touren</h2>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {tours.map((image, index) => (
+            <figure class="reveal" style={`--reveal-delay: ${Math.min(index * 40, 160)}ms`}>
+              <Image
+                src={image.asset}
+                alt={image.alt}
+                widths={[420, 640, 960]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                class="h-56 w-full rounded-md border border-border/70 object-cover"
+              />
+              <figcaption class="mt-2 text-xs text-muted">{image.title}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+

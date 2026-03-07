@@ -1,0 +1,122 @@
+---
+import type { NavLink } from "../../data/navigation";
+import { site } from "../../data/site";
+import Icon from "../Icon.astro";
+
+type Props = {
+  brand?: string;
+  links: ReadonlyArray<NavLink>;
+};
+
+const { brand = site.domain, links } = Astro.props as Props;
+
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
+
+const homeHref = withBase("/");
+const logoSrc = withBase("/favicons/android-chrome-192x192.png");
+---
+
+<header class="sticky top-0 z-50">
+  <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
+    <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
+      <a href={homeHref} class="flex items-center gap-3 group" aria-label="Zur Startseite">
+        <img
+          src={logoSrc}
+          width="28"
+          height="28"
+          alt=""
+          decoding="async"
+          class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
+        <div class="leading-none">
+          <div class="text-sm font-[var(--w-title)] tracking-tight">{brand}</div>
+          <div class="meta mt-1">Editorial Tech Premium</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1" aria-label="Navigation">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            data-nav-link
+            data-target={link.targetId || ""}
+            class="navlink px-3 py-2 text-sm text-muted hover:text-text transition-colors">
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <button
+        type="button"
+        id="menuBtn"
+        class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
+        aria-label="Menue oeffnen"
+        aria-expanded="false"
+        aria-controls="mobileMenu">
+        <Icon name="menu-2" size={20} strokeWidth={1.4} />
+        <span class="sr-only">Menue</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobileMenu"
+    class="fixed inset-0 z-[60] hidden"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation"
+    tabindex="-1">
+    <div id="menuOverlay" class="absolute inset-0 bg-bg/60 backdrop-blur-2xl"></div>
+    <div class="absolute right-0 top-0 h-full w-full max-w-md border-l border-border/70 bg-bg/80 backdrop-blur-2xl">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div class="meta">Navigation</div>
+          <button
+            type="button"
+            id="menuClose"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
+            aria-label="Menue schliessen">
+            <Icon name="x" size={20} strokeWidth={1.4} />
+            <span class="sr-only">Schliessen</span>
+          </button>
+        </div>
+
+        <div class="mt-6 space-y-1">
+          {links.map((link) => (
+            <a
+              href={link.href}
+              class="block rounded-md px-3 py-3 text-base text-text border border-transparent hover:border-border/70 hover:bg-surface/50 transition"
+              data-mobile-link>
+              <span class="font-[var(--w-title)]">{link.label}</span>
+              <span class="block mt-1 text-sm text-muted">{link.href}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    :global(a.navlink[data-active="true"]) {
+      color: hsl(var(--text) / 1);
+      position: relative;
+    }
+    :global(a.navlink[data-active="true"]::after) {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 6px;
+      height: 1px;
+      background: hsl(var(--accent) / 0.65);
+      transform-origin: left;
+      animation: line-in 700ms ease-out both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      :global(a.navlink[data-active="true"]::after) {
+        animation: none;
+      }
+    }
+  </style>
+</header>

@@ -1,0 +1,35 @@
+---
+import Button from "../Button.astro";
+import { homeContent } from "../../data/home";
+
+type Props = {
+  content: (typeof homeContent)["hero"];
+};
+
+const { content } = Astro.props as Props;
+---
+
+<section id="top" class="pt-14 pb-12 sm:pt-20 sm:pb-16">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="max-w-4xl reveal">
+      <p class="meta">{content.eyebrow}</p>
+      <h1 class="mt-5 text-4xl sm:text-6xl font-[var(--w-title)] tracking-tight leading-[1.04]">
+        {content.headline}
+      </h1>
+      <p class="mt-6 max-w-3xl text-base sm:text-lg text-muted leading-relaxed">
+        {content.text}
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href={content.primaryCta.href} variant="primary">{content.primaryCta.label}</Button>
+        <Button href={content.secondaryCta.href} variant="secondary">{content.secondaryCta.label}</Button>
+      </div>
+
+      <ul class="mt-10 border-t border-border/70">
+        {content.proofItems.map((item) => (
+          <li class="py-3 text-sm text-muted border-b border-border/70">{item}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

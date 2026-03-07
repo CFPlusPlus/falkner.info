@@ -1,0 +1,44 @@
+---
+import SectionShell from "../primitives/SectionShell.astro";
+import Icon from "../Icon.astro";
+import { iconForLabel } from "../../lib/icons";
+import { site } from "../../data/site";
+import type { SocialLink } from "../../data/social";
+import { homeContent } from "../../data/home";
+
+type Props = {
+  content: (typeof homeContent)["contact"];
+  socialLinks: readonly SocialLink[];
+};
+
+const { content, socialLinks } = Astro.props as Props;
+---
+
+<SectionShell id="kontakt" title={content.title} intro={content.text}>
+  <div class="grid gap-10 lg:grid-cols-[1fr_1fr]">
+    <div class="reveal">
+      <p class="meta">Direkt</p>
+      <a class="mt-3 inline-block text-2xl font-[var(--w-title)] tracking-tight u-link" href={`mailto:${site.email}`}>
+        {site.email}
+      </a>
+    </div>
+
+    <div class="reveal" style="--reveal-delay: 80ms">
+      <p class="meta">Profile</p>
+      <ul class="mt-3 space-y-2">
+        {socialLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex items-center gap-2 text-sm text-muted hover:text-text transition-colors">
+              <Icon name={iconForLabel(link.label)} size={16} class="text-muted group-hover:text-text transition-colors" />
+              <span>{link.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</SectionShell>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+
+import SiteFooter from "../../components/chrome/SiteFooter.astro";
+import SiteHeader from "../../components/chrome/SiteHeader.astro";
+import { pageNavigation } from "../../data/navigation";
+import { site } from "../../data/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => {
+  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
+
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  return b.data.year - a.data.year;
+});
+---
+
+<BaseLayout
+  title={`Projekte - ${site.domain}`}
+  description="Ausgewaehlte und laufende digitale Projekte von Christian Falkner."
+  canonicalPath="/projekte/"
+>
+  <SiteHeader links={pageNavigation} />
+
+  <main id="main" tabindex="-1" class="py-14 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5">
+      <header class="max-w-3xl reveal">
+        <p class="meta">Projekte</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">
+          Projekte und Systeme
+        </h1>
+        <p class="mt-5 text-muted leading-relaxed">
+          Diese Seite enthaelt alle Projekte als strukturierte Uebersicht mit Detailseiten.
+        </p>
+      </header>
+
+      <section class="mt-12 border-t border-border/70" aria-label="Projektliste">
+        {projects.map((project, index) => {
+          const internalHref = `/projekte/${project.slug}/`;
+          const href = project.data.externalUrl ?? internalHref;
+          const external = Boolean(project.data.externalUrl);
+
+          return (
+            <article class="py-7 border-b border-border/70 reveal" style={`--reveal-delay: ${Math.min(index * 55, 180)}ms`}>
+              <p class="meta">{project.data.year} / {project.data.status}</p>
+              <h2 class="mt-2 text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight">{project.data.title}</h2>
+              <p class="mt-3 text-muted leading-relaxed max-w-3xl">{project.data.summary}</p>
+              <p class="mt-3 text-sm text-muted">{project.data.tags.join(" / ")}</p>
+              <a
+                href={href}
+                class="mt-4 inline-block u-link"
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
+              >
+                {external ? "Externes Projekt ansehen" : "Zur Projektseite"}
+              </a>
+            </article>
+          );
+        })}
+      </section>
+    </div>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+

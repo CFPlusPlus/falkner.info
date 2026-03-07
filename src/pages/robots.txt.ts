@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-import { site } from "../lib/site";
+import { site } from "../data/site";
 
 const buildSitemapUrl = () =>
   new URL(
@@ -21,3 +21,4 @@ Sitemap: ${buildSitemapUrl()}
     },
   });
 };
+

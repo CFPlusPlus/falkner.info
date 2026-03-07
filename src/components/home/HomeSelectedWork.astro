@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Button from "../Button.astro";
+import SectionShell from "../primitives/SectionShell.astro";
+import { homeContent } from "../../data/home";
+
+type Props = {
+  title: string;
+  intro: string;
+  cta: (typeof homeContent)["selectedWork"]["allProjectsCta"];
+  projects: CollectionEntry<"projects">[];
+};
+
+const { title, intro, cta, projects } = Astro.props as Props;
+---
+
+<SectionShell id="selected-work" title={title} intro={intro}>
+  <div class="border-t border-border/70">
+    {projects.map((project, index) => {
+      const internalHref = `/projekte/${project.slug}/`;
+      const href = project.data.externalUrl ?? internalHref;
+      const external = Boolean(project.data.externalUrl);
+
+      return (
+        <article class="py-6 border-b border-border/70 reveal" style={`--reveal-delay: ${Math.min(index * 70, 180)}ms`}>
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div class="max-w-3xl">
+              <p class="meta">{project.data.year} / {project.data.status}</p>
+              <h3 class="mt-2 text-2xl font-[var(--w-title)] tracking-tight">{project.data.title}</h3>
+              <p class="mt-3 text-muted leading-relaxed">{project.data.summary}</p>
+              <p class="mt-3 text-sm text-muted">{project.data.tags.join(" / ")}</p>
+            </div>
+            <a
+              href={href}
+              class="text-sm text-text underline decoration-border/80 underline-offset-4 hover:decoration-accent/70 transition-colors"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}>
+              {external ? "Zum Projekt" : "Detail ansehen"}
+            </a>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="mt-8">
+    <Button href={cta.href} variant="ghost">{cta.label}</Button>
+  </div>
+</SectionShell>
