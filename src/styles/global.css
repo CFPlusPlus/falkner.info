@@ -1,26 +1,33 @@
-/* Tailwind zuerst importieren (CSS-Regel: @import muss vor anderen At-Rules stehen) */
+/* Tailwind must be first. */
 @import "tailwindcss";
 
-/* Tailwind CSS v4 liest die tailwind.config.* nur dann, wenn sie explizit eingebunden wird.
-   Damit Utilities wie `bg-bg`, `text-muted` etc. (aus unserem Theme) weiterhin funktionieren,
-   referenzieren wir hier die Config.
-*/
+/* Tailwind CSS v4 reads config only when explicitly referenced. */
 @config "../../tailwind.config.mjs";
 
 :root {
-  /* Standard: Dark Mode */
   color-scheme: dark;
 
-  /* Neutrale Basis */
-  --bg: 255 19% 5%;
-  --surface: 252 21% 8%;
-  --border: 255 18% 18%;
-  --text: 0 0% 98%;
-  --muted: 250 12% 72%;
+  /* Core palette */
+  --color-bg: 11 13 16;
+  --color-surface: 17 22 27;
+  --color-surface-elevated: 22 28 34;
+  --color-text: 242 238 231;
+  --color-muted: 170 164 154;
+  --color-border: 37 45 53;
+  --color-accent: 198 160 98;
+  --color-accent-soft: 224 192 138;
+  --color-cool: 107 124 140;
 
-  /* Akzent (warm, leicht goldig) */
-  --accent: 28 100% 66%;
-  --accent2: 28 100% 76%;
+  /* Legacy HSL tokens kept for compatibility in existing templates */
+  --bg: 216 19% 5%;
+  --surface: 210 22% 9%;
+  --surface-elevated: 210 22% 11%;
+  --text: 34 29% 92%;
+  --muted: 38 9% 64%;
+  --border: 210 18% 18%;
+  --accent: 36 47% 58%;
+  --accent2: 35 58% 71%;
+  --cool: 211 14% 48%;
 
   /* Typography */
   --font-sans:
@@ -30,89 +37,88 @@
     "Space Grotesk Variable", "Space Grotesk", "Geist Sans", ui-sans-serif,
     system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans", sans-serif;
 
-  /* Design-Tokens (zentral steuerbar) */
-  --w-body: 300;
-  --w-title: 420;
-  --w-strong: 500;
+  --w-body: 350;
+  --w-title: 510;
+  --w-display: 470;
+  --w-strong: 440;
 
-  /* Spacing: eher luftiger, Layout bleibt gleich */
-  --space-section-y: 4.25rem; /* ~68px */
-  --space-section-y-sm: 5.25rem; /* ~84px */
-  --space-section-gap: 2.75rem; /* ~44px */
+  /* Layout rhythm */
+  --space-hero-top: clamp(6rem, 9.2vw, 9.4rem);
+  --space-hero-bottom: clamp(5.2rem, 7.8vw, 7.6rem);
+  --space-section-y: clamp(5.2rem, 7.8vw, 7.8rem);
+  --space-section-gap: clamp(2.4rem, 4.5vw, 3.5rem);
 
-  /* Radius (subtil, aber zentral steuerbar) */
-  --r-card: 0.5rem; /* entspricht rounded-lg */
-  --r-control: 0.375rem; /* entspricht rounded-md */
+  /* Radius and lines */
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+  --r-control: var(--radius-sm);
+  --r-card: var(--radius-lg);
+  --line-soft: rgb(var(--color-border) / 0.58);
+  --line-strong: rgb(var(--color-border) / 0.82);
 
-  /* Link-Style (Gelb mit leicht mehr Orange) */
-  --link: 42 100% 62%;
-  --link-hover: 38 100% 70%;
-  --link-underline-alpha: 0.55;
-  --link-underline-alpha-hover: 0.85;
-  --u-thickness: 0.08em;
+  /* Links and focus */
+  --link: 35 58% 71%;
+  --link-rgb: var(--color-accent-soft);
+  --link-hover-rgb: 232 204 155;
+  --u-thickness: 0.06em;
   --u-offset: 0.22em;
-
-  /* Focus-Ring (einheitlich, subtil) */
-  --focus-ring: var(--link);
-  --focus-alpha: 0.45;
+  --focus-ring: var(--color-accent-soft);
+  --focus-alpha: 0.42;
   --focus-width: 2px;
   --focus-offset: 3px;
-  --focus-offset-bg: var(--bg);
-  --focus-offset-alpha: 0.9;
-
-  /* Hintergrund-Blobs: responsiv skalieren, damit sie auch auf großen Screens sichtbar bleiben
-     ohne "knallig" zu wirken. */
-  --blob-a: clamp(420px, 66vmin, 1400px);
-  --blob-b: clamp(520px, 76vmin, 1600px);
-  --blob-c: clamp(420px, 64vmin, 1400px);
-
-  /* Blur skaliert ebenfalls mit (auf großen Screens sonst zu "hart") */
-  --blob-blur: clamp(60px, 7vmin, 220px);
-
-  /* Vignette: hält Kontrast/Lesbarkeit stabil */
-  --blob-vignette: clamp(120px, 12vmin, 260px);
 }
 
-/* Sanftes Scrollen für Ankerlinks (respektiert Reduced Motion) */
 html {
   scroll-behavior: smooth;
 }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 }
 
-/* Besseres Scroll-Offset unter der sticky Navbar */
 [id] {
-  scroll-margin-top: 96px;
+  scroll-margin-top: 92px;
 }
 
 body {
   @apply min-h-screen bg-bg text-text antialiased;
+  margin: 0;
   font-family: var(--font-sans);
-  /* 300 wirkt deutlich cleaner als 400 (Inter-Standard) */
   font-weight: var(--w-body);
-  text-rendering: geometricPrecision;
+  line-height: 1.62;
+  text-rendering: optimizeLegibility;
+  background-image:
+    radial-gradient(
+      1200px 620px at 82% -14%,
+      rgb(var(--color-accent) / 0.1),
+      transparent 66%
+    ),
+    radial-gradient(
+      940px 700px at -20% 72%,
+      rgb(var(--color-cool) / 0.05),
+      transparent 74%
+    ),
+    linear-gradient(180deg, rgb(var(--color-bg)) 0%, rgb(8 10 13) 100%);
 }
 
-/* Strong-Text etwas dezenter, damit die Typo clean bleibt */
 strong {
   font-weight: var(--w-strong);
 }
 
-/* Headlines etwas "editorialer" */
 h1,
 h2,
 h3,
 h4,
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.024em;
 }
 
 ::selection {
-  background: hsl(var(--accent) / 0.25);
+  background: rgb(var(--color-accent) / 0.28);
 }
 
 a {
@@ -125,10 +131,10 @@ a {
   left: 0.75rem;
   z-index: 200;
   padding: 0.625rem 0.875rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--r-control);
-  background: hsl(var(--surface));
-  color: hsl(var(--text));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-text));
   text-decoration: none;
   font-weight: var(--w-strong);
   line-height: 1;
@@ -148,200 +154,129 @@ a {
 :focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 var(--focus-offset)
-      hsl(var(--focus-offset-bg) / var(--focus-offset-alpha)),
+    0 0 0 var(--focus-offset) rgb(var(--color-bg) / 0.92),
     0 0 0 calc(var(--focus-offset) + var(--focus-width))
-      hsl(var(--focus-ring) / var(--focus-alpha));
+      rgb(var(--focus-ring) / var(--focus-alpha));
 }
 
-@layer utilities {
-  /* Standard-Link: Gelb/Orange, sauberer Underline-Rhythmus */
-  .u-link {
-    color: hsl(var(--link));
-    text-decoration-line: underline;
-    text-decoration-thickness: var(--u-thickness);
-    text-underline-offset: var(--u-offset);
-    text-decoration-color: hsl(var(--link) / var(--link-underline-alpha));
-    transition:
-      color 150ms ease,
-      text-decoration-color 150ms ease;
-  }
-  .u-link:hover,
-  .u-link:focus-visible {
-    color: hsl(var(--link-hover));
-    text-decoration-color: hsl(
-      var(--link-hover) / var(--link-underline-alpha-hover)
-    );
-  }
-
-  /* Footer/Secondary-Link: bewusst neutral, ohne Gelb */
-  .u-link-muted {
-    color: hsl(var(--muted));
-    text-decoration-line: underline;
-    text-decoration-thickness: var(--u-thickness);
-    text-underline-offset: var(--u-offset);
-    text-decoration-color: hsl(var(--border) / 0.75);
-    transition:
-      color 150ms ease,
-      text-decoration-color 150ms ease;
-  }
-  .u-link-muted:hover,
-  .u-link-muted:focus-visible {
-    color: hsl(var(--text));
-    text-decoration-color: hsl(var(--border) / 0.9);
-  }
-}
-
-/* Dezentes Grain-Overlay */
-.grain {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
-}
-
-.bg-artboard {
+.site-backdrop {
   position: fixed;
   inset: 0;
   z-index: -10;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.bg-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(var(--blob-blur));
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-}
-
-/* Positionen bewusst "out of frame", damit es nur ein sanftes Farblicht ist */
-.bg-blob-a {
-  width: var(--blob-a);
-  height: var(--blob-a);
-  top: calc(var(--blob-a) * -0.28);
-  left: calc(var(--blob-a) * -0.34);
-  background: hsl(var(--accent) / 0.16);
-}
-
-.bg-blob-b {
-  width: var(--blob-b);
-  height: var(--blob-b);
-  top: 12vmin;
-  right: calc(var(--blob-b) * -0.36);
-  background: hsl(var(--accent2) / 0.14);
-}
-
-.bg-blob-c {
-  width: var(--blob-c);
-  height: var(--blob-c);
-  bottom: calc(var(--blob-c) * -0.34);
-  left: 10vmin;
-  background: hsl(var(--accent) / 0.13);
-}
-
-.bg-overlay {
-  position: absolute;
-  inset: 0;
   background: linear-gradient(
-    to bottom,
-    hsl(var(--bg) / 0.28),
-    hsl(var(--bg)),
-    hsl(var(--bg))
+    180deg,
+    rgb(var(--color-bg) / 0.08) 0%,
+    rgb(var(--color-bg) / 0.32) 48%,
+    rgb(var(--color-bg) / 0.68) 100%
   );
 }
 
-.bg-vignette {
+.site-backdrop::after {
+  content: "";
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 var(--blob-vignette) rgba(0, 0, 0, 0.55);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(var(--color-border) / 0.16) 1px,
+    transparent 1px
+  );
+  background-size: 100% 220px;
+  opacity: 0.22;
 }
 
-/* Kleine Helfer-Klasse für Meta-Text */
+@layer utilities {
+  .u-link {
+    color: rgb(var(--link-rgb));
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--u-thickness);
+    text-underline-offset: var(--u-offset);
+    text-decoration-color: rgb(var(--link-rgb) / 0.58);
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+
+  .u-link:hover,
+  .u-link:focus-visible {
+    color: rgb(var(--link-hover-rgb));
+    text-decoration-color: rgb(var(--link-hover-rgb) / 0.88);
+  }
+
+  .u-link-muted {
+    color: rgb(var(--color-muted));
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--u-thickness);
+    text-underline-offset: var(--u-offset);
+    text-decoration-color: rgb(var(--color-border) / 0.74);
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+
+  .u-link-muted:hover,
+  .u-link-muted:focus-visible {
+    color: rgb(var(--color-text));
+    text-decoration-color: rgb(var(--color-border) / 0.92);
+  }
+}
+
 .meta {
-  @apply text-xs tracking-[0.14em] uppercase text-muted;
+  @apply text-[12px] tracking-[0.12em] uppercase text-muted;
 }
 
-/* --- Subtile Bewegung, die trotzdem "editorial" wirkt --- */
-@media (prefers-reduced-motion: no-preference) {
-  .blob-float-a {
-    animation: blob-float 14s ease-in-out infinite;
-  }
-  .blob-float-b {
-    animation: blob-float 18s ease-in-out infinite reverse;
-  }
-  .blob-float-c {
-    animation: blob-float 22s ease-in-out infinite;
-  }
-  .mc-dot-online {
-    animation: mc-dot-pulse 2.6s ease-out infinite;
-  }
-}
-@keyframes blob-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(10px, -14px, 0) scale(1.03);
-  }
-}
-@keyframes mc-dot-pulse {
-  0% {
-    box-shadow: 0 0 0 0 hsl(142 70% 45% / 0.42);
-  }
-  78% {
-    box-shadow: 0 0 0 0.46rem hsl(142 70% 45% / 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0.46rem hsl(142 70% 45% / 0);
-  }
-}
-
-/* --- Scroll-Reveal (JS-optimiert, aber ohne JS trotzdem ok) --- */
 html[data-js="true"] .reveal {
   opacity: 0;
-  transform: translate3d(0, 10px, 0);
-  filter: blur(2px);
+  transform: translate3d(0, 8px, 0);
   transition:
-    opacity 650ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 
 html[data-js="true"] .reveal.is-in {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html[data-js="true"] .reveal {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
   }
 }
 
-/* --- Utilities --- */
+@media (prefers-reduced-motion: no-preference) {
+  .mc-dot-online {
+    animation: mc-dot-pulse 2.8s ease-out infinite;
+  }
+}
 
-/* Scrollbars ausblenden, aber Scrollen beibehalten (z. B. für Carousels) */
+@keyframes mc-dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.38);
+  }
+
+  72% {
+    box-shadow: 0 0 0 0.42rem rgb(52 211 153 / 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0.42rem rgb(52 211 153 / 0);
+  }
+}
+
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Hintergrund-Scroll sperren, wenn ein Modal offen ist */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 body[data-scroll-lock="true"] {
   overflow: hidden;
 }

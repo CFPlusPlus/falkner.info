@@ -11,16 +11,27 @@ const { content } = Astro.props as Props;
 ---
 
 <SectionShell id="profil" title="Profil">
-  <div class="max-w-3xl space-y-5">
-    <h3 class="text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight reveal">{content.title}</h3>
-    {content.paragraphs.map((paragraph, index) => (
-      <p class="text-base text-muted leading-relaxed reveal" style={`--reveal-delay: ${70 + index * 70}ms`}>
-        {paragraph}
-      </p>
-    ))}
+  <div class="max-w-3xl space-y-6">
+    <h3
+      class="text-[clamp(1.95rem,2.9vw,2.65rem)] font-[var(--w-title)] tracking-[-0.03em] leading-[1.08] reveal"
+    >
+      {content.title}
+    </h3>
+    {
+      content.paragraphs.map((paragraph, index) => (
+        <p
+          class="text-[clamp(1.02rem,1.15vw,1.1rem)] text-muted leading-[1.78] reveal"
+          style={`--reveal-delay: ${70 + index * 70}ms`}
+        >
+          {paragraph}
+        </p>
+      ))
+    }
   </div>
 
   <div class="mt-8 reveal" style="--reveal-delay: 180ms">
-    <Button href={content.cta.href} variant="secondary">{content.cta.label}</Button>
+    <Button href={content.cta.href} variant="secondary"
+      >{content.cta.label}</Button
+    >
   </div>
 </SectionShell>

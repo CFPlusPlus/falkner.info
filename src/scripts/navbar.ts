@@ -1,12 +1,9 @@
-// Navbar-Interaktionen (Mobile-Menü + Active-State)
+// Navbar interactions (mobile menu + active section state)
 //
-// Ziel:
-// - Kein Inline-JS in Komponenten
-// - Initialisierung zentral (client.ts)
-// - Robust bei Astro View Transitions (astro:page-load)
-//
-// Cleanup:
-// - Wir nutzen AbortController, damit Event-Listener beim Re-Init sauber entfernt werden.
+// Goals:
+// - no inline JS in components
+// - centralized initialization in client.ts
+// - robust re-init for Astro view transitions
 
 type ScrollLockApi = {
   lock: () => void;
@@ -21,7 +18,6 @@ function getScrollLock(): ScrollLockApi | null {
 let controller: AbortController | null = null;
 
 export function initNavbar(): void {
-  // Alte Listener entfernen (z.B. nach astro:page-load)
   controller?.abort();
   controller = new AbortController();
   const { signal } = controller;
@@ -45,13 +41,12 @@ export function initNavbar(): void {
   let isOpen = false;
   let lastFocused: HTMLElement | null = null;
 
-  const getFocusables = () => {
-    return Array.from(
+  const getFocusables = () =>
+    Array.from(
       menu.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
       ),
     );
-  };
 
   const trapTab = (e: KeyboardEvent) => {
     if (!isOpen || e.key !== "Tab") return;
@@ -73,13 +68,11 @@ export function initNavbar(): void {
 
   const onKey = (e: KeyboardEvent) => {
     if (!isOpen) return;
-
     if (e.key === "Escape") {
       e.preventDefault();
       close();
       return;
     }
-
     trapTab(e);
   };
 
@@ -95,10 +88,8 @@ export function initNavbar(): void {
     btn.setAttribute("aria-expanded", "true");
     btn.setAttribute("aria-label", "Menü schließen");
 
-    // Scroll-Lock (refcount, damit Lightbox & Menü nicht kollidieren)
     lockScroll();
 
-    // Fokus sinnvoll setzen
     const focusables = getFocusables();
     (
       focusables.find((el) => el.id === "menuClose") ??
@@ -120,8 +111,6 @@ export function initNavbar(): void {
 
     unlockScroll();
     window.removeEventListener("keydown", onKey);
-
-    // Fokus wiederherstellen
     lastFocused?.focus();
   };
 
@@ -129,12 +118,10 @@ export function initNavbar(): void {
   closeBtn?.addEventListener("click", close, { signal });
   overlay?.addEventListener("click", close, { signal });
 
-  // Nach Klick auf einen Link schließen
   menu
     .querySelectorAll<HTMLElement>("[data-mobile-link]")
     .forEach((a) => a.addEventListener("click", close, { signal }));
 
-  // --- Aktiven Abschnitt markieren (IntersectionObserver) ---
   const links = Array.from(
     document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
   );
@@ -157,7 +144,6 @@ export function initNavbar(): void {
 
   const obs = new IntersectionObserver(
     (entries) => {
-      // Die sichtbarste Sektion gewinnt
       const visible = entries
         .filter((e) => e.isIntersecting)
         .sort(

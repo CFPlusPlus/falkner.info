@@ -47,7 +47,8 @@ export const projects: Project[] = [
   },
   {
     title: "ANTI-CORONA-KARTELL",
-    summary: "Community-orientiertes Webprojekt mit stabiler, wartbarer Struktur.",
+    summary:
+      "Community-orientiertes Webprojekt mit stabiler, wartbarer Struktur.",
     tags: ["Community", "Website"],
     href: "https://www.anti-corona-kartell.de/",
     meta: "Community",
@@ -97,4 +98,3 @@ export const interests: InterestCard[] = [
     chips: ["Typografie", "Komposition", "Reduktion"],
   },
 ];
-

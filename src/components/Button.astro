@@ -9,8 +9,15 @@ type Props = {
   id?: string;
 };
 
-const { href, target, rel, variant = "primary", class: className = "", ariaLabel, ...rest } =
-  Astro.props as Props;
+const {
+  href,
+  target,
+  rel,
+  variant = "primary",
+  class: className = "",
+  ariaLabel,
+  ...rest
+} = Astro.props as Props;
 
 // Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
 const baseUrl = import.meta.env.BASE_URL;
@@ -44,25 +51,35 @@ const resolvedRel = (() => {
 })();
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[var(--r-control)] px-4 py-2 text-sm font-medium border transition-[color,background-color,border-color,transform] duration-200";
+  "inline-flex items-center justify-center gap-2 rounded-sm border px-[1.2rem] py-[0.72rem] text-[0.88rem] font-[440] tracking-[0.015em] transition-[color,background-color,border-color,box-shadow,transform] duration-200";
 
 const variants = {
   primary:
-    "bg-accent/15 border-accent/40 text-text hover:bg-accent/20 hover:border-accent/55 active:translate-y-[0.5px]",
+    "border-accent/55 bg-accent/10 text-text shadow-[inset_0_1px_0_rgb(255_255_255_/_0.05)] hover:border-accent/72 hover:bg-accent/15 hover:shadow-[inset_0_1px_0_rgb(255_255_255_/_0.08)] active:translate-y-[0.5px]",
   secondary:
-    "bg-surface/60 border-border/70 text-text hover:bg-surface/80 hover:border-border active:translate-y-[0.5px]",
+    "border-border/80 bg-surface/42 text-text hover:border-border hover:bg-surface-elevated/68 active:translate-y-[0.5px]",
   ghost:
-    "bg-transparent border-transparent text-muted hover:text-text hover:bg-surface/40 active:translate-y-[0.5px]"
+    "border-transparent bg-transparent px-0 py-0 text-muted underline decoration-border/80 underline-offset-4 hover:text-text hover:decoration-accent/60",
 } as const;
 
 const cls = `${base} ${variants[variant]} ${className}`;
 ---
-{href ? (
-  <a href={resolvedHref} target={target} rel={resolvedRel} class={cls} aria-label={ariaLabel} {...rest}>
-    <slot />
-  </a>
-) : (
-  <button type="button" class={cls} aria-label={ariaLabel} {...rest}>
-    <slot />
-  </button>
-)}
+
+{
+  href ? (
+    <a
+      href={resolvedHref}
+      target={target}
+      rel={resolvedRel}
+      class={cls}
+      aria-label={ariaLabel}
+      {...rest}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class={cls} aria-label={ariaLabel} {...rest}>
+      <slot />
+    </button>
+  )
+}

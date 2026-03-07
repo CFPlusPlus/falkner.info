@@ -6,7 +6,7 @@ export const site = {
   repositoryUrl: "https://github.com/CFPlusPlus/falkner.info",
   title: "Christian Falkner - falkner.info",
   description:
-    "Persoenliche Website von Christian Falkner fuer digitale Projekte, Systeme und klare Gestaltung.",
+    "Persönliche Website von Christian Falkner für digitale Projekte, Systeme und klare Gestaltung.",
   author: "Christian Falkner",
   email: "webmaster@falkner.info",
 } as const;

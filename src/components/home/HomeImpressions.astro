@@ -11,23 +11,74 @@ type Props = {
 };
 
 const { content, images } = Astro.props as Props;
+const [leadImage, secondaryImage, tertiaryImage, quaternaryImage] = images;
 ---
 
 <SectionShell id="impressionen" title={content.title} intro={content.text}>
-  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-    {images.map((image, index) => (
-      <figure class="reveal" style={`--reveal-delay: ${Math.min(index * 60, 180)}ms`}>
+  {leadImage && secondaryImage && tertiaryImage ? (
+    <div class="grid gap-4 lg:grid-cols-12 lg:grid-rows-2">
+      <figure class="reveal lg:col-span-7 lg:row-span-2" style="--reveal-delay: 20ms">
         <Image
-          src={image.asset}
-          alt={image.alt}
-          widths={[320, 480, 640]}
-          sizes="(min-width: 1024px) 25vw, 50vw"
-          class="h-44 w-full rounded-md border border-border/70 object-cover sm:h-52"
+          src={leadImage.asset}
+          alt={leadImage.alt}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1024px) 56vw, 100vw"
+          class="h-[18rem] w-full border border-border/75 object-cover sm:h-[23rem] lg:h-full lg:min-h-[31rem]"
         />
-        <figcaption class="mt-2 text-xs text-muted">{image.title}</figcaption>
+        <figcaption class="mt-3 text-xs text-muted">{leadImage.title}</figcaption>
       </figure>
-    ))}
-  </div>
+
+      <figure class="reveal lg:col-span-5" style="--reveal-delay: 80ms">
+        <Image
+          src={secondaryImage.asset}
+          alt={secondaryImage.alt}
+          widths={[420, 640, 960]}
+          sizes="(min-width: 1024px) 34vw, 100vw"
+          class="h-52 w-full border border-border/75 object-cover sm:h-60 lg:h-[15rem]"
+        />
+        <figcaption class="mt-3 text-xs text-muted">{secondaryImage.title}</figcaption>
+      </figure>
+
+      <figure class="reveal lg:col-span-5" style="--reveal-delay: 130ms">
+        <Image
+          src={tertiaryImage.asset}
+          alt={tertiaryImage.alt}
+          widths={[420, 640, 960]}
+          sizes="(min-width: 1024px) 34vw, 100vw"
+          class="h-52 w-full border border-border/75 object-cover sm:h-60 lg:h-[15rem]"
+        />
+        <figcaption class="mt-3 text-xs text-muted">{tertiaryImage.title}</figcaption>
+      </figure>
+    </div>
+  ) : (
+    <div class="grid gap-4 sm:grid-cols-2">
+      {images.map((image, index) => (
+        <figure class="reveal" style={`--reveal-delay: ${Math.min(index * 60, 180)}ms`}>
+          <Image
+            src={image.asset}
+            alt={image.alt}
+            widths={[420, 640, 960]}
+            sizes="(min-width: 640px) 50vw, 100vw"
+            class="h-52 w-full border border-border/75 object-cover"
+          />
+          <figcaption class="mt-3 text-xs text-muted">{image.title}</figcaption>
+        </figure>
+      ))}
+    </div>
+  )}
+
+  {quaternaryImage ? (
+    <figure class="mt-5 reveal lg:ml-auto lg:max-w-[38%]" style="--reveal-delay: 180ms">
+      <Image
+        src={quaternaryImage.asset}
+        alt={quaternaryImage.alt}
+        widths={[420, 640, 960]}
+        sizes="(min-width: 1024px) 30vw, 100vw"
+        class="h-40 w-full border border-border/70 object-cover sm:h-44"
+      />
+      <figcaption class="mt-2 text-xs text-muted">{quaternaryImage.title}</figcaption>
+    </figure>
+  ) : null}
 
   <div class="mt-8 reveal" style="--reveal-delay: 180ms">
     <Button href={content.cta.href} variant="ghost">{content.cta.label}</Button>

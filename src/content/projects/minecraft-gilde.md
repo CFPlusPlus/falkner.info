@@ -1,6 +1,6 @@
 ---
 title: Minecraft Gilde
-summary: Aufbau und Weiterentwicklung eines deutschsprachigen Vanilla-SMP-Projekts mit Fokus auf Stabilitaet, Community und klare Kommunikation.
+summary: Aufbau und Weiterentwicklung eines deutschsprachigen Vanilla-SMP-Projekts mit Fokus auf Stabilität, Community und klare Kommunikation.
 year: 2026
 status: active
 featured: true
@@ -12,8 +12,8 @@ order: 1
 externalUrl: https://minecraft-gilde.de
 ---
 
-Die Minecraft Gilde ist ein laufendes Projekt mit klarer Prioritaet auf Verfuegbarkeit,
-Performance und einer ruhigen Nutzerfuehrung.
+Die Minecraft Gilde ist ein laufendes Projekt mit klarer Priorität auf Verfügbarkeit,
+Performance und einer ruhigen Nutzerführung.
 
 Ich betreue sowohl technische als auch inhaltliche Teile:
 
@@ -22,4 +22,4 @@ Ich betreue sowohl technische als auch inhaltliche Teile:
 - kontinuierliche Optimierungen statt einmaliger Relaunches
 
 Das Projekt dient zugleich als langfristiger Raum, um Systeme sauber zu planen und
-ueber laengere Zeit wartbar zu halten.
+über längere Zeit wartbar zu halten.

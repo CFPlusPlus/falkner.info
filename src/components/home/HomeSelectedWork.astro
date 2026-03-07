@@ -12,38 +12,128 @@ type Props = {
 };
 
 const { title, intro, cta, projects } = Astro.props as Props;
+const [featuredProject, ...supportingProjects] = projects;
+
+const getProjectLink = (project: CollectionEntry<"projects">) => {
+  const internalHref = `/projekte/${project.slug}/`;
+  const href = project.data.externalUrl ?? internalHref;
+  const external = Boolean(project.data.externalUrl);
+
+  return { href, external };
+};
 ---
 
-<SectionShell id="selected-work" title={title} intro={intro}>
-  <div class="border-t border-border/70">
-    {projects.map((project, index) => {
-      const internalHref = `/projekte/${project.slug}/`;
-      const href = project.data.externalUrl ?? internalHref;
-      const external = Boolean(project.data.externalUrl);
+<SectionShell
+  id="selected-work"
+  title={title}
+  intro={intro}
+  class="pt-[clamp(4.6rem,6.8vw,6.6rem)] pb-[clamp(5.3rem,7.8vw,7.6rem)]"
+>
+  {
+    featuredProject
+      ? (() => {
+          const { href, external } = getProjectLink(featuredProject);
 
-      return (
-        <article class="py-6 border-b border-border/70 reveal" style={`--reveal-delay: ${Math.min(index * 70, 180)}ms`}>
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div class="max-w-3xl">
-              <p class="meta">{project.data.year} / {project.data.status}</p>
-              <h3 class="mt-2 text-2xl font-[var(--w-title)] tracking-tight">{project.data.title}</h3>
-              <p class="mt-3 text-muted leading-relaxed">{project.data.summary}</p>
-              <p class="mt-3 text-sm text-muted">{project.data.tags.join(" / ")}</p>
-            </div>
-            <a
-              href={href}
-              class="text-sm text-text underline decoration-border/80 underline-offset-4 hover:decoration-accent/70 transition-colors"
-              target={external ? "_blank" : undefined}
-              rel={external ? "noopener noreferrer" : undefined}>
-              {external ? "Zum Projekt" : "Detail ansehen"}
-            </a>
-          </div>
-        </article>
-      );
-    })}
-  </div>
+          return (
+            <article
+              class="reveal border-y border-border/68 py-9 sm:py-11 lg:grid lg:grid-cols-[minmax(0,1.32fr)_minmax(16.5rem,0.78fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1.4fr)_minmax(17.5rem,0.74fr)] xl:gap-12"
+              style="--reveal-delay: 20ms"
+            >
+              <div class="max-w-[46rem]">
+                <p class="meta">Featured Project</p>
+                <p class="mt-3 text-[0.88rem] tracking-[0.03em] text-muted">
+                  {featuredProject.data.year} / {featuredProject.data.status}
+                </p>
+                <h3 class="mt-5 max-w-[11ch] text-[clamp(2.35rem,3.9vw,3.8rem)] font-[var(--w-title)] tracking-[-0.032em] leading-[0.99] xl:max-w-[12ch]">
+                  {featuredProject.data.title}
+                </h3>
+                <p class="mt-5 max-w-[36rem] text-[clamp(1.04rem,1.36vw,1.18rem)] leading-[1.72] text-muted xl:mt-6 xl:max-w-[38rem]">
+                  {featuredProject.data.summary}
+                </p>
+                <p class="mt-5 text-[0.9rem] tracking-[0.03em] text-muted/92 xl:mt-6">
+                  {featuredProject.data.tags.join(" / ")}
+                </p>
+              </div>
 
-  <div class="mt-8">
+              <div class="mt-7 flex flex-col justify-between gap-7 lg:mt-1 lg:min-h-[15.5rem] lg:border-l lg:border-border/55 lg:gap-10 lg:pl-7 xl:min-h-[16.5rem] xl:pl-8">
+                <p class="max-w-[17rem] text-[0.95rem] leading-[1.7] text-muted">
+                  Kuratierte Arbeit mit Fokus auf Struktur, technische Umsetzung
+                  und eine belastbare Gesamtform.
+                </p>
+
+                <a
+                  href={href}
+                  class="group inline-flex items-center gap-3 text-[0.95rem] font-[430] tracking-[0.02em] text-text transition-colors hover:text-[rgb(var(--color-accent-soft))]"
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                >
+                  <span
+                    aria-hidden="true"
+                    class="h-px w-10 bg-border/78 transition-colors duration-200 group-hover:bg-accent/58"
+                  />
+                  <span>{external ? "Zum Projekt" : "Detail ansehen"}</span>
+                  <span
+                    aria-hidden="true"
+                    class="transition-transform duration-200 group-hover:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
+                </a>
+              </div>
+            </article>
+          );
+        })()
+      : null
+  }
+
+  {
+    supportingProjects.length ? (
+      <div class="mt-9 grid gap-7 md:grid-cols-2 md:gap-8 lg:gap-10">
+        {supportingProjects.map((project, index) => {
+          const { href, external } = getProjectLink(project);
+
+          return (
+            <article
+              class={`reveal border-t border-border/60 pt-7 sm:pt-8 ${supportingProjects.length === 1 ? "md:max-w-[38rem]" : ""}`}
+              style={`--reveal-delay: ${Math.min(90 + index * 70, 220)}ms`}
+            >
+              <p class="meta">
+                {project.data.year} / {project.data.status}
+              </p>
+              <h3 class="mt-3 text-[clamp(1.9rem,2.4vw,2.4rem)] font-[var(--w-title)] tracking-[-0.028em] leading-[1.05]">
+                {project.data.title}
+              </h3>
+              <p class="mt-4 max-w-[32rem] text-[1.02rem] leading-relaxed text-muted">
+                {project.data.summary}
+              </p>
+
+              <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
+                <p class="text-[0.88rem] tracking-[0.03em] text-muted/88">
+                  {project.data.tags.join(" / ")}
+                </p>
+                <a
+                  href={href}
+                  class="group inline-flex items-center gap-2 text-[0.9rem] text-muted transition-colors hover:text-text"
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                >
+                  <span>{external ? "Zum Projekt" : "Detail ansehen"}</span>
+                  <span
+                    aria-hidden="true"
+                    class="transition-transform duration-200 group-hover:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
+                </a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    ) : null
+  }
+
+  <div class="mt-10 reveal" style="--reveal-delay: 160ms">
     <Button href={cta.href} variant="ghost">{cta.label}</Button>
   </div>
 </SectionShell>

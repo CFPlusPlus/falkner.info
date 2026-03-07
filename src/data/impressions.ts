@@ -34,14 +34,14 @@ export const impressions: readonly ImpressionImage[] = [
     id: "pc-2023-loop",
     category: "pc-builds",
     title: "Loop und Details",
-    alt: "Custom-Wasserkuehlung mit sichtbarem Loop",
+    alt: "Custom-Wasserkühlung mit sichtbarem Loop",
     asset: pc2,
   },
   {
     id: "pc-2022-upgrade",
     category: "pc-builds",
     title: "Umbauphase 2022",
-    alt: "PC Build waehrend des Umbaus auf Wasserkuehlung",
+    alt: "PC Build während des Umbaus auf Wasserkühlung",
     asset: pc3,
   },
   {
@@ -62,7 +62,7 @@ export const impressions: readonly ImpressionImage[] = [
     id: "tour-1",
     category: "touren",
     title: "Tagestour I",
-    alt: "Landschaftsaufnahme waehrend einer Tagestour",
+    alt: "Landschaftsaufnahme während einer Tagestour",
     asset: tour1,
   },
   {

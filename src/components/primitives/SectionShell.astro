@@ -9,15 +9,28 @@ type Props = {
 const { id, title, intro, class: className = "" } = Astro.props as Props;
 ---
 
-<section id={id} aria-labelledby={`${id}-title`} class={`py-14 sm:py-20 ${className}`}>
-  <div class="mx-auto max-w-6xl px-5">
-    <div class="max-w-3xl reveal">
-      <h2 id={`${id}-title`} class="text-3xl sm:text-4xl font-[var(--w-title)] tracking-tight">
+<section
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class={`section-shell py-[var(--space-section-y)] ${className}`}
+>
+  <div class="mx-auto max-w-[80rem] px-5 sm:px-6 min-[1440px]:max-w-[84rem]">
+    <div class="max-w-[48rem] reveal">
+      <h2
+        id={`${id}-title`}
+        class="text-[clamp(2.15rem,3.1vw,3rem)] font-[var(--w-title)] tracking-[-0.028em] leading-[1.04]"
+      >
         {title}
       </h2>
-      {intro ? <p class="mt-4 text-base text-muted leading-relaxed">{intro}</p> : null}
+      {
+        intro ? (
+          <p class="mt-5 max-w-[41rem] text-[clamp(1.02rem,1.26vw,1.1rem)] text-muted leading-[1.76] sm:mt-6 xl:max-w-[42rem]">
+            {intro}
+          </p>
+        ) : null
+      }
     </div>
-    <div class="mt-10">
+    <div class="mt-[var(--space-section-gap)]">
       <slot />
     </div>
   </div>

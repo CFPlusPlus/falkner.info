@@ -161,8 +161,8 @@ const jsonLdGraph = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Theme-Color (Dark zuerst) -->
-    <meta name="theme-color" content="#0b0b12" />
+    <!-- Theme-Color -->
+    <meta name="theme-color" content="#0B0D10" />
 
     <script is:inline>
       // Aktiviert JS-optimierte Styles, ohne das No-JS Rendering zu zerstören
@@ -213,28 +213,16 @@ const jsonLdGraph = {
   <body>
     <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
-    <!-- Scroll-Fortschritt (immer über allem, oberhalb der Navbar) -->
+    <!-- Subtiler Scroll-Fortschritt -->
     <div id="scrollProgressWrap" class="fixed inset-x-0 top-0 z-[100] pointer-events-none">
-      <div class="h-[1px] w-full bg-border/50">
+      <div class="h-px w-full bg-border/45">
         <div
           id="scrollProgressFill"
-          class="h-full w-0 bg-gradient-to-r from-accent/95 via-accent2/95 to-accent/95 shadow-[0_0_18px_hsl(var(--accent)/0.35)]"></div>
+          class="h-full w-0 bg-accent/85"></div>
       </div>
     </div>
 
-    <!-- Hintergrund-Blobs (Artboard/Editorial-Feeling) -->
-    <!-- Hinweis: Größen/Blur sind bewusst über CSS-Variablen responsiv skaliert (siehe global.css) -->
-    <div aria-hidden="true" class="bg-artboard">
-      <div class="bg-blob bg-blob-a blob-float-a"></div>
-      <div class="bg-blob bg-blob-b blob-float-b"></div>
-      <div class="bg-blob bg-blob-c blob-float-c"></div>
-
-      <!-- sanfte Abdunklung + Lesbarkeit -->
-      <div class="bg-overlay"></div>
-      <div class="bg-vignette"></div>
-    </div>
-
-    <div class="grain" aria-hidden="true"></div>
+    <div class="site-backdrop" aria-hidden="true"></div>
 
     <slot />
 

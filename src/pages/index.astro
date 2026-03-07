@@ -11,7 +11,6 @@ import HomeSelectedWork from "../components/home/HomeSelectedWork.astro";
 import { homeContent } from "../data/home";
 import { impressions } from "../data/impressions";
 import { homeNavigation } from "../data/navigation";
-import { socialLinks } from "../data/social";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = (await getCollection("projects")).sort((a, b) => {
@@ -39,7 +38,7 @@ const impressionPreview = impressions.slice(0, 4);
     />
     <HomeProfile content={homeContent.profile} />
     <HomeImpressions content={homeContent.impressions} images={impressionPreview} />
-    <HomeContact content={homeContent.contact} socialLinks={socialLinks} />
+    <HomeContact content={homeContent.contact} />
   </main>
 
   <SiteFooter />

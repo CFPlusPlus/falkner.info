@@ -4,26 +4,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "hsl(var(--bg) / <alpha-value>)",
-        surface: "hsl(var(--surface) / <alpha-value>)",
-        border: "hsl(var(--border) / <alpha-value>)",
-        text: "hsl(var(--text) / <alpha-value>)",
-        muted: "hsl(var(--muted) / <alpha-value>)",
-        accent: "hsl(var(--accent) / <alpha-value>)",
-        accent2: "hsl(var(--accent2) / <alpha-value>)",
+        bg: "rgb(var(--color-bg) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        "surface-elevated":
+          "rgb(var(--color-surface-elevated) / <alpha-value>)",
+        border: "rgb(var(--color-border) / <alpha-value>)",
+        text: "rgb(var(--color-text) / <alpha-value>)",
+        muted: "rgb(var(--color-muted) / <alpha-value>)",
+        accent: "rgb(var(--color-accent) / <alpha-value>)",
+        "accent-soft": "rgb(var(--color-accent-soft) / <alpha-value>)",
+        accent2: "rgb(var(--color-accent-soft) / <alpha-value>)",
+        cool: "rgb(var(--color-cool) / <alpha-value>)",
       },
       borderRadius: {
-        sm: "8px",
-        md: "10px",
-        lg: "12px",
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
       },
       boxShadow: {
-        hair: "0 0 0 1px hsl(var(--border) / 0.7)",
-        soft: "0 12px 40px hsl(0 0% 0% / 0.35)",
+        hair: "0 0 0 1px rgb(var(--color-border) / 0.7)",
+        soft: "0 14px 36px rgb(0 0 0 / 0.28)",
       },
       keyframes: {
         "fade-up": {
-          "0%": { opacity: 0, transform: "translate3d(0, 10px, 0)" },
+          "0%": { opacity: 0, transform: "translate3d(0, 6px, 0)" },
           "100%": { opacity: 1, transform: "translate3d(0, 0, 0)" },
         },
         "line-in": {
@@ -32,7 +36,7 @@ export default {
         },
       },
       animation: {
-        "fade-up": "fade-up 600ms ease-out both",
+        "fade-up": "fade-up 460ms ease-out both",
         "line-in": "line-in 700ms ease-out both",
       },
     },

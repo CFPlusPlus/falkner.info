@@ -1,6 +1,6 @@
 ---
 title: falkner.info
-summary: Persoenlicher Auftritt als kuratierte Hauptbuehne mit ausgelagerten Detailseiten fuer Projekte, Impressionen und Profil.
+summary: Persönlicher Auftritt als kuratierte Hauptbühne mit ausgelagerten Detailseiten für Projekte, Impressionen und Profil.
 year: 2026
 status: active
 featured: true
@@ -20,5 +20,5 @@ Der Fokus liegt auf:
 - nachvollziehbarer Komponentenstruktur
 - semantischer, responsiver Umsetzung
 
-Das Ergebnis soll technisch praezise wirken und visuell ruhig bleiben, ohne in
+Das Ergebnis soll technisch präzise wirken und visuell ruhig bleiben, ohne in
 generische Onepager-Muster zu fallen.

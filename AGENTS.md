@@ -1,11 +1,14 @@
 # AGENTS.md
 
 ## Mission
+
 Dieses Repository wird zu einer hochwertigen persönlichen Website im Stil
 „Editorial Tech Premium mit technischer Präzision“ umgebaut.
 
 ## Product intent
+
 Die Website soll:
+
 - modern
 - hochwertig
 - clean
@@ -16,12 +19,15 @@ Die Website soll:
 wirken.
 
 ## Core direction
+
 Die Startseite ist eine kuratierte Hauptbühne, kein vollständiger Onepager.
 Weniger Elemente, mehr Gewicht.
 Weniger Cards, mehr offene Flächen, Typografie und Komposition.
 
 ## Information architecture
+
 Die Startseite besteht aus genau diesen Hauptsektionen:
+
 1. Hero
 2. Selected Work
 3. Profil
@@ -29,12 +35,14 @@ Die Startseite besteht aus genau diesen Hauptsektionen:
 5. Kontakt
 
 Vollständige Inhalte werden auf Unterseiten ausgelagert:
+
 - /projekte
 - /projekte/[slug]
 - /impressionen
 - /ueber
 
 ## Design rules
+
 - Hero ist der wichtigste Bereich der Seite.
 - Keine Begrüßungsfloskeln.
 - Keine generische Card-Landschaft.
@@ -46,14 +54,18 @@ Vollständige Inhalte werden auf Unterseiten ausgelagert:
 - Typografie trägt die Wertigkeit.
 
 ## Typography
+
 Bevorzugte Typo-Richtung:
+
 - Headlines / Display: Space Grotesk
 - Body / UI / Navigation: Geist
 
 Nicht ohne guten Grund wechseln.
 
 ## Motion
+
 Bewegung nur subtil:
+
 - fade
 - slight slide
 - micro hover
@@ -62,9 +74,11 @@ Bewegung nur subtil:
 Keine Effektshow. Keine aggressiven Scroll-Reveals.
 
 ## Components
+
 Bevorzuge semantische, bereichsspezifische Komponenten statt generischer UI-Bausteine.
 
 Gewünschte Richtung:
+
 - components/chrome/
 - components/home/
 - components/primitives/
@@ -72,19 +86,24 @@ Gewünschte Richtung:
 Cards nur dort einsetzen, wo sie wirklich nötig sind.
 
 ## Data architecture
+
 Globale Metadaten gehören nach:
+
 - src/data/site.ts
 
 Startseiteninhalte gehören nach:
+
 - src/data/home.ts
 - src/data/impressions.ts
 - src/data/navigation.ts
 - src/data/social.ts
 
 Projekte gehören als Astro Content Collection nach:
+
 - src/content/projects/
 
 ## Implementation rules
+
 - Bestehende Struktur gezielt refactoren, nicht blind alles neu erzeugen.
 - Vorhandene sinnvolle Dateien weiterverwenden, wenn das Ergebnis sauber bleibt.
 - Keine unnötigen neuen Dependencies hinzufügen.
@@ -93,7 +112,9 @@ Projekte gehören als Astro Content Collection nach:
 - Mobile ist Pflicht, nicht Nacharbeit.
 
 ## Quality bar
+
 Jede Änderung soll:
+
 - nachvollziehbar
 - reviewbar
 - visuell konsistent
@@ -103,6 +124,7 @@ Jede Änderung soll:
 sein.
 
 ## Before finishing a task
+
 - Relevante Dateien prüfen
 - Bestehende Patterns im Repo berücksichtigen
 - Build ausführen
@@ -110,7 +132,9 @@ sein.
 - Offene Punkte knapp dokumentieren
 
 ## Output expectations
+
 Am Ende jedes Tasks bitte immer liefern:
+
 1. kurze Zusammenfassung der Änderung
 2. Liste der geänderten Dateien
 3. offene Punkte / Risiken

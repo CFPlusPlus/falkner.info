@@ -5,15 +5,15 @@ export type NavLink = {
 };
 
 export const homeNavigation: readonly NavLink[] = [
-  { label: "Selected Work", href: "/#selected-work", targetId: "selected-work" },
-  { label: "Profil", href: "/#profil", targetId: "profil" },
+  { label: "Projekte", href: "/#selected-work", targetId: "selected-work" },
   { label: "Impressionen", href: "/#impressionen", targetId: "impressionen" },
+  { label: "Über mich", href: "/#profil", targetId: "profil" },
   { label: "Kontakt", href: "/#kontakt", targetId: "kontakt" },
 ] as const;
 
 export const pageNavigation: readonly NavLink[] = [
-  { label: "Start", href: "/" },
   { label: "Projekte", href: "/projekte" },
   { label: "Impressionen", href: "/impressionen" },
-  { label: "Ueber", href: "/ueber" },
+  { label: "Über mich", href: "/ueber" },
+  { label: "Kontakt", href: "/#kontakt" },
 ] as const;

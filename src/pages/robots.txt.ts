@@ -21,4 +21,3 @@ Sitemap: ${buildSitemapUrl()}
     },
   });
 };
-
