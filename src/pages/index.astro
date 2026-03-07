@@ -11,17 +11,11 @@ import HomeSelectedWork from "../components/home/HomeSelectedWork.astro";
 import { homeContent } from "../data/home";
 import { impressions } from "../data/impressions";
 import { homeNavigation } from "../data/navigation";
+import { selectHomeProjects, sortProjects } from "../lib/projects";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const projects = (await getCollection("projects")).sort((a, b) => {
-  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
-  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
-
-  if (aOrder !== bOrder) return aOrder - bOrder;
-  return b.data.year - a.data.year;
-});
-
-const selectedProjects = projects.filter((project) => project.data.featured).slice(0, 3);
+const projects = sortProjects(await getCollection("projects"));
+const { featuredProject, supportingProjects } = selectHomeProjects(projects);
 const impressionPreview = impressions.slice(0, 4);
 ---
 
@@ -34,13 +28,16 @@ const impressionPreview = impressions.slice(0, 4);
       title={homeContent.selectedWork.title}
       intro={homeContent.selectedWork.intro}
       cta={homeContent.selectedWork.allProjectsCta}
-      projects={selectedProjects}
+      featuredProject={featuredProject}
+      supportingProjects={supportingProjects}
     />
     <HomeProfile content={homeContent.profile} />
-    <HomeImpressions content={homeContent.impressions} images={impressionPreview} />
+    <HomeImpressions
+      content={homeContent.impressions}
+      images={impressionPreview}
+    />
     <HomeContact content={homeContent.contact} />
   </main>
 
   <SiteFooter />
 </BaseLayout>
-

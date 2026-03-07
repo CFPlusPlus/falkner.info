@@ -5,63 +5,340 @@ import SiteFooter from "../../components/chrome/SiteFooter.astro";
 import SiteHeader from "../../components/chrome/SiteHeader.astro";
 import { pageNavigation } from "../../data/navigation";
 import { site } from "../../data/site";
+import {
+  getProjectExternalLink,
+  getProjectMetaLine,
+  getProjectPrimaryLink,
+  selectProjectOverviewProjects,
+  sortProjects,
+} from "../../lib/projects";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const projects = (await getCollection("projects")).sort((a, b) => {
-  const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
-  const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
-
-  if (aOrder !== bOrder) return aOrder - bOrder;
-  return b.data.year - a.data.year;
-});
+const projects = sortProjects(await getCollection("projects"));
+const { leadProject, supportingFeaturedProjects, remainingProjects } =
+  selectProjectOverviewProjects(projects);
+const activeProjects = projects.filter(
+  (project) => project.data.status !== "archived",
+).length;
+const externalProjects = projects.filter((project) =>
+  Boolean(project.data.externalUrl),
+).length;
 ---
 
 <BaseLayout
   title={`Projekte - ${site.domain}`}
-  description="Ausgewählte und laufende digitale Projekte von Christian Falkner."
+  description="Kuratierte Übersicht über ausgewählte digitale Projekte, Systeme und laufende Arbeiten von Christian Falkner."
   canonicalPath="/projekte/"
 >
   <SiteHeader links={pageNavigation} />
 
   <main id="main" tabindex="-1" class="py-14 sm:py-20">
-    <div class="mx-auto max-w-6xl px-5">
-      <header class="max-w-3xl reveal">
-        <p class="meta">Projekte</p>
-        <h1 class="mt-4 text-4xl sm:text-5xl font-[var(--w-title)] tracking-tight">
-          Projekte und Systeme
-        </h1>
-        <p class="mt-5 text-muted leading-relaxed">
-          Diese Seite enthält alle Projekte als strukturierte Übersicht mit Detailseiten.
-        </p>
+    <div class="mx-auto max-w-[80rem] px-5 sm:px-6 min-[1440px]:max-w-[84rem]">
+      <header
+        class="grid gap-10 xl:grid-cols-[minmax(0,1.32fr)_minmax(16rem,0.62fr)] xl:items-start xl:gap-14"
+      >
+        <div class="max-w-[50rem] reveal">
+          <p class="meta">Projektübersicht</p>
+          <h1
+            class="mt-4 text-[clamp(3rem,5vw,5.2rem)] font-[var(--w-title)] tracking-[-0.04em] leading-[0.94]"
+          >
+            Projekte, Systeme und laufende Arbeiten mit klarer Gewichtung.
+          </h1>
+          <p
+            class="mt-6 max-w-[42rem] text-[clamp(1.04rem,1.32vw,1.18rem)] leading-[1.78] text-muted"
+          >
+            Die Auswahl verbindet digitale Gestaltung, technische Struktur und
+            langfristige Pflege. Nicht als gleichförmige Sammlung, sondern als
+            kuratierter Einblick in Arbeitsweise, Betrieb und Umsetzung.
+          </p>
+        </div>
+
+        <div
+          class="reveal border-t border-border/60 pt-6 xl:border-t-0 xl:border-l xl:pt-0 xl:pl-8"
+          style="--reveal-delay: 80ms"
+        >
+          <p class="meta">Kuratierte Auswahl</p>
+          <div class="mt-4 space-y-5">
+            <p class="max-w-[18rem] text-[0.96rem] leading-[1.76] text-muted">
+              Interne Projektseiten ordnen die Arbeit ein. Externe Auftritte
+              bleiben dort verlinkt, wo laufende Systeme direkt sichtbar sein
+              sollen.
+            </p>
+
+            <div class="space-y-4 border-t border-border/44 pt-5">
+              <div>
+                <p class="meta">Umfang</p>
+                <p class="mt-2 text-[0.96rem] leading-[1.7] text-text/92">
+                  {projects.length} Projekte / {activeProjects} laufende oder betreute
+                  Arbeiten
+                </p>
+              </div>
+
+              <div>
+                <p class="meta">Links</p>
+                <p class="mt-2 text-[0.95rem] leading-[1.7] text-muted">
+                  {externalProjects} öffentliche Websites mit zusätzlicher Einordnung
+                  auf dieser Seite.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <section class="mt-12 border-t border-border/70" aria-label="Projektliste">
-        {projects.map((project, index) => {
-          const internalHref = `/projekte/${project.slug}/`;
-          const href = project.data.externalUrl ?? internalHref;
-          const external = Boolean(project.data.externalUrl);
+      {
+        leadProject
+          ? (() => {
+              const primaryLink = getProjectPrimaryLink(leadProject);
+              const externalLink = getProjectExternalLink(leadProject);
 
-          return (
-            <article class="py-7 border-b border-border/70 reveal" style={`--reveal-delay: ${Math.min(index * 55, 180)}ms`}>
-              <p class="meta">{project.data.year} / {project.data.status}</p>
-              <h2 class="mt-2 text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight">{project.data.title}</h2>
-              <p class="mt-3 text-muted leading-relaxed max-w-3xl">{project.data.summary}</p>
-              <p class="mt-3 text-sm text-muted">{project.data.tags.join(" / ")}</p>
-              <a
-                href={href}
-                class="mt-4 inline-block u-link"
-                target={external ? "_blank" : undefined}
-                rel={external ? "noopener noreferrer" : undefined}
+              return (
+                <section class="mt-14" aria-labelledby="lead-project-title">
+                  <article
+                    class="reveal border-y border-border/68 py-10 sm:py-12 lg:grid lg:grid-cols-[minmax(0,1.36fr)_minmax(17rem,0.72fr)] lg:items-start lg:gap-12 xl:grid-cols-[minmax(0,1.44fr)_minmax(18rem,0.66fr)] xl:gap-16"
+                    style="--reveal-delay: 120ms"
+                  >
+                    <div class="max-w-[50rem]">
+                      <p class="meta">Fokusprojekt</p>
+                      <p class="mt-4 text-[0.84rem] tracking-[0.08em] text-muted/92">
+                        {leadProject.data.meta}
+                      </p>
+                      <h2
+                        id="lead-project-title"
+                        class="mt-5 max-w-[12ch] text-[clamp(2.9rem,4.6vw,4.9rem)] font-[var(--w-title)] tracking-[-0.045em] leading-[0.94]"
+                      >
+                        {leadProject.data.title}
+                      </h2>
+                      <p class="mt-6 max-w-[39rem] text-[clamp(1.08rem,1.42vw,1.24rem)] leading-[1.8] text-muted">
+                        {leadProject.data.summary}
+                      </p>
+
+                      <div class="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[0.88rem] tracking-[0.04em] text-muted/92">
+                        <span>{getProjectMetaLine(leadProject)}</span>
+                        <span aria-hidden="true" class="text-border/80">
+                          /
+                        </span>
+                        <span>{leadProject.data.tags.join(" / ")}</span>
+                      </div>
+
+                      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 xl:mt-9">
+                        <a
+                          href={primaryLink.href}
+                          class="group inline-flex items-center gap-3 text-[0.95rem] font-[430] tracking-[0.02em] text-text transition-colors hover:text-[rgb(var(--color-accent-soft))]"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="h-px w-12 bg-border/78 transition-colors duration-200 group-hover:bg-accent/58"
+                          />
+                          <span>{primaryLink.label}</span>
+                          <span
+                            aria-hidden="true"
+                            class="transition-transform duration-200 group-hover:translate-x-1"
+                          >
+                            &rarr;
+                          </span>
+                        </a>
+
+                        {externalLink ? (
+                          <a
+                            href={externalLink.href}
+                            class="u-link-muted text-[0.9rem]"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {externalLink.label}
+                          </a>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <div class="mt-9 border-t border-border/52 pt-6 lg:mt-1 lg:min-h-[16rem] lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8 xl:min-h-[17rem] xl:pl-9">
+                      <p class="meta">Einordnung</p>
+                      <p class="mt-4 max-w-[18rem] text-[0.96rem] leading-[1.76] text-muted">
+                        {leadProject.data.context}
+                      </p>
+
+                      <div class="mt-7 space-y-6 border-t border-border/44 pt-6">
+                        <div>
+                          <p class="meta">Fokus</p>
+                          <p class="mt-2 text-[0.94rem] leading-[1.7] text-text/92">
+                            {leadProject.data.meta}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p class="meta">Schwerpunkte</p>
+                          <p class="mt-2 text-[0.9rem] leading-[1.7] text-muted">
+                            {leadProject.data.tags.join(" / ")}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </section>
+              );
+            })()
+          : null
+      }
+
+      {
+        supportingFeaturedProjects.length ? (
+          <section class="mt-14" aria-labelledby="supporting-featured-title">
+            <div class="max-w-[40rem] reveal" style="--reveal-delay: 160ms">
+              <p class="meta">Weiter im Fokus</p>
+              <h2
+                id="supporting-featured-title"
+                class="mt-4 text-[clamp(2rem,3vw,2.8rem)] font-[var(--w-title)] tracking-[-0.03em] leading-[1.03]"
               >
-                {external ? "Externes Projekt ansehen" : "Zur Projektseite"}
-              </a>
-            </article>
-          );
-        })}
-      </section>
+                Weitere Projekte mit eigener Tiefe und klar erkennbarem
+                Schwerpunkt.
+              </h2>
+            </div>
+
+            <div class="mt-8 grid gap-x-12 gap-y-10 lg:grid-cols-2">
+              {supportingFeaturedProjects.map((project, index) => {
+                const primaryLink = getProjectPrimaryLink(project);
+                const externalLink = getProjectExternalLink(project);
+
+                return (
+                  <article
+                    class="reveal border-t border-border/60 pt-8"
+                    style={`--reveal-delay: ${Math.min(200 + index * 70, 300)}ms`}
+                  >
+                    <p class="meta">Im Fokus</p>
+                    <p class="mt-4 text-[0.82rem] tracking-[0.08em] text-muted/88">
+                      {project.data.meta}
+                    </p>
+                    <h3 class="mt-4 max-w-[14ch] text-[clamp(2.2rem,3.1vw,3.2rem)] font-[var(--w-title)] tracking-[-0.034em] leading-[0.98]">
+                      {project.data.title}
+                    </h3>
+                    <p class="mt-5 max-w-[35rem] text-[1.04rem] leading-[1.76] text-muted">
+                      {project.data.summary}
+                    </p>
+                    <p class="mt-5 max-w-[30rem] text-[0.94rem] leading-[1.72] text-muted/90">
+                      {project.data.context}
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.88rem] tracking-[0.04em] text-muted/88">
+                      <span>{getProjectMetaLine(project)}</span>
+                      <span aria-hidden="true" class="text-border/80">
+                        /
+                      </span>
+                      <span>{project.data.tags.join(" / ")}</span>
+                    </div>
+
+                    <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+                      <a
+                        href={primaryLink.href}
+                        class="group inline-flex items-center gap-2 text-[0.9rem] text-muted transition-colors hover:text-text"
+                      >
+                        <span>{primaryLink.label}</span>
+                        <span
+                          aria-hidden="true"
+                          class="transition-transform duration-200 group-hover:translate-x-1"
+                        >
+                          &rarr;
+                        </span>
+                      </a>
+
+                      {externalLink ? (
+                        <a
+                          href={externalLink.href}
+                          class="u-link-muted text-[0.88rem]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {externalLink.label}
+                        </a>
+                      ) : null}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ) : null
+      }
+
+      {
+        remainingProjects.length ? (
+          <section class="mt-14" aria-labelledby="more-projects-title">
+            <div class="max-w-[38rem] reveal" style="--reveal-delay: 170ms">
+              <p class="meta">Weitere Projekte</p>
+              <h2
+                id="more-projects-title"
+                class="mt-4 text-[clamp(2rem,3vw,2.7rem)] font-[var(--w-title)] tracking-[-0.03em] leading-[1.02]"
+              >
+                Weitere Arbeiten mit eigenem Schwerpunkt, aber derselben
+                Haltung.
+              </h2>
+            </div>
+
+            <div class="mt-8">
+              {remainingProjects.map((project, index) => {
+                const primaryLink = getProjectPrimaryLink(project);
+                const externalLink = getProjectExternalLink(project);
+
+                return (
+                  <article
+                    class={`reveal border-t border-border/60 py-8 lg:grid lg:grid-cols-[minmax(0,1.12fr)_minmax(15rem,0.72fr)] lg:gap-10 xl:gap-14 ${index % 2 === 0 ? "xl:mr-10" : "xl:ml-10"}`}
+                    style={`--reveal-delay: ${Math.min(200 + index * 70, 320)}ms`}
+                  >
+                    <div class="max-w-[40rem]">
+                      <p class="meta">{getProjectMetaLine(project)}</p>
+                      <p class="mt-3 text-[0.82rem] tracking-[0.08em] text-muted/86">
+                        {project.data.meta}
+                      </p>
+                      <h3 class="mt-4 text-[clamp(2rem,2.8vw,3rem)] font-[var(--w-title)] tracking-[-0.032em] leading-[1.01]">
+                        {project.data.title}
+                      </h3>
+                      <p class="mt-4 text-[1.03rem] leading-[1.76] text-muted">
+                        {project.data.summary}
+                      </p>
+                    </div>
+
+                    <div class="mt-6 flex flex-col justify-between gap-6 border-t border-border/44 pt-5 lg:mt-1 lg:border-t-0 lg:pt-0">
+                      <p class="max-w-[21rem] text-[0.95rem] leading-[1.76] text-muted">
+                        {project.data.context}
+                      </p>
+
+                      <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+                        <p class="text-[0.88rem] tracking-[0.04em] text-muted/88">
+                          {project.data.tags.join(" / ")}
+                        </p>
+                        <a
+                          href={primaryLink.href}
+                          class="group inline-flex items-center gap-2 text-[0.9rem] text-muted transition-colors hover:text-text"
+                        >
+                          <span>{primaryLink.label}</span>
+                          <span
+                            aria-hidden="true"
+                            class="transition-transform duration-200 group-hover:translate-x-1"
+                          >
+                            &rarr;
+                          </span>
+                        </a>
+                        {externalLink ? (
+                          <a
+                            href={externalLink.href}
+                            class="u-link-muted text-[0.88rem]"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {externalLink.label}
+                          </a>
+                        ) : null}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ) : null
+      }
     </div>
   </main>
 
   <SiteFooter />
 </BaseLayout>
-

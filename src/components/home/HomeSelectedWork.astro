@@ -1,26 +1,25 @@
 ---
 import type { CollectionEntry } from "astro:content";
+
 import Button from "../Button.astro";
 import SectionShell from "../primitives/SectionShell.astro";
 import { homeContent } from "../../data/home";
+import {
+  getProjectExternalLink,
+  getProjectMetaLine,
+  getProjectPrimaryLink,
+} from "../../lib/projects";
 
 type Props = {
   title: string;
   intro: string;
   cta: (typeof homeContent)["selectedWork"]["allProjectsCta"];
-  projects: CollectionEntry<"projects">[];
+  featuredProject?: CollectionEntry<"projects">;
+  supportingProjects: CollectionEntry<"projects">[];
 };
 
-const { title, intro, cta, projects } = Astro.props as Props;
-const [featuredProject, ...supportingProjects] = projects;
-
-const getProjectLink = (project: CollectionEntry<"projects">) => {
-  const internalHref = `/projekte/${project.slug}/`;
-  const href = project.data.externalUrl ?? internalHref;
-  const external = Boolean(project.data.externalUrl);
-
-  return { href, external };
-};
+const { title, intro, cta, featuredProject, supportingProjects } =
+  Astro.props as Props;
 ---
 
 <SectionShell
@@ -32,53 +31,86 @@ const getProjectLink = (project: CollectionEntry<"projects">) => {
   {
     featuredProject
       ? (() => {
-          const { href, external } = getProjectLink(featuredProject);
+          const primaryLink = getProjectPrimaryLink(featuredProject);
+          const externalLink = getProjectExternalLink(featuredProject);
 
           return (
             <article
-              class="reveal border-y border-border/68 py-9 sm:py-11 lg:grid lg:grid-cols-[minmax(0,1.32fr)_minmax(16.5rem,0.78fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1.4fr)_minmax(17.5rem,0.74fr)] xl:gap-12"
+              class="reveal border-y border-border/68 py-10 sm:py-12 lg:grid lg:grid-cols-[minmax(0,1.38fr)_minmax(17rem,0.74fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1.46fr)_minmax(18rem,0.68fr)] xl:gap-14"
               style="--reveal-delay: 20ms"
             >
-              <div class="max-w-[46rem]">
+              <div class="max-w-[49rem]">
                 <p class="meta">Featured Project</p>
-                <p class="mt-3 text-[0.88rem] tracking-[0.03em] text-muted">
-                  {featuredProject.data.year} / {featuredProject.data.status}
+                <p class="mt-4 text-[0.84rem] tracking-[0.08em] text-muted/92">
+                  {featuredProject.data.meta}
                 </p>
-                <h3 class="mt-5 max-w-[11ch] text-[clamp(2.35rem,3.9vw,3.8rem)] font-[var(--w-title)] tracking-[-0.032em] leading-[0.99] xl:max-w-[12ch]">
+                <h3 class="mt-5 max-w-[12ch] text-[clamp(2.7rem,4.4vw,4.4rem)] font-[var(--w-title)] tracking-[-0.04em] leading-[0.96] xl:max-w-[13ch]">
                   {featuredProject.data.title}
                 </h3>
-                <p class="mt-5 max-w-[36rem] text-[clamp(1.04rem,1.36vw,1.18rem)] leading-[1.72] text-muted xl:mt-6 xl:max-w-[38rem]">
+                <p class="mt-6 max-w-[39rem] text-[clamp(1.06rem,1.38vw,1.22rem)] leading-[1.78] text-muted xl:max-w-[40rem]">
                   {featuredProject.data.summary}
                 </p>
-                <p class="mt-5 text-[0.9rem] tracking-[0.03em] text-muted/92 xl:mt-6">
-                  {featuredProject.data.tags.join(" / ")}
-                </p>
+
+                <div class="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[0.88rem] tracking-[0.04em] text-muted/92 xl:mt-8">
+                  <span>{getProjectMetaLine(featuredProject)}</span>
+                  <span aria-hidden="true" class="text-border/80">
+                    /
+                  </span>
+                  <span>{featuredProject.data.tags.join(" / ")}</span>
+                </div>
+
+                <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 xl:mt-9">
+                  <a
+                    href={primaryLink.href}
+                    class="group inline-flex items-center gap-3 text-[0.95rem] font-[430] tracking-[0.02em] text-text transition-colors hover:text-[rgb(var(--color-accent-soft))]"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="h-px w-12 bg-border/78 transition-colors duration-200 group-hover:bg-accent/58"
+                    />
+                    <span>{primaryLink.label}</span>
+                    <span
+                      aria-hidden="true"
+                      class="transition-transform duration-200 group-hover:translate-x-1"
+                    >
+                      &rarr;
+                    </span>
+                  </a>
+
+                  {externalLink ? (
+                    <a
+                      href={externalLink.href}
+                      class="u-link-muted text-[0.9rem]"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {externalLink.label}
+                    </a>
+                  ) : null}
+                </div>
               </div>
 
-              <div class="mt-7 flex flex-col justify-between gap-7 lg:mt-1 lg:min-h-[15.5rem] lg:border-l lg:border-border/55 lg:gap-10 lg:pl-7 xl:min-h-[16.5rem] xl:pl-8">
-                <p class="max-w-[17rem] text-[0.95rem] leading-[1.7] text-muted">
-                  Kuratierte Arbeit mit Fokus auf Struktur, technische Umsetzung
-                  und eine belastbare Gesamtform.
+              <div class="mt-9 border-t border-border/52 pt-6 lg:mt-1 lg:min-h-[16rem] lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8 xl:min-h-[17rem] xl:pl-9">
+                <p class="meta">Einordnung</p>
+                <p class="mt-4 max-w-[18rem] text-[0.96rem] leading-[1.76] text-muted">
+                  {featuredProject.data.context}
                 </p>
 
-                <a
-                  href={href}
-                  class="group inline-flex items-center gap-3 text-[0.95rem] font-[430] tracking-[0.02em] text-text transition-colors hover:text-[rgb(var(--color-accent-soft))]"
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noopener noreferrer" : undefined}
-                >
-                  <span
-                    aria-hidden="true"
-                    class="h-px w-10 bg-border/78 transition-colors duration-200 group-hover:bg-accent/58"
-                  />
-                  <span>{external ? "Zum Projekt" : "Detail ansehen"}</span>
-                  <span
-                    aria-hidden="true"
-                    class="transition-transform duration-200 group-hover:translate-x-1"
-                  >
-                    &rarr;
-                  </span>
-                </a>
+                <div class="mt-7 space-y-6 border-t border-border/44 pt-6">
+                  <div>
+                    <p class="meta">Fokus</p>
+                    <p class="mt-2 text-[0.94rem] leading-[1.7] text-text/92">
+                      {featuredProject.data.meta}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="meta">Schwerpunkte</p>
+                    <p class="mt-2 text-[0.9rem] leading-[1.7] text-muted">
+                      {featuredProject.data.tags.join(" / ")}
+                    </p>
+                  </div>
+                </div>
               </div>
             </article>
           );
@@ -88,23 +120,27 @@ const getProjectLink = (project: CollectionEntry<"projects">) => {
 
   {
     supportingProjects.length ? (
-      <div class="mt-9 grid gap-7 md:grid-cols-2 md:gap-8 lg:gap-10">
+      <div class="mt-10 grid gap-x-10 gap-y-8 border-b border-border/60 pb-2 md:grid-cols-2 lg:mt-11 lg:gap-x-12">
         {supportingProjects.map((project, index) => {
-          const { href, external } = getProjectLink(project);
+          const primaryLink = getProjectPrimaryLink(project);
 
           return (
             <article
-              class={`reveal border-t border-border/60 pt-7 sm:pt-8 ${supportingProjects.length === 1 ? "md:max-w-[38rem]" : ""}`}
+              class={`reveal border-t border-border/60 pt-7 sm:pt-8 ${supportingProjects.length === 1 ? "md:max-w-[40rem]" : ""}`}
               style={`--reveal-delay: ${Math.min(90 + index * 70, 220)}ms`}
             >
-              <p class="meta">
-                {project.data.year} / {project.data.status}
+              <p class="meta">{getProjectMetaLine(project)}</p>
+              <p class="mt-3 text-[0.82rem] tracking-[0.08em] text-muted/86">
+                {project.data.meta}
               </p>
-              <h3 class="mt-3 text-[clamp(1.9rem,2.4vw,2.4rem)] font-[var(--w-title)] tracking-[-0.028em] leading-[1.05]">
+              <h3 class="mt-4 text-[clamp(1.95rem,2.5vw,2.55rem)] font-[var(--w-title)] tracking-[-0.03em] leading-[1.02]">
                 {project.data.title}
               </h3>
-              <p class="mt-4 max-w-[32rem] text-[1.02rem] leading-relaxed text-muted">
+              <p class="mt-4 max-w-[32rem] text-[1.02rem] leading-[1.72] text-muted">
                 {project.data.summary}
+              </p>
+              <p class="mt-5 max-w-[28rem] text-[0.93rem] leading-[1.7] text-muted/88">
+                {project.data.context}
               </p>
 
               <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
@@ -112,12 +148,10 @@ const getProjectLink = (project: CollectionEntry<"projects">) => {
                   {project.data.tags.join(" / ")}
                 </p>
                 <a
-                  href={href}
+                  href={primaryLink.href}
                   class="group inline-flex items-center gap-2 text-[0.9rem] text-muted transition-colors hover:text-text"
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noopener noreferrer" : undefined}
                 >
-                  <span>{external ? "Zum Projekt" : "Detail ansehen"}</span>
+                  <span>{primaryLink.label}</span>
                   <span
                     aria-hidden="true"
                     class="transition-transform duration-200 group-hover:translate-x-1"
