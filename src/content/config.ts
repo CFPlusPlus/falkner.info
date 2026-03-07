@@ -20,6 +20,7 @@ const projects = defineCollection({
       tags: z.array(z.string()).default([]),
       externalUrl: z.string().url().optional(),
       repoUrl: z.string().url().optional(),
+      // `cover` ist das primäre Hero-/Teaserbild eines Projekts.
       cover: z
         .object({
           src: image(),
@@ -27,6 +28,7 @@ const projects = defineCollection({
           caption: z.string().optional(),
         })
         .optional(),
+      // `media` hält zusätzliche Screenshots oder Medien für spätere Ausbaustufen bereit.
       media: z
         .array(
           z.object({

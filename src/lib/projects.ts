@@ -48,16 +48,24 @@ export function getProjectExternalLink(project: ProjectEntry) {
 export function getProjectRepoLink(project: ProjectEntry) {
   if (!project.data.repoUrl) return null;
 
+  const isGitHubRepo = (() => {
+    try {
+      return new URL(project.data.repoUrl).hostname === "github.com";
+    } catch {
+      return false;
+    }
+  })();
+
   return {
     href: project.data.repoUrl,
-    label: "Repository öffnen",
+    label: isGitHubRepo ? "Repository auf GitHub öffnen" : "Repository öffnen",
   };
 }
 
 export function getProjectPrimaryLink(project: ProjectEntry) {
   return {
     href: getProjectPath(project),
-    label: "Projektseite öffnen",
+    label: "Projekt ansehen",
   };
 }
 
@@ -74,7 +82,7 @@ export function getProjectHeroMedia(project: ProjectEntry) {
 }
 
 export function getProjectHighlights(project: ProjectEntry) {
-  return project.data.highlights.length ? project.data.highlights : project.data.tags;
+  return project.data.highlights;
 }
 
 export function getProjectReferenceLinks(

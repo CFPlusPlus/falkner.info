@@ -281,7 +281,7 @@ const externalProjects = projects.filter((project) =>
 
                 return (
                   <article
-                    class={`reveal border-t border-border/60 py-8 lg:grid lg:grid-cols-[minmax(0,1.12fr)_minmax(15rem,0.72fr)] lg:gap-10 xl:gap-14 ${index % 2 === 0 ? "xl:mr-10" : "xl:ml-10"}`}
+                    class={`reveal border-t border-border/60 py-8 xl:grid xl:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.68fr)] xl:gap-12 min-[1440px]:gap-14 ${index % 2 === 0 ? "xl:mr-10" : "xl:ml-10"}`}
                     style={`--reveal-delay: ${Math.min(200 + index * 70, 320)}ms`}
                   >
                     <div class="max-w-[40rem]">
@@ -297,8 +297,8 @@ const externalProjects = projects.filter((project) =>
                       </p>
                     </div>
 
-                    <div class="mt-6 flex flex-col justify-between gap-6 border-t border-border/44 pt-5 lg:mt-1 lg:border-t-0 lg:pt-0">
-                      <p class="max-w-[21rem] text-[0.95rem] leading-[1.76] text-muted">
+                    <div class="mt-6 flex flex-col justify-between gap-6 border-t border-border/44 pt-5 xl:mt-1 xl:border-t-0 xl:pt-0">
+                      <p class="max-w-[30rem] text-[0.95rem] leading-[1.76] text-muted xl:max-w-[21rem]">
                         {project.data.context}
                       </p>
 

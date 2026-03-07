@@ -1,8 +1,6 @@
 ---
-import Icon from "../Icon.astro";
 import {
   getProjectHighlights,
-  getProjectReferenceLinks,
   getProjectStatusLabel,
   type ProjectEntry,
 } from "../../lib/projects";
@@ -14,11 +12,10 @@ type Props = {
 
 const { project, class: className = "" } = Astro.props as Props;
 const highlights = getProjectHighlights(project).slice(0, 4);
-const links = getProjectReferenceLinks(project);
 ---
 
 <aside
-  class={`reveal mt-12 border-t border-border/60 pt-6 lg:sticky lg:top-28 lg:mt-0 lg:self-start lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8 ${className}`.trim()}
+  class={`reveal mt-14 border-t border-border/60 pt-7 xl:sticky xl:top-28 xl:mt-0 xl:self-start xl:border-t-0 xl:border-l xl:pt-0 xl:pl-8 ${className}`.trim()}
   style="--reveal-delay: 260ms"
 >
   <div class="space-y-7">
@@ -39,12 +36,16 @@ const links = getProjectReferenceLinks(project);
           </dd>
         </div>
 
-        <div>
-          <dt class="text-[0.72rem] uppercase tracking-[0.12em] text-muted/72">Rolle</dt>
-          <dd class="mt-2 max-w-[18rem] text-[0.95rem] leading-[1.72] text-muted">
-            {project.data.role ?? project.data.meta}
-          </dd>
-        </div>
+        {
+          project.data.role ? (
+            <div>
+              <dt class="text-[0.72rem] uppercase tracking-[0.12em] text-muted/72">Rolle</dt>
+              <dd class="mt-2 max-w-[26rem] text-[0.95rem] leading-[1.72] text-muted xl:max-w-[18rem]">
+                {project.data.role}
+              </dd>
+            </div>
+          ) : null
+        }
       </dl>
     </section>
 
@@ -52,7 +53,7 @@ const links = getProjectReferenceLinks(project);
       project.data.focus ? (
         <section class="border-t border-border/44 pt-6">
           <p class="meta">Fokus</p>
-          <p class="mt-3 max-w-[18rem] text-[0.96rem] leading-[1.74] text-text/92">
+          <p class="mt-3 max-w-[26rem] text-[0.96rem] leading-[1.74] text-text/92 xl:max-w-[18rem]">
             {project.data.focus}
           </p>
         </section>
@@ -70,37 +71,14 @@ const links = getProjectReferenceLinks(project);
                   aria-hidden="true"
                   class="mt-[0.55rem] h-[0.34rem] w-[0.34rem] rounded-full bg-accent/70"
                 ></span>
-                <span class="text-[0.92rem] leading-[1.68] text-muted">{item}</span>
+                <span class="max-w-[26rem] text-[0.92rem] leading-[1.68] text-muted xl:max-w-[18rem]">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
         </section>
       ) : null
     }
-
-    <section class="border-t border-border/44 pt-6">
-      <p class="meta">Verweise</p>
-      <div class="mt-4 space-y-3">
-        {links.map((link) => (
-          <a
-            href={link.href}
-            class={`group flex items-center justify-between gap-4 border-b border-border/34 pb-3 transition-colors hover:text-[rgb(var(--color-accent-soft))] ${
-              link.emphasis === "tertiary" ? "text-muted" : "text-text"
-            }`}
-            {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          >
-            <span class="text-[0.94rem] leading-[1.55]">{link.label}</span>
-            <span class="inline-flex shrink-0 items-center gap-2 text-[0.7rem] uppercase tracking-[0.12em] text-muted/70 transition-colors group-hover:text-muted">
-              {link.external ? "Extern" : "Intern"}
-              <Icon
-                name={link.external ? "external" : "arrowRight"}
-                size={14}
-                strokeWidth={1.2}
-              />
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
   </div>
 </aside>

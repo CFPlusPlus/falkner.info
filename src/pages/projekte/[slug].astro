@@ -51,7 +51,7 @@ const overviewLink =
     <article
       class="mx-auto max-w-[80rem] px-5 sm:px-6 min-[1440px]:max-w-[84rem]"
     >
-      <div class="lg:grid lg:grid-cols-[minmax(0,1.06fr)_minmax(17rem,0.56fr)] lg:gap-12 xl:gap-16">
+      <div class="xl:grid xl:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.52fr)] xl:gap-14 min-[1440px]:gap-16">
         <div class="min-w-0">
           <header class="border-b border-border/68 pb-10">
             <p class="meta reveal">Projekt</p>
@@ -135,7 +135,7 @@ const overviewLink =
           <ProjectVisualAnchor project={project} />
 
           <section
-            class="reveal mt-12 border-b border-border/60 pb-10"
+            class="reveal mt-12 border-b border-border/60 pb-10 xl:mt-14 xl:pb-12"
             style="--reveal-delay: 240ms"
             aria-labelledby="project-context-title"
           >
@@ -171,7 +171,7 @@ const overviewLink =
 
 <style>
   .project-content {
-    max-width: 46rem;
+    max-width: 47rem;
     color: hsl(var(--muted));
     line-height: 1.82;
   }
@@ -183,7 +183,7 @@ const overviewLink =
   .project-content :global(h2),
   .project-content :global(h3),
   .project-content :global(h4) {
-    margin-top: 3.4rem;
+    margin-top: clamp(2.8rem, 5vw, 3.4rem);
     padding-top: 1.35rem;
     border-top: 1px solid rgb(var(--color-border) / 0.56);
     color: hsl(var(--text));

@@ -10,8 +10,7 @@ type Props = {
 const { project, class: className = "" } = Astro.props as Props;
 const media = getProjectHeroMedia(project);
 const highlights = getProjectHighlights(project).slice(0, 4);
-const anchorCopy =
-  media?.caption ?? project.data.summaryShort ?? project.data.context;
+const anchorCopy = project.data.summaryShort ?? project.data.context;
 ---
 
 <section
@@ -19,25 +18,35 @@ const anchorCopy =
   style="--reveal-delay: 200ms"
   aria-labelledby="project-visual-title"
 >
-  <div class="grid gap-0 lg:grid-cols-[minmax(0,1.16fr)_minmax(16rem,0.52fr)]">
-    <div class="min-w-0 py-5 sm:py-6 lg:py-8 lg:pr-8">
+  <div class="grid gap-0 xl:grid-cols-[minmax(0,1.16fr)_minmax(16rem,0.52fr)]">
+    <div class="min-w-0 py-5 sm:py-6 xl:py-8 xl:pr-8">
       <div class="relative overflow-hidden border border-border/70 bg-[linear-gradient(180deg,rgb(var(--color-surface-elevated))_0%,rgb(11_14_18)_100%)]">
         {
           media ? (
-            <img
-              src={media.src.src}
-              width={media.src.width}
-              height={media.src.height}
-              alt={media.alt}
-              loading="eager"
-              decoding="async"
-              class="block h-full min-h-[18rem] w-full object-cover object-top sm:min-h-[24rem] lg:min-h-[30rem]"
-            />
+            <figure>
+              <img
+                src={media.src.src}
+                width={media.src.width}
+                height={media.src.height}
+                alt={media.alt}
+                loading="eager"
+                decoding="async"
+                class="block h-full min-h-[18rem] w-full object-cover object-top sm:min-h-[24rem] xl:min-h-[30rem]"
+              />
+
+              {
+                media.caption ? (
+                  <figcaption class="border-t border-border/52 px-5 py-4 text-[0.92rem] leading-[1.68] text-muted sm:px-6 xl:px-8">
+                    {media.caption}
+                  </figcaption>
+                ) : null
+              }
+            </figure>
           ) : (
-            <div class="project-visual-fallback min-h-[18rem] sm:min-h-[24rem] lg:min-h-[30rem]">
+            <div class="project-visual-fallback min-h-[18rem] sm:min-h-[24rem] xl:min-h-[30rem]">
               <div class="project-visual-fallback__grid" aria-hidden="true"></div>
 
-              <div class="relative z-[1] flex h-full flex-col justify-between gap-10 p-6 sm:p-8 lg:p-10">
+              <div class="relative z-[1] flex h-full flex-col justify-between gap-10 p-6 sm:p-8 xl:p-10">
                 <div class="max-w-[26rem]">
                   <p class="meta">Projektstruktur</p>
                   <h2
@@ -51,13 +60,19 @@ const anchorCopy =
                   </p>
                 </div>
 
-                <div class="grid gap-3 sm:grid-cols-3">
-                  {highlights.slice(0, 3).map((item) => (
-                    <div class="border border-border/56 bg-bg/36 px-4 py-4 backdrop-blur-[2px]">
-                      <p class="text-[0.8rem] leading-[1.55] text-text/92">{item}</p>
+                {
+                  highlights.length ? (
+                    <div class="grid gap-3 sm:grid-cols-3">
+                      {highlights.slice(0, 3).map((item) => (
+                        <div class="border border-border/56 bg-bg/36 px-4 py-4 backdrop-blur-[2px]">
+                          <p class="text-[0.8rem] leading-[1.55] text-text/92">
+                            {item}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  ) : null
+                }
               </div>
             </div>
           )
@@ -65,7 +80,7 @@ const anchorCopy =
       </div>
     </div>
 
-    <div class="border-t border-border/52 py-6 lg:border-t-0 lg:border-l lg:py-8 lg:pl-8">
+    <div class="border-t border-border/52 py-6 xl:border-t-0 xl:border-l xl:py-8 xl:pl-8">
       <p class="meta">Projektanker</p>
       {
         media ? (
@@ -77,7 +92,7 @@ const anchorCopy =
           </h2>
         ) : null
       }
-      <p class="mt-4 max-w-[18rem] text-[0.98rem] leading-[1.74] text-muted">
+      <p class="mt-4 max-w-[26rem] text-[0.98rem] leading-[1.74] text-muted xl:max-w-[18rem]">
         {anchorCopy}
       </p>
 
