@@ -11,16 +11,8 @@
 // Ergebnis: Chrome/Safari warnen („preloaded but not used“) und teils wird
 // die Datei sogar doppelt geladen. Deshalb lassen wir das Preload bewusst weg.
 
-// Fonts (lokal gehostet via Fontsource)
-// Headlines: Space Grotesk
-// Body/UI: Geist Sans
-import "@fontsource-variable/space-grotesk";
-// Geist Sans ist bei Fontsource aktuell als statische Familie verfügbar.
-// Deshalb importieren wir die benötigten Gewichte explizit.
-import "@fontsource/geist-sans/300.css";
-import "@fontsource/geist-sans/400.css";
-import "@fontsource/geist-sans/500.css";
-import "@fontsource/geist-sans/600.css";
+// Fonts werden ueber die Astro Fonts API aus der Konfiguration eingebunden.
+import { Font } from "astro:assets";
 
 import "../styles/global.css";
 import { site, sameAsLinks } from "../lib/site";
@@ -169,7 +161,9 @@ const jsonLdGraph = {
       document.documentElement.dataset.js = "true";
     </script>
 
-    <!-- Fonts werden lokal via Fontsource geladen (siehe Frontmatter) -->
+    <!-- Fonts via Astro Fonts API -->
+    <Font cssVariable="--font-geist-sans" />
+    <Font cssVariable="--font-space-grotesk" />
 
     <!-- Globale Styles werden über Astro importiert (siehe Frontmatter) -->
 

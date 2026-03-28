@@ -14,7 +14,7 @@ Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑
 
 ## Voraussetzungen
 
-- **Node.js**
+- **Node.js** (>= 22.12.0)
 - **npm**
 
 ## Schnellstart
