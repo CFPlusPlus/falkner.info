@@ -22,6 +22,11 @@
   --accent: 28 100% 66%;
   --accent2: 28 100% 76%;
 
+  /* Hintergrund-Lichter: warm aus dem Logo, dazu ein kuehler Gegenspieler */
+  --bg-glow-warm: 24 82% 52%;
+  --bg-glow-cool: 196 66% 42%;
+  --bg-glow-deep: 223 56% 44%;
+
   /* Typography */
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
@@ -209,6 +214,43 @@ a {
   z-index: -10;
   overflow: hidden;
   pointer-events: none;
+  background:
+    radial-gradient(
+      86% 66% at 6% 12%,
+      hsl(var(--bg-glow-warm) / 0.09) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      84% 66% at 92% 8%,
+      hsl(var(--bg-glow-deep) / 0.15) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      78% 60% at 56% 28%,
+      hsl(var(--bg-glow-cool) / 0.05) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      96% 76% at 52% 100%,
+      hsl(var(--bg-glow-deep) / 0.05) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      74% 56% at 34% 56%,
+      hsl(228 34% 12% / 0.26) 0%,
+      transparent 66%
+    ),
+    radial-gradient(
+      82% 62% at 72% 46%,
+      hsl(222 28% 10% / 0.2) 0%,
+      transparent 68%
+    ),
+    linear-gradient(
+      135deg,
+      hsl(229 40% 5%) 0%,
+      hsl(228 34% 8%) 42%,
+      hsl(223 30% 4%) 100%
+    );
 }
 
 .bg-blob {
@@ -221,27 +263,27 @@ a {
 
 /* Positionen bewusst "out of frame", damit es nur ein sanftes Farblicht ist */
 .bg-blob-a {
-  width: var(--blob-a);
-  height: var(--blob-a);
-  top: calc(var(--blob-a) * -0.28);
-  left: calc(var(--blob-a) * -0.34);
-  background: hsl(var(--accent) / 0.16);
+  width: calc(var(--blob-a) * 1.18);
+  height: calc(var(--blob-a) * 0.82);
+  top: calc(var(--blob-a) * -0.18);
+  left: calc(var(--blob-a) * -0.24);
+  background: hsl(var(--bg-glow-warm) / 0.03);
 }
 
 .bg-blob-b {
-  width: var(--blob-b);
-  height: var(--blob-b);
-  top: 12vmin;
-  right: calc(var(--blob-b) * -0.36);
-  background: hsl(var(--accent2) / 0.14);
+  width: calc(var(--blob-b) * 1.1);
+  height: calc(var(--blob-b) * 0.74);
+  top: 2vmin;
+  right: calc(var(--blob-b) * -0.2);
+  background: hsl(var(--bg-glow-deep) / 0.06);
 }
 
 .bg-blob-c {
-  width: var(--blob-c);
-  height: var(--blob-c);
-  bottom: calc(var(--blob-c) * -0.34);
-  left: 10vmin;
-  background: hsl(var(--accent) / 0.13);
+  width: calc(var(--blob-c) * 1.22);
+  height: calc(var(--blob-c) * 0.88);
+  bottom: calc(var(--blob-c) * -0.22);
+  left: 12vmin;
+  background: hsl(var(--bg-glow-cool) / 0.035);
 }
 
 .bg-overlay {
@@ -249,8 +291,9 @@ a {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    hsl(var(--bg) / 0.28),
-    hsl(var(--bg)),
+    hsl(var(--bg) / 0.2),
+    hsl(var(--bg) / 0.58) 34%,
+    hsl(var(--bg) / 0.93) 74%,
     hsl(var(--bg))
   );
 }
@@ -258,7 +301,7 @@ a {
 .bg-vignette {
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 var(--blob-vignette) rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 0 var(--blob-vignette) rgba(0, 0, 0, 0.58);
 }
 
 /* Kleine Helfer-Klasse für Meta-Text */
