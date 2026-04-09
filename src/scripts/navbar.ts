@@ -28,10 +28,8 @@ export function initNavbar(): void {
 
   const btn = document.getElementById("menuBtn") as HTMLButtonElement | null;
   const menu = document.getElementById("mobileMenu") as HTMLElement | null;
-  const closeBtn = document.getElementById(
-    "menuClose",
-  ) as HTMLButtonElement | null;
   const overlay = document.getElementById("menuOverlay") as HTMLElement | null;
+  const header = document.getElementById("siteHeader") as HTMLElement | null;
 
   if (!btn || !menu) return;
 
@@ -44,6 +42,11 @@ export function initNavbar(): void {
 
   let isOpen = false;
   let lastFocused: HTMLElement | null = null;
+
+  const syncMenuOffset = () => {
+    const top = header?.getBoundingClientRect().bottom ?? 0;
+    menu.style.setProperty("--mobile-menu-top", `${top}px`);
+  };
 
   const getFocusables = () => {
     return Array.from(
@@ -87,6 +90,8 @@ export function initNavbar(): void {
     if (isOpen) return;
     isOpen = true;
 
+    syncMenuOffset();
+
     const active = document.activeElement;
     lastFocused = active instanceof HTMLElement ? active : null;
 
@@ -100,11 +105,7 @@ export function initNavbar(): void {
 
     // Fokus sinnvoll setzen
     const focusables = getFocusables();
-    (
-      focusables.find((el) => el.id === "menuClose") ??
-      focusables[0] ??
-      menu
-    ).focus();
+    (btn ?? focusables[0] ?? menu).focus();
 
     window.addEventListener("keydown", onKey, { signal });
   };
@@ -125,9 +126,11 @@ export function initNavbar(): void {
     lastFocused?.focus();
   };
 
+  syncMenuOffset();
+
   btn.addEventListener("click", () => (isOpen ? close() : open()), { signal });
-  closeBtn?.addEventListener("click", close, { signal });
   overlay?.addEventListener("click", close, { signal });
+  window.addEventListener("resize", syncMenuOffset, { signal });
 
   // Nach Klick auf einen Link schließen
   menu

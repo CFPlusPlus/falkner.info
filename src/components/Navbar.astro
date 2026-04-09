@@ -2,8 +2,6 @@
 // Hinweis: Theme-Badge ist aktuell deaktiviert (Design bleibt vorerst fest).
 
 import type { NavLink } from "../lib/navigation";
-import Icon from "./Icon.astro";
-
 type Props = {
   brand?: string;
   // Links werden aus der zentralen Navigation als readonly Array übergeben.
@@ -20,12 +18,12 @@ const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
 const homeHref = withBase('/');
 const logoSrc = withBase('/favicons/android-chrome-192x192.png');
 ---
-<header class="sticky top-0 z-50">
+<header id="siteHeader" class="sticky top-0 z-50">
 
   <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
 
     <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
-      <a href={homeHref} class="flex items-center gap-3 group" aria-label="Zur Startseite">
+      <a href={homeHref} class="flex min-w-0 items-center gap-3 group" aria-label="Zur Startseite">
         <img
           src={logoSrc}
           width="28"
@@ -33,7 +31,7 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
           alt=""
           decoding="async"
           class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
-        <div class="leading-none">
+        <div class="min-w-0 leading-none">
           <div class="text-sm font-[var(--w-title)] tracking-tight">{brand}</div>
           <div class="meta mt-1">Persönliche Website · Einblicke & Links</div>
         </div>
@@ -57,11 +55,13 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
       <button
         type="button"
         id="menuBtn"
-        class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
+        class="menu-toggle md:hidden relative z-[70] inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
         aria-label="Menü öffnen"
         aria-expanded="false"
         aria-controls="mobileMenu">
-        <Icon name="menu-2" size={20} strokeWidth={1.4} />
+        <span class="menu-toggle__line menu-toggle__line--top" aria-hidden="true"></span>
+        <span class="menu-toggle__line menu-toggle__line--middle" aria-hidden="true"></span>
+        <span class="menu-toggle__line menu-toggle__line--bottom" aria-hidden="true"></span>
         <span class="sr-only">Menü</span>
       </button>
     </div>
@@ -70,7 +70,8 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
   <!-- Mobile Overlay-Menü (Navbar bleibt stabil) -->
   <div
     id="mobileMenu"
-    class="fixed inset-0 z-[60] hidden"
+    class="fixed inset-x-0 bottom-0 z-[60] hidden"
+    style="top: var(--mobile-menu-top, 0px);"
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
@@ -81,14 +82,6 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
       <div class="p-5">
         <div class="flex items-center justify-between">
           <div class="meta">Navigation</div>
-          <button
-            type="button"
-            id="menuClose"
-            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
-            aria-label="Menü schließen">
-            <Icon name="x" size={20} strokeWidth={1.4} />
-            <span class="sr-only">Schließen</span>
-          </button>
         </div>
 
         <div class="mt-6 space-y-1">
@@ -107,6 +100,48 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
   </div>
 
   <style>
+    .menu-toggle__line {
+      position: absolute;
+      left: 50%;
+      width: 20px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: currentColor;
+      transform-origin: center;
+      translate: -50% 0;
+      transition:
+        top 220ms ease,
+        transform 220ms ease,
+        opacity 180ms ease;
+    }
+
+    .menu-toggle__line--top {
+      top: 12px;
+    }
+
+    .menu-toggle__line--middle {
+      top: 19px;
+    }
+
+    .menu-toggle__line--bottom {
+      top: 26px;
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-toggle__line--top {
+      top: 19px;
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-toggle__line--middle {
+      opacity: 0;
+      transform: scaleX(0.4);
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-toggle__line--bottom {
+      top: 19px;
+      transform: rotate(-45deg);
+    }
+
     /* Minimalistischer Active-State: kleine Unterstreichung */
     :global(a.navlink[data-active="true"]) {
       color: hsl(var(--text) / 1);
@@ -124,6 +159,10 @@ const logoSrc = withBase('/favicons/android-chrome-192x192.png');
       animation: line-in 700ms ease-out both;
     }
     @media (prefers-reduced-motion: reduce) {
+      .menu-toggle__line {
+        transition: none;
+      }
+
       :global(a.navlink[data-active="true"]::after) {
         animation: none;
       }
