@@ -3,6 +3,7 @@ import path from "node:path";
 
 const DIST_DIR = path.resolve("dist");
 const HEADERS_PATH = path.join(DIST_DIR, "_headers");
+const EXTRA_HEADER_POLICIES = ["style-src-attr 'unsafe-inline'"];
 
 const META_CSP_RE =
   /<meta\s+http-equiv="content-security-policy"\s+content="([^"]*)"\s*\/?>/i;
@@ -94,7 +95,9 @@ async function main() {
     );
   }
 
-  const mergedPolicy = mergePolicies(policies);
+  // Style-Attribute werden an mehreren legitimen Stellen im HTML verwendet
+  // und muessen deshalb in der finalen HTTP-CSP explizit erlaubt werden.
+  const mergedPolicy = mergePolicies([...policies, ...EXTRA_HEADER_POLICIES]);
   const headersBody = `/*\n  Content-Security-Policy: ${mergedPolicy}\n`;
 
   await writeFile(HEADERS_PATH, headersBody, "utf8");
