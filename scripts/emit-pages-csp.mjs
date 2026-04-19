@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -7,6 +8,41 @@ const EXTRA_HEADER_POLICIES = ["style-src-attr 'unsafe-inline'"];
 
 const META_CSP_RE =
   /<meta\s+http-equiv="content-security-policy"\s+content="([^"]*)"\s*\/?>/i;
+const INLINE_SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+
+function isExecutableInlineScript(attributes) {
+  const normalized = attributes.toLowerCase();
+  if (/\ssrc\s*=/.test(normalized)) return false;
+
+  const typeMatch = normalized.match(/\stype\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
+  const type = (typeMatch?.[1] || typeMatch?.[2] || "").trim();
+
+  if (!type) return true;
+
+  return (
+    type === "module" ||
+    type === "text/javascript" ||
+    type === "application/javascript"
+  );
+}
+
+function collectInlineScriptPolicy(html) {
+  const hashes = [];
+
+  for (const match of html.matchAll(INLINE_SCRIPT_RE)) {
+    const attributes = match[1] ?? "";
+    const content = match[2] ?? "";
+
+    if (!isExecutableInlineScript(attributes)) continue;
+
+    const hash = createHash("sha256").update(content).digest("base64");
+    const value = `'sha256-${hash}'`;
+
+    if (!hashes.includes(value)) hashes.push(value);
+  }
+
+  return hashes.length > 0 ? `script-src ${hashes.join(" ")}` : null;
+}
 
 async function collectHtmlFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -82,6 +118,9 @@ async function main() {
     if (!match) continue;
 
     policies.push(match[1]);
+
+    const inlineScriptPolicy = collectInlineScriptPolicy(html);
+    if (inlineScriptPolicy) policies.push(inlineScriptPolicy);
 
     const withoutMeta = html.replace(META_CSP_RE, "");
     if (withoutMeta !== html) {
