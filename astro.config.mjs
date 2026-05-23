@@ -16,6 +16,9 @@ const GIT_COMMIT_HASH = (() => {
 
 export default defineConfig({
   site: "https://falkner.info",
+  markdown: {
+    syntaxHighlight: false,
+  },
   security: {
     csp: {
       directives: [
