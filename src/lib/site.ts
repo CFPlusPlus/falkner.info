@@ -94,7 +94,7 @@ export type Project = {
 export const spotlightProject: Project = {
   title: "Minecraft Gilde",
   summary:
-    "Ein entspannter deutscher Vanilla-SMP-Server ohne Whitelist und mein persönliches Herzensprojekt. Ich betreue dort Server und Website, kümmere mich um Technik, Inhalte und die kleinen Dinge im Hintergrund, die eine Community angenehm machen. Vieles entsteht Schritt für Schritt, aber genau das macht den Reiz für mich aus.",
+    "Ein entspannter deutscher Vanilla-SMP-Server ohne Whitelist und mein persönliches Herzensprojekt. Für mich ist die Gilde vor allem ein Ort, an dem Technik, Inhalte und Community-Alltag zusammenpassen müssen. Vieles entsteht Schritt für Schritt, aber genau das macht den Reiz daran aus.",
   tags: ["Vanilla SMP", "Community", "minecraft-gilde.de"],
   href: "https://minecraft-gilde.de",
   meta: "Herzensprojekt",
@@ -209,7 +209,7 @@ export const interests: InterestCard[] = [
   {
     title: "Minecraft & Community",
     summary:
-      "Bei der Minecraft Gilde kommen für mich Technik, Community und ein bisschen Organisation zusammen. Ich betreue Server und Website, plane gelegentlich Events und mag besonders die kleinen Verbesserungen, die man im Alltag vielleicht kaum sieht, die aber dafür sorgen, dass alles runder läuft.",
+      "Mich interessiert, wie aus einem Server eine angenehme Gemeinschaft wird: klare Regeln, verlässliche Technik, ein guter Ton miteinander und gelegentlich Ideen, die wieder etwas Bewegung in den Alltag bringen.",
     chips: ["Vanilla SMP", "Server & Website", "Herzensprojekt"],
     icon: "pickaxe",
   },
@@ -230,7 +230,7 @@ export const interests: InterestCard[] = [
   {
     title: "Draußen",
     summary:
-      "Draußen unterwegs zu sein hilft mir, den Kopf freizubekommen. Am liebsten auf entspannten Tagestouren mit Aussicht, frischer Luft und genug Abstand zum Alltag, ohne dass daraus gleich eine große Expedition werden muss.",
+      "Draußen unterwegs zu sein ist für mich der einfachste Weg, Tempo rauszunehmen. Am liebsten auf entspannten Tagestouren mit Aussicht, frischer Luft und genug Strecke, damit es sich nach einem kleinen Wechsel der Perspektive anfühlt.",
     chips: ["Tagestouren", "entspannt", "Alpen"],
     icon: "mountain",
   },
