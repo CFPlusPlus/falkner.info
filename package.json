@@ -8,8 +8,8 @@
     "build": "astro build",
     "postbuild": "node scripts/emit-pages-csp.mjs",
     "preview": "astro preview",
-    "format": "prettier . --check",
-    "format:write": "prettier . --write",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "check": "astro check",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

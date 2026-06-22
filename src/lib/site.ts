@@ -18,7 +18,7 @@ export const site = {
   repositoryUrl: "https://github.com/CFPlusPlus/falkner.info",
   title: "Christian Falkner – falkner.info",
   description:
-    "Persönliche Seite von Christian Falkner – Links, Projekte und ein paar Einblicke.",
+    "Persönliche Seite von Christian Falkner mit Projekten, Links und Einblicken in Technik, Gaming, Community und Dinge, die gerade wichtig sind.",
   author: "Christian Falkner",
   email: "webmaster@falkner.info",
   minecraft: {
@@ -94,7 +94,7 @@ export type Project = {
 export const spotlightProject: Project = {
   title: "Minecraft Gilde",
   summary:
-    "Ein entspannter deutscher Vanilla-SMP-Server ohne Whitelist – mein Herzensprojekt, bei dem ich Server und Website betreue und immer wieder an Details feile.",
+    "Ein entspannter deutscher Vanilla-SMP-Server ohne Whitelist und mein persönliches Herzensprojekt. Ich betreue dort Server und Website, kümmere mich um Technik, Inhalte und die kleinen Dinge im Hintergrund, die eine Community angenehm machen. Vieles entsteht Schritt für Schritt, aber genau das macht den Reiz für mich aus.",
   tags: ["Vanilla SMP", "Community", "minecraft-gilde.de"],
   href: "https://minecraft-gilde.de",
   meta: "Herzensprojekt",
@@ -104,22 +104,22 @@ export const projects: Project[] = [
   {
     title: "Diese Seite",
     summary:
-      "Du bist gerade hier. Ich halte die Seite bewusst schlank – als Startpunkt für Links, Projekte und ein bisschen Kontext.",
+      "Genau diese Seite hier. Ich halte sie bewusst schlank und persönlich: als Startpunkt für Links, Projekte und ein bisschen Kontext zu den Dingen, die mich gerade begleiten.",
     tags: ["Personal", "Astro", "Tailwind"],
     meta: "Du bist hier",
   },
   {
-    title: "ANTI-CORONA-KARTELL",
+    title: "GAMING GILDE",
     summary:
-      "Eine Community aus Freunden – online entstanden, geblieben wegen Humor, Gesprächen und gemeinsamen Abenden.",
+      "Aus einer Online-Community wurde mit der Zeit ein Freundeskreis. Die Seite steht für gemeinsame Abende, viel Humor, Gespräche nebenbei und dafür, dass aus Spielen manchmal mehr entsteht als nur eine Runde am Bildschirm.",
     tags: ["Community", "Gaming"],
-    href: "https://www.anti-corona-kartell.de/",
+    href: "https://www.gaming-gilde.org",
     meta: "Freunde & Community",
   },
   {
     title: "PC Builds – Galerie",
     summary:
-      "Eine kleine Sammlung meiner Builds und Kühlungs-Setups – von Luftkühlung bis zu Custom-Wasserkühlung.",
+      "Eine kleine Sammlung von Systemen, an denen ich gebaut oder getüftelt habe. Von großen Towern bis zu Custom-Wasserkühlungen ist einiges dabei.",
     tags: ["Hardware", "Galerie"],
     href: "#pc-builds",
     meta: "Bilder",
@@ -150,36 +150,52 @@ export const pcBuildPhotos: GalleryImage[] = [
   galleryImage(
     pc1,
     "Hauptrechner (2023)",
-    "Specs: CPU: Core i5 13600K, GPU: RTX 3090, RAM: 32GB DDR5",
+    "Mein Hauptrechner von 2023: Core i5-13600K, RTX 3090 und 32 GB DDR5-RAM.",
   ),
   galleryImage(
     pc2,
     "Hauptrechner (2023)",
-    "Die CPU und GPU werden per Custom-Wasserkühlung gekühlt.",
+    "Bei diesem Build laufen CPU und GPU über eine Custom-Wasserkühlung.",
   ),
   galleryImage(
     pc3,
     "Hauptrechner (2022)",
-    "Specs: CPU: Ryzen 9 5900X, GPU: RTX 3080, RAM: 32GB DDR4",
+    "Mein Hauptrechner von 2022: Ryzen 9 5900X, RTX 3080 und 32 GB DDR4-RAM.",
   ),
   galleryImage(
     pc4,
     "Hauptrechner (2022)",
-    "Im Mai 2022 wurde der Rechner auf Custom-Wasserkühlung umgebaut.",
+    "Im Mai 2022 habe ich das System auf eine Custom-Wasserkühlung umgebaut.",
   ),
   galleryImage(
     pc5,
     "Hauptrechner (2021)",
-    "Mein damaliger Hauptrechner im Wunderschönen Corsair Obsidian 500D.",
+    "Mein damaliger Hauptrechner im wunderschönen Corsair Obsidian 500D.",
   ),
 ];
 
 export const hikePhotos: GalleryImage[] = [
-  galleryImage(tour1, "Tagestour 1", "Tagestour 1"),
-  galleryImage(tour2, "Tagestour 2", "Tagestour 2"),
-  galleryImage(tour3, "Tagestour 3", "Tagestour 3"),
-  galleryImage(tour4, "Tagestour 4", "Tagestour 4"),
-  galleryImage(tour5, "Tagestour 5", "Tagestour 5"),
+  galleryImage(tour1, "Tagestour 1", "Ein ruhiger Moment unterwegs."),
+  galleryImage(
+    tour2,
+    "Tagestour 2",
+    "Aussicht, frische Luft und ein bisschen Abstand zum Alltag.",
+  ),
+  galleryImage(
+    tour3,
+    "Tagestour 3",
+    "Unterwegs auf einer entspannten Tagestour.",
+  ),
+  galleryImage(
+    tour4,
+    "Tagestour 4",
+    "Wege, Ausblicke und Zeit zum Durchatmen.",
+  ),
+  galleryImage(
+    tour5,
+    "Tagestour 5",
+    "Ein kleiner Ausschnitt aus einer Tour draußen.",
+  ),
 ];
 
 export type InterestCard = {
@@ -192,25 +208,25 @@ export const interests: InterestCard[] = [
   {
     title: "Minecraft & Community",
     summary:
-      "Mein Herzensprojekt: Ich betreue den Server und die Website der Minecraft Gilde, plane Events und feile an Performance und Details – gemeinsam macht’s am meisten Spaß.",
+      "Bei der Minecraft Gilde kommen für mich Technik, Community und ein bisschen Organisation zusammen. Ich betreue Server und Website, plane gelegentlich Events und mag besonders die kleinen Verbesserungen, die man im Alltag vielleicht kaum sieht, die aber dafür sorgen, dass alles runder läuft.",
     chips: ["Vanilla SMP", "Server & Website", "Herzensprojekt"],
   },
   {
     title: "Computer",
     summary:
-      "Ich baue richtig gern PC-Systeme – von sauberer Luftkühlung bis zur Custom-Wasserkühlung. Für mich ist das Tüfteln, bis alles genau passt.",
+      "PC-Systeme faszinieren mich, weil am Ende viele kleine Entscheidungen zusammenpassen müssen: Gehäuse, Kühlung, Lautstärke, Leistung und manchmal auch die Fehlersuche, wenn etwas nicht direkt funktioniert. Genau dieses Tüfteln macht für mich den Reiz aus.",
     chips: ["PC-Builds", "Custom-Wasserkühlung", "Luftkühlung"],
   },
   {
     title: "Gaming",
     summary:
-      "Zum Abschalten: ein paar Runden Forza Horizon, zwischendurch Brotato – und wenn ich länger Zeit habe, Cities: Skylines 2.",
+      "Gaming ist für mich vor allem Abschalten und gemeinsame Zeit. Mal ein paar entspannte Runden Forza Horizon, zwischendurch Brotato oder, wenn mehr Ruhe da ist, eine längere Session Cities: Skylines 2.",
     chips: ["Forza Horizon", "Brotato", "Cities: Skylines 2"],
   },
   {
     title: "Draußen",
     summary:
-      "Für den Kopf: entspannte Tagestouren, am liebsten mit Aussicht und ohne Stress.",
+      "Draußen unterwegs zu sein hilft mir, den Kopf freizubekommen. Am liebsten auf entspannten Tagestouren mit Aussicht, frischer Luft und genug Abstand zum Alltag, ohne dass daraus gleich eine große Expedition werden muss.",
     chips: ["Tagestouren", "entspannt", "Alpen"],
   },
 ] as const;
