@@ -2,6 +2,7 @@
 import Section from "../Section.astro";
 import Card from "../Card.astro";
 import Chip from "../Chip.astro";
+import Icon from "../Icon.astro";
 
 import type { InterestCard } from "../../lib/site";
 
@@ -22,8 +23,13 @@ const { interests } = Astro.props;
       <Card
         as="article" variant="softBlur" class="reveal p-6"
         style={`--reveal-delay: ${Math.min(i * 70, 210)}ms`}>
-        <h3 class="text-lg font-[var(--w-title)] tracking-tight text-text">{it.title}</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted">{it.summary}</p>
+        <div class="flex items-center gap-3">
+          <span class="grid size-10 shrink-0 place-items-center rounded-md border border-border/70 bg-surface/70 text-accent/85 shadow-[0_0_24px_rgba(117,125,255,0.10)]">
+            <Icon name={it.icon} size={22} strokeWidth={1.35} />
+          </span>
+          <h3 class="text-lg font-[var(--w-title)] tracking-tight text-text">{it.title}</h3>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{it.summary}</p>
         <div class="mt-4 flex flex-wrap gap-2">
           {it.chips.map((c) => (
             <Chip>{c}</Chip>

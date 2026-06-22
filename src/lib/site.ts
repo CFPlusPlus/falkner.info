@@ -202,6 +202,7 @@ export type InterestCard = {
   title: string;
   summary: string;
   chips: string[];
+  icon: string;
 };
 
 export const interests: InterestCard[] = [
@@ -210,23 +211,27 @@ export const interests: InterestCard[] = [
     summary:
       "Bei der Minecraft Gilde kommen für mich Technik, Community und ein bisschen Organisation zusammen. Ich betreue Server und Website, plane gelegentlich Events und mag besonders die kleinen Verbesserungen, die man im Alltag vielleicht kaum sieht, die aber dafür sorgen, dass alles runder läuft.",
     chips: ["Vanilla SMP", "Server & Website", "Herzensprojekt"],
+    icon: "pickaxe",
   },
   {
     title: "Computer",
     summary:
       "PC-Systeme faszinieren mich, weil am Ende viele kleine Entscheidungen zusammenpassen müssen: Gehäuse, Kühlung, Lautstärke, Leistung und manchmal auch die Fehlersuche, wenn etwas nicht direkt funktioniert. Genau dieses Tüfteln macht für mich den Reiz aus.",
     chips: ["PC-Builds", "Custom-Wasserkühlung", "Luftkühlung"],
+    icon: "cpu",
   },
   {
     title: "Gaming",
     summary:
       "Gaming ist für mich vor allem Abschalten und gemeinsame Zeit. Mal ein paar entspannte Runden Forza Horizon, zwischendurch Brotato oder, wenn mehr Ruhe da ist, eine längere Session Cities: Skylines 2.",
     chips: ["Forza Horizon", "Brotato", "Cities: Skylines 2"],
+    icon: "gamepad",
   },
   {
     title: "Draußen",
     summary:
       "Draußen unterwegs zu sein hilft mir, den Kopf freizubekommen. Am liebsten auf entspannten Tagestouren mit Aussicht, frischer Luft und genug Abstand zum Alltag, ohne dass daraus gleich eine große Expedition werden muss.",
     chips: ["Tagestouren", "entspannt", "Alpen"],
+    icon: "mountain",
   },
 ] as const;
