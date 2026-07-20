@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
-    "@tabler/icons-sprite": "3.44.0",
+    "@tabler/icons-sprite": "3.45.0",
     "astro": "^7.0.0"
   },
   "devDependencies": {
