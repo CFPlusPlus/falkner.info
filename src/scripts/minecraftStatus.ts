@@ -4,7 +4,7 @@
 // - Kein Inline-JS in MinecraftServerStatus.astro
 // - DOM-Hooks ueber data-Attribute
 // - Lazy-Load nur bei Sichtbarkeit
-// - Saubere Re-Initialisierung bei Astro View Transitions
+// - Laufende Abfragen und Listener bei erneuter Initialisierung aufräumen
 
 type State = "online" | "offline" | "unknown";
 

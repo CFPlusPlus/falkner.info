@@ -41,8 +41,7 @@ export function isScrollLocked(): boolean {
   return (window.__scrollLockCount ?? 0) > 0;
 }
 
-// Inline-Skripte in Astro-Komponenten können keine /src-Imports auflösen.
-// Deshalb stellen wir eine kleine API auf window bereit.
+// Gemeinsame API für Navbar und Lightbox bereitstellen.
 
 if (typeof window !== "undefined") {
   window.__scrollLock = {

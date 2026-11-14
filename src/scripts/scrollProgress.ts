@@ -7,18 +7,16 @@
 let controller: AbortController | null = null;
 
 function setupScrollProgress(): void {
+  // Vor einer erneuten Initialisierung auch Listener entfernter Elemente aufräumen.
+  controller?.abort();
+  controller = null;
+
   const fill = document.getElementById("scrollProgressFill");
   const track = document.getElementById("scrollProgressWrap");
   if (!fill || !track) return;
 
-  controller?.abort();
   controller = new AbortController();
   const { signal } = controller;
-
-  // Mehrfach-Initialisierungen vermeiden (z.B. bei View Transitions)
-  // Hinweis: pro Element binden wir nur einmal, trotzdem aborten wir alte Listener zur Sicherheit.
-  if ((fill as HTMLElement).dataset.progressBound === "true") return;
-  (fill as HTMLElement).dataset.progressBound = "true";
 
   let ticking = false;
   const doc = document.documentElement;

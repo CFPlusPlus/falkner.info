@@ -3,7 +3,7 @@
 // Ziel:
 // - Eine Stelle für alle Browser-Initialisierungen
 // - Keine Inline-Skripte in Komponenten
-// - Sauber bei Astro View Transitions
+// - Einmal pro vollständig geladener Seite initialisieren
 
 import "./scrollLock";
 
@@ -28,6 +28,3 @@ if (document.readyState === "loading") {
 } else {
   init();
 }
-
-// Astro View Transitions: nach Seitenwechsel erneut initialisieren
-document.addEventListener("astro:page-load", init);

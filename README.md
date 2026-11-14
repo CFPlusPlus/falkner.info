@@ -14,17 +14,18 @@ Sie ist bewusst schlank gehalten: Links, Projekte, Interessen und eine Bilder‑
 
 ## Voraussetzungen
 
-- **Node.js** (>= 22.12.0)
-- **npm**
+- **Node.js 26** (konkrete Version in `.nvmrc`)
+- **npm 12** (konkrete Version unter `packageManager` in `package.json`)
 
 ## Schnellstart
 
 ```bash
+npm ci                # Abhängigkeiten aus der Lockdatei installieren
 npm run dev           # Dev‑Server (Hot Reload)
 npm run build         # Production Build nach ./dist
 npm run preview       # Production Build lokal testen
-npm run format        # Prettier (Check)
-npm run format:write  # Prettier (Write)
+npm run format:check  # Formatierung prüfen
+npm run format        # Dateien formatieren
 npm run lint          # ESLint
 npm run check         # Astro Check (Types/Templates)
 ```
@@ -98,7 +99,7 @@ Neue Icons dort importieren und in `ICONS` registrieren. Fehlt ein verwendetes I
 - **JSON-LD** ist global im `BaseLayout` integriert (WebSite + Person + WebPage).
   - Optional kannst du pro Seite zusätzliches Schema über `jsonLd` an `BaseLayout` übergeben.
 
-## Deployment
+## Hosting
 
-`npm run build` erzeugt eine statische Ausgabe in **`dist/`**.
-Den Ordner `dist/` kann dann auf den Webserver hochladen werden.
+Die Website wird über **Cloudflare Pages** bereitgestellt.
+Beim Build erzeugt `scripts/emit-pages-csp.mjs` die Datei `dist/_headers` mit der Content Security Policy für Cloudflare Pages.

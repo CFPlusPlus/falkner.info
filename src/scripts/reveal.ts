@@ -2,7 +2,7 @@
 //
 // Ziel:
 // - Große Inline-Skripte aus dem Layout herausziehen
-// - Logik zentral halten und bei Astro View Transitions sauber neu initialisieren
+// - Logik zentral im Client-Entry initialisieren
 
 function initReveal(): void {
   const prefersReduced = window.matchMedia?.(
@@ -49,7 +49,7 @@ function initClipboard(): void {
   const status = document.querySelector<HTMLElement>("[data-copy-status]");
   if (!copyBtn || !status) return;
 
-  // Mehrfach-Bindings verhindern (z.B. bei View Transitions)
+  // Mehrfach-Bindings bei erneuten Initialisierungen verhindern.
   if (copyBtn.dataset.copyBound === "true") return;
   copyBtn.dataset.copyBound = "true";
 

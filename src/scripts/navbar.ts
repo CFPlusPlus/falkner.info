@@ -3,7 +3,6 @@
 // Ziel:
 // - Kein Inline-JS in Komponenten
 // - Initialisierung zentral (client.ts)
-// - Robust bei Astro View Transitions (astro:page-load)
 //
 // Cleanup:
 // - Wir nutzen AbortController, damit Event-Listener beim Re-Init sauber entfernt werden.
@@ -21,7 +20,7 @@ function getScrollLock(): ScrollLockApi | null {
 let controller: AbortController | null = null;
 
 export function initNavbar(): void {
-  // Alte Listener entfernen (z.B. nach astro:page-load)
+  // Alte Listener vor einer erneuten Initialisierung entfernen.
   controller?.abort();
   controller = new AbortController();
   const { signal } = controller;
