@@ -13,6 +13,7 @@ import { initNavbar } from "./navbar";
 import { initLightboxes } from "./lightbox";
 import { initMinecraftStatus } from "./minecraftStatus";
 import { initBackButton } from "./backButton";
+import { initRequestedPath } from "./requestedPath";
 
 function init(): void {
   initGlobalUI();
@@ -21,6 +22,7 @@ function init(): void {
   initLightboxes();
   initMinecraftStatus();
   initBackButton();
+  initRequestedPath();
 }
 
 if (document.readyState === "loading") {

@@ -55,7 +55,8 @@ const quickLinks = [
           Seite nicht gefunden
         </h1>
         <p class="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-          Der Link führt ins Leere. Vielleicht hat sich die URL geändert — oder es war ein Tippfehler.
+          Der Link führt ins Leere. Vielleicht hat sich die URL geändert — oder
+          es war ein Tippfehler.
         </p>
 
         <Divider class="mt-8" />
@@ -69,15 +70,26 @@ const quickLinks = [
               Wichtig: Diese Deko-Layer dürfen keine Klicks „abfangen“.
               Ohne pointer-events-none liegen absolute Elemente schnell über dem Inhalt.
             -->
-            <div aria-hidden="true" class="absolute -top-20 -right-24 h-[340px] w-[340px] rounded-full bg-accent/12 blur-3xl pointer-events-none"></div>
-            <div aria-hidden="true" class="absolute -bottom-24 -left-24 h-[360px] w-[360px] rounded-full bg-accent2/10 blur-3xl pointer-events-none"></div>
-            <div aria-hidden="true" class="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_60px_rgba(0,0,0,0.35)]"></div>
+            <div
+              aria-hidden="true"
+              class="absolute -top-20 -right-24 h-[340px] w-[340px] rounded-full bg-accent/12 blur-3xl pointer-events-none"
+            ></div>
+            <div
+              aria-hidden="true"
+              class="absolute -bottom-24 -left-24 h-[360px] w-[360px] rounded-full bg-accent2/10 blur-3xl pointer-events-none"
+            ></div>
+            <div
+              aria-hidden="true"
+              class="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_60px_rgba(0,0,0,0.35)]"
+            ></div>
 
             <div class="flex items-start justify-between gap-6">
               <div>
                 <div class="meta">Status</div>
                 <div class="mt-2 text-6xl sm:text-7xl font-[var(--w-title)] tracking-tight">
-                  <span class="bg-gradient-to-r from-text via-text to-muted bg-clip-text text-transparent">404</span>
+                  <span class="bg-gradient-to-r from-text via-text to-muted bg-clip-text text-transparent">
+                    404
+                  </span>
                 </div>
               </div>
               <div class="mt-1">
@@ -86,8 +98,9 @@ const quickLinks = [
             </div>
 
             <p class="mt-4 text-sm text-muted leading-relaxed max-w-prose">
-              Wenn du von einer anderen Seite hier gelandet bist, kann der Link veraltet sein. Du findest alles Wichtige über die
-              Schnelllinks — oder springst direkt zur Startseite.
+              Wenn du von einer anderen Seite hier gelandet bist, kann der Link
+              veraltet sein. Du findest alles Wichtige über die Schnelllinks —
+              oder springst direkt zur Startseite.
             </p>
 
             <div class="mt-6 flex flex-wrap gap-3">
@@ -96,12 +109,20 @@ const quickLinks = [
                 Startseite
               </Button>
 
-              <Button id="backBtn" variant="secondary" ariaLabel="Eine Seite zurück">
+              <Button
+                id="backBtn"
+                variant="secondary"
+                ariaLabel="Eine Seite zurück"
+              >
                 <Icon name="corner-up-left" size={16} />
                 Zurück
               </Button>
 
-              <Button href="/#contact" variant="ghost" ariaLabel="Zum Kontakt springen">
+              <Button
+                href="/#contact"
+                variant="ghost"
+                ariaLabel="Zum Kontakt springen"
+              >
                 Kontakt
                 <Icon name="arrow-right" size={16} />
               </Button>
@@ -116,7 +137,12 @@ const quickLinks = [
             <span class="meta">URL</span>
             <div class="mt-2 flex items-center gap-2">
               <Icon name="link" size={16} class="text-muted" />
-              <code class="rounded-md border border-border/70 bg-bg/40 px-2 py-1 text-xs">{Astro.url.pathname}</code>
+              <code
+                data-requested-path
+                class="min-w-0 [overflow-wrap:anywhere] rounded-md border border-border/70 bg-bg/40 px-2 py-1 text-xs"
+              >
+                Pfad nur mit JavaScript verfügbar
+              </code>
             </div>
           </div>
         </section>
@@ -139,12 +165,18 @@ const quickLinks = [
                     class="text-muted group-hover:text-text transition-colors"
                   />
                   <div class="min-w-0 flex-1">
-                    <div class="text-sm font-[var(--w-title)] text-text">{l.label}</div>
-                    <div class="text-xs text-muted truncate hidden sm:block">{l.href}</div>
+                    <div class="text-sm font-[var(--w-title)] text-text">
+                      {l.label}
+                    </div>
+                    <div class="text-xs text-muted truncate hidden sm:block">
+                      {l.href}
+                    </div>
                   </div>
                 </div>
                 <Icon
-                  name={l.href.startsWith("/") ? "arrow-right" : "arrow-up-right"}
+                  name={
+                    l.href.startsWith("/") ? "arrow-right" : "arrow-up-right"
+                  }
                   size={16}
                   class="text-muted group-hover:text-text transition-colors"
                 />
@@ -157,5 +189,4 @@ const quickLinks = [
   </main>
 
   <Footer />
-
 </BaseLayout>

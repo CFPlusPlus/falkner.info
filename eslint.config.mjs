@@ -55,6 +55,12 @@ export default [
 
   // Build/Cache/Deps ausschließen
   {
-    ignores: ["dist/", ".astro/", "node_modules/"],
+    ignores: [
+      "dist/",
+      ".astro/",
+      "node_modules/",
+      "test-results/",
+      "playwright-report/",
+    ],
   },
 ];

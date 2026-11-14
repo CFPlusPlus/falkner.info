@@ -25,6 +25,14 @@ function setLocked(locked: boolean): void {
 
 export function lockScroll(): void {
   if (typeof document === "undefined") return;
+  // Eine laufende Anker-/Fokus-Scrollanimation vor der ersten Sperre stoppen.
+  if (!isScrollLocked()) {
+    window.scrollTo({
+      top: window.scrollY,
+      left: window.scrollX,
+      behavior: "instant",
+    });
+  }
   const next = (window.__scrollLockCount ?? 0) + 1;
   window.__scrollLockCount = next;
   setLocked(true);

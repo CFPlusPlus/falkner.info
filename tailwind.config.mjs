@@ -21,20 +21,6 @@ export default {
         hair: "0 0 0 1px hsl(var(--border) / 0.7)",
         soft: "0 12px 40px hsl(0 0% 0% / 0.35)",
       },
-      keyframes: {
-        "fade-up": {
-          "0%": { opacity: 0, transform: "translate3d(0, 10px, 0)" },
-          "100%": { opacity: 1, transform: "translate3d(0, 0, 0)" },
-        },
-        "line-in": {
-          "0%": { transform: "scaleX(0)" },
-          "100%": { transform: "scaleX(1)" },
-        },
-      },
-      animation: {
-        "fade-up": "fade-up 600ms ease-out both",
-        "line-in": "line-in 700ms ease-out both",
-      },
     },
   },
   plugins: [],

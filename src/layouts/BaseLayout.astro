@@ -5,7 +5,12 @@ import { Font } from "astro:assets";
 import "../styles/global.css";
 import { site, sameAsLinks } from "../lib/site";
 import JsonLd from "../components/JsonLd.astro";
-import { buildBreadcrumbListJsonLd, buildPersonJsonLd, buildWebPageJsonLd, buildWebSiteJsonLd } from "../lib/jsonld";
+import {
+  buildBreadcrumbListJsonLd,
+  buildPersonJsonLd,
+  buildWebPageJsonLd,
+  buildWebSiteJsonLd,
+} from "../lib/jsonld";
 
 type Props = {
   title?: string;
@@ -23,7 +28,7 @@ const {
   description = site.description,
   canonicalPath = "/",
   // Statt eines großen OG-Bildes nutzen wir standardmäßig das Logo-Icon
-  ogImagePath = "/favicons/android-chrome-512x512.png"
+  ogImagePath = "/favicons/android-chrome-512x512.png",
 } = Astro.props as Props;
 
 // Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
@@ -39,7 +44,6 @@ const resolvePublicUrl = (value: string) => {
   }
 };
 
-
 // Hinweis: Above-the-fold Bilder setzen wir direkt am <Image /> mit `priority`.
 
 const siteUrl = new URL("/", site.canonicalBase).toString();
@@ -54,20 +58,26 @@ const ogImageUrl = resolvePublicUrl(ogImagePath);
 const breadcrumbId = `${canonicalUrl}#breadcrumb`;
 
 const humanizePathSegment = (path: string) => {
-  const seg = path.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean).pop() ?? "";
+  const seg =
+    path
+      .replace(/^\/+|\/+$/g, "")
+      .split("/")
+      .filter(Boolean)
+      .pop() ?? "";
   if (!seg) return "Startseite";
   // "kebab-case" -> "Kebab case"
   const words = seg.split("-").filter(Boolean);
   return words.map((w) => (w ? w[0].toUpperCase() + w.slice(1) : "")).join(" ");
 };
 
-const breadcrumbItems =
-  canonicalPath.startsWith("/404")
-    ? null
-    : [
-        { name: "Startseite", url: siteUrl },
-        ...(canonicalPath === "/" ? [] : [{ name: humanizePathSegment(canonicalPath), url: canonicalUrl }]),
-      ];
+const breadcrumbItems = canonicalPath.startsWith("/404")
+  ? null
+  : [
+      { name: "Startseite", url: siteUrl },
+      ...(canonicalPath === "/"
+        ? []
+        : [{ name: humanizePathSegment(canonicalPath), url: canonicalUrl }]),
+    ];
 
 // JSON-LD: Basis-Schemas (WebSite + Person) und pro Seite ein WebPage-Schema
 const baseSchemas = [
@@ -81,7 +91,10 @@ const baseSchemas = [
   buildPersonJsonLd({
     url: siteUrl,
     name: site.author,
-    logoUrl: new URL("/favicons/android-chrome-512x512.png", siteUrl).toString(),
+    logoUrl: new URL(
+      "/favicons/android-chrome-512x512.png",
+      siteUrl,
+    ).toString(),
     email: site.email,
     // "sameAs" hilft Suchmaschinen beim Zuordnen deiner Profile.
     // SEO-clean: bewusst nur öffentliche Profil-URLs (z. B. GitHub + LinkedIn).
@@ -95,7 +108,9 @@ const baseSchemas = [
     aboutId: `${siteUrl}#person`,
     ...(breadcrumbItems ? { breadcrumbId } : {}),
   }),
-  ...(breadcrumbItems ? [buildBreadcrumbListJsonLd({ id: breadcrumbId, items: breadcrumbItems })] : []),
+  ...(breadcrumbItems
+    ? [buildBreadcrumbListJsonLd({ id: breadcrumbId, items: breadcrumbItems })]
+    : []),
 ];
 
 const extraSchemas = (Astro.props as Props).jsonLd;
@@ -126,14 +141,17 @@ const jsonLdGraph = {
   "@context": "https://schema.org",
   "@graph": graphNodes,
 };
-
 ---
+
 <!doctype html>
 <html lang="de">
   <head>
     <meta charset="utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>{title}</title>
 
     <meta name="author" content={site.author} />
@@ -174,10 +192,24 @@ const jsonLdGraph = {
     <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
 
     <!-- Favicons / App-Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicons/favicon-32x32.png")} />
-    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicons/favicon-16x16.png")} />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href={withBase("/favicons/favicon-32x32.png")}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href={withBase("/favicons/favicon-16x16.png")}
+    />
     <link rel="shortcut icon" href={withBase("/favicon.ico")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/favicons/apple-touch-icon.png")} />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={withBase("/favicons/apple-touch-icon.png")}
+    />
     <link rel="manifest" href={withBase("/site.webmanifest")} />
 
     <!-- Strukturierte Daten (JSON-LD) -->
@@ -187,14 +219,20 @@ const jsonLdGraph = {
   </head>
 
   <body>
-    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <a class="skip-link" href="#main">
+      Zum Inhalt springen
+    </a>
 
     <!-- Scroll-Fortschritt (immer über allem, oberhalb der Navbar) -->
-    <div id="scrollProgressWrap" class="fixed inset-x-0 top-0 z-[100] pointer-events-none">
+    <div
+      id="scrollProgressWrap"
+      class="fixed inset-x-0 top-0 z-[100] pointer-events-none"
+    >
       <div class="h-[1px] w-full bg-border/50">
         <div
           id="scrollProgressFill"
-          class="h-full w-0 bg-gradient-to-r from-accent/95 via-accent2/95 to-accent/95 shadow-[0_0_18px_hsl(var(--accent)/0.35)]"></div>
+          class="h-full w-0 bg-gradient-to-r from-accent/95 via-accent2/95 to-accent/95 shadow-[0_0_18px_hsl(var(--accent)/0.35)]"
+        ></div>
       </div>
     </div>
 
@@ -218,6 +256,5 @@ const jsonLdGraph = {
     <script>
       import "../scripts/client.ts";
     </script>
-
   </body>
 </html>
