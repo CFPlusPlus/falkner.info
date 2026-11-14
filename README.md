@@ -42,6 +42,7 @@ Die meisten Texte/Links/Bilder werden zentral in **`src/lib/site.ts`** gepflegt:
 ### Bilder (Galerie / Lightbox)
 
 Die Galerie nutzt `astro:assets` für optimierte Bilder (responsive Größen + AVIF/WebP).
+AVIF wird bevorzugt; das Fallbackbild wird als WebP ausgegeben, um zusätzliche PNG-Versionen zu vermeiden.
 Lege deine Fotos hier ab:
 
 - `src/assets/gallery/pc/…` (PC‑Systeme)
