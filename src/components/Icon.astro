@@ -1,16 +1,70 @@
 ---
-/**
- * Icon-Komponente (Tabler Icons SVG Sprite)
- *
- * Warum Sprite?
- * - Tabler Webfont wirkt schnell "zu fett" (Glyph ist "gefüllt")
- * - SVG lässt sich sauber über stroke-width "dünner" machen
- *
- * Wir nutzen dafür @tabler/icons-sprite (tabler-sprite-nostroke.svg)
- * und steuern Stroke/Strokewidth pro Icon.
- */
+import type { SvgComponent } from "astro/types";
 
-import spriteUrl from "@tabler/icons-sprite/dist/tabler-sprite-nostroke.svg?url";
+import ArrowLeft from "@tabler/icons/outline/arrow-left.svg";
+import ArrowRight from "@tabler/icons/outline/arrow-right.svg";
+import ArrowUpRight from "@tabler/icons/outline/arrow-up-right.svg";
+import BrandDiscord from "@tabler/icons/outline/brand-discord.svg";
+import BrandGithub from "@tabler/icons/outline/brand-github.svg";
+import BrandLinkedin from "@tabler/icons/outline/brand-linkedin.svg";
+import BrandMinecraft from "@tabler/icons/outline/brand-minecraft.svg";
+import BrandSteam from "@tabler/icons/outline/brand-steam.svg";
+import BrandXbox from "@tabler/icons/outline/brand-xbox.svg";
+import Check from "@tabler/icons/outline/check.svg";
+import ChevronLeft from "@tabler/icons/outline/chevron-left.svg";
+import ChevronRight from "@tabler/icons/outline/chevron-right.svg";
+import Copy from "@tabler/icons/outline/copy.svg";
+import CornerUpLeft from "@tabler/icons/outline/corner-up-left.svg";
+import Cpu from "@tabler/icons/outline/cpu.svg";
+import DeviceGamepad from "@tabler/icons/outline/device-gamepad-2.svg";
+import ExternalLink from "@tabler/icons/outline/external-link.svg";
+import Folder from "@tabler/icons/outline/folder.svg";
+import Heart from "@tabler/icons/outline/heart.svg";
+import Link from "@tabler/icons/outline/link.svg";
+import Lock from "@tabler/icons/outline/lock.svg";
+import Mail from "@tabler/icons/outline/mail.svg";
+import Mountain from "@tabler/icons/outline/mountain.svg";
+import Photo from "@tabler/icons/outline/photo.svg";
+import QuestionMark from "@tabler/icons/outline/question-mark.svg";
+import SectionSign from "@tabler/icons/outline/section-sign.svg";
+import Sparkles from "@tabler/icons/outline/sparkles.svg";
+import User from "@tabler/icons/outline/user.svg";
+import X from "@tabler/icons/outline/x.svg";
+import ZoomIn from "@tabler/icons/outline/zoom-in.svg";
+
+// Nur registrierte SVGs importieren; Astro rendert verwendete Icons direkt ins HTML.
+const ICONS: Record<string, SvgComponent> = {
+  "arrow-left": ArrowLeft,
+  "arrow-right": ArrowRight,
+  "arrow-up-right": ArrowUpRight,
+  "brand-discord": BrandDiscord,
+  "brand-github": BrandGithub,
+  "brand-linkedin": BrandLinkedin,
+  "brand-minecraft": BrandMinecraft,
+  "brand-steam": BrandSteam,
+  "brand-xbox": BrandXbox,
+  check: Check,
+  "chevron-left": ChevronLeft,
+  "chevron-right": ChevronRight,
+  copy: Copy,
+  "corner-up-left": CornerUpLeft,
+  cpu: Cpu,
+  "device-gamepad-2": DeviceGamepad,
+  "external-link": ExternalLink,
+  folder: Folder,
+  heart: Heart,
+  link: Link,
+  lock: Lock,
+  mail: Mail,
+  mountain: Mountain,
+  photo: Photo,
+  "question-mark": QuestionMark,
+  "section-sign": SectionSign,
+  sparkles: Sparkles,
+  user: User,
+  x: X,
+  "zoom-in": ZoomIn,
+};
 
 // Map unserer semantischen Namen -> Tabler Icon-Namen
 const TABLER: Record<string, string> = {
@@ -44,7 +98,7 @@ const TABLER: Record<string, string> = {
 };
 
 type Props = {
-  /** gemappter Name (z.B. "xbox") ODER roher Tabler-Name (z.B. "brand-xbox") */
+  /** Gemappter Name (z.B. "xbox") oder registrierter Tabler-Name (z.B. "brand-xbox"). */
   name: string;
   size?: number;
   /** Standard bei Tabler ist 2 – wir wollen es schlanker (z.B. 1.25) */
@@ -56,24 +110,23 @@ type Props = {
 const { name, size = 18, strokeWidth = 1.25, class: className = "", label } =
   Astro.props as Props;
 
-// Erlaubt: gemappte Namen ("xbox") ODER roher Tabler-Name ("brand-xbox")
+// Erlaubt: gemappte Namen ("xbox") oder registrierte Tabler-Namen ("brand-xbox").
 const icon = TABLER[name] ?? name;
+const SvgIcon = Object.hasOwn(ICONS, icon) ? ICONS[icon] : undefined;
+if (!SvgIcon) {
+  throw new Error(`Unbekanntes Icon "${name}": Bitte in Icon.astro registrieren.`);
+}
 
 const cls = `inline-block align-[-0.125em] leading-none ${className}`.trim();
 const style = `width:${size}px;height:${size}px;`;
-
-// Symbol-IDs im Sprite sind nach dem Schema: #tabler-<icon-name>
-const href = `${spriteUrl}#tabler-${icon}`;
-
 ---
 
-<svg
+<SvgIcon
   class={cls}
   width={size}
   height={size}
   style={style}
   xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
   viewBox="0 0 24 24"
   fill="none"
   stroke="currentColor"
@@ -82,10 +135,4 @@ const href = `${spriteUrl}#tabler-${icon}`;
   stroke-linejoin="round"
   focusable="false"
   {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" })}
->
-  {/*
-    Wir setzen href UND xlink:href, damit es in allen Browsern sauber läuft.
-    (xlink ist deprecated, aber harmlos als Fallback)
-  */}
-  <use href={href} xlink:href={href} />
-</svg>
+/>

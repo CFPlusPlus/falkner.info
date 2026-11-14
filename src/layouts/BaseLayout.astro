@@ -1,16 +1,4 @@
 ---
-// Tabler Icons (SVG Sprite)
-//
-// Für ein "dünneres" Icon-Design verwenden wir kein Webfont-Glyph,
-// sondern ein SVG-Sprite. Das erlaubt uns, die Strichstärke (stroke-width)
-// pro Icon zu steuern.
-//
-// WICHTIG: Kein <link rel="preload"> fürs Sprite.
-// Browser können extern referenzierte Sprite-SVGs (via <use href="sprite.svg#id">)
-// aktuell nicht zuverlässig aus dem Preload-Cache wiederverwenden.
-// Ergebnis: Chrome/Safari warnen („preloaded but not used“) und teils wird
-// die Datei sogar doppelt geladen. Deshalb lassen wir das Preload bewusst weg.
-
 // Fonts werden ueber die Astro Fonts API aus der Konfiguration eingebunden.
 import { Font } from "astro:assets";
 
@@ -145,7 +133,6 @@ const jsonLdGraph = {
   <head>
     <meta charset="utf-8" />
 
-    <!-- Tabler Icons (SVG Sprite) -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
 

@@ -81,6 +81,12 @@ Komponente:
 - `src/styles/global.css` – globale Styles
 - `public/…` – statische Assets (Icons, Bilder)
 
+### Icons
+
+`src/components/Icon.astro` importiert einzelne SVGs aus `@tabler/icons`.
+Astro rendert verwendete Icons direkt ins HTML; eine vollständige Icon-Sammlung wird nicht geladen.
+Neue Icons dort importieren und in `ICONS` registrieren. Fehlt ein verwendetes Icon, bricht der Build mit einer Fehlermeldung ab.
+
 ## SEO: Sitemap & strukturierte Daten (JSON-LD)
 
 - **Sitemap** wird automatisch beim Build generiert über `@astrojs/sitemap`.
