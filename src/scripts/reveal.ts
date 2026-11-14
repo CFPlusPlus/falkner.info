@@ -34,8 +34,9 @@ function initReveal(): void {
     );
 
     targets.forEach((el) => {
-      el.dataset.revealBound = "true";
       obs.observe(el);
+      // Erst nach erfolgreicher Registrierung für die Animation ausblenden.
+      el.dataset.revealBound = "true";
     });
   } else {
     // Fallback: ohne IO / bei Reduced Motion sofort anzeigen

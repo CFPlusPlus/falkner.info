@@ -345,8 +345,8 @@ a {
   }
 }
 
-/* --- Scroll-Reveal (JS-optimiert, aber ohne JS trotzdem ok) --- */
-html[data-js="true"] .reveal {
+/* Inhalte erst ausblenden, wenn der Reveal-Observer sie erfolgreich beobachtet. */
+.reveal[data-reveal-bound="true"] {
   opacity: 0;
   transform: translate3d(0, 10px, 0);
   filter: blur(2px);
@@ -358,14 +358,14 @@ html[data-js="true"] .reveal {
   will-change: opacity, transform, filter;
 }
 
-html[data-js="true"] .reveal.is-in {
+.reveal[data-reveal-bound="true"].is-in {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-js="true"] .reveal {
+  .reveal[data-reveal-bound="true"] {
     opacity: 1;
     transform: none;
     filter: none;
