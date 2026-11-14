@@ -9,8 +9,15 @@ type Props = {
   id?: string;
 };
 
-const { href, target, rel, variant = "primary", class: className = "", ariaLabel, ...rest } =
-  Astro.props as Props;
+const {
+  href,
+  target,
+  rel,
+  variant = "primary",
+  class: className = "",
+  ariaLabel,
+  ...rest
+} = Astro.props as Props;
 
 // Base-URL (wichtig, wenn die Seite in einem Unterordner deployed wird)
 const baseUrl = import.meta.env.BASE_URL;
@@ -52,13 +59,21 @@ const variants = {
   secondary:
     "bg-surface/60 border-border/70 text-text hover:bg-surface/80 hover:border-border active:translate-y-[0.5px]",
   ghost:
-    "bg-transparent border-transparent text-muted hover:text-text hover:bg-surface/40 active:translate-y-[0.5px]"
+    "bg-transparent border-transparent text-muted hover:text-text hover:bg-surface/40 active:translate-y-[0.5px]",
 } as const;
 
 const cls = `${base} ${variants[variant]} ${className}`;
 ---
+
 {href ? (
-  <a href={resolvedHref} target={target} rel={resolvedRel} class={cls} aria-label={ariaLabel} {...rest}>
+  <a
+    href={resolvedHref}
+    target={target}
+    rel={resolvedRel}
+    class={cls}
+    aria-label={ariaLabel}
+    {...rest}
+  >
     <slot />
   </a>
 ) : (

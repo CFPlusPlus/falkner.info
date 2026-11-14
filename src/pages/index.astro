@@ -10,9 +10,16 @@ import InterestsSection from "../components/sections/InterestsSection.astro";
 import GallerySection from "../components/sections/GallerySection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
 
-import { site, socialLinks, spotlightProject, projects, interests, pcBuildPhotos, hikePhotos } from "../lib/site";
+import {
+  site,
+  socialLinks,
+  spotlightProject,
+  projects,
+  interests,
+  pcBuildPhotos,
+  hikePhotos,
+} from "../lib/site";
 import { navLinks } from "../lib/navigation";
-
 ---
 
 <BaseLayout>
@@ -21,7 +28,11 @@ import { navLinks } from "../lib/navigation";
   <main id="main" tabindex="-1">
     <HeroSection socialLinks={socialLinks} />
     <AboutSection />
-    <ProjectsSection spotlightProject={spotlightProject} projects={projects} serverAddress={site.minecraft.serverAddress} />
+    <ProjectsSection
+      spotlightProject={spotlightProject}
+      projects={projects}
+      serverAddress={site.minecraft.serverAddress}
+    />
     <InterestsSection interests={interests} />
     <GallerySection pcBuildPhotos={pcBuildPhotos} hikePhotos={hikePhotos} />
     <ContactSection site={site} socialLinks={socialLinks} />

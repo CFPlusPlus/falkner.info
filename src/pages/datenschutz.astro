@@ -38,23 +38,33 @@ const navLinks = [
 
         <article class="mt-10 space-y-8 text-muted leading-relaxed">
           <p>
-            Diese Website ist eine private, statische Website ohne Analyse- oder Marketing-Tracking.
-            Beim Besuch der Website werden dennoch technisch erforderliche Daten verarbeitet, damit
-            die Seite ausgeliefert und sicher betrieben werden kann.
+            Diese Website ist eine private, statische Website ohne Analyse- oder
+            Marketing-Tracking. Beim Besuch der Website werden dennoch technisch
+            erforderliche Daten verarbeitet, damit die Seite ausgeliefert und
+            sicher betrieben werden kann.
           </p>
 
           <section class="space-y-3">
-            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">1. Verantwortlicher</h2>
+            <h2 class="text-2xl font-[var(--w-title)] text-text tracking-tight">
+              1. Verantwortlicher
+            </h2>
             <p>
               Verantwortlich für die Datenverarbeitung auf dieser Website ist:
             </p>
             <p>
               <strong class="text-text">{site.author}</strong>
               <br />
-              E-Mail: <a class="u-link" href={`mailto:${site.email}`}>{site.email}</a>
+              E-Mail:{" "}
+              <a class="u-link" href={`mailto:${site.email}`}>
+                {site.email}
+              </a>
             </p>
             <p>
-              Weitere Angaben finden Sie im <a class="u-link" href="/impressum/">Impressum</a>.
+              Weitere Angaben finden Sie im{" "}
+              <a class="u-link" href="/impressum/">
+                Impressum
+              </a>
+              .
             </p>
           </section>
 
@@ -63,11 +73,14 @@ const navLinks = [
               2. Hosting und Auslieferung der Website (Cloudflare Pages)
             </h2>
             <p>
-              Diese Website wird über <strong class="text-text">Cloudflare Pages</strong> bereitgestellt.
-              Anbieter ist Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA.
+              Diese Website wird über{" "}
+              <strong class="text-text">Cloudflare Pages</strong>{" "}
+              bereitgestellt. Anbieter ist Cloudflare, Inc., 101 Townsend St.,
+              San Francisco, CA 94107, USA.
             </p>
             <p>
-              Beim Aufruf der Website verarbeitet Cloudflare technisch erforderliche Daten, insbesondere:
+              Beim Aufruf der Website verarbeitet Cloudflare technisch
+              erforderliche Daten, insbesondere:
             </p>
             <ul class="list-disc pl-6 space-y-1">
               <li>IP-Adresse</li>
@@ -78,32 +91,57 @@ const navLinks = [
               <li>HTTP-Statuscode und technische Protokolldaten</li>
             </ul>
             <p>
-              Die Verarbeitung erfolgt zur sicheren und performanten Bereitstellung der Website
-              (Hosting, Auslieferung, Stabilität, Missbrauchsabwehr).
+              Die Verarbeitung erfolgt zur sicheren und performanten
+              Bereitstellung der Website (Hosting, Auslieferung, Stabilität,
+              Missbrauchsabwehr).
             </p>
             <p>
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+              Interesse).
             </p>
             <p>
-              Soweit erforderlich erfolgt die Verarbeitung im Rahmen einer Auftragsverarbeitung
-              (DPA/AV-Vertrag) mit Cloudflare.
+              Soweit erforderlich erfolgt die Verarbeitung im Rahmen einer
+              Auftragsverarbeitung (DPA/AV-Vertrag) mit Cloudflare.
             </p>
             <p>
-              <strong class="text-text">Hinweis zu Drittländern:</strong> Cloudflare ist ein US-Anbieter.
-              Eine Verarbeitung in den USA kann daher nicht ausgeschlossen werden. Soweit erforderlich,
-              erfolgt dies auf Grundlage geeigneter Garantien (z. B. Standardvertragsklauseln).
+              <strong class="text-text">Hinweis zu Drittländern:</strong>{" "}
+              Cloudflare ist ein US-Anbieter. Eine Verarbeitung in den USA kann
+              daher nicht ausgeschlossen werden. Soweit erforderlich, erfolgt
+              dies auf Grundlage geeigneter Garantien (z. B.
+              Standardvertragsklauseln).
             </p>
             <p>
               Weitere Informationen:
-              <a class="u-link" href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener noreferrer">
-                {" "}Cloudflare Pages
-              </a>,
-              <a class="u-link" href="https://www.cloudflare.com/trust-hub/gdpr/" target="_blank" rel="noopener noreferrer">
-                {" "}Cloudflare & GDPR
-              </a>,
-              <a class="u-link" href="https://www.cloudflare.com/cloudflare-customer-dpa/" target="_blank" rel="noopener noreferrer">
-                {" "}Cloudflare DPA
-              </a>.
+              <a
+                class="u-link"
+                href="https://developers.cloudflare.com/pages/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Cloudflare Pages
+              </a>
+              ,
+              <a
+                class="u-link"
+                href="https://www.cloudflare.com/trust-hub/gdpr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Cloudflare & GDPR
+              </a>
+              ,
+              <a
+                class="u-link"
+                href="https://www.cloudflare.com/cloudflare-customer-dpa/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Cloudflare DPA
+              </a>
+              .
             </p>
           </section>
 
@@ -112,22 +150,34 @@ const navLinks = [
               3. Kontaktaufnahme per E-Mail (ALL-INKL)
             </h2>
             <p>
-              Wenn Sie mich per E-Mail kontaktieren, verarbeite ich Ihre Nachricht und die darin
-              enthaltenen Daten (z. B. E-Mail-Adresse, Name, Inhalt), um Ihre Anfrage zu bearbeiten.
+              Wenn Sie mich per E-Mail kontaktieren, verarbeite ich Ihre
+              Nachricht und die darin enthaltenen Daten (z. B. E-Mail-Adresse,
+              Name, Inhalt), um Ihre Anfrage zu bearbeiten.
             </p>
             <p>
-              Die E-Mail-Postfächer werden über <strong class="text-text">ALL-INKL.COM – Neue Medien Münnich</strong>,
-              Hauptstraße 68, 02742 Friedersdorf, Deutschland betrieben.
+              Die E-Mail-Postfächer werden über{" "}
+              <strong class="text-text">
+                ALL-INKL.COM – Neue Medien Münnich
+              </strong>
+              , Hauptstraße 68, 02742 Friedersdorf, Deutschland betrieben.
             </p>
             <p>
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (bei vertragsbezogenen Anfragen) bzw.
-              Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Kommunikation).
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (bei
+              vertragsbezogenen Anfragen) bzw. Art. 6 Abs. 1 lit. f DSGVO
+              (berechtigtes Interesse an der Kommunikation).
             </p>
             <p>
               Weitere Informationen:
-              <a class="u-link" href="https://all-inkl.com/datenschutzinformationen/" target="_blank" rel="noopener noreferrer">
-                {" "}Datenschutzinformationen von ALL-INKL
-              </a>.
+              <a
+                class="u-link"
+                href="https://all-inkl.com/datenschutzinformationen/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Datenschutzinformationen von ALL-INKL
+              </a>
+              .
             </p>
           </section>
 
@@ -136,11 +186,16 @@ const navLinks = [
               4. Cookies und Tracking
             </h2>
             <p>
-              Diese Website verwendet derzeit <strong class="text-text">keine Analyse- oder Marketing-Cookies</strong>.
+              Diese Website verwendet derzeit{" "}
+              <strong class="text-text">
+                keine Analyse- oder Marketing-Cookies
+              </strong>
+              .
             </p>
             <p>
-              Es werden nach aktuellem Stand keine einwilligungspflichtigen Tracking-Technologien
-              zur Reichweitenmessung, Werbung oder Profilbildung eingesetzt.
+              Es werden nach aktuellem Stand keine einwilligungspflichtigen
+              Tracking-Technologien zur Reichweitenmessung, Werbung oder
+              Profilbildung eingesetzt.
             </p>
           </section>
 
@@ -149,16 +204,17 @@ const navLinks = [
               5. Minecraft-Server-Status (mcsrvstat.us)
             </h2>
             <p>
-              Auf der Website kann ein Minecraft-Server-Status angezeigt werden. Dafür wird bei aktiver
-              JavaScript-Ausführung eine Anfrage an <strong class="text-text">api.mcsrvstat.us</strong> gesendet.
+              Auf der Website kann ein Minecraft-Server-Status angezeigt werden.
+              Dafür wird bei aktiver JavaScript-Ausführung eine Anfrage an{" "}
+              <strong class="text-text">api.mcsrvstat.us</strong> gesendet.
             </p>
             <p>
-              Dabei können technisch bedingt Daten wie IP-Adresse und Browser-Header an diesen Dienst
-              übertragen werden.
+              Dabei können technisch bedingt Daten wie IP-Adresse und
+              Browser-Header an diesen Dienst übertragen werden.
             </p>
             <p>
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer aktuellen
-              Server-Statusanzeige).
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+              Interesse an einer aktuellen Server-Statusanzeige).
             </p>
           </section>
 
@@ -167,8 +223,9 @@ const navLinks = [
               6. Lokal eingebundene Schriftarten
             </h2>
             <p>
-              Verwendete Schriftarten (z. B. Space Grotesk, Geist Sans) werden lokal bereitgestellt.
-              Es findet dafür keine Verbindung zu externen Font-Diensten statt.
+              Verwendete Schriftarten (z. B. Space Grotesk, Geist Sans) werden
+              lokal bereitgestellt. Es findet dafür keine Verbindung zu externen
+              Font-Diensten statt.
             </p>
           </section>
 
@@ -177,8 +234,9 @@ const navLinks = [
               7. Externe Links
             </h2>
             <p>
-              Diese Website enthält Links zu externen Websites. Für die Datenverarbeitung auf den
-              verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
+              Diese Website enthält Links zu externen Websites. Für die
+              Datenverarbeitung auf den verlinkten Seiten sind ausschließlich
+              deren Betreiber verantwortlich.
             </p>
           </section>
 
@@ -187,8 +245,9 @@ const navLinks = [
               8. Speicherdauer
             </h2>
             <p>
-              Personenbezogene Daten werden nur so lange gespeichert, wie dies für die jeweiligen Zwecke
-              erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.
+              Personenbezogene Daten werden nur so lange gespeichert, wie dies
+              für die jeweiligen Zwecke erforderlich ist oder gesetzliche
+              Aufbewahrungspflichten bestehen.
             </p>
           </section>
 
@@ -212,8 +271,9 @@ const navLinks = [
               10. Beschwerderecht
             </h2>
             <p>
-              Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Sie der
-              Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO verstößt.
+              Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu
+              beschweren, wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer
+              personenbezogenen Daten gegen die DSGVO verstößt.
             </p>
           </section>
 
@@ -222,15 +282,19 @@ const navLinks = [
               11. Änderungen dieser Datenschutzerklärung
             </h2>
             <p>
-              Ich behalte mir vor, diese Datenschutzerklärung anzupassen, wenn sich rechtliche Anforderungen
-              oder die technische Umsetzung der Website ändern.
+              Ich behalte mir vor, diese Datenschutzerklärung anzupassen, wenn
+              sich rechtliche Anforderungen oder die technische Umsetzung der
+              Website ändern.
             </p>
           </section>
 
           <div class="pt-2">
             <Divider />
             <p class="mt-4 text-sm">
-              Kontakt: <a class="u-link" href={`mailto:${site.email}`}>{site.email}</a>
+              Kontakt:{" "}
+              <a class="u-link" href={`mailto:${site.email}`}>
+                {site.email}
+              </a>
             </p>
           </div>
         </article>
