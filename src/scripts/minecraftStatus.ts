@@ -9,11 +9,13 @@
 type State = "online" | "offline" | "unknown";
 
 const POLL_INTERVAL_MS = 300000;
+const REQUEST_TIMEOUT_MS = 10000;
 
 let controller: AbortController | null = null;
 let observer: IntersectionObserver | null = null;
 let intervals = new Map<HTMLElement, number>();
 let visibleRoots = new Set<HTMLElement>();
+const requests = new Map<HTMLElement, AbortController>();
 
 function setState(
   root: HTMLElement,
@@ -50,15 +52,25 @@ function fmtPlayers(online: unknown, max: unknown): string {
 }
 
 async function fetchStatus(root: HTMLElement, apiUrl: string): Promise<void> {
+  if (requests.has(root)) return;
+
+  const request = new AbortController();
+  requests.set(root, request);
+  const timeout = window.setTimeout(() => request.abort(), REQUEST_TIMEOUT_MS);
+
   try {
     const res = await fetch(apiUrl, {
-      cache: "force-cache",
+      cache: "default",
       referrerPolicy: "no-referrer",
+      signal: request.signal,
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    if (data?.online) {
+    // Abgebrochene oder inzwischen ersetzte Anfragen dürfen den Status nicht überschreiben.
+    if (request.signal.aborted || requests.get(root) !== request) return;
+
+    if (data?.online === true) {
       const online = data?.players?.online;
       const max = data?.players?.max;
       setState(root, "online", fmtPlayers(online, max), "online");
@@ -72,20 +84,30 @@ async function fetchStatus(root: HTMLElement, apiUrl: string): Promise<void> {
 
     setState(root, "unknown", "-", "nicht verfuegbar");
   } catch {
-    setState(root, "unknown", "-", "nicht verfuegbar");
+    // Absichtliches Pausieren erhält den bisherigen Status; Fehler und Timeouts werden angezeigt.
+    if (requests.get(root) === request) {
+      setState(root, "unknown", "-", "nicht verfuegbar");
+    }
+  } finally {
+    window.clearTimeout(timeout);
+    if (requests.get(root) === request) requests.delete(root);
   }
 }
 
 function clearPolling(root: HTMLElement): void {
   const id = intervals.get(root);
-  if (id === undefined) return;
+  if (id !== undefined) {
+    window.clearInterval(id);
+    intervals.delete(root);
+  }
 
-  window.clearInterval(id);
-  intervals.delete(root);
+  const request = requests.get(root);
+  requests.delete(root);
+  request?.abort();
 }
 
 function startPolling(root: HTMLElement, apiUrl: string): void {
-  if (intervals.has(root)) return;
+  if (document.hidden || intervals.has(root)) return;
 
   void fetchStatus(root, apiUrl);
   const id = window.setInterval(() => {
@@ -101,6 +123,8 @@ function clearAll(): void {
   observer = null;
 
   intervals.forEach((id) => window.clearInterval(id));
+  requests.forEach((request) => request.abort());
+  requests.clear();
   intervals = new Map<HTMLElement, number>();
   visibleRoots = new Set<HTMLElement>();
 }
@@ -120,33 +144,33 @@ export function initMinecraftStatus(): void {
     roots.forEach((root) => {
       const apiUrl = root.getAttribute("data-api-url");
       if (!apiUrl) return;
+      visibleRoots.add(root);
       startPolling(root, apiUrl);
     });
-    return;
+  } else {
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const root = entry.target;
+          if (!(root instanceof HTMLElement)) return;
+
+          const apiUrl = root.getAttribute("data-api-url");
+          if (!apiUrl) return;
+
+          if (entry.isIntersecting) {
+            visibleRoots.add(root);
+            startPolling(root, apiUrl);
+          } else {
+            visibleRoots.delete(root);
+            clearPolling(root);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    roots.forEach((root) => observer?.observe(root));
   }
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const root = entry.target;
-        if (!(root instanceof HTMLElement)) return;
-
-        const apiUrl = root.getAttribute("data-api-url");
-        if (!apiUrl) return;
-
-        if (entry.isIntersecting) {
-          visibleRoots.add(root);
-          startPolling(root, apiUrl);
-        } else {
-          visibleRoots.delete(root);
-          clearPolling(root);
-        }
-      });
-    },
-    { threshold: 0.1 },
-  );
-
-  roots.forEach((root) => observer?.observe(root));
 
   // Optional: Polling pausieren/fortsetzen, wenn die Tab-Sichtbarkeit wechselt.
   document.addEventListener(

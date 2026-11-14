@@ -64,6 +64,8 @@ Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.
 ### Minecraft-Server-Status (Spieler online)
 
 Die Anzeige holt sich den Status clientseitig über **mcsrvstat.us**.
+Sie fragt bei Sichtbarkeit und anschließend alle fünf Minuten ab. Dabei werden die HTTP-Cachevorgaben der API berücksichtigt.
+Anfragen werden nach zehn Sekunden abgebrochen; bei ausgeblendetem Tab oder nicht sichtbarer Anzeige pausieren die Abfragen.
 Die Server‑Adresse wird aktuell hier gesetzt:
 
 - `src/lib/site.ts` → `site.minecraft.serverAddress` (ggf. mit Port `:25565`)
