@@ -28,7 +28,28 @@ npm run format:check  # Formatierung prüfen
 npm run format        # Dateien formatieren
 npm run lint          # ESLint
 npm run check         # Astro Check (Types/Templates)
+npx tsc --noEmit       # TypeScript inklusive Tests
+npx playwright install chromium # Testbrowser einmalig installieren
+npm test              # Nach npm run build: Artefakt- und Browsertests
 ```
+
+Die Tests prüfen den fertigen `dist/`-Build. Ihr lokaler Server übernimmt den
+erzeugten CSP-Header aus `dist/_headers` und liefert unbekannte Pfade mit HTTP 404
+aus. Geprüft werden alle Seiten bei 320 und 1440 Pixeln, Menü und Lightbox per
+Tastatur, Fokus/Scrollsperre, 404-Pfade, Logo-Auflösungen, Animation und simulierte
+Minecraft-Antworten einschließlich Timeout und Polling. `npm run preview` setzt
+den Cloudflare-Header nicht; für eine manuelle Prüfung mit CSP kann nach dem Build
+`node tests/serve-build.mjs` gestartet werden.
+
+Prettier bindet `prettier-plugin-astro` ausdrücklich ein; `.gitattributes` und die
+Prettier-Konfiguration legen LF-Zeilenenden fest.
+
+Der gezielte `minimatch`-Override für `@typescript-eslint/typescript-estree`
+schließt GHSA-g3hv-75wg-m249. Version 11 entfernt unter anderem `makeRe`; der
+betroffene Verbraucher nutzt nur `minimatch(..., { dot: true })`. Der
+Kompatibilitätstest führt dessen `allowDefaultProject`-Pfad tatsächlich aus.
+Den Override entfernen, sobald TypeScript-ESLint selbst eine korrigierte Version
+anfordert.
 
 ## Inhalte bearbeiten
 
@@ -62,6 +83,11 @@ export const pcBuildPhotos = [
 ```
 
 Tipp: **WEBP** ist ideal. JPG/PNG funktionieren grundsätzlich auch.
+
+Das Navbar-Logo liegt separat in `public/images/navbar-logo-{28,56,84}.webp` für
+28 CSS-Pixel bei 1×, 2× und 3× Pixeldichte. Die Varianten wurden aus dem vorhandenen
+192-Pixel-Favicon mit sharp (WebP, Qualität 85) verkleinert; die Manifest- und
+Favicon-Dateien bleiben eigenständig.
 
 ### Minecraft-Server-Status (Spieler online)
 

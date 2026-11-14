@@ -137,8 +137,11 @@ const quickLinks = [
             <span class="meta">URL</span>
             <div class="mt-2 flex items-center gap-2">
               <Icon name="link" size={16} class="text-muted" />
-              <code class="rounded-md border border-border/70 bg-bg/40 px-2 py-1 text-xs">
-                {Astro.url.pathname}
+              <code
+                data-requested-path
+                class="min-w-0 [overflow-wrap:anywhere] rounded-md border border-border/70 bg-bg/40 px-2 py-1 text-xs"
+              >
+                Pfad nur mit JavaScript verfügbar
               </code>
             </div>
           </div>

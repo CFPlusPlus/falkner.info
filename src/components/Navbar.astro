@@ -16,7 +16,12 @@ const baseUrl = import.meta.env.BASE_URL;
 const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
 
 const homeHref = withBase("/");
-const logoSrc = withBase("/favicons/android-chrome-192x192.png");
+const logoSrc = withBase("/images/navbar-logo-28.webp");
+const logoSrcSet = [28, 56, 84]
+  .map(
+    (size) => `${withBase(`/images/navbar-logo-${size}.webp`)} ${size / 28}x`,
+  )
+  .join(", ");
 ---
 
 <header id="siteHeader" class="sticky top-0 z-50">
@@ -24,18 +29,15 @@ const logoSrc = withBase("/favicons/android-chrome-192x192.png");
   <div id="mobileMenuDialog">
     <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
       <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
-        <a
-          href={homeHref}
-          class="flex min-w-0 items-center gap-3 group"
-          aria-label="Zur Startseite"
-        >
+        <a href={homeHref} class="flex min-w-0 items-center gap-3 group">
           <img
             src={logoSrc}
+            srcset={logoSrcSet}
             width="28"
             height="28"
             alt=""
             decoding="async"
-            class="rounded-sm border border-border/70 group-hover:border-border transition-colors"
+            class="shrink-0 rounded-sm border border-border/70 group-hover:border-border transition-colors"
           />
           <div class="min-w-0 leading-none">
             <div class="text-sm font-[var(--w-title)] tracking-tight">
@@ -182,6 +184,15 @@ const logoSrc = withBase("/favicons/android-chrome-192x192.png");
       transform-origin: left;
       animation: line-in 700ms ease-out both;
     }
+    @keyframes line-in {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .menu-toggle__line {
         transition: none;

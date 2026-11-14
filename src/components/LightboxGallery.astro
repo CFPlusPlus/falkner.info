@@ -118,18 +118,13 @@ const scrollRightId = `${rootId}-scroll-right`;
   </div>
 
   <!-- Lightbox / Modal -->
-  <div
+  <dialog
     id={modalId}
     data-lb-modal
-    class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
-    role="dialog"
-    aria-modal="true"
+    class="fixed inset-0 m-0 h-full max-h-none w-full max-w-none items-center justify-center overflow-y-auto border-0 bg-transparent p-4 text-text open:flex"
     aria-label="Bildanzeige"
   >
-    <div
-      data-lb-overlay
-      class="absolute inset-0 bg-black/70 backdrop-blur-sm"
-    ></div>
+    <div data-lb-overlay class="absolute inset-0"></div>
 
     <div class="relative w-full max-w-5xl">
       <Surface variant="glass" class="mx-auto overflow-hidden">
@@ -170,7 +165,7 @@ const scrollRightId = `${rootId}-scroll-right`;
             id={imgId}
             data-lb-img
             alt=""
-            class="block w-full max-h-[78vh] object-contain bg-bg/30"
+            class="block w-full max-h-[min(78vh,calc(100dvh-14rem))] object-contain bg-bg/30"
           />
 
           <!-- Vor/Zurück -->
@@ -221,5 +216,12 @@ const scrollRightId = `${rootId}-scroll-right`;
         </div>
       </Surface>
     </div>
-  </div>
+  </dialog>
 </div>
+
+<style>
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.7);
+    backdrop-filter: blur(4px);
+  }
+</style>

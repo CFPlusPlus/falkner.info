@@ -39,5 +39,14 @@ jobs:
       - name: Type/Template check
         run: npm run check
 
+      - name: TypeScript
+        run: npx tsc --noEmit
+
       - name: Build
         run: npm run build
+
+      - name: Install test browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Artifact and browser tests (with CSP)
+        run: npm test
