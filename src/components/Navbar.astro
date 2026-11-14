@@ -19,81 +19,81 @@ const homeHref = withBase('/');
 const logoSrc = withBase('/favicons/android-chrome-192x192.png');
 ---
 <header id="siteHeader" class="sticky top-0 z-50">
+  <!-- Der Dialog umfasst auch den Menübutton zum Schließen. -->
+  <div id="mobileMenuDialog">
 
-  <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
+    <div class="relative border-b border-border/70 bg-bg/55 backdrop-blur-xl supports-[backdrop-filter]:bg-bg/40">
 
-    <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
-      <a href={homeHref} class="flex min-w-0 items-center gap-3 group" aria-label="Zur Startseite">
-        <img
-          src={logoSrc}
-          width="28"
-          height="28"
-          alt=""
-          decoding="async"
-          class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
-        <div class="min-w-0 leading-none">
-          <div class="text-sm font-[var(--w-title)] tracking-tight">{brand}</div>
-          <div class="meta mt-1">Persönliche Website · Einblicke & Links</div>
-        </div>
-      </a>
+      <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-4">
+        <a href={homeHref} class="flex min-w-0 items-center gap-3 group" aria-label="Zur Startseite">
+          <img
+            src={logoSrc}
+            width="28"
+            height="28"
+            alt=""
+            decoding="async"
+            class="rounded-sm border border-border/70 group-hover:border-border transition-colors" />
+          <div class="min-w-0 leading-none">
+            <div class="text-sm font-[var(--w-title)] tracking-tight">{brand}</div>
+            <div class="meta mt-1">Persönliche Website · Einblicke & Links</div>
+          </div>
+        </a>
 
-      <!-- Desktop-Navigation -->
-      <nav class="hidden md:flex items-center gap-1" aria-label="Navigation">
-        {links.map((l) => (
-          <a
-            href={l.href}
-            data-nav-link
-            data-target={l.targetId || ""}
-            class="navlink px-3 py-2 text-sm text-muted hover:text-text transition-colors">
-            {l.label}
-          </a>
-        ))}
-        <!-- (bewusst entfernt) -->
-      </nav>
-
-      <!-- Mobile-Menü Button -->
-      <button
-        type="button"
-        id="menuBtn"
-        class="menu-toggle md:hidden relative z-[70] inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
-        aria-label="Menü öffnen"
-        aria-expanded="false"
-        aria-controls="mobileMenu">
-        <span class="menu-toggle__line menu-toggle__line--top" aria-hidden="true"></span>
-        <span class="menu-toggle__line menu-toggle__line--middle" aria-hidden="true"></span>
-        <span class="menu-toggle__line menu-toggle__line--bottom" aria-hidden="true"></span>
-        <span class="sr-only">Menü</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Overlay-Menü (Navbar bleibt stabil) -->
-  <div
-    id="mobileMenu"
-    class="fixed inset-x-0 bottom-0 z-[60] hidden"
-    style="top: var(--mobile-menu-top, 0px);"
-    aria-hidden="true"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Navigation"
-    tabindex="-1">
-    <div id="menuOverlay" class="absolute inset-0 bg-bg/60 backdrop-blur-2xl"></div>
-    <div class="absolute right-0 top-0 h-full w-full max-w-md border-l border-border/70 bg-bg/80 backdrop-blur-2xl">
-      <div class="p-5">
-        <div class="flex items-center justify-between">
-          <div class="meta">Navigation</div>
-        </div>
-
-        <div class="mt-6 space-y-1">
+        <!-- Desktop-Navigation -->
+        <nav class="hidden md:flex items-center gap-1" aria-label="Navigation">
           {links.map((l) => (
             <a
               href={l.href}
-              class="block rounded-md px-3 py-3 text-base text-text border border-transparent hover:border-border/70 hover:bg-surface/50 transition"
-              data-mobile-link>
-              <span class="font-[var(--w-title)]">{l.label}</span>
-              <span class="block mt-1 text-sm text-muted">{l.href}</span>
+              data-nav-link
+              data-target={l.targetId || ""}
+              class="navlink px-3 py-2 text-sm text-muted hover:text-text transition-colors">
+              {l.label}
             </a>
           ))}
+          <!-- (bewusst entfernt) -->
+        </nav>
+
+        <!-- Mobile-Menü Button -->
+        <button
+          type="button"
+          id="menuBtn"
+          class="menu-toggle md:hidden relative z-[70] inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border/70 bg-surface/60 text-text hover:bg-surface/80 transition"
+          aria-label="Menü öffnen"
+          aria-expanded="false"
+          aria-controls="mobileMenu">
+          <span class="menu-toggle__line menu-toggle__line--top" aria-hidden="true"></span>
+          <span class="menu-toggle__line menu-toggle__line--middle" aria-hidden="true"></span>
+          <span class="menu-toggle__line menu-toggle__line--bottom" aria-hidden="true"></span>
+          <span class="sr-only">Menü</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Overlay-Menü (Navbar bleibt stabil) -->
+    <div
+      id="mobileMenu"
+      class="fixed inset-x-0 bottom-0 z-[60] hidden"
+      style="top: var(--mobile-menu-top, 0px);"
+      aria-hidden="true"
+      tabindex="-1">
+      <div id="menuOverlay" class="absolute inset-0 bg-bg/60 backdrop-blur-2xl"></div>
+      <div class="absolute right-0 top-0 h-full w-full max-w-md border-l border-border/70 bg-bg/80 backdrop-blur-2xl">
+        <div class="p-5">
+          <div class="flex items-center justify-between">
+            <div id="mobileMenuTitle" class="meta">Navigation</div>
+          </div>
+
+          <div class="mt-6 space-y-1">
+            {links.map((l) => (
+              <a
+                href={l.href}
+                class="block rounded-md px-3 py-3 text-base text-text border border-transparent hover:border-border/70 hover:bg-surface/50 transition"
+                data-mobile-link>
+                <span class="font-[var(--w-title)]">{l.label}</span>
+                <span class="block mt-1 text-sm text-muted">{l.href}</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -28,10 +28,11 @@ export function initNavbar(): void {
 
   const btn = document.getElementById("menuBtn") as HTMLButtonElement | null;
   const menu = document.getElementById("mobileMenu") as HTMLElement | null;
+  const dialog = document.getElementById("mobileMenuDialog");
   const overlay = document.getElementById("menuOverlay") as HTMLElement | null;
   const header = document.getElementById("siteHeader") as HTMLElement | null;
 
-  if (!btn || !menu) return;
+  if (!btn || !menu || !dialog) return;
 
   const scrollLock = getScrollLock();
   const lockScroll = () => scrollLock?.lock?.();
@@ -41,7 +42,7 @@ export function initNavbar(): void {
     window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
 
   let isOpen = false;
-  let lastFocused: HTMLElement | null = null;
+  const inertElements: HTMLElement[] = [];
 
   const syncMenuOffset = () => {
     const top = header?.getBoundingClientRect().bottom ?? 0;
@@ -50,10 +51,10 @@ export function initNavbar(): void {
 
   const getFocusables = () => {
     return Array.from(
-      menu.querySelectorAll<HTMLElement>(
+      dialog.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
       ),
-    );
+    ).filter((el) => el.getClientRects().length > 0 && !el.closest("[inert]"));
   };
 
   const trapTab = (e: KeyboardEvent) => {
@@ -64,11 +65,12 @@ export function initNavbar(): void {
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
     const active = document.activeElement;
+    const outside = !focusables.some((el) => el === active);
 
-    if (e.shiftKey && active === first) {
+    if (e.shiftKey && (active === first || outside)) {
       e.preventDefault();
       last.focus();
-    } else if (!e.shiftKey && active === last) {
+    } else if (!e.shiftKey && (active === last || outside)) {
       e.preventDefault();
       first.focus();
     }
@@ -87,25 +89,32 @@ export function initNavbar(): void {
   };
 
   const open = () => {
-    if (isOpen) return;
+    if (isOpen || window.getComputedStyle(btn).display === "none") return;
     isOpen = true;
 
     syncMenuOffset();
 
-    const active = document.activeElement;
-    lastFocused = active instanceof HTMLElement ? active : null;
-
     menu.classList.remove("hidden");
     menu.setAttribute("aria-hidden", "false");
+    dialog.setAttribute("role", "dialog");
+    dialog.setAttribute("aria-modal", "true");
+    dialog.setAttribute("aria-labelledby", "mobileMenuTitle");
     btn.setAttribute("aria-expanded", "true");
     btn.setAttribute("aria-label", "Menü schließen");
+
+    // Bestehende Inert-Zustände beim Schließen beibehalten.
+    Array.from(document.body.children).forEach((el) => {
+      if (el instanceof HTMLElement && !el.contains(dialog) && !el.inert) {
+        el.inert = true;
+        inertElements.push(el);
+      }
+    });
 
     // Scroll-Lock (refcount, damit Lightbox & Menü nicht kollidieren)
     lockScroll();
 
-    // Fokus sinnvoll setzen
-    const focusables = getFocusables();
-    (btn ?? focusables[0] ?? menu).focus();
+    // Der Button liegt im Dialog; der erste Tab führt zum ersten Menülink.
+    btn.focus({ preventScroll: true });
 
     window.addEventListener("keydown", onKey, { signal });
   };
@@ -114,23 +123,41 @@ export function initNavbar(): void {
     if (!isOpen) return;
     isOpen = false;
 
-    menu.classList.add("hidden");
-    menu.setAttribute("aria-hidden", "true");
+    inertElements.forEach((el) => (el.inert = false));
+    inertElements.length = 0;
+    dialog.removeAttribute("role");
+    dialog.removeAttribute("aria-modal");
+    dialog.removeAttribute("aria-labelledby");
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-label", "Menü öffnen");
 
+    // Auf dem Desktop ist der Menübutton verborgen; dort den Startseitenlink fokussieren.
+    const focusTarget =
+      window.getComputedStyle(btn).display === "none"
+        ? dialog.querySelector<HTMLAnchorElement>("a[href]")
+        : btn;
+    focusTarget?.focus({ preventScroll: true });
+
+    menu.classList.add("hidden");
+    menu.setAttribute("aria-hidden", "true");
+
     unlockScroll();
     window.removeEventListener("keydown", onKey);
-
-    // Fokus wiederherstellen
-    lastFocused?.focus();
   };
 
   syncMenuOffset();
 
   btn.addEventListener("click", () => (isOpen ? close() : open()), { signal });
   overlay?.addEventListener("click", close, { signal });
-  window.addEventListener("resize", syncMenuOffset, { signal });
+  window.addEventListener(
+    "resize",
+    () => {
+      if (window.getComputedStyle(btn).display === "none") close();
+      syncMenuOffset();
+    },
+    { signal },
+  );
+  signal.addEventListener("abort", close, { once: true });
 
   // Nach Klick auf einen Link schließen
   menu
@@ -178,4 +205,5 @@ export function initNavbar(): void {
   );
 
   sections.forEach((s) => obs.observe(s));
+  signal.addEventListener("abort", () => obs.disconnect(), { once: true });
 }
