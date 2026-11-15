@@ -366,13 +366,22 @@ test("Minecraft: Timeout sowie Polling nur bei sichtbarem Status", async ({
   await page.clock.fastForward(300_000);
   await expect(page.locator("[data-mc-value]")).toHaveText("2/10");
   await page.locator("#top").scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => {
-    const box = document
-      .querySelector("[data-mc-status]")!
-      .getBoundingClientRect();
-    return box.top >= window.innerHeight;
-  });
+  // Vor dem Zeitsprung die asynchrone Sichtbarkeitsmeldung abwarten.
+  await page.locator("[data-mc-status]").evaluate(
+    (root) =>
+      new Promise<void>((resolve) => {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) {
+            observer.disconnect();
+            resolve();
+          }
+        });
+        observer.observe(root);
+      }),
+  );
   const pausedRequests = requests;
   await page.clock.fastForward(600_000);
   expect(requests).toBe(pausedRequests);
+  await page.locator("[data-mc-status]").scrollIntoViewIfNeeded();
+  await expect.poll(() => requests).toBe(pausedRequests + 1);
 });
