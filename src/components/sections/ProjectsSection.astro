@@ -19,10 +19,14 @@ const { spotlightProject, projects, serverAddress } = Astro.props;
   id="projects"
   title="Projekte"
   kicker="Dinge, an denen ich arbeite"
-  lead="Hier stehen die konkreten Anlaufstellen: Seiten, Communities und kleine Webprojekte, die ich betreue, weiterentwickle oder als persönlichen Ausgangspunkt nutze.">
+  lead="Hier stehen die konkreten Anlaufstellen: Seiten, Communities und kleine Webprojekte, die ich betreue, weiterentwickle oder als persönlichen Ausgangspunkt nutze."
+>
   <div class="space-y-10">
     <div class="reveal">
-      <ProjectSpotlight project={spotlightProject} serverAddress={serverAddress} />
+      <ProjectSpotlight
+        project={spotlightProject}
+        serverAddress={serverAddress}
+      />
     </div>
 
     <div class="reveal" style="--reveal-delay: 80ms">

@@ -9,6 +9,7 @@ type Props = { project: Project; serverAddress?: string };
 
 const { project, serverAddress } = Astro.props as Props;
 ---
+
 <Card as="article" variant="panel" class="relative overflow-hidden">
   <!-- Dezente Gradient-Linie oben -->
   <div class="absolute inset-x-0 top-0 h-px bg-accent/50"></div>
@@ -16,8 +17,12 @@ const { project, serverAddress } = Astro.props as Props;
     <div class="grid gap-8 sm:grid-cols-[1.4fr_0.6fr]">
       <div>
         <div class="meta">Aktuell</div>
-        <h3 class="mt-2 text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight">{project.title}</h3>
-        <p class="mt-4 text-base leading-relaxed text-muted max-w-2xl">{project.summary}</p>
+        <h3 class="mt-2 text-2xl sm:text-3xl font-[var(--w-title)] tracking-tight">
+          {project.title}
+        </h3>
+        <p class="mt-4 text-base leading-relaxed text-muted max-w-2xl">
+          {project.summary}
+        </p>
 
         <div class="mt-6 flex flex-wrap gap-2">
           {project.tags.map((t) => (
@@ -43,7 +48,10 @@ const { project, serverAddress } = Astro.props as Props;
               <div class="meta">Server</div>
               <div class="mt-1 text-text break-words">{serverAddress}</div>
               <div class="mt-3">
-                <MinecraftServerStatus address={serverAddress} label="Spieler online" />
+                <MinecraftServerStatus
+                  address={serverAddress}
+                  label="Spieler online"
+                />
               </div>
             </div>
           ) : null}
@@ -51,7 +59,12 @@ const { project, serverAddress } = Astro.props as Props;
 
         {project.href ? (
           <div class="mt-6">
-            <Button href={project.href} target="_blank" rel="noopener noreferrer" variant="secondary">
+            <Button
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+            >
               Zur Website
               <span aria-hidden="true">→</span>
             </Button>
@@ -62,5 +75,8 @@ const { project, serverAddress } = Astro.props as Props;
   </div>
 
   <!-- Hintergrund-Blob innerhalb des Panels -->
-  <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"></div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
+  ></div>
 </Card>

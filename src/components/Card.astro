@@ -7,7 +7,6 @@
 
 import Surface from "./Surface.astro";
 
-
 type Variant = "panel" | "soft" | "glass" | "softBlur" | "softBlurFlat";
 
 type Padding = "none" | "sm" | "md";
@@ -19,7 +18,13 @@ type Props = {
   class?: string;
 } & Record<string, unknown>;
 
-const { as, variant = "panel", padding = "none", class: className = "", ...rest } = Astro.props as Props;
+const {
+  as,
+  variant = "panel",
+  padding = "none",
+  class: className = "",
+  ...rest
+} = Astro.props as Props;
 
 const PADDING: Record<Padding, string> = {
   none: "",

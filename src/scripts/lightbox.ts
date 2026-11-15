@@ -38,7 +38,7 @@ export function initLightboxes(): void {
     const label = root.getAttribute("data-lb-label") || "";
 
     const strip = root.querySelector<HTMLElement>("[data-lb-strip]");
-    const modal = root.querySelector<HTMLElement>("[data-lb-modal]");
+    const modal = root.querySelector<HTMLDialogElement>("[data-lb-modal]");
     const imgEl = root.querySelector<HTMLImageElement>("[data-lb-img]");
     const capEl = root.querySelector<HTMLElement>("[data-lb-caption]");
     const capSubEl = root.querySelector<HTMLElement>("[data-lb-caption-sub]");
@@ -79,6 +79,7 @@ export function initLightboxes(): void {
     if (!data.length) return;
 
     let index = 0;
+    let isOpen = false;
     let lastFocused: HTMLElement | null = null;
 
     const getFocusables = () =>
@@ -114,18 +115,21 @@ export function initLightboxes(): void {
       }
     };
 
-    const close = () => {
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-
+    const finishClose = () => {
+      if (!isOpen || modal.open) return;
+      isOpen = false;
       unlockScroll();
-      window.removeEventListener("keydown", onKey);
+      lastFocused?.focus({ preventScroll: true });
+    };
 
-      lastFocused?.focus();
+    const close = () => {
+      if (!isOpen) return;
+      modal.close();
+      finishClose();
     };
 
     const onKey = (e: KeyboardEvent) => {
-      if (modal.classList.contains("hidden")) return;
+      if (!modal.open) return;
 
       // Fokus im Modal halten
       if (e.key === "Tab") {
@@ -165,20 +169,26 @@ export function initLightboxes(): void {
     };
 
     const open = (i: number) => {
-      const active = document.activeElement;
-      lastFocused = active instanceof HTMLElement ? active : null;
+      if (isOpen) return;
+      lastFocused = items[i];
       set(i);
-
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-
+      modal.showModal();
+      isOpen = true;
       lockScroll();
-
-      // Listener nur solange das Modal offen ist
-      window.addEventListener("keydown", onKey, { signal });
-
       btnClose.focus();
     };
+
+    modal.addEventListener("keydown", onKey, { signal });
+    modal.addEventListener("close", finishClose, { signal });
+    modal.addEventListener(
+      "cancel",
+      (event) => {
+        event.preventDefault();
+        close();
+      },
+      { signal },
+    );
+    signal.addEventListener("abort", close, { once: true });
 
     items.forEach((el, i) =>
       el.addEventListener("click", () => open(i), { signal }),

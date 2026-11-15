@@ -5,7 +5,6 @@
  * Ziel: Border/Background/Shadow zentral halten, ohne das Layout zu verändern.
  */
 
-
 type Variant =
   | "panel"
   | "soft"
@@ -14,7 +13,6 @@ type Variant =
   | "softBlurFlat"
   | "control"
   | "overlayControl";
-
 
 type Props = {
   /** HTML-Tag (z. B. div, article, button, a, ...). */
@@ -25,29 +23,42 @@ type Props = {
   class?: string;
 } & Record<string, unknown>;
 
-const { as: Tag = "div", variant = "panel", class: className = "", ...rest } = Astro.props as Props;
-
+const {
+  as: Tag = "div",
+  variant = "panel",
+  class: className = "",
+  ...rest
+} = Astro.props as Props;
 
 const VARIANTS: Record<Variant, string> = {
   // Standard-Panel (wie bisher bei großen Cards)
-  panel: "rounded-[var(--r-card)] border border-border/70 bg-surface/50 backdrop-blur-sm shadow-soft",
+  panel:
+    "rounded-[var(--r-card)] border border-border/70 bg-surface/50 backdrop-blur-sm shadow-soft",
   // Etwas flacher, ohne Blur (z. B. Gallery-Thumbnails)
   soft: "rounded-[var(--r-card)] border border-border/70 bg-surface/40 shadow-soft",
   // Modal/Lightbox-Panel
-  glass: "rounded-[var(--r-card)] border border-border/70 bg-surface/55 backdrop-blur shadow-soft",
+  glass:
+    "rounded-[var(--r-card)] border border-border/70 bg-surface/55 backdrop-blur shadow-soft",
   // Häufige Karten-Variante mit leichterem Hintergrund + Blur
-  softBlur: "rounded-[var(--r-card)] border border-border/70 bg-surface/40 backdrop-blur-sm shadow-soft",
+  softBlur:
+    "rounded-[var(--r-card)] border border-border/70 bg-surface/40 backdrop-blur-sm shadow-soft",
   // Wie softBlur, aber ohne Shadow (z. B. Contact-Mail-Box)
-  softBlurFlat: "rounded-[var(--r-card)] border border-border/70 bg-surface/40 backdrop-blur-sm",
+  softBlurFlat:
+    "rounded-[var(--r-card)] border border-border/70 bg-surface/40 backdrop-blur-sm",
   // Kleine Controls (Pfeile/Buttons in der Galerie)
-  control: "rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition",
+  control:
+    "rounded-[var(--r-card)] border border-border/70 bg-surface/30 hover:bg-surface/45 transition",
   // Controls über dunklem Bild (Lightbox Prev/Next)
-  overlayControl: "rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition",
+  overlayControl:
+    "rounded-[var(--r-card)] border border-border/70 bg-bg/35 backdrop-blur hover:bg-bg/55 transition",
 };
 
 const isButtonLike = Tag === "button" || rest.role === "button";
-const interactiveClasses = isButtonLike ? "cursor-pointer disabled:cursor-not-allowed" : "";
-const classes = `${VARIANTS[variant]} ${interactiveClasses} ${className}`.trim();
+const interactiveClasses = isButtonLike
+  ? "cursor-pointer disabled:cursor-not-allowed"
+  : "";
+const classes =
+  `${VARIANTS[variant]} ${interactiveClasses} ${className}`.trim();
 ---
 
 <Tag class={classes} {...rest}>

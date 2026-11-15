@@ -11,7 +11,10 @@ const base =
 
 const tones = {
   neutral: "border-border/70 text-muted bg-surface/60",
-  accent: "border-accent/40 text-text bg-accent/10"
+  accent: "border-accent/40 text-text bg-accent/10",
 } as const;
 ---
-<span class={`${base} ${tones[tone]} ${className}`}><slot /></span>
+
+<span class={`${base} ${tones[tone]} ${className}`}>
+  <slot />
+</span>
